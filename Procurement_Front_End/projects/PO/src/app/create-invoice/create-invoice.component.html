@@ -1,0 +1,79 @@
+<div style="text-align:right;">
+<button mat-button><a [routerLink]="'/supplier/newItem'"> +Add New Item </a></button>
+<button mat-button (click)="addCSV($event)"> +Add Item Via CSV </button>
+</div>
+
+    <table mat-table [dataSource] = "dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef = "Item ID">
+           <th mat-header-cell *matHeaderCellDef>Item ID</th>
+           <td mat-cell *matCellDef = "let element"> {{element.item_id}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Name">
+           <th mat-header-cell *matHeaderCellDef>Name</th>
+           <td mat-cell *matCellDef = "let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "SKU">
+           <th mat-header-cell *matHeaderCellDef>SKU</th>
+           <td mat-cell *matCellDef = "let element"> {{element.sku}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Brand">
+           <th mat-header-cell *matHeaderCellDef>Brand</th>
+           <td mat-cell *matCellDef = "let element"> {{element.brand}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Price">
+           <th mat-header-cell *matHeaderCellDef>Price</th>
+           <td mat-cell *matCellDef = "let element"> {{element.price}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Currency">
+            <th mat-header-cell *matHeaderCellDef>Currency</th>
+            <td mat-cell *matCellDef = "let element"> {{element.currency}} </td>
+         </ng-container>
+         <ng-container matColumnDef = "Features">
+            <th mat-header-cell *matHeaderCellDef>Features</th>
+            <td mat-cell *matCellDef = "let element"> {{element.features}} </td>
+         </ng-container>
+         <ng-container matColumnDef = "DiscountRate">
+            <th mat-header-cell *matHeaderCellDef>Discount Rate</th>
+            <td mat-cell *matCellDef = "let element"> {{element.discount}} </td>
+         </ng-container>
+         <ng-container matColumnDef = "Warranty">
+            <th mat-header-cell *matHeaderCellDef>Warranty</th>
+            <td mat-cell *matCellDef = "let element"> {{element.warranty}} </td>
+         </ng-container>
+         <ng-container matColumnDef = "ReplacementPolicy">
+            <th mat-header-cell *matHeaderCellDef>ReplacementPolicy</th>
+            <td mat-cell *matCellDef = "let element"> {{element.policy}} </td>
+         </ng-container>
+         <ng-container matColumnDef = "Location">
+            <th mat-header-cell *matHeaderCellDef>Location</th>
+            <td mat-cell *matCellDef = "let element"> {{element.location}} </td>
+         </ng-container>
+         <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element" class="action-link">
+        <button mat-icon-button color='primary' (click)="onEdit(element.item_id, $event)"><mat-icon>edit</mat-icon></button>
+
+      </td>
+    </ng-container>
+
+
+  <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element" class="action-link">
+        <button mat-icon-button color='warn' (click)="onDelete(element.item_id,$event)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+
+
+      <ng-container matColumnDef="replicate">
+      <th mat-header-cell *matHeaderCellDef> Replicate </th>
+      <td mat-cell *matCellDef="let element" class="action-link">
+        <button mat-icon-button color='primary' (click)="onReplicate(element.item_id,$event)"><mat-icon>repeat</mat-icon></button>
+      </td>
+    </ng-container>
+        <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+        <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+    </table>
+
+

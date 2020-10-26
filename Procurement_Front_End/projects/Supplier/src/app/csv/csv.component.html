@@ -1,0 +1,41 @@
+<input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />
+<table class="minimalistBlack" *ngIf="records.length > 0">
+  <thead>
+    <tr>
+      <th>Name </th>
+      <th>SKU </th>
+      <th>Brand </th>
+      <th>Price </th>
+      <th>Currency </th>
+      <th>Quantity </th>
+      <th>Description </th>
+      <th>Warranty</th>
+      <th>Replacement</th>
+      <th>Location </th>
+      <th>Action </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let record of records;let i = index;">
+      <td> <span>{{record.name}}</span> </td>
+      <td> <span>{{record.sku}}</span> </td>
+      <td> <span>{{record.brand}}</span> </td>
+      <td> <span>{{record.price}}</span> </td>
+      <td> <span>{{record.currency}}</span> </td>
+      <td> <span>{{record.quantity}}</span> </td>
+      <td> <span>{{record.desc}}</span> </td>
+      <td> <span>{{record.warranty}}</span> </td>
+      <td> <span>{{record.policy}}</span> </td>
+      <td> <span>{{record.location}}</span> </td>
+      <td> <span><button mat-icon-button color='warn' (click)="removeRecord(i)"><mat-icon>delete</mat-icon></button></span> </td>
+    </tr>
+  </tbody>
+</table>
+
+<div [hidden]="change" style="text-align: center; color:red;">
+<h4>Images can be uploaded by Editing Items later</h4>
+</div>
+<div [hidden]="change" style="text-align: right;">
+<br>
+<button type="submit" class="btn btn-success" (click)="addItem($event)">Add Item</button>
+</div>

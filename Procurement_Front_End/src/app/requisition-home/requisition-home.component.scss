@@ -1,0 +1,65 @@
+.center {
+    text-align: center;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+html,
+body {
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+mat-card-title {
+    font-size: 18px;
+    opacity: 0.5;
+    font-family: sans-serif;
+}
+
+mat-card-content {
+    font-size: 20px;
+    font-family: sans-serif;
+    left: 74%;
+    position: relative;
+}
+
+.icon {
+    font-size: 50px;
+    position: absolute;
+    left: 27%;
+    top: 25%;
+    vertical-align: middle;
+}
+
+.icon-second {
+    font-size: 50px;
+    position: absolute;
+    left: 35%;
+    top: 25%;
+    vertical-align: middle;
+}
+
+.position-image {
+    position: absolute;
+    top: -20%;
+    left: 5%;
+    height: 65%;
+    width: 30%;
+}
+
+.mat-position {
+    position: relative;
+}
+
+.mat-content {
+    position: relative;
+    left: 52%;
+}
+
+.mat-content-2 {
+    position: relative;
+    left: 75%;
+    font-size: 22px;
+}
+
+.button-size {
+    font-size: 18px;
+}

@@ -1,0 +1,63 @@
+<div class="header">
+	<h1>Shipment Track</h1>
+</div>
+<div *ngIf="error" style="text-align: center;">
+  <h2 style="margin:30px;text-align: center;">{{message}}</h2>
+  <button mat-raised-button color="accent" (click)="onBack()">Ok</button>
+</div>
+<div>
+<div *ngFor="let item of items; let i=index;">
+<div class="content">
+	<div class="content1">
+		<h2>Order Tracking: {{ item.order_id }}</h2>
+    <h4 style="color: white;">Item ID: {{ item.id }} </h4>
+    <h5 style="color: white;">Tracking Link: <a style="color: deeppink;"
+      [href]="item.tracking_link">{{ item.tracking_link}}</a></h5>
+    <br>
+    <button style="color: white; background-color: black;"
+    *ngIf="item.status == 'Item Delivered'" mat-button (click)="getInvoice(item.id)">Get Invoice</button>
+	</div>
+	<div class="content2">
+    <div class="content2-header1">
+			<p>Vendor : <span>{{ item.prefered_vendor }}</span></p>
+		</div>
+		<div class="content2-header1">
+			<p>Status : <span>{{ item.status }}</span></p>
+		</div>
+		<div class="content2-header1">
+			<p>Expected Date : <span>{{ item.estimated_arrival}}</span></p>
+		</div>
+		<div class="clear"></div>
+	</div>
+  <br>
+  <div>
+<div *ngIf="item.status == 'Confirmed';">
+<mat-progress-bar mode="determinate" value=8 ></mat-progress-bar>
+</div>
+
+<div *ngIf="item.status == 'Processing';">
+<mat-progress-bar mode="determinate" value=28 ></mat-progress-bar>
+</div>
+
+<div *ngIf="item.status == 'Quality Check';">
+<mat-progress-bar mode="determinate" value=46 ></mat-progress-bar>
+</div>
+
+<div *ngIf="item.status == 'Item Dispatched';">
+<mat-progress-bar mode="determinate" value=67 ></mat-progress-bar>
+</div>
+
+<div *ngIf="item.status == 'Item Delivered';">
+<mat-progress-bar mode="determinate" value=100 ></mat-progress-bar>
+</div>
+<div class="row" style="position:relative;">
+<div class="col">Confirmed Order</div>
+<div class="col">Processing Order</div>
+<div class="col">Quality Check</div>
+<div class="col">Item Dispatched</div>
+<div class="col">Item Delivered</div>
+</div>
+</div>
+</div>
+<br>
+</div>

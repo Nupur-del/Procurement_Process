@@ -1,0 +1,47 @@
+
+<!-- Header with image -->
+<div class="center">
+<header>
+    <span style="font-size:80px">Welcome To Procurement</span>
+</header>
+<h3>Please Select Any One The Given Functionality</h3>
+</div>
+<br>
+<hr>
+<div class=row>
+<div class="col-md-2">
+</div>
+<div class="col-md-4" *ngIf="type=='Requestor' || type=='Approver'">
+<mat-card style="background-color:lavender;">
+<img mat-card-image src="./assets/requisition.png" alt="Requisition" height="175px">
+  <mat-card-header>
+    <mat-card-title>Requisition</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions align="end">
+    <button mat-button><a [routerLink]="'/requisitionHome'"> GO </a></button>
+  </mat-card-actions>
+</mat-card>
+</div>
+<div class="col-md-4" *ngIf="type=='Supplier'">
+<mat-card style="background-color:lavenderblush;">
+<img mat-card-image src="./assets/supplier.png" alt="Supplier" height="175px">
+  <mat-card-header>
+    <mat-card-title>Supplier</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions align="end">
+    <button mat-button><a [routerLink]="'/supplierHome'"> GO </a></button>
+  </mat-card-actions>
+</mat-card>
+</div>
+<div class="col-md-4">
+<mat-card style="background-color:lavender;">
+<img mat-card-image src="./assets/invoice.gif" alt="PO" height="175px">
+  <mat-card-header>
+    <mat-card-title>Track Order</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions align="end">
+    <button mat-button><a [routerLink]="'/track-dashboard'"> GO </a></button>
+  </mat-card-actions>
+</mat-card>
+</div>
+</div>

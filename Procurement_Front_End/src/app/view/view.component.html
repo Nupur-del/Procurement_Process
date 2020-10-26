@@ -1,0 +1,110 @@
+
+
+
+  <div class="container">
+    <h1>Process Order- <span style="color: red;">{{ order.order_id }}</span></h1>
+
+    <section class="container border mb-4 p-3"  >
+    <form #mainForm="ngForm" class="container mt-3">
+
+      <div class="form-group ">
+        <label for="created_by"><h4>Created By &nbsp;</h4></label>
+        <input type="text" class="created_by" id="created_by" [(ngModel)]="order.created_by" name="created_by" disabled>
+      </div>
+
+      <br>
+      <hr>
+
+      <br>
+
+
+      <div>
+      <mat-card style="background-color:lavender;">
+  <mat-card-header>
+    <mat-card-title>Selected Locations</mat-card-title>
+  </mat-card-header>
+  <div class="row">
+  <div class="col-sm-4"  *ngFor="let loc of multiLocs; let i=index;">
+    <p>Loc -{{ loc.location }} | Dept.- {{ loc.department }}
+    <button mat-button-raised (click)="removeLoc(loc,i)">X</button>
+    </p>
+    </div>
+  </div>
+</mat-card>
+      </div>
+
+      <br>
+
+      <hr>
+
+
+
+
+
+
+      <div class="form-group ">
+        <label for="order_desc"><h4>Order Description</h4></label>
+        <input type="text" class="form-control" id="order_desc" [(ngModel)]="order.order_desc" name="order_desc" required disabled>
+      </div>
+
+      <br>
+      <hr>
+
+      <br>
+
+      <h4>Order Items</h4>
+     <div>
+      <mat-card style="background-color:lavender;">
+  <mat-card-header>
+    <mat-card-title>Selected Items</mat-card-title>
+  </mat-card-header>
+  <div class="row">
+  <div class="col-sm-6"  *ngFor="let item of finalItem; let i=index;">
+    <p>Name -{{ item.name }} | Vendor - {{ item.prefered_vendor }} |  Quantity- {{ item.quantity }}
+    <button mat-button-raised (click)="removeOrderItem(item,i)">X</button>
+    </p>
+    </div>
+  </div>
+</mat-card>
+      </div>
+
+        <hr>
+   <br>
+
+
+
+      <div class="form-group ">
+        <label for="decision"><h4>Decision Message</h4></label>
+        <input type="text" class="form-control" id="message" [(ngModel)]="decision" name="decision" required>
+      </div>
+
+      <br>
+      <hr>
+      <br>
+      <div class="text-right">
+      <button type="button" class="btn btn-success" (click)="orderDecision('Denied',decision,$event)">Deny Request</button>
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="orderDecision('Approved',decision,$event)">Approve Request</button>
+      </div>
+
+    </form>
+    </section>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

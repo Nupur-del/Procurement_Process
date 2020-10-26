@@ -1,0 +1,77 @@
+<div class="container">
+    <h1>Process Order- <span style="color: red;">{{ order.order_id }}</span></h1>
+    <section class="container border mb-4 p-3"  >
+    <form #mainForm="ngForm" class="container mt-3">
+      <div class="form-group ">
+        <label for="created_by"><h4>Created By &nbsp;</h4></label>
+        <input type="text" class="created_by" id="created_by"
+         [ngModel]="order.created_by" name="created_by" disabled>
+      </div>
+      <br>
+      <hr>
+      <br>
+      <div>
+      <mat-card style="background-color:lavender;">
+  <mat-card-header>
+    <mat-card-title>Selected Locations</mat-card-title>
+  </mat-card-header>
+  <div class="row">
+  <div class="col-sm-4"  *ngFor="let loc of multiLocs; let i=index;">
+    <p>Loc -{{ loc.location }} | Dept.- {{ loc.department }}
+    </p>
+    </div>
+  </div>
+</mat-card>
+      </div>
+      <br>
+      <hr>
+      <div class="form-group ">
+        <label for="order_desc"><h4>Order Description</h4></label>
+        <input type="text" class="form-control" id="order_desc"
+         [ngModel]="order.order_desc" name="order_desc" required disabled>
+      </div>
+      <br>
+      <hr>
+      <br>
+      <h4>Order Items</h4>
+     <div>
+      <mat-card style="background-color:lavender;">
+  <mat-card-header>
+    <mat-card-title>Selected Items</mat-card-title>
+  </mat-card-header>
+  <table mat-table [dataSource] = "dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef = "Item ID">
+           <th mat-header-cell *matHeaderCellDef>Item ID</th>
+           <td mat-cell *matCellDef = "let element"> {{element.id}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Name">
+           <th mat-header-cell *matHeaderCellDef>Name</th>
+           <td mat-cell *matCellDef = "let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Specification">
+           <th mat-header-cell *matHeaderCellDef>Specification</th>
+           <td mat-cell *matCellDef = "let element"> {{element.specification}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Vendor">
+           <th mat-header-cell *matHeaderCellDef>Vendor</th>
+           <td mat-cell *matCellDef = "let element"> {{element.prefered_vendor}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Quantity">
+           <th mat-header-cell *matHeaderCellDef>Quantity</th>
+           <td mat-cell *matCellDef = "let element"> {{element.quantity}} </td>
+        </ng-container>
+        <ng-container matColumnDef = "Price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef = "let element"> {{element.price}} </td>
+         </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+        <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+    </table>
+</mat-card>
+      </div>
+        <hr>
+   <br>
+    </form>
+    </section>
+</div>

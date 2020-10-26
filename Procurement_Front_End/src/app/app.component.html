@@ -1,0 +1,48 @@
+
+
+<mat-sidenav-container fullscreen *ngIf="this.loginService.loginstatus; else notLogined">
+  <mat-sidenav class="list-background-image" mode="side" #sidenav opened position="start" style="width: 270px; padding:15px;">
+  <div class="container" style="font-size: 24px; text-align: center;">
+  <span>PROCUREMENT</span>
+  </div>
+
+  <hr>
+    <mat-nav-list class="mat-list">
+
+      <mat-list-item class="list-item" [routerLink]="'/home'" [routerLinkActive]="['is-active']"> <span class="material-icons icon-padding">dashboard</span>Dashboard</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item *ngIf="this.loginService.type=='Requestor' || this.loginService.type=='Approver'" class="list-item" [routerLink]="'/requisitionHome'" [routerLinkActive]="['is-active']"><span class="material-icons icon-padding">publish</span> Requisition</mat-list-item>
+      <mat-divider *ngIf="this.loginService.type=='Requestor' || this.loginService.type=='Approver'"></mat-divider>
+      <mat-list-item *ngIf="this.loginService.type=='Supplier'" class="list-item" [routerLink]="'/supplierHome'" [routerLinkActive]="['is-active']"><span class="material-icons icon-padding">storefront</span> Supplier</mat-list-item>
+      <mat-divider *ngIf="this.loginService.type=='Supplier'"></mat-divider>
+      <mat-list-item class="list-item" [routerLink]="'/track-dashboard'" [routerLinkActive]="['is-active']"><span class="material-icons icon-padding">local_shipping</span> Track Order</mat-list-item>
+
+    </mat-nav-list>
+    <mat-nav-list class="list-position sign-out">
+    <mat-list-item class="list-item" (click)="logout()" [routerLinkActive]="['is-active']"><span class="material-icons icon-padding">reply</span>Sign Out</mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content style="padding: 10px;">
+  <mat-toolbar>
+  <mat-toolbar-row>
+<!--    <button mat-icon-button>
+      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    </button>
+
+
+
+    <span style="font-size: 24px;">Procurement App</span>
+    -->
+
+  </mat-toolbar-row>
+
+</mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #notLogined>
+    <router-outlet></router-outlet>
+</ng-template>
+
+

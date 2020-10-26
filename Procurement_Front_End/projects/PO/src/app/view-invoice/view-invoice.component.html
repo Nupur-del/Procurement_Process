@@ -1,0 +1,88 @@
+<div id="pdfTable" #pdfTable style="text-align: center;">
+<h2 style="text-align:center; color: white; background-color: #4aa4d9;">Invoice</h2>
+    <table  style="text-align: center; border: 1px solid black; margin-left: auto;
+    margin-right: auto;">
+    <tr>
+     <td><h5>Invoice Number&nbsp;</h5></td>
+     <td>
+      {{ invoice.invoice_no }}
+     </td>
+    </tr>
+      <tr>
+        <td><h5>Invoice Date&nbsp;</h5></td>
+        <td>
+        {{ invoice.invoice_date }}
+        </td>
+      </tr>
+      <tr>
+        <td><h5>Invoice Due Date&nbsp;</h5></td>
+        <td>
+          {{ invoice.invoice_due_date }}
+        </td>
+      </tr>
+      <tr>
+       <td><h5>Credit Days</h5></td>
+       <td>
+        {{ invoice.credit_days }}
+       </td>
+      </tr>
+      <tr>
+       <td><h5>Invoice to Address</h5></td>
+       <td>
+        {{ invoice.invoice_address }}
+       </td>
+      </tr>
+      <tr>
+       <td><h5>Description</h5></td>
+       <td>
+       {{ invoice.description }}
+       </td>
+      </tr>
+      <tr>
+        <td><h5>Item Number&nbsp;</h5></td>
+        <td>
+        {{ invoice.item_id }}
+        </td>
+      </tr>
+      <tr>
+        <td><h5>Item Name&nbsp;</h5></td>
+        <td>
+      {{ invoice.item_name }}
+     </td>
+      </tr>
+     <tr>
+       <td><h5>Market Price</h5></td>
+       <td>
+       {{ invoice.market_price }}
+       </td>
+      </tr>
+       <tr>
+       <td><h5>Unit Price</h5></td>
+       <td>
+       {{ invoice.unit_price }}
+       </td>
+      </tr>
+       <tr>
+       <td><h5>Ordered Quantity</h5></td>
+       <td>
+       {{ invoice.ordered_quantity }}
+       </td>
+      </tr>
+       <tr>
+       <td><h5>Invoiced Quantity</h5></td>
+       <td>
+       {{ invoice.invoiced_quantity }}
+       </td>
+      </tr>
+       <tr>
+       <td><h5>Taxes</h5></td>
+       <td>
+       {{ invoice.tax }}
+       </td>
+      </tr>
+     </table>
+</div>
+<br>
+<div style="text-align: center;">
+    <button mat-button color="primary" style="margin: 0 auto;" (click)="downloadAsPDF()">Download Invoice</button>
+</div>

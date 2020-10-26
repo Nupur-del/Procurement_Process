@@ -1,0 +1,156 @@
+
+<button style="background-color: #1d87cf;
+      position: fixed;
+      top: 30%;
+      right: 1rem;" class="btn btn-primary" (click)="seePO()">View PO</button>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+    <ng-template matStepLabel>Invoice Details</ng-template>
+    <br>
+         <table>
+
+      <tr>
+        <td><h5>Invoice Date&nbsp;</h5></td>
+        <td>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput (dateChange)="addDateEvent($event)" [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field>
+        </td>
+      </tr>
+     <br>
+      <tr>
+        <td><h5>Invoice Due Date&nbsp;</h5></td>
+        <td>
+          <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput (dateChange)="addDateEvent2($event)" [matDatepicker]="picker2">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker2></mat-datepicker>
+        </mat-form-field>
+        </td>
+      </tr>
+      <br>
+      <tr>
+       <td><h5>Credit Days</h5></td>
+       <td>
+        <input type="number" [(ngModel)]="invoice.credit_days" formControlName = "credit_days" name="credit_days" id="field5" class="form-control"/>
+
+       </td>
+      </tr>
+
+      <br>
+
+      <tr>
+       <td><h5>Invoice to Address</h5></td>
+       <td>
+        <textarea [(ngModel)]="invoice.invoice_address" formControlName = "invoice_address" name="invoice_address" id="field5" class="form-control field-textarea"></textarea>
+
+       </td>
+      </tr>
+
+            <br>
+
+      <tr>
+       <td><h5>Description</h5></td>
+       <td>
+       <textarea [(ngModel)]="invoice.description" formControlName = "description" name="description" id="field5" class="form-control field-textarea"></textarea>
+
+       </td>
+      </tr>
+
+      <br>
+
+
+      </table>
+
+      <br>
+      <div class="text-right">
+        <button class="btn btn-primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Item Details</ng-template>
+      <br>
+      <table>
+
+      <tr>
+        <td><h5>Item Number&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"  [(ngModel)]="po.item_id" formControlName="item_id" disabled required>
+        </td>
+      </tr>
+     <br>
+
+      <tr>
+        <td><h5>Item Name&nbsp;</h5></td>
+        <td>
+      <input type="text" class="form-control"  [(ngModel)]="po.item_name" formControlName="item_name" required>
+     </td>
+      </tr>
+     <br>
+
+     <tr>
+       <td><h5>Market Price</h5></td>
+       <td>
+       <input type="number" [(ngModel)]="invoice.market_price" class="form-control" formControlName="item_market_price" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Unit Price</h5></td>
+       <td>
+       <input type="number" [(ngModel)]="invoice.unit_price" class="form-control" formControlName="item_unit_price" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Ordered Quantity</h5></td>
+       <td>
+       <input type="number" [(ngModel)]="invoice.ordered_quantity" class="form-control" formControlName="item_ordered_quantity" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Invoiced Quantity</h5></td>
+       <td>
+       <input type="number" [(ngModel)]="invoice.invoiced_quantity" class="form-control" formControlName="item_invoiced_quantity" required>
+       </td>
+      </tr>
+
+       <br>
+
+       <tr>
+       <td><h5>Taxes</h5></td>
+       <td>
+       <input type="number" [(ngModel)]="invoice.tax" class="form-control" formControlName="item_tax" required>
+       </td>
+      </tr>
+
+
+       <br>
+
+
+
+     </table>
+      <div class="text-right">
+        <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+        <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+      </div>
+    </form>
+  </mat-step>
+
+
+</mat-horizontal-stepper>

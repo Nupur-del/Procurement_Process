@@ -1,0 +1,292 @@
+<button style="background-color: #1d87cf;
+      position: fixed;
+      top: 30%;
+      right: 1rem;" class="btn btn-primary" (click)="seeOrder()">View Order</button>
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+    <ng-template matStepLabel>Basic Details</ng-template>
+    <br>
+         <table>
+      <tr>
+        <td><h5>Requisition Name&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"  [(ngModel)]="po.reqName"
+        formControlName="reqName"  required>
+        </td>
+      </tr>
+     <br>
+      <tr>
+        <td><h5>Urgent Message&nbsp;</h5></td>
+        <td>
+      	<input type="radio" formControlName="urg_msg" [(ngModel)]="po.urg_msg" value="yes">Yes
+        <input type="radio" formControlName="urg_msg"  [(ngModel)]="po.urg_msg" value="no">No
+        </td>
+      </tr>
+      <br>
+      <tr>
+       <td><h5>Attachment</h5></td>
+       <td>
+       <input type="file" formControlName="attachments" id="file"
+        name="file" multiple (change)="onFileChange($event)"
+        [(ngModel)]="image" required>
+       </td>
+       <td>
+        <button type="button" (click)="onReset()">Reset</button>
+        </td>
+      </tr>
+      <br>
+       <tr>
+      <td>
+      </td>
+      <td>
+      <div [hidden]="change"  style="text-align: center;">
+      <br>
+      <hr>
+      <mat-card style="background-color:lavender;">
+          <mat-card-header>
+            <mat-card-title>Attachments</mat-card-title>
+          </mat-card-header>
+        <div class="row">
+          <div class="col-sm-4"  *ngFor="let image of imageNames; let i=index;">
+            <p>{{ image }}
+            <button mat-button-raised [disabled]="isRemovable" (click)="removeImage(i)">Remove File</button>
+            </p>
+          </div>
+          </div>
+      </mat-card>
+      <td>
+      <button type="button" (click)="onUpload()">Upload File</button>
+      </td>
+      <hr>
+      <br>
+      </div>
+      </td>
+      </tr>
+      <br>
+      <tr>
+       <td><h5>Reason for Ordering</h5></td>
+       <td>
+       <input  type="text" class="form-control" [(ngModel)]="po.reason"
+       formControlName="reason" required>
+       </td>
+      </tr>
+            <br>
+      <tr>
+       <td><h5>Comment for supplier</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.comment"
+       formControlName="comment" required>
+       </td>
+      </tr>
+      <br>
+      <tr>
+       <td><h5>On Behalf Of</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.behalf"
+       formControlName="behalf" required>
+       </td>
+      </tr>
+       <br>
+      <tr>
+       <td><h5>Purchase Type</h5></td>
+       <td>
+      <select  [(ngModel)]="po.purchase_type" class="form-control"
+      formControlName="purchase_type" required>
+            <option value="expense">Expense</option>
+            <option value="capital">Capital</option>
+            <option value="project">Project</option>
+            <option value="customer">Customer</option>
+            <option value="goods">Dangerous Goods</option>
+            <option value="materials">Raw Materials</option>
+            <option value="product1">Semi-finished Product</option>
+            <option value="product2">Finished Product</option>
+            <option value="repair">Maintenace repair and operating items</option>
+            <option value="transportation">Transportation and 3rd party purchasing</option>
+        </select>
+        </td>
+      </tr>
+      <br>
+      <tr>
+       <td><h5>Your Message</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.message"
+       formControlName="message" required>
+       </td>
+      </tr>
+      </table>
+      <br>
+      <div class="text-right">
+        <button class="btn btn-primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Billing Details</ng-template>
+      <br>
+      <table>
+      <tr>
+        <td><h5>Bill Number&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"
+        [(ngModel)]="po.billNo" formControlName="billno" disabled required>
+        </td>
+      </tr>
+     <br>
+      <tr>
+        <td><h5>Currency&nbsp;</h5></td>
+        <td>
+     <select  [(ngModel)]="po.currency" class="form-control" formControlName="currency" required>
+            <option value="INR">INR</option>
+            <option value="Dollars">Dollars</option>
+            <option value="Euros">Euros</option>
+            <option value="yen">yen</option>
+        </select>
+     </td>
+      </tr>
+     <br>
+     <tr>
+       <td><h5>Organization To be Billed</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.org_billed"
+       formControlName="org_billed" required>
+       </td>
+      </tr>
+       <br>
+       <tr>
+       <td><h5>Company Name</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.cmp_name"
+       formControlName="cmp_name" required>
+       </td>
+      </tr>
+       <br>
+       <tr>
+       <td><h5>Location</h5></td>
+       <td>
+       <input type="text" class="form-control"
+       [(ngModel)]="po.location" formControlName="location" required>
+       </td>
+      </tr>
+       <br>
+       <tr>
+       <td><h5>Bill to Address</h5></td>
+       <td>
+       <textarea class="form-control" [(ngModel)]="po.bill_to_address"
+       formControlName="bill_to_address" required></textarea>
+       </td>
+      </tr>
+       <br>
+       <tr>
+       <td><h5>Delivery To</h5></td>
+       <td>
+       <input type="text" class="form-control" [(ngModel)]="po.delivery_to"
+       formControlName="delivery_to" required>
+       </td>
+      </tr>
+       <br>
+       <tr>
+       <td><h5>Required By</h5></td>
+       <td>
+       <input type="date" class="form-control" [(ngModel)]="po.required_by"
+       formControlName="required_by" required>
+       </td>
+      </tr>
+       <br>
+       <tr>
+       <td><h5>Delivery Address</h5></td>
+       <td>
+       <textarea class="form-control" [(ngModel)]="po.delivery_address"
+       formControlName="delivery_address" required></textarea>
+       </td>
+      </tr>
+       <br>
+     </table>
+      <div class="text-right">
+        <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+        <button class="btn btn-primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+  <form [formGroup]="thirdFormGroup">
+    <ng-template matStepLabel>Cost Booking</ng-template>
+    <br>
+    <table>
+      <tr>
+        <td><h5>Cost Center&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"
+        [(ngModel)]="po.cost_center" formControlName="cost_center" required>
+        </td>
+      </tr>
+     <br>
+     <tr>
+        <td><h5>Project Code&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"  [(ngModel)]="po.project_code" formControlName="project_code" required>
+        </td>
+      </tr>
+     <br>
+     <tr>
+        <td><h5>Budget Code&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control"  [(ngModel)]="po.budget_code" formControlName="budget_code" required>
+        </td>
+      </tr>
+     <br>
+     </table>
+    <div class="text-right">
+      <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+      <button class="btn btn-primary" matStepperNext>Next</button>
+    </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup">
+  <form [formGroup]="fourthFormGroup">
+    <ng-template matStepLabel>Item Info</ng-template>
+    <br>
+    <table>
+      <tr>
+        <td><h5>Item Name&nbsp;</h5></td>
+        <td>
+        <input type="text" class="form-control" [ngModel]="item.name"
+        formControlName="item_name" required>
+        </td>
+      </tr>
+     <br>
+     <tr>
+        <td><h5>Quantity&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control" [ngModel]="item.quantity"
+        formControlName="quantity" required>
+        </td>
+      </tr>
+     <br>
+     <tr>
+        <td><h5>Price Per Unit&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control"  [ngModel]="item.price"
+        formControlName="price" required>
+        </td>
+      </tr>
+     <br>
+     <tr>
+        <td><h5>Total Price&nbsp;</h5></td>
+        <td>
+        <input type="number" class="form-control" formControlName="total" [ngModel]="total" required>
+        </td>
+      </tr>
+     <br>
+     </table>
+    <div class="text-right">
+      <button class="btn btn-primary" (click)="stepper.reset()">Reset</button>&nbsp;
+      <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
+      <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit</button>
+    </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

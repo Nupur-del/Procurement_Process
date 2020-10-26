@@ -1,0 +1,17 @@
+<br>
+<h2 style="text-align:center; color: white; background-color: #4aa4d9;">Track Order</h2>
+
+<br>
+
+<form style="text-align: center;">
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Order ID</mat-label>
+    <input matInput placeholder="Enter your order-id" name="orderId" type="text" [(ngModel)]="orderId">
+  </mat-form-field>
+
+  <br>
+
+    <button mat-raised-button color="primary" (click)="track()">Submit</button>
+
+</form>

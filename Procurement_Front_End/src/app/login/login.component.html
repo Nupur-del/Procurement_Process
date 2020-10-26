@@ -1,0 +1,46 @@
+
+
+<body>
+
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w780">
+            <div class="card card-4">
+                <div class="card-body">
+
+
+<h2 class="title" style="text-align: center;">LOGIN</h2>
+<br>
+
+<form style="text-align: center;">
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Enter your email" name="email" type="email" [(ngModel)]="email">
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="Enter your password" name="password" type="password" [(ngModel)]="password">
+  </mat-form-field>
+
+
+  <br>
+
+  <button mat-raised-button color="primary" (click)="login()">Submit</button>
+
+
+</form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+

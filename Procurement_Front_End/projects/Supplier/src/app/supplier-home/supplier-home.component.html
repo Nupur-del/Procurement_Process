@@ -1,0 +1,110 @@
+
+<!-- Header with image -->
+<div class="center">
+<br>
+</div>
+
+
+<button style="background-color: #1d87cf;
+      position: fixed;
+      top: 13%;
+      right: 1rem;" mat-button [routerLink]="'/supplier/newItem'">+Add Item</button>
+
+<br>
+<hr>
+
+<div class=row>
+
+<div class="col-md-4">
+<mat-card class="mat-position">
+<div style="background-color: #f7483b;" class="position-image">
+<mat-icon class="icon">warning</mat-icon>
+</div>
+    <mat-card-title class="mat-content">Pending PO</mat-card-title>
+    <mat-card-content style="color: red;">{{ po.pending }}</mat-card-content>
+    <hr>
+  <mat-card-actions align="end">
+    <button style="color: blue;" mat-button [routerLink]="'/pendingPO'"> View Requests </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+<div class="col-md-4">
+<mat-card class="mat-position">
+<div style="background-color: #27c43c;" class="position-image">
+<mat-icon class="icon">check_circle_outline</mat-icon>
+</div>
+    <mat-card-title class="mat-content">Approved PO</mat-card-title>
+    <mat-card-content style="color: green;">{{ po.approved }}</mat-card-content>
+    <hr>
+  <mat-card-actions align="end">
+    <button style="color: blue;" mat-button [routerLink]="'/approvedPO'"> View Requests </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+<div class="col-md-4">
+<mat-card class="mat-position">
+<div style="background-color: #f75a0c;" class="position-image">
+<mat-icon class="icon">select_all</mat-icon>
+</div>
+    <mat-card-title class="mat-content" style="left: 75%;">All Items</mat-card-title>
+    <mat-card-content style="color: red;" style="left: 81%;">{{ item.all }}</mat-card-content>
+    <hr>
+  <mat-card-actions align="end">
+    <button style="color: blue;" mat-button [routerLink]="'/supplierItems'"> View Items </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+</div>
+<br>
+<hr>
+<br>
+
+<div class=row>
+
+<div class="col-lg-6">
+<mat-card class="mat-position">
+<div style="background-color: #4287f5;" class="position-image">
+<mat-icon class="icon-second">description</mat-icon>
+</div>
+    <mat-card-title class="mat-content-2">Generate Invoice</mat-card-title>
+    <br>
+    <hr>
+  <mat-card-actions align="end">
+    <button class="button-size" style="color: blue;" mat-button [routerLink]="'/deliveredPO'"> Generate </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+<div class="col-lg-6">
+<mat-card class="mat-position">
+<div style="background-color: #e9f50f;" class="position-image">
+<mat-icon class="icon-second">local_shipping</mat-icon>
+</div>
+    <mat-card-title class="mat-content-2" style=" left: 75%;">Track Order</mat-card-title>
+    <br>
+    <hr>
+  <mat-card-actions align="end">
+    <button class="button-size" style="color: blue;" mat-button [routerLink]="'/track-dashboard'"> Track </button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

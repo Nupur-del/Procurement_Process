@@ -1,0 +1,301 @@
+
+
+
+  <div class="container">
+    <h1>New Item Form</h1>
+
+    <section class="container border mb-4 p-3"  >
+    <form #mainForm="ngForm" class="container mt-3 custom">
+    <table>
+
+      <tr>
+        <td><h5>Name&nbsp;</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control"  [(ngModel)]="item.name" id="name" ngModel name="name" #name="ngModel" pattern="[a-zA-Z ]*" required>
+        <div class ="alert alert-danger" *ngIf="name.touched && !name.valid">
+        <div *ngIf="name.errors.required">Name is Required</div>
+        <div *ngIf="name.errors.pattern">Name Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+      <tr>
+        <td><h5>SKU&nbsp;</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="item.sku" id="sku"  ngModel name="sku" #sku="ngModel" minlength="8" pattern="[a-zA-Z0-9]*" required>
+        <div class ="alert alert-danger" *ngIf="sku.touched && !sku.valid">
+        <div *ngIf="sku.errors.required">SKU is Required</div>
+        <div *ngIf="sku.errors.minlength">Minimum Length of SKU is 8</div>
+        <div *ngIf="sku.errors.pattern">SKU Pattern is Incorrect Use Character Like (A-Z,a-z,0-9)</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+      <tr>
+        <td><h5>Brand &nbsp;</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="item.brand" id="brand" ngModel name="brand" #brand="ngModel"  pattern="[a-zA-Z]*" required>
+        <div class ="alert alert-danger" *ngIf="brand.touched && !brand.valid">
+        <div *ngIf="brand.errors.required">Brand is Required</div>
+        <div *ngIf="brand.errors.pattern">Brand Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+
+      <br>
+
+      <tr>
+        <td><h5>Price &nbsp;</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="number" class="form-control" [(ngModel)]="item.price" id="price" ngModel name="price" #price="ngModel"  pattern="[0-9.]*" required>
+        <div class ="alert alert-danger" *ngIf="price.touched && !price.valid">
+        <div *ngIf="price.errors.required">Price is Required</div>
+        <div *ngIf="price.errors.pattern">Price Pattern is Incorrect Use Character Like (0-9,.)</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+
+      <br>
+
+      <tr>
+        <td><h5>Currency &nbsp;</h5></td>
+        <td>
+        <div class="form-group">
+        <select class="form-control" id="currency" [(ngModel)]="item.currency" ngModel name="currency" #currency="ngModel" placeholder="Currency" required>
+            <option value="INR">INR</option>
+            <option value="USD">USA</option>
+            <option value="EURO">EURO</option>
+        </select>
+        <div class ="alert alert-danger" *ngIf="currency.touched && !currency.valid">
+        <div *ngIf="currency.errors.required">Currency is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+      <tr>
+        <td><h5>Features &nbsp;</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="item.features" id="feature" ngModel name="feature" #feature="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="feature.touched && !feature.valid">
+        <div *ngIf="feature.errors.required">Feature is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+
+      <tr>
+        <td><h5>Description</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" id="desc" [(ngModel)]="item.desc" ngModel name="desc" #desc="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="desc.touched && !desc.valid">
+        <div *ngIf="desc.errors.required">Description is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+       <tr>
+        <td><h5>Discount Rate</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" id="discount" [(ngModel)]="item.discount" ngModel name="discount" #discount="ngModel" pattern="[0-9.]*" required>
+        <div class ="alert alert-danger" *ngIf="discount.touched && !discount.valid">
+        <div *ngIf="discount.errors.required">Discount is Required</div>
+        <div *ngIf="discount.errors.pattern">Discount Pattern is Incorrect Use Character Like (0-9,.)</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+       <tr>
+        <td><label></label><h5>In Stock</h5></td>
+        <td>
+        <div class="form-group">
+        Quantity&nbsp;<input type="number" class="form-control" [(ngModel)]="item.quantity" id="quantity" ngModel name="quantity" #quantity="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="quantity.touched && !quantity.valid">
+        <div *ngIf="quantity.errors.required">Quantity is Required</div>
+        </div>
+        </div>
+        </td>
+        <td>
+        <div class="form-group">
+        Threshold&nbsp;<input type="number" class="form-control" [(ngModel)]="item.threshold" id="threshold" ngModel name="threshold" #threshold="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="threshold.touched && !threshold.valid">
+        <div *ngIf="threshold.errors.required">Threshold is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+       <tr>
+        <td><h5>Images</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="file" class="form-control" id="images"   id="file"
+        name="file" (change)="onFileChange($event)"
+        [(ngModel)]="image" ngModel name="images"  #images="ngModel" multiple required>
+        <div class ="alert alert-danger" *ngIf="images.touched && !images.valid">
+        <div *ngIf="images.errors.required">Image is Required</div>
+        </div>
+        </div>
+        </td>
+        <td>
+        <button type="button" (click)="onReset()">Reset</button>
+        </td>
+      </tr>
+      <tr>
+      <td>
+      </td>
+      <td>
+      <div [hidden]="change"  style="text-align: center;">
+      <br>
+      <hr>
+
+      <mat-card style="background-color:lavender;">
+          <mat-card-header>
+            <mat-card-title>Uploaded Images</mat-card-title>
+          </mat-card-header>
+        <div class="row">
+          <div class="col-sm-4"  *ngFor="let image of imageNames; let i=index;">
+            <p>{{ image }}
+            <button mat-button-raised [disabled]="isRemovable" (click)="removeImage(i)">Remove the File</button>
+            </p>
+          </div>
+          </div>
+      </mat-card>
+      <td>
+        <button type="button" (click)="onUpload()">Upload</button>
+      </td>
+      <hr>
+      <br>
+      </div>
+      </td>
+      </tr>
+
+      <tr>
+        <td><h5>Warranty</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" id="warranty" [(ngModel)]="item.warranty"  ngModel name="warranty" #warranty="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="warranty.touched && !warranty.valid">
+        <div *ngIf="warranty.errors.required">Warranty is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+       <tr>
+        <td><h5>Replacement Policy</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" id="policy" [(ngModel)]="item.policy" ngModel name="policy" #policy="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="policy.touched && !policy.valid">
+        <div *ngIf="policy.errors.required">Policy is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+
+       <tr>
+        <td><h5>Location</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" id="location" [(ngModel)]="item.location" ngModel name="location" #location="ngModel" required>
+        <div class ="alert alert-danger" *ngIf="location.touched && !location.valid">
+        <div *ngIf="location.errors.required">Location is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+
+      <br>
+  <!--
+      <tr>
+        <td><label></label><h5>Custom Field</h5></td>
+        <td>
+        <div class="form-group">
+        Field Name&nbsp;<input type="text" class="form-control" id="fieldName" [(ngModel)]="fName" ngModel name="fieldName" #fieldName="ngModel" [disabled]="optional" [required]="requireChange">
+        <div class ="alert alert-danger" *ngIf="fieldName.touched && !fieldName.valid" [hidden]="optional">
+        <div *ngIf="fieldName.errors?.required">Field Name is Required</div>
+        </div>
+        </div>
+        </td>
+        <td>Field Type&nbsp;
+        <div class="form-group">
+        <select class="form-control" id="fieldType" [(ngModel)]="fType" ngModel name="fieldType" #fieldType="ngModel" placeholder="FieldType" [disabled]="optional" [required]="requireChange" >
+            <option value="Text">Text</option>
+            <option value="Number">Number</option>
+            <option value="DropDown">DropDown</option>
+            <option calue="date">Date</option>
+        </select>
+        <div class ="alert alert-danger" *ngIf="fieldType.touched && !fieldType.valid" [hidden]="optional">
+        <div *ngIf="fieldType.errors?.required">Field Type is Required</div>
+        </div>
+        </div>
+        </td>
+        <td><label>&nbsp;</label><br><mat-checkbox name="check" [(ngModel)]="optional" onChange="disableFields()">Optional</mat-checkbox></td>
+      </tr>
+
+      -->
+
+
+
+      <br>
+
+    </table>
+     <div class="text-right">
+      <button type="submit" class="btn btn-success" (click)="addItem()">Submit Item</button>
+      </div>
+    </form>
+    </section>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
