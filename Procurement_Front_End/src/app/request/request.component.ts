@@ -7,8 +7,6 @@ import { OrderService } from '../order.service';
 import { LocationService } from '../location.service';
 import { ItemService } from '../item.service';
 import { StatusService } from '../status.service';
-import { Observable } from 'rxjs';
-import { IOrder } from '../order';
 
 import {
   MatSnackBar,
@@ -18,6 +16,7 @@ import {
   MatTableDataSource,
   Sort
 } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-request',
@@ -26,34 +25,53 @@ import {
 })
 
 export class RequestComponent implements OnInit {
+
+  // State Management
+
+  isDelivered  = false;
+  isShow = true;
+  action = true;
+  setAutoHide = true;
+  addExtraClass = false;
+
+  // Variables
+
+  closeResult: string;
+  sub: any;
+  locations: any;
+  items: any;
+  interval: any;
+  dataSource: any;
+  message: string;
+  actionButtonLabel = ':)';
+  autoHide = 2000;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  // Objects
+
+  public order: any = {};
+
+  // Arrays
+
   public sorderList: any = [ ];
   public locationList: any = [ ];
   public itemList: any = [ ];
   public delOrder: any = [ ];
   public delLocation: any = [ ];
   public delItem: any = [ ];
-  closeResult: string;
-  isShow = true;
-  public order: any = {};
   public orderList: any = [];
-  sub: any;
-  locations: any;
-  items: any;
-  interval: any;
   public multiLocs: any = [ ];
   public finalItem: any = [ ];
-  dataSource: any;
   displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc',
                                 'status', 'edit', 'delete', 'replicate', 'mark_complete'];
-  message: string;
-  actionButtonLabel = ':)';
-  action = true;
-  setAutoHide = true;
-  autoHide = 2000;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  addExtraClass = false;
 
+  // Subscription
+
+  orderSub: Subscription;
+  itemSub: Subscription;
+  locationSub: Subscription;
+  messageSub: Subscription;
 
   constructor(private router: Router,
               public http: HttpClient,
@@ -65,20 +83,20 @@ export class RequestComponent implements OnInit {
               private statusService: StatusService) { }
 
   ngOnInit() {
-    this.orderService.getAllOrders().subscribe((data: any) => {
+    this.orderSub = this.orderService.getAllOrders().subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
       this.orderList = data;
     });
 
-    this.itemService.getAllItems().subscribe((data: any) => {
+    this.itemSub = this.itemService.getAllItems().subscribe((data: any) => {
       this.itemList = data.data;
     });
 
-    this.locationService.getAllLocations().subscribe((data: any) => {
+    this.locationSub = this.locationService.getAllLocations().subscribe((data: any) => {
       this.locationList = data.data;
     });
 
-    this.data.currentMessage.subscribe(message => this.sub = message);
+    this.messageSub = this.data.currentMessage.subscribe(message => this.sub = message);
   }
 
   onEdit(order_id) {
@@ -102,6 +120,8 @@ export class RequestComponent implements OnInit {
       i.specification = item.specification;
       i.prefered_vendor = item.prefered_vendor;
       i.quantity = item.quantity;
+      i.location = item.location;
+      i.department = item.department;
       i.unit_type = item.unit_type;
       i.price = item.price;
       i.currency = item.currency;
@@ -134,23 +154,23 @@ export class RequestComponent implements OnInit {
   onDelete(id, refresher) {
     console.log('Order Id', id);
     let deleteParams = new HttpParams().set('order_id', id);
-    this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
-    .subscribe(
-      data => {
-         console.log(data);
-         this.message = 'Deleted Sucessfully';
-         this.insert();
-         this.doRefresh(refresher);
-     },
-     err => {
-         this.message = 'Deletion failed';
-         this.insert();
-         console.log(err);
-    });
+    this.orderSub =  this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
+                    .subscribe(
+                    data => {
+                      console.log(data);
+                      this.message = 'Deleted Sucessfully';
+                      this.insert();
+                      this.doRefresh(refresher);
+                    },
+                    err => {
+                      this.message = 'Deletion failed';
+                      this.insert();
+                      console.log(err);
+                    });
   }
 
   getData() {
-    this.orderService.getAllOrders().subscribe((data: any[]) => {
+   this.orderSub = this.orderService.getAllOrders().subscribe((data: any[]) => {
       this.orderList = data;
       this.dataSource = new MatTableDataSource(this.orderList);
     });
@@ -175,7 +195,7 @@ export class RequestComponent implements OnInit {
   }
 
   getOrder(order_id: any) {
-    this.orderService.getOrderById(order_id).subscribe( data => {
+   this.orderSub = this.orderService.getOrderById(order_id).subscribe( data => {
       this.sorderList = data;
       console.log('Order List-', this.sorderList);
       this.order.created_by = this.sorderList.created_by;
@@ -212,5 +232,25 @@ sortOrder(sort: Sort) {
     this.sub = order_id;
     this.data.changeMessage(this.sub);
     this.router.navigate(['/track-order']);
+  }
+
+  onComplete(order_id, refresher) {
+   this.orderSub =  this.orderService.getStatusById(order_id).subscribe( data => {
+      console.log(data);
+      const orderData = {
+        color: 'accent',
+        order_id: order_id,
+        status: 'Completed'
+      };
+
+      if (data['status'] === 'Item Delivered') {
+        this.orderService.updateColor(orderData).subscribe(data => {
+          console.log(data);
+          this.doRefresh(refresher);
+        });
+      } else {
+        alert('Item has not yet Delivered');
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
 import { Sort } from '@angular/material';
 
@@ -41,6 +42,7 @@ export class PendingComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   addExtraClass = false;
   dataSource: any;
+  type: string;
 
   constructor(private router: Router,
               public http: HttpClient,
@@ -52,11 +54,30 @@ export class PendingComponent implements OnInit {
               private itemService: ItemService) { }
 
   ngOnInit() {
+    this.type = localStorage.getItem('type');
     this.orderService.getOrderByStatus('Pending').subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
       this.orderList = data;
     });
     this.data.currentMessage.subscribe(message => this.sub = message);
+  }
+  deleteRequest(id, refresher) {
+
+      console.log('Order Id', id);
+      let deleteParams = new HttpParams().set('order_id', id);
+      this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
+      .subscribe(
+        data => {
+           console.log(data);
+           this.message = 'Deleted Sucessfully';
+           this.insert();
+           this.doRefresh(refresher);
+       },
+       err => {
+           this.message = 'Deletion failed';
+           this.insert();
+           console.log(err);
+      });
   }
 
   onView(order_id) {

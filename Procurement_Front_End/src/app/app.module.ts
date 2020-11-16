@@ -3,13 +3,17 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { CustomFormsModule } from 'ng2-validation';
+import { NgImageSliderModule } from 'ng-image-slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MatListModule } from '@angular/material/list';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
@@ -19,11 +23,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule, MatNativeDateModule  } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AuthGuard } from './auth.guard';
 import { MatMenuModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from './auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatCardModule} from '@angular/material/card';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -65,14 +70,19 @@ import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.co
     NgbModule,
     AppRoutingModule,
     MatSortModule,
+    MatAutocompleteModule,
     BrowserAnimationsModule,
     LayoutModule,
     FormsModule,
+    NgImageSliderModule,
+    ScrollingModule,
     HttpClientModule,
     MatDatepickerModule,
     MatToolbarModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
     MatTooltipModule,
+    CustomFormsModule,
     MatCheckboxModule,
     MatSidenavModule,
     MatSnackBarModule,
@@ -80,6 +90,7 @@ import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.co
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatDialogModule,
     MatSelectModule,

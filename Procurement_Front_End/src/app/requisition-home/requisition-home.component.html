@@ -28,10 +28,7 @@
     <hr>
   <mat-card-actions align="end">
     <button style="color: blue;"
-    mat-button [routerLink]="'/pending'" *ngIf="type=='Approver'; else not_approver1"> View Requests </button>
-    <ng-template #not_approver1>
-    <button mat-button [routerLink]="'/pending'" disabled> View Requests </button>
-    </ng-template>
+    mat-button [routerLink]="'/pending'"> View Requests </button>
   </mat-card-actions>
 </mat-card>
 </div>
@@ -45,11 +42,7 @@
     <mat-card-content style="color: green;">{{ order.approved }}</mat-card-content>
     <hr>
   <mat-card-actions align="end">
-    <button style="color: blue;" mat-button [routerLink]="'/approved'"
-    *ngIf="type=='Approver'; else not_approver2"> View Requests </button>
-    <ng-template #not_approver2>
-    <button mat-button [routerLink]="'/pending'" disabled> View Requests </button>
-    </ng-template>
+    <button style="color: blue;" mat-button [routerLink]="'/approved'">View Requests</button>
   </mat-card-actions>
 </mat-card>
 </div>
@@ -66,7 +59,7 @@
     <button style="color: blue;" mat-button [routerLink]="'/request'"
     *ngIf="type=='Requestor'; else Approver2"> View Requests </button>
     <ng-template #Approver2>
-    <button mat-button [routerLink]="'/pending'" disabled> View Requests </button>
+    <button mat-button [routerLink]="'/request'" disabled> View Requests </button>
     </ng-template>
   </mat-card-actions>
 </mat-card>

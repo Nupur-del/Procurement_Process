@@ -78,10 +78,11 @@ export class POTrackComponent implements OnInit {
     console.log('Item_id', this.po.item_id);
     this.item.item_id = this.po.item_id;
     this.item.tracking_link = this.po.tracking_link;
-    this.item.estimated_arrival = this.po.estimated_arrival;
+    this.item.estimated_arrival = this.po.estimated_arrival as string;
     this.item.order_status = this.po.po_status;
     this.item.order_msg = this.po.message_client;
     console.log(this.item);
+    console.log('Date', this.item.estimated_arrival);
     this.http.put(environment.BASE_URL + 'Purchase_order/trackPO', this.item).
     subscribe((data: any) => {
       console.log(data);

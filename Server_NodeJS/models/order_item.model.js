@@ -13,6 +13,10 @@ module.exports = db.sequelize.define(
       type: sequelize.INTEGER,
       allowNull: false
     },
+    supplier: {
+      type: sequelize.STRING,
+      allowNull: true
+    },
     quantity: {
         type: sequelize.INTEGER,
         allowNull: false
@@ -21,9 +25,17 @@ module.exports = db.sequelize.define(
         type: sequelize.INTEGER,
         allowNull: false
     },
+    location: {
+      type: sequelize.STRING,
+      allowNull: true
+    },
+    department: {
+      type: sequelize.STRING,
+      allowNull: true
+    },
     unit_type: {
         type: sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     custom: {
         type: sequelize.STRING,
@@ -39,7 +51,7 @@ module.exports = db.sequelize.define(
     },
     specification: {
       type: sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
     prefered_vendor: {
        type: sequelize.STRING,

@@ -18,7 +18,7 @@ export class RequisitionHomeComponent implements OnInit {
     this.type = localStorage.getItem('type');
 
     this.orderService.getAllOrderCount().subscribe((data: any) => {
-      this.order.all = data.count;
+      this.order.all = data;
     });
     let pendingStatus = 'Pending';
     this.orderService.getStatusOrderCount(pendingStatus).subscribe((data: any) => {

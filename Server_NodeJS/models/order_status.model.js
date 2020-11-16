@@ -20,6 +20,10 @@ module.exports = db.sequelize.define(
     message: {
        type: sequelize.STRING,
        allowNull: false
+    },
+    color: {
+      type: sequelize.STRING,
+      allowNull: true
     }
   },
   {

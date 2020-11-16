@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
 import { Sort } from '@angular/material';
 
@@ -42,7 +43,7 @@ export class ApprovedComponent implements OnInit {
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  type: string;
   addExtraClass = false;
   dataSource: any;
 
@@ -56,6 +57,7 @@ export class ApprovedComponent implements OnInit {
               private itemService: ItemService) { }
 
   ngOnInit() {
+    this.type = localStorage.getItem('type');
     this.orderService.getOrderByStatus('Approved').subscribe((data: any) =>{
       this.dataSource = new MatTableDataSource(data);
       this.orderList = data;
@@ -97,6 +99,23 @@ export class ApprovedComponent implements OnInit {
     this.snackBar.open(this.message, this.action ? this.actionButtonLabel : undefined, config);
   }
 
+  deleteRequest(id, refresher) {
+    console.log('Order Id', id);
+    let deleteParams = new HttpParams().set('order_id', id);
+    this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
+    .subscribe(
+      data => {
+         console.log(data);
+         this.message = 'Deleted Sucessfully';
+         this.insert();
+         this.doRefresh(refresher);
+     },
+     err => {
+         this.message = 'Deletion failed';
+         this.insert();
+         console.log(err);
+    });
+  }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

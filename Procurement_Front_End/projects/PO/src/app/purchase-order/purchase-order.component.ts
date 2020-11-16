@@ -152,7 +152,11 @@ onFileChange(event) {
 onUpload() {
   let formData = new FormData();
   for (let i = 0; i < this.myFiles.length; i++) {
-    formData.append("file", this.myFiles[i]);
+    let image = this.uploadedImages[i] != null ? this.uploadedImages[i] : 'dummy';
+    let compareImage = this.imageNames[i] != null ? this.imageNames[i] : 'compare';
+    if (image.includes(compareImage) === false) {
+      formData.append("file", this.myFiles[i]);
+    }
   }
   console.log(formData);
   this.http.post(environment.BASE_URL + 'api/upload', formData).subscribe(

@@ -29,6 +29,7 @@ export class LoginService {
           localStorage.setItem('type', data.type);
           const status = 'true';
           localStorage.setItem('loginStatus', status);
+          localStorage.setItem('username', data.name);
           // tslint:disable-next-line: no-string-literal
           this.type = data.type;
           this.loginstatus = true;

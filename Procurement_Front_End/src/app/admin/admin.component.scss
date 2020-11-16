@@ -7,10 +7,60 @@ select {
     width: max-content;
 }
 
+.spinner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.headings {
+  background-color: rgb(202, 200, 200);
+  font-weight: bold;
+}
+.cdk-virtual-scroll-data-source-example .example-view {
+  height: 200px;
+  width: 940px;
+  border: 1px solid  black;
+}
+
+.cdk-virtual-scroll-data-source-example .example-view .cdk-virtual-scroll-content-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.cdk-virtual-scroll-data-source-example .example-item {
+  width: 180px;
+  height: 180px;
+  border: 1px solid #dce0d4;
+}
+
+.example-viewport {
+  height: 300px !important;
+  width: 980px !important;
+  border: 1px solid #dce0d4;
+}
+
+.example-image {
+  height: 300px !important;
+  width: 980px !important;
+  border: 1px solid #dce0d4;
+}
+
+.catalog {
+  border: 1px solid #dce0d4;
+}
+
 label {
     font-size: 16px;
     color: black;
     padding-left: 10px;
+}
+
+.newItem {
+  height: 40px;
+  width: 110px;
+  margin-left: 8px
 }
 
 input[type='text'] {

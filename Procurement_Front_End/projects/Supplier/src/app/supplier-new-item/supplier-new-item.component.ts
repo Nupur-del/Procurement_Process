@@ -12,7 +12,7 @@ export class SupplierNewItemComponent implements OnInit {
   item: any = {};
   myFiles:string [] = [];
   imageNames:string[] = [];
-  uploadedImages: any = [];
+  uploadedImages: string[] = [];
   image: any;
   isRemovable = true;
   change = true;
@@ -44,8 +44,13 @@ export class SupplierNewItemComponent implements OnInit {
   onUpload() {
     let formData = new FormData();
     for (var i = 0; i < this.myFiles.length; i++) {
-      formData.append("file", this.myFiles[i]);
+      let image = this.uploadedImages[i] != null ? this.uploadedImages[i] : 'dummy';
+      let compareImage = this.imageNames[i] != null ? this.imageNames[i] : 'compare';
+      if (image.includes(compareImage) === false) {
+       formData.append("file", this.myFiles[i]);
+      }
     }
+    console.log(formData);
     this.http.post(environment.BASE_URL + 'api/upload', formData).subscribe(
         (success) => {
                 console.log(success);

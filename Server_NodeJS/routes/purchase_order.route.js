@@ -150,17 +150,18 @@ router.put('/trackPO', (req,res) => {
     const order_id = req.body.order_id;
     const tracking_link = req.body.tracking_link;
     const estimated_arrival = req.body.estimated_arrival;
+    console.log(estimated_arrival);
     const billNo = req.body.billNo;
 
     sql.query(`UPDATE order_items SET status = "${order_status}" ,tracking_link = "${tracking_link}", \
-    estimated_arrival = ${estimated_arrival} WHERE id = ${item_id}`, (err, response) => {
+    estimated_arrival = "${estimated_arrival}" WHERE id = ${item_id}`, (err, response) => {
         if(!err) {
             sql.query(`UPDATE order_status SET status = "${order_status}", message = "${order_msg}" \ 
             WHERE order_id = ${order_id}`, (err, response) => {
                 if(!err) {
                    sql.query(`UPDATE pos SET po_status = "${order_status}" , \
                    tracking_link = "${tracking_link}", \
-                   estimated_arrival = ${estimated_arrival} , message_client = "${order_msg}" \
+                   estimated_arrival = "${estimated_arrival}" , message_client = "${order_msg}" \
                    WHERE billNo = ${billNo}`, (err, response) => {
                        if(!err) {
                         sql.query(`UPDATE po_status SET status = "${order_status}" \

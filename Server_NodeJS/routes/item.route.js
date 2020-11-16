@@ -10,7 +10,6 @@ const Item_images = require('../models/item_image.model');
 // Add item
 
 router.post('/items', (req, res) => {
-    console.log(req.body);
     let item_id;
     if (!req.body.item_id || (req.body.action = "replicate")) {
      item_id = Math.floor(Math.random() * 10000) + 1;
@@ -21,6 +20,9 @@ router.post('/items', (req, res) => {
         item_id: item_id,
         name: req.body.name,
         sku: req.body.sku,
+        specification: req.body.specification,
+        unit_type: req.body.unit_type,
+        supplier: req.body.supplier,
         brand: req.body.brand,
         price: req.body.price,
         currency: req.body.currency,
@@ -55,7 +57,6 @@ router.post('/items', (req, res) => {
                     })
                     .catch(err => {res.send(err)})
                 }
-                res.send(item);
               } else { res.json({message: 'Item added successfully without Images'}) }
             }).catch(err => {res.json({message : err.message})})
         } else {

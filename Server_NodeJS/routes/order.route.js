@@ -11,24 +11,30 @@ router.use(cors());
 
 // Add Order
 router.post('/order', (req,res) => {
-
+  let order_id;
+  if (!req.body.order_id || (req.body.action = "replicate")) {
+   order_id = Math.floor(Math.random() * 10000) + 1;
+  } else {
+      order_id = req.body.order_id;
+  }
   const today = new Date();
   const orderData = {
     created_by : req.body.created_by,
     date: today,
     order_desc: req.body.order_desc,
-    order_id: req.body.order_id
+    order_id: order_id
   }
 
   const orderStatus = {
-   order_id: req.body.order_id,
+   order_id: order_id,
    status: req.body.status,
+   color: req.body.color,
    message: req.body.message
   }
 
   Order.findOne({
     where: {
-      order_id: req.body.order_id
+      order_id: order_id
     }
   }).then(order => {
     let response = {
@@ -50,7 +56,7 @@ router.post('/order', (req,res) => {
         let locationData;
         for(let i of req.body.multiLocs) {
         locationData = {
-          order_id: req.body.order_id,
+          order_id: order_id,
           ...i
         }
         Location.create(locationData)
@@ -65,7 +71,7 @@ router.post('/order', (req,res) => {
          let orderItemData;
          for (let i of req.body.finalItem) {
           orderItemData = {
-            order_id: req.body.order_id,
+            order_id: order_id,
              ...i,
             status: req.body.status
            }
@@ -310,7 +316,9 @@ router.delete('/orderDeletion', (req,res) => {
 
 router.get('/countOrder', (req,res) => {
   Order.findAndCountAll().then(response => {
-    res.send(response);
+    console.log(response.count);
+    console.log(response['count']);
+    res.json(''+ response.count);
   }).catch(err => {
     res.send({message: err.message})
   })

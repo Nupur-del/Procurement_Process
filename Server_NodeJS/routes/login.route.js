@@ -18,7 +18,7 @@ router.post('/login', (req,res)=>  {
       email: req.body.email
     }
   })
-  .then(user=> {
+  .then(user => {
     let response = {
         data: user,
         status: 200,
@@ -28,7 +28,8 @@ router.post('/login', (req,res)=>  {
     console.log('user = ',user);
 
     if( req.body.password === response.data.password ) {
-        res.json({type: response.data.type})
+        res.json({type: response.data.type,
+        name: response.data.name})
       } else {
         response.data = null;
         response.status= 404;

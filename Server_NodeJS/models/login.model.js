@@ -17,6 +17,12 @@ module.exports = db.sequelize.define(
     },
     type: {
       type: sequelize.STRING
+    },
+    name: {
+      type: sequelize.STRING
+    },
+    contact_no: {
+      type: sequelize.BIGINT
     }
   },
   {

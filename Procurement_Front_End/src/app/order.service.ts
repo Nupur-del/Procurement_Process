@@ -60,6 +60,10 @@ getOrderById(order_id: any): Observable<IOrder> {
   return this.http.get<IOrder>(environment.BASE_URL + 'order/Order_by_order_id', { params: Orderparams });
 }
 
+updateColor(order: any): Observable<any> {
+  return this.http.post(environment.BASE_URL + 'orders/updateColor' , order);
+}
+
   // tslint:disable-next-line: variable-name
 getStatusById(order_id: any): Observable<IStatus> {
   let orderParams = new HttpParams().set('order_id', order_id);

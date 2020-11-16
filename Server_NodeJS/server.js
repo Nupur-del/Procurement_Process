@@ -17,10 +17,15 @@ const Po = require('./routes/po.route');
 const Purchase_order = require('./routes/purchase_order.route');
 const item = require('./routes/item.route');
 const initRoutes = require("./routes/upload.route");
+const Cities = require("./routes/cities.route");
+const fs = require('fs');
+const Department = require("./routes/department.route");
 
 app.get('/', function(req,res){
     res.send('Hello from server');
 })
+app.use(express.static('public'));
+app.use('/images', express.static(__dirname + '/uploads'));
   
 app.use('/users', login);
 app.use('/order', order);
@@ -28,6 +33,8 @@ app.use('/orders', allOrder);
 app.use('/budget',budget);
 app.use('/invoice', invoice);
 app.use('/Purchase', Po);
+app.use('/cities', Cities);
+app.use('/department', Department);
 app.use('/Purchase_order', Purchase_order);
 app.use('/item', item);
 app.use('/api', initRoutes);

@@ -9,7 +9,21 @@ router.use(cors());
 
 router.get('/allOrders', (req,res) => {
     sql.query(`SELECT o.order_id, o.created_by, o.date, o.order_desc , \ 
-    s.status , s.message from orders o, order_status s where o.order_id =  s.order_id`, (err,response) => {
+    s.status , s.message, s.color from orders o, order_status s where o.order_id =  s.order_id`, (err,response) => {
+       if(err) {
+           res.send(err);
+       } else {
+           res.send(response);
+       }
+    });
+})
+
+// update the color
+
+router.post('/updateColor', (req,res) => {
+    const order_id = req.body.order_id;
+    const color = req.body.color;
+    sql.query(`update order_status set color = "${color}" where order_id = ${order_id}`, (err,response) => {
        if(err) {
            res.send(err);
        } else {

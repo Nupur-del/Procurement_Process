@@ -1,0 +1,40 @@
+/* cdk-virtual-scroll-viewport.example-viewport {
+  height: 100px !important;
+  width: 200px !important;
+  border: 1px solid black;
+}
+.example-item-detail {
+  height: 18px;
+}
+.pleaseChalJao {
+  height: 40px !important;
+  min-height: 40px !important;
+} */
+
+cdk-virtual-scroll-viewport {
+  border: 1px solid white;
+  border-radius: 4px;
+  height: 400px;
+  width: 300px;
+}
+
+.item {
+  box-sizing: border-box;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.3);
+
+  /* border: {
+    top: 1px solid rgba(255,255,255,1);
+  } */
+
+  /* &:first-child {
+    border: none;
+  }
+
+  &:nth-child(2n) {
+    height: 100px;
+  } */
+}

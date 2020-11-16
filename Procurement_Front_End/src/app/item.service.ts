@@ -14,8 +14,8 @@ export class ItemService {
 
   constructor(private http: HttpClient) { }
 
-  getAllItems(): Observable<Item[]> {
-    return this.http.get<IItem[]>(environment.BASE_URL + 'order/items');
+  getAllItems(): Observable<any[]> {
+    return this.http.get<any[]>(environment.BASE_URL + 'order/items');
   }
 
   getItemById(order_id: any): Observable<IItem[]> {

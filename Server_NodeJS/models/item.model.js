@@ -41,6 +41,14 @@ module.exports = db.sequelize.define(
         type: sequelize.STRING,
         allowNull: false
     },
+    specification: {
+      type: sequelize.STRING,
+      allowNull: true
+    },
+    unit_type: {
+      type: sequelize.STRING,
+      allowNull: true
+    },
     features: {
         type: sequelize.STRING,
         allowNull: false
@@ -61,6 +69,10 @@ module.exports = db.sequelize.define(
         type: sequelize.STRING,
         allowNull: false
     },
+    supplier: {
+      type: sequelize.STRING,
+      allowNull: true
+    }
   },
   {
     timestamps: false

@@ -25,11 +25,7 @@ export class ItemService {
   }
 
   getAllItems() {
-    this.http.get(environment.BASE_URL + 'item/allItems').subscribe((data: Item[]) => {
-      this.items = data;
-    }, err => {
-      console.log(err);
-    });
+    return this.http.get(environment.BASE_URL + 'item/allItems');
   }
 
   replicateItem(item: any): Observable<any> {
