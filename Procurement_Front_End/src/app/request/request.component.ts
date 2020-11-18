@@ -133,6 +133,7 @@ export class RequestComponent implements OnInit {
     for (let location of this.locations) {
       let l: any = {};
       l.location = location.location;
+      l.total_price = location.total_price;
       l.department = location.department;
       this.multiLocs.push(l);
     }

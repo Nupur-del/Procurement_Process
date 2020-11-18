@@ -20,6 +20,10 @@ module.exports = db.sequelize.define(
     department: {
        type: sequelize.STRING,
        allowNull: false
+    },
+    total_price: {
+      type: sequelize.BIGINT,
+      allowNull: false
     }
   },
   {

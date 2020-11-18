@@ -37,6 +37,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   isNext = false;
   isImages = true;
   isShow = true;
+  selectItem = false;
   new = true;
   isLoading = false;
   selectedOption = '';
@@ -52,7 +53,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   // FormControl
 
   @ViewChild('catalogForm', {static: false}) catalogForm: NgForm;
-  @ViewChild('addressForm', {static : false}) newItemForm: NgForm;
   myControl = new FormControl('');
   supplierControl = new FormControl('');
   BrandControl = new FormControl('');
@@ -211,13 +211,15 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   locValue(loc, dept) {
-      this.budget = [];
+    const budgetIndex = this.budget.findIndex(exist => exist.location === loc && exist.department === dept);
+    if (budgetIndex < 0) {
       this.budgetService.getBudgetByDept(dept, loc).subscribe((data: any) => {
         console.log(data);
         this.budget.push(data);
         if (data.current_balance > 0) {
           this.snackBar.open('Required budget is available', '' , {duration : 2000});
           this.change = !true;
+          this.selectItem = true;
         } else {
           this.snackBar.open('Required budget is not available', '' , {duration : 2000});
         }
@@ -225,6 +227,15 @@ export class AdminComponent implements OnInit, OnDestroy {
         alert(err);
       });
       console.log('Dept Budget-', this.budget);
+    } else {
+      if (this.budget[budgetIndex].current_balance > 0) {
+          this.snackBar.open('Required budget is available', '' , {duration : 2000});
+          this.change = !true;
+          this.selectItem = true;
+        } else {
+          this.snackBar.open('Required budget is not available', '' , {duration : 2000});
+        }
+    }
   }
 
   removeLoc(i: number) {
@@ -236,14 +247,14 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   otherlocation() {
-    this.selectedOption = '';
+    this.selectedOption = null;
     this.isImages = true;
     this.change = true;
     this.new = true;
+    this.selectItem = false;
     this.isShow = true;
     this.catalogDisplay = true;
     this.catalogForm.resetForm();
-    this.newItemForm.resetForm();
   }
 
   removeCatItems(i: number) {
@@ -258,23 +269,34 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   addfinalItem(form: NgForm) {
     this.lowBudgetDept = '';
-    this.itemValue = this.itemValue + ((+this.quant.value) * (+this.price.value));
-    const addedLocation = this.multiLocs.filter(city => city.location === form.value.location);
-    const addedDepartment = addedLocation.filter(depart => depart.department === form.value.dept);
-    if (addedDepartment.length === 0 || addedDepartment === null) {
-        this.multiLocs.push({
-          location: form.value.location,
-          department: form.value.dept
-        });
+    this.itemValue = 0;
+    const addedDepartment = this.multiLocs.findIndex(city => city.location === form.value.location &&
+       city.department === form.value.dept);
+    if (addedDepartment >= 0) {
+      this.itemValue = +this.multiLocs[addedDepartment].total_price +
+      ((+this.quant.value) * (+this.price.value));
+    } else {
+      this.itemValue = this.itemValue + ((+this.quant.value) * (+this.price.value));
     }
-    for (let b of this.budget) {
-      if (this.itemValue > +b.current_balance) {
+    const b = this.budget.find(exist => exist.location === form.value.location
+                                && exist.department === form.value.dept);
+    if (!b) {
+         this.snackBar.open('Please check the budget availability first', '', {duration: this.autoHide});
+    } else {
+    if (this.itemValue > +b.current_balance) {
         this.lowBudgetDept = b.department;
         this.itemValue = this.itemValue - ((+this.quant.value) * (+this.price.value));
         console.log('Item price-', this.itemValue);
-        break;
       }
-    }
+    if (addedDepartment >= 0) {
+        this.multiLocs[addedDepartment].total_price = this.itemValue;
+      } else {
+        this.multiLocs.push({
+          location: form.value.location,
+          department: form.value.dept,
+          total_price: this.itemValue
+        });
+      }
     if (this.lowBudgetDept === '') {
       const addedItemIndex = this.finalItem.findIndex(item =>
         item.location === form.value.location
@@ -310,7 +332,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   } else {
     console.log('low budget dept- ', this.lowBudgetDept);
     this.openDialog();
-  }
+    }
+   }
   }
 
   open(content) {
@@ -398,26 +421,38 @@ export class AdminComponent implements OnInit, OnDestroy {
   orderItem(product: any, loc: string, dept: string) {
     console.log(this.catalogForm);
     this.lowBudgetDept = '';
-    this.itemValue = this.itemValue + ((+product.quantity) * (+product.price));
-    console.log('Item price-', this.itemValue);
-    const addedLocation = this.multiLocs.filter(city => city.location === loc);
-    const addedDepartment = addedLocation.filter(depart => depart.department === dept);
-    if (addedDepartment.length === 0 || addedDepartment === null) {
-        this.multiLocs.push({
-            location: loc,
-            department: dept,
-        });
+    this.itemValue = 0;
+    const addedDepartment = this.multiLocs.findIndex(city => city.location === loc &&
+                                                     city.department === dept);
+    if (addedDepartment >= 0) {
+     this.itemValue = +this.multiLocs[addedDepartment].total_price + ((+product.quantity) * (+product.price));
+   } else {
+     this.itemValue = this.itemValue + ((+product.quantity) * (+product.price));
+   }
+
+    console.log('Item price- before minus', this.itemValue);
+    const budget = this.budget.find(exist => exist.location === loc
+                               && exist.department === dept);
+    if (!budget) {
+      this.snackBar.open('Please check the budget availability first', '', {duration: this.autoHide});
+    } else {
+    if (this.itemValue > +budget.current_balance) {
+      this.lowBudgetDept = budget.department;
+      this.itemValue = this.itemValue - ((+product.quantity) * (+product.price));
+      console.log('Item price- after minus', this.itemValue);
     }
-    for (let budget of this.budget) {
-      if (this.itemValue > +budget.current_balance) {
-        this.lowBudgetDept = budget.department;
-        this.itemValue = this.itemValue - ((+product.quantity) * (+product.price));
-        console.log('Item price-', this.itemValue);
-        break;
-      }
+    if (addedDepartment >= 0) {
+      this.multiLocs[addedDepartment].total_price = this.itemValue;
+    } else {
+      this.multiLocs.push({
+        location: loc,
+        department: dept,
+        total_price: this.itemValue
+      });
     }
+    console.log('MultiLocs', this.multiLocs);
     if (this.lowBudgetDept === '') {
-    if (product.quantity <= 0) {
+      if (product.quantity <= 0) {
       this.snackBar.open('Quantity cannot be less than 1', '', {duration: this.autoHide});
       } else {
     const addedItemIndex = this.finalItem.findIndex(item =>
@@ -450,19 +485,34 @@ export class AdminComponent implements OnInit, OnDestroy {
        });
      }
    }
-    this.toggleSelected = !true;
+      this.toggleSelected = !true;
     } else {
       console.log('low budget dept- ', this.lowBudgetDept);
       this.openDialog();
+      }
     }
   }
 
   removeOrderItem(i: number, item: any) {
+    console.log('MultiLocs before removal', this.multiLocs);
+    console.log('FinalItem before removal', this.finalItem);
+    const lexist = this.finalItem.filter(loc => loc.location === this.finalItem[i].location &&
+      loc.department === this.finalItem[i].department);
+    if (lexist.length === 1) {
+        this.multiLocs = this.multiLocs.filter(loc => loc.location !== this.finalItem[i].location &&
+          loc.department !== this.finalItem[i].department);
+    }
     this.finalItem.splice(i, 1);
-    this.multiLocs.splice(i, 1);
     this.lowBudgetDept = '';
     this.itemValue = this.itemValue - ((+item.quantity) * (+item.price));
-    console.log('Item price-', this.itemValue);
+    const locExist = this.multiLocs.findIndex(exist => exist.location === item.location
+              && exist.department === item.department);
+    if (locExist >= 0) {
+    this.multiLocs[locExist].total_price = this.itemValue;
+    }
+
+    console.log('MultiLocs after removal', this.multiLocs);
+    console.log('FinalItem after removal', this.finalItem);
   }
 
   itemSelect(option: any) {

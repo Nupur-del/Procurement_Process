@@ -11,22 +11,16 @@ router.use(cors());
 
 // Add Order
 router.post('/order', (req,res) => {
-  let order_id;
-  if (!req.body.order_id || (req.body.action = "replicate")) {
-   order_id = Math.floor(Math.random() * 10000) + 1;
-  } else {
-      order_id = req.body.order_id;
-  }
   const today = new Date();
   const orderData = {
     created_by : req.body.created_by,
     date: today,
     order_desc: req.body.order_desc,
-    order_id: order_id
+    order_id: req.body.order_id
   }
 
   const orderStatus = {
-   order_id: order_id,
+   order_id: req.body.order_id,
    status: req.body.status,
    color: req.body.color,
    message: req.body.message
@@ -34,7 +28,7 @@ router.post('/order', (req,res) => {
 
   Order.findOne({
     where: {
-      order_id: order_id
+      order_id: req.body.order_id
     }
   }).then(order => {
     let response = {
@@ -56,7 +50,7 @@ router.post('/order', (req,res) => {
         let locationData;
         for(let i of req.body.multiLocs) {
         locationData = {
-          order_id: order_id,
+          order_id: req.body.order_id,
           ...i
         }
         Location.create(locationData)
@@ -71,7 +65,7 @@ router.post('/order', (req,res) => {
          let orderItemData;
          for (let i of req.body.finalItem) {
           orderItemData = {
-            order_id: order_id,
+            order_id: req.body.order_id,
              ...i,
             status: req.body.status
            }
@@ -97,14 +91,14 @@ router.post('/order', (req,res) => {
             })
             .catch(error => {
               res.json({
-                message: error.message,
+                message: error,
                 order_id: req.body.order_id
               });
             })
        })
       .catch(error => {
         res.json({
-          message: error.message,
+          message: error,
           order_id: req.body.order_id
         });
       })

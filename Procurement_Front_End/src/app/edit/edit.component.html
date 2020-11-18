@@ -12,26 +12,13 @@
         <br>
     <div class="form-group ">
       <label for="order_desc"><h4>Order Description</h4></label>
-      <input type="text" class="form-control" id="order_desc"
+      <input type="text" class="form-control" id="order_desc" ngModel #desc="ngModel"
       [(ngModel)]="order.order_desc" name="order_desc" required>
     </div>
     <br>
     <hr>
     <br>
-    <h4>Order Items</h4>
-    <div class="row">
-      <div class="col-6">
-        <section class="container border mb-4 p-3"  >
-        <mat-label>Choose Method</mat-label>
-        <mat-select class="form-control"  name="option">
-        <mat-option>None</mat-option>
-        <mat-option value="New" (click)="itemSelect('new')">New Item</mat-option>
-        <mat-option value="Catalog" (click)="itemSelect('catalog')">Catalog Item</mat-option>
-        </mat-select>
-        </section>
-      </div>
-    </div>
-    <div [hidden]="catalogDisplay">
+    <div>
       <form #catalogForm="ngForm" class="container mt-3" (ngSubmit)="logCatValue()">
         <h4>Location & Department</h4>
         <section class="container border mb-4 p-3"  >
@@ -67,7 +54,21 @@
           class="btn btn-primary mb-2" (click)="locValue(order.order_id,order.loc,order.dept)">
           Check for the budget availability</button>
         </div>
-        <div class="row justify-content-center">
+        <div class="row" *ngIf="selectItem">
+          <mat-label>Order Items</mat-label>
+          <div class="col-6">
+            <section class="container border mb-4 p-3"  >
+            <mat-label>Choose Method</mat-label>
+            <mat-select class="form-control" ngModel #choose="ngModel" required name="option">
+            <mat-option>None</mat-option>
+            <mat-option value="New" (click)="itemSelect('new')">New Item</mat-option>
+            <mat-option value="Catalog" (click)="itemSelect('catalog')">Catalog Item</mat-option>
+            </mat-select>
+            <mat-error *ngIf="choose.errors?.required && choose.touched">Please select the item</mat-error>
+            </section>
+          </div>
+        </div>
+        <div class="row justify-content-center" [hidden]="catalogDisplay">
             <div class="col-12">
               <section class="container border mb-4 p-3" *ngFor="let
               catalogItem of catalogItems; let i = index;">
@@ -111,7 +112,6 @@
             <hr>
             <div [hidden]="isShow">
               <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-                <div class="container">
                 <div class="row catalog"  style="height: 40px;">
                   <div class="col-sm catalog headings">
                     <h6>Product</h6>
@@ -138,7 +138,7 @@
                   <h6>Action</h6>
                   </div>
                   </div>
-              <div class="row catalog" style="height: 40px;" *cdkVirtualFor="let catalog of selectedCatalog;
+              <div class="row catalog" style="height: 80px;" *cdkVirtualFor="let catalog of selectedCatalog;
               let i = index; let count = count">
               <div class="col-sm catalog">
                 <input matInput [value]="catalog.name" disabled>
@@ -156,12 +156,14 @@
                 <input matInput [value]="catalog.specification" disabled>
               </div>
               <div class="col-sm catalog">
-              <input type="text" style="width: 50px;" name="quantity{{i}}"
+              <input type="number" required style="width: 50px; height: 20px"  name="quantity{{i}}"
               [min]="1"
                [(ngModel)]="catalog.quantity"
                #quantCat="ngModel">
                <mat-error *ngIf="quantCat.errors?.min"
                style="font-size: 15px;">value can't be -ve or zero</mat-error>
+               <mat-error *ngIf="quantCat.errors?.required"
+               style="font-size: 15px;">Please provide quantity</mat-error>
               </div>
               <div class="col-sm catalog">
                 <button color="primary" mat-icon-button type="button"
@@ -171,7 +173,6 @@
               <button mat-icon-button color="primary" type="button"
                (click)="orderItem(catalog, order.loc, order.dept)">
                <mat-icon>add_shopping_cart</mat-icon>Add</button>
-              </div>
               </div>
               </div>
               </cdk-virtual-scroll-viewport>
@@ -191,206 +192,158 @@
               </section>
           </div>
           </div>
+          <div [hidden]="new" >
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <section class="container border mb-4 p-3">
+                  <div class="row">
+                    <div class="col-12">
+                        <h4>Item</h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control"
+                            ngModel name="name"
+                            [matAutocomplete]="prod"
+                            required
+                            matInput
+                            [formControl]="myControl"/>
+                            <mat-autocomplete #prod="matAutocomplete">
+                              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="myControl.errors?.required && myControl.touched">Please enter the product name</mat-error>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Specifications</label>
+                            <input type="text" class="form-control"
+                            required ngModel
+                            name="specification"
+                            placeholder="Specification"/>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Preferred Brand</label>
+                            <input type="text" class="form-control"
+                            ngModel name="vendor"
+                            placeholder="Preferred Brand"
+                            [matAutocomplete]="brandAuto"
+                            required
+                            matInput
+                            [formControl]="BrandControl"/>
+                            <mat-autocomplete #brandAuto="matAutocomplete">
+                              <mat-option *ngFor="let option of filteredOptionBrand | async" [value]="option">
+                                {{option}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="BrandControl.errors?.required && BrandControl.touched">Please enter the Brand</mat-error>
+                          </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" class="form-control"
+                            name="quantity" ngModel
+                            [formControl]="quant"
+                            required
+                            matInput placeholder="Quantity"/>
+                            <mat-error *ngIf="quant.errors?.min">Quantity cannot be in negative or zero</mat-error>
+                            <mat-error *ngIf="quant.errors?.required && quant.touched">Please enter the quantity</mat-error>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Unit type</label>
+                            <input type="text" class="form-control"
+                            ngModel name="unit"
+                            #unit="ngModel"
+                            required
+                            matInput  placeholder="Unit Type"/>
+                            <mat-error *ngIf="unit.errors?.required && unit.touched">Please enter the unit type</mat-error>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" class="form-control"
+                            name="price" ngModel
+                            [formControl]="price"
+                            required
+                            matInput placeholder="Price"/>
+                            <mat-error *ngIf="price.errors?.min">Price cannot be in negative or zero</mat-error>
+                            <mat-error *ngIf="price.errors?.required && price.touched">Please enter the price</mat-error>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-6">
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <select class="form-control" required
+                            #curr="ngModel"
+                            ngModel name="currency" placeholder="Currency">
+                              <option value="INR">INR</option>
+                              <option value="USD">USA</option>
+                              <option value="EURO">EURO</option>
+                            </select>
+                            <mat-error *ngIf="curr.errors?.required && curr.touched">Please select the currency</mat-error>
+                          </div>
+                    </div>
+                     <div class="col-6">
+                        <div class="form-group">
+                            <label>Comments</label>
+                            <input type="text" class="form-control"
+                            ngModel name="comment" placeholder="Comments"/>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Supplier Name</label>
+                        <input matInput [formControl]="supplierControl"
+                        ngModel name="supplier"
+                        [matAutocomplete]="auto"
+                        required
+                        class="form-control"/>
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let option of filteredOptionSupplier | async" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="supplierControl.errors?.required && supplierControl.touched">Please select the supplier</mat-error>
+                      </div>
+                    </div>
+                  </div>
+                  <div align="end">
+                    <button mat-icon-button mat-raised-button matSuffix color="primary" class="newItem"
+                    (click)="addfinalItem(catalogForm)" type="submit" [disabled]="supplierControl.invalid || myControl.invalid
+                        || BrandControl.invalid || quant.invalid || price.invalid">
+                    <mat-icon>add_shopping_cart</mat-icon>Add to Order</button>
+                </div>
+                </section>
+              </div>
+              </div>
+          </div>
           </form>
-          <div class="text-right">
-            <button mat-raised-button color="primary" class="btn btn-primary mb-2" (click)="otherlocation()">Add another location</button>
+          <div class="text-right" *ngIf="selectItem">
+            <button mat-raised-button color="primary" [disabled]="finalItem.length === 0" class="btn btn-primary mb-2"
+            (click)="otherlocation()">Add another location</button>
           </div>
           <br>
          </div>
 
 &nbsp;
-
-<div [hidden] = "new">
-<form #addressForm="ngForm" class="container mt-3" (ngSubmit)="logValue()">
-  <h4>Location & Department</h4>
-  <section class="container border mb-4 p-3"  >
-    <div class="row">
-      <div class="col-6">
-        <label for="loc">Location</label>
-        <mat-form-field style="width: 100%;" required>
-          <mat-select required class="form-control" #cityControl="ngModel" ngModel
-           [(ngModel)]="order.loc" name="location">
-          <mat-option>None</mat-option>
-          <mat-option *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
-          <mat-error *ngIf="cityControl.errors?.required && cityControl.touched">Please select city</mat-error>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-6">
-      <label for="loc">Department</label>
-      <mat-form-field style="width: 100%;" required>
-        <mat-select class="form-control"  required  ngModel [(ngModel)]="order.dept"
-        #dept="ngModel"
-        name="dept">
-        <mat-option>None</mat-option>
-        <mat-option *ngFor="let department of departments"
-        [value]="department">{{department}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="dept.errors?.required && dept.touched">Please select department</mat-error>
-      </mat-form-field>
-      </div>
-    </div>
-  </section>
-  <div class="text-right">
-    <button mat-raised-button color="primary" [disabled]="dept.invalid || cityControl.invalid"
-    class="btn btn-primary mb-2" (click)="locValue(order.order_id,order.loc,order.dept)">
-    Check for the budget availability</button>
-  </div>
-<div class="row justify-content-center">
-<div class="col-12">
-  <section class="container border mb-4 p-3">
-    <div class="row">
-      <div class="col-12">
-          <h4>Item</h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-4">
-          <div class="form-group">
-              <label>Product Name</label>
-              <input type="text" class="form-control"
-              ngModel name="name"
-              [matAutocomplete]="prod"
-              required
-              matInput
-              [formControl]="myControl"/>
-              <mat-autocomplete #prod="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
-              <mat-error *ngIf="myControl.errors?.required && myControl.touched">Please enter the product name</mat-error>
-            </div>
-      </div>
-      <div class="col-4">
-          <div class="form-group">
-              <label>Specifications</label>
-              <input type="text" class="form-control"
-              required ngModel
-              name="specification"
-              placeholder="Specification"/>
-            </div>
-      </div>
-      <div class="col-4">
-          <div class="form-group">
-              <label>Preferred Brand</label>
-              <input type="text" class="form-control"
-              ngModel name="vendor"
-              placeholder="Preferred Brand"
-              [matAutocomplete]="brandAuto"
-              required
-              matInput
-              [formControl]="BrandControl"/>
-              <mat-autocomplete #brandAuto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptionBrand | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
-              <mat-error *ngIf="BrandControl.errors?.required && BrandControl.touched">Please enter the Brand</mat-error>
-            </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-4">
-          <div class="form-group">
-              <label>Quantity</label>
-              <input type="number" class="form-control"
-              name="quantity" ngModel
-              [formControl]="quant"
-              required
-              matInput placeholder="Quantity"/>
-              <mat-error *ngIf="quant.errors?.min">Quantity cannot be in negative or zero</mat-error>
-              <mat-error *ngIf="quant.errors?.required && quant.touched">Please enter the quantity</mat-error>
-            </div>
-      </div>
-      <div class="col-4">
-          <div class="form-group">
-              <label>Unit type</label>
-              <input type="text" class="form-control"
-              ngModel name="unit"
-              #unit="ngModel"
-              required
-              matInput  placeholder="Unit Type"/>
-              <mat-error *ngIf="unit.errors?.required && unit.touched">Please enter the unit type</mat-error>
-            </div>
-      </div>
-      <div class="col-4">
-          <div class="form-group">
-              <label>Price</label>
-              <input type="number" class="form-control"
-              name="price" ngModel
-              [formControl]="price"
-              required
-              matInput placeholder="Price"/>
-              <mat-error *ngIf="price.errors?.min">Price cannot be in negative or zero</mat-error>
-              <mat-error *ngIf="price.errors?.required && price.touched">Please enter the price</mat-error>
-            </div>
-      </div>
-    </div>
-    <div class="row">
-          <div class="col-4">
-          <div class="form-group">
-              <label>Currency</label>
-              <select class="form-control" required
-              #curr="ngModel"
-              ngModel name="currency" placeholder="Currency">
-                <option value="INR">INR</option>
-                <option value="USD">USA</option>
-                <option value="EURO">EURO</option>
-              </select>
-              <mat-error *ngIf="curr.errors?.required && curr.touched">Please select the currency</mat-error>
-            </div>
-      </div>
-      <div class="col-4">
-          <div class="form-group">
-              <label>Custom type</label>
-              <input type="text" class="form-control"
-              ngModel name="type" placeholder="Custom type"/>
-            </div>
-      </div>
-       <div class="col-4">
-          <div class="form-group">
-              <label>Comments</label>
-              <input type="text" class="form-control"
-              ngModel name="comment" placeholder="Comments"/>
-            </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <label>Supplier Name</label>
-          <input matInput [formControl]="supplierControl"
-          ngModel name="supplier"
-          [matAutocomplete]="auto"
-          required
-          class="form-control"/>
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptionSupplier | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-          <mat-error *ngIf="supplierControl.errors?.required && supplierControl.touched">Please select the supplier</mat-error>
-        </div>
-      </div>
-    </div>
-    <div align="end">
-      <button mat-icon-button mat-raised-button matSuffix color="primary" class="newItem"
-      (click)="addfinalItem(addressForm)" type="submit" [disabled]="addressForm.invalid
-      || supplierControl.invalid || myControl.invalid
-          || BrandControl.invalid || quant.invalid || price.invalid">
-      <mat-icon>add_shopping_cart</mat-icon>Add to Order</button>
-  </div>
-  </section>
-</div>
-</div>
-</form>
-<div class="text-right">
-  <button mat-raised-button color="primary" class="btn btn-primary mb-2" (click)="otherlocation()">Add another location</button>
-</div>
-<br>
-</div>
 <div>
 <mat-card style="background-color:lavender;">
 <mat-card-header>
@@ -399,7 +352,7 @@
 <div class="row">
 <div class="col-sm-6"  *ngFor="let item of finalItem; let i=index;">
 <p>Name -{{ item.name }} | Vendor - {{ item.prefered_vendor }} |  Quantity- {{ item.quantity }} |
-  Location - {{item.location}} | Department - {{item.department}}
+  Location - {{item.location}} | Department - {{item.department}} | {{item.specification}} | {{item.price}}
 <button mat-button-raised (click)="removeOrderItem(i,item)" mat-icon-button><mat-icon>delete</mat-icon></button>
 </p>
 </div>
@@ -410,7 +363,9 @@
 <hr>
 <br>
 <div class="text-right">
-<button type="button" class="btn btn-success" (click)="updateOrder($event)">Update Order</button>
+<button type="button" class="btn btn-success"
+[disabled]="finalItem.length === 0"
+(click)="updateOrder($event)">Update Order</button>
 </div>
 </form>
 </section>

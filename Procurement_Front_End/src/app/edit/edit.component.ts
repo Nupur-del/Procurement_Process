@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import {DomSanitizer} from '@angular/platform-browser';
 import {ImageService} from '../../../projects/Supplier/src/app/image.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
@@ -21,6 +20,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material';
+import { isNumber } from 'util';
 
 interface ImageSlider {
   image: string;
@@ -53,6 +53,7 @@ export class EditComponent implements OnInit, OnDestroy {
   setAutoHide = true;
   addExtraClass = false;
   isImages = true;
+  selectItem = false;
 
   // Observables
 
@@ -135,7 +136,6 @@ export class EditComponent implements OnInit, OnDestroy {
   BrandControl = new FormControl();
   quant = new FormControl('', Validators.min(1));
   @ViewChild('catalogForm', {static: false}) catalogForm: NgForm;
-  @ViewChild('addressForm', {static : false}) newItemForm: NgForm;
   price = new FormControl('', Validators.min(1));
 
   // Objects
@@ -148,7 +148,6 @@ export class EditComponent implements OnInit, OnDestroy {
               public snackBar: MatSnackBar,
               private imageService: ImageService,
               private orderService: OrderService,
-              private dom: DomSanitizer,
               private sItem: supplierItemService,
               private locationService: LocationService,
               private itemService: ItemService,
@@ -162,21 +161,13 @@ export class EditComponent implements OnInit, OnDestroy {
 
     this.orderSub = this.orderService.getOrderById(this.sub).subscribe((data: any) => {
       this.order = data[0];
+      console.log('Order',this.order);
     });
 
     this.statusSub = this.orderService.getStatusById(this.sub).subscribe((data: any) => {
       this.order.status = data.status;
       this.order.message = data.message;
-    });
-
-    this.itemSub = this.itemService.getItemById(this.sub).subscribe((data) => {
-      this.itemList = data;
-      console.log('item data-', data);
-      for (const item of this.itemList) {
-        this.finalItem.push(item);
-        this.itemValue = this.itemValue + ((+item.quantity) * (+item.price));
-        console.log('Item price-', this.itemValue);
-      }
+      console.log('status', this.order);
     });
 
     this.locationSub = this.locationService.getLocationById(this.sub).subscribe((data) => {
@@ -184,12 +175,24 @@ export class EditComponent implements OnInit, OnDestroy {
       console.log('location data-', data);
       for (const location of this.locationList) {
         this.multiLocs.push(location);
+        console.log('Location with itemValue', this.multiLocs);
         this.budgetService.getBudgetByDept(location.department, location.location).subscribe(
         // tslint:disable-next-line: no-shadowed-variable
         data => {
           this.budget.push(data);
           console.log('Dept Budget-', this.budget);
         });
+      }
+    });
+
+    this.itemSub = this.itemService.getItemById(this.sub).subscribe((data) => {
+      this.itemList = data;
+      console.log('item data-', data);
+      for (const item of this.itemList) {
+        this.finalItem.push(item);
+        // this.itemValue = this.itemValue + ((+item.quantity) * (+item.price));
+        // console.log('Item price-', this.itemValue);
+        console.log('Existing Item', this.finalItem);
       }
     });
     this.order.order_id = this.sub;
@@ -338,19 +341,31 @@ export class EditComponent implements OnInit, OnDestroy {
   }
   // tslint:disable-next-line: variable-name
   locValue(order_id, loc, dept) {
+        const budgetIndex = this.budget.findIndex(exist => exist.location === loc && exist.department === dept);
+        if (budgetIndex < 0) {
         this.budgetService.getBudgetByDept(dept, loc).subscribe((data: any) => {
           console.log(data);
           this.budget.push(data);
+          console.log('Dept Budget-', this.budget);
           if (data.current_balance > 0) {
             this.snackBar.open('Required budget is available', '' , {duration : 2000});
             this.change = !true;
+            this.selectItem = true;
           } else {
             this.snackBar.open('Required budget is not available', '' , {duration : 2000});
           }
         }, err => {
           alert(err);
         });
-        console.log('Dept Budget-', this.budget);
+      } else {
+        if (this.budget[budgetIndex].current_balance > 0) {
+            this.snackBar.open('Required budget is available', '' , {duration : 2000});
+            this.change = !true;
+            this.selectItem = true;
+          } else {
+            this.snackBar.open('Required budget is not available', '' , {duration : 2000});
+          }
+      }
   }
 
   removeLoc(i: number) {
@@ -362,25 +377,35 @@ export class EditComponent implements OnInit, OnDestroy {
 
   addfinalItem(form: NgForm) {
     this.lowBudgetDept = '';
-    this.itemValue = this.itemValue + ((+this.quant.value) * (+this.price.value));
-    const addedDepartment = this.multiLocs.filter(city => city.location === form.value.location &&
+    this.itemValue = 0;
+    const addedDepartment = this.multiLocs.findIndex(city => city.location === form.value.location &&
        city.department === form.value.dept);
-    if (addedDepartment.length === 0 || addedDepartment === null) {
-        this.multiLocs.push({
-          order_id: this.order.order_id,
-          location: form.value.location,
-          department: form.value.dept
-        });
-        console.log(addedDepartment);
-        console.log(this.multiLocs);
+    if (addedDepartment >= 0) {
+      this.itemValue = +this.multiLocs[addedDepartment].total_price +
+      ((+this.quant.value) * (+this.price.value));
+    } else {
+      this.itemValue = this.itemValue + ((+this.quant.value) * (+this.price.value));
     }
-    for (let b of this.budget) {
-      if (this.itemValue > +b.current_balance) {
+
+    const b = this.budget.find(exist => exist.location === form.value.location
+                                && exist.department === form.value.dept);
+    if (!b) {
+          this.snackBar.open('Please check the budget availability first', '', {duration: this.autoHide});
+    } else {
+    if (this.itemValue > +b.current_balance) {
         this.lowBudgetDept = b.department;
         this.itemValue = this.itemValue - ((+this.quant.value) * (+this.price.value));
-        console.log('Item price-', this.itemValue);
-        break;
-      }
+        console.log('Item price- after', this.itemValue);
+    }
+    if (addedDepartment >= 0) {
+      this.multiLocs[addedDepartment].total_price = this.itemValue;
+    } else {
+      this.multiLocs.push({
+        order_id: this.order.order_id,
+        location: form.value.location,
+        department: form.value.dept,
+        total_price: this.itemValue
+      });
     }
     if (this.lowBudgetDept === '') {
       const addedItemIndex = this.finalItem.findIndex(item =>
@@ -414,10 +439,12 @@ export class EditComponent implements OnInit, OnDestroy {
       });
     }
       console.log('FinalItem', this.finalItem);
+      console.log('MultiLocs', this.multiLocs);
       this.toggleSelected = !true;
     } else {
       console.log('low budget dept- ', this.lowBudgetDept);
       this.openDialog();
+      }
     }
   }
 
@@ -468,29 +495,37 @@ export class EditComponent implements OnInit, OnDestroy {
 
   orderItem(product: any, loc: string, dept: string) {
     this.lowBudgetDept = '';
-    product.order_id = this.order.order_id;
-    console.log('location', loc);
-    console.log('department', dept);
-    console.log('product- ', product);
-    this.itemValue = this.itemValue + ((+product.quantity) * (+product.price));
-    console.log('Item price-', this.itemValue);
-    const addedDepartment = this.multiLocs.filter(city => city.location === loc && city.department === dept);
-    if (addedDepartment.length === 0 || addedDepartment === null) {
-        this.multiLocs.push({
-            order_id: product.order_id,
-            location: loc,
-            department: dept,
-        });
-    }
+    this.itemValue = 0;
+    const addedDepartment = this.multiLocs.findIndex(city => city.location === loc &&
+                                                     city.department === dept);
+    if (addedDepartment >= 0) {
+     this.itemValue = +this.multiLocs[addedDepartment].total_price + ((+product.quantity) * (+product.price));
+   } else {
+     this.itemValue = this.itemValue + ((+product.quantity) * (+product.price));
+   }
+
+    const budget = this.budget.find(exist => exist.location === loc
+                               && exist.department === dept);
+    if (!budget) {
+        this.snackBar.open('Please check the budget availability first', '', {duration: this.autoHide});
+    } else {
     // tslint:disable-next-line: prefer-const
-    for (var budget of this.budget) {
-      if (this.itemValue > budget.current_balance) {
+    if (this.itemValue > budget.current_balance) {
         this.lowBudgetDept = budget.department;
         this.itemValue = this.itemValue - ((+product.quantity) * (+product.price));
-        console.log('Item price-', this.itemValue);
-        break;
-        }
-      }
+        console.log('Item price- after minus', this.itemValue);
+    }
+    if (addedDepartment >= 0) {
+      this.multiLocs[addedDepartment].total_price = this.itemValue;
+    } else {
+      this.multiLocs.push({
+        order_id: this.order.order_id,
+        location: loc,
+        department: dept,
+        total_price: this.itemValue
+      });
+    }
+    console.log('MultiLocs', this.multiLocs);
     if (this.lowBudgetDept === '') {
       if (product.quantity <= 0) {
         this.snackBar.open('Quantity cannot be less than 1', '', {duration: this.autoHide});
@@ -503,8 +538,6 @@ export class EditComponent implements OnInit, OnDestroy {
             && item.prefered_vendor === product.brand
             && item.price === product.price
       );
-      console.log(this.finalItem);
-      console.log('addedItem', addedItemIndex);
       if (addedItemIndex >= 0) {
         this.snackBar.open('Selected item has already added to selected location and department', '', {duration: this.autoHide});
         this.finalItem[addedItemIndex].quantity =  +this.finalItem[addedItemIndex].quantity + +product.quantity;
@@ -529,25 +562,36 @@ export class EditComponent implements OnInit, OnDestroy {
       } else {
       console.log('low budget dept- ', this.lowBudgetDept);
       this.openDialog();
-  }
+    }
+   }
   }
 
   otherlocation() {
-    this.selectedOption = '';
+    this.selectedOption = null;
     this.isImages = true;
     this.change = true;
     this.new = true;
+    this.selectItem = false;
     this.isShow = true;
     this.catalogDisplay = true;
     this.catalogForm.resetForm();
-    this.newItemForm.resetForm();
   }
 
   removeOrderItem(i: number, item: any) {
+    const lexist = this.finalItem.filter(loc => loc.location === this.finalItem[i].location &&
+                                         loc.department === this.finalItem[i].department);
+    if (lexist.length === 1) {
+      this.multiLocs = this.multiLocs.filter(loc => loc.location !== this.finalItem[i].location &&
+                                             loc.department !== this.finalItem[i].department);
+    }
     this.finalItem.splice(i, 1);
     this.lowBudgetDept = '';
     this.itemValue = this.itemValue - ((+item.quantity) * (+item.price));
-    console.log('Item price-', this.itemValue);
+    const locExist = this.multiLocs.findIndex(exist => exist.location === item.location
+                                              && exist.department === item.department);
+    if (locExist >= 0) {
+      this.multiLocs[locExist].total_price = this.itemValue;
+    }
   }
 
   itemSelect(option: any) {
@@ -564,14 +608,17 @@ export class EditComponent implements OnInit, OnDestroy {
   updateOrder(refresher) {
     this.order.multiLocs = this.multiLocs;
     this.order.finalItem = this.finalItem;
+    this.order.color = 'primary';
+    if (this.finalItem.length <= 0 || this.multiLocs.length <= 0) {
+      this.snackBar.open('No item is available in request', '', {duration: this.autoHide});
+    } else {
     let deleteParams = new HttpParams().set('order_id', this.order.order_id);
-
     this.updateOrderSub = this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
       .subscribe(
         data => {
            console.log(data);
-           this.orderSub = this.orderService.editOrder(this.order).subscribe(
-            data => {
+           console.log('Update Order',this.order);
+           this.orderSub = this.orderService.editOrder(this.order).subscribe(data => {
               console.log(data);
               this.message = 'Order Updated Sucessfully';
               this.insertSnack();
@@ -583,7 +630,8 @@ export class EditComponent implements OnInit, OnDestroy {
        },
        err => {
            console.log(err);
-    });
+     });
+    }
   }
 
   doRefresh(refresher) {
