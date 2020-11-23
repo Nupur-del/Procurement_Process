@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2020 at 09:53 AM
+-- Generation Time: Nov 23, 2020 at 08:41 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -36,6 +36,10 @@ CREATE TABLE `budgets` (
   `budget` int(40) NOT NULL,
   `current_balance` int(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `budgets`:
+--
 
 --
 -- Dumping data for table `budgets`
@@ -91,6 +95,10 @@ CREATE TABLE `cities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `cities`:
+--
+
+--
 -- Dumping data for table `cities`
 --
 
@@ -112,6 +120,10 @@ CREATE TABLE `departments` (
   `id` int(11) NOT NULL,
   `department_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `departments`:
+--
 
 --
 -- Dumping data for table `departments`
@@ -149,6 +161,10 @@ CREATE TABLE `invoices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `invoices`:
+--
+
+--
 -- Dumping data for table `invoices`
 --
 
@@ -182,6 +198,10 @@ CREATE TABLE `items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `items`:
+--
+
+--
 -- Dumping data for table `items`
 --
 
@@ -201,6 +221,12 @@ CREATE TABLE `item_images` (
   `item_id` int(40) NOT NULL,
   `imageName` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `item_images`:
+--   `item_id`
+--       `items` -> `item_id`
+--
 
 --
 -- Dumping data for table `item_images`
@@ -232,6 +258,12 @@ CREATE TABLE `locations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `locations`:
+--   `order_id`
+--       `orders` -> `order_id`
+--
+
+--
 -- Dumping data for table `locations`
 --
 
@@ -250,7 +282,19 @@ INSERT INTO `locations` (`id`, `order_id`, `location`, `department`, `total_pric
 (372, 8002, 'Delhi', 'Management', 12800),
 (373, 7979, 'Chennai', 'Electrical', 3200),
 (374, 7979, 'Chennai', 'HR', 86000),
-(375, 7979, 'Delhi', 'Management', 3200);
+(375, 7979, 'Delhi', 'Management', 3200),
+(377, 7420, 'Hyderabad', 'IT', 14000),
+(378, 9282, 'Chennai', 'HR', 129000),
+(380, 6714, 'Chennai', 'Management', 129000),
+(381, 1139, 'Hyderabad', 'Management', 129000),
+(383, 4436, 'Delhi', 'HR', 129000),
+(384, 836, 'Chennai', 'HR', 138600),
+(385, 836, 'Pune', 'Technical', 67000),
+(386, 1033, 'Chennai', 'HR', 129000),
+(388, 1033, 'Hyderabad', 'HR', 129000),
+(389, 9399, 'Chennai', 'HR', 19200),
+(390, 9399, 'Pune', 'Testing', 23000),
+(391, 1034, 'Pune', 'Technical', 128000);
 
 -- --------------------------------------------------------
 
@@ -266,6 +310,10 @@ CREATE TABLE `logins` (
   `name` varchar(30) DEFAULT NULL,
   `contact_no` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `logins`:
+--
 
 --
 -- Dumping data for table `logins`
@@ -290,19 +338,32 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `orders`:
+--
+
+--
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`) VALUES
+(836, 'test1', '2020-11-22', 'Sample Order'),
+(1033, 'test1', '2020-11-23', 'sample Order'),
+(1034, 'test1', '2020-11-23', 'sample order'),
+(1139, 'test1', '2020-11-19', 'Sample Order'),
 (2105, 'test1', '2020-11-17', 'Order for Usb Cable'),
 (3918, 'test1', '2020-11-15', 'Order for Laptop  and Usb Cable'),
 (3969, 'test1', '2020-11-17', 'Order Sample'),
+(4436, 'test1', '2020-11-19', 'Sample Order 2'),
 (5008, 'test1', '2020-11-13', 'Order for Laptop'),
+(6714, 'test1', '2020-11-19', 'Sample Order'),
 (6833, 'test1', '2020-11-17', 'Order for Usb Cable'),
+(7420, 'test1', '2020-11-19', 'Order for laptop'),
 (7979, 'test1', '2020-11-18', 'Sample Order'),
 (8002, 'test1', '2020-11-18', 'Sample Order'),
 (8848, 'test1', '2020-11-18', 'Sample Order'),
-(9371, 'test1', '2020-11-18', 'Sample Order');
+(9282, 'test1', '2020-11-19', 'Sample Order'),
+(9371, 'test1', '2020-11-18', 'Sample Order'),
+(9399, 'test1', '2020-11-23', 'Sample Order');
 
 -- --------------------------------------------------------
 
@@ -331,6 +392,12 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `order_items`:
+--   `order_id`
+--       `orders` -> `order_id`
+--
+
+--
 -- Dumping data for table `order_items`
 --
 
@@ -350,7 +417,21 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (410, 8848, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'Electrical', 'test2'),
 (411, 7979, 'Laptop', '30 inch', 'HP', 2, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'HR', NULL),
 (412, 7979, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Delhi', 'Management', NULL),
-(413, 7979, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'Electrical', NULL);
+(413, 7979, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'Electrical', NULL),
+(414, 7420, 'Laptop', '30 inch', 'HP', 2, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test1'),
+(417, 9282, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'HR', 'test1'),
+(419, 6714, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'Management', 'test1'),
+(421, 1139, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Hyderabad', 'Management', 'test1'),
+(423, 4436, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Delhi', 'HR', 'test1'),
+(425, 836, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'HR', 'test1'),
+(426, 836, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'HR', 'test2'),
+(427, 836, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'Technical', 'test1'),
+(428, 836, 'Laptop', '17 inch', 'HP', 2, 'Hn-2121', 12000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Pune', 'Technical', 'test2'),
+(429, 1033, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'HR', 'test1'),
+(432, 1033, 'Laptop', '30 inch', 'HP', 3, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'HR', 'test1'),
+(433, 9399, 'UsbCable', '1 TB', 'IBALL', 6, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'HR', 'test2'),
+(435, 9399, 'Laptop', '34 inch', 'HP', 1, 'HN-3232', 23000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Pune', 'Testing', 'test2'),
+(436, 1034, 'Laptop', '15 inch', 'DELL', 4, 'DX-2323', 32000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'Technical', 'test2');
 
 -- --------------------------------------------------------
 
@@ -367,6 +448,12 @@ CREATE TABLE `order_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `order_status`:
+--   `order_id`
+--       `orders` -> `order_id`
+--
+
+--
 -- Dumping data for table `order_status`
 --
 
@@ -379,7 +466,16 @@ INSERT INTO `order_status` (`id`, `order_id`, `status`, `message`, `color`) VALU
 (169, 9371, 'Pending', 'Pending for approval', 'primary'),
 (170, 8002, 'Pending', 'Pending for approval', 'primary'),
 (171, 8848, 'Pending', 'Pending for approval', 'primary'),
-(172, 7979, 'Pending', 'Pending for approval', 'primary');
+(172, 7979, 'Pending', 'Pending for approval', 'primary'),
+(175, 7420, 'Pending', 'Pending for approval', 'primary'),
+(177, 9282, 'Pending', 'Pending for approval', 'primary'),
+(179, 6714, 'Pending', 'Pending for approval', 'primary'),
+(181, 1139, 'Denied', 'We already have the spare one', 'primary'),
+(183, 4436, 'Approved', 'undefined', 'primary'),
+(184, 836, 'Pending', 'Pending for approval', 'primary'),
+(189, 1033, 'Pending', 'Pending for approval', 'primary'),
+(191, 9399, 'Pending', 'Pending for approval', 'primary'),
+(193, 1034, 'Pending', 'Pending for approval', 'primary');
 
 -- --------------------------------------------------------
 
@@ -421,6 +517,10 @@ CREATE TABLE `pos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELATIONSHIPS FOR TABLE `pos`:
+--
+
+--
 -- Dumping data for table `pos`
 --
 
@@ -438,6 +538,12 @@ CREATE TABLE `po_attachments` (
   `billNo` int(40) NOT NULL,
   `attachments` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `po_attachments`:
+--   `billNo`
+--       `pos` -> `billNo`
+--
 
 --
 -- Dumping data for table `po_attachments`
@@ -458,6 +564,12 @@ CREATE TABLE `po_status` (
   `order_id` int(40) NOT NULL,
   `status` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `po_status`:
+--   `billNo`
+--       `pos` -> `billNo`
+--
 
 --
 -- Dumping data for table `po_status`
@@ -604,7 +716,7 @@ ALTER TABLE `item_images`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=376;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=393;
 
 --
 -- AUTO_INCREMENT for table `logins`
@@ -622,13 +734,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=414;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=438;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT for table `pos`
