@@ -7,24 +7,17 @@
       position: fixed;
       top: 13%;
       right: 1rem;" mat-button [routerLink]="'/admin'"
-      *ngIf="type=='Requestor'; else Approver">+Create Request</button>
-<ng-template #Approver>
-<button style="background-color: #1d87cf;
-      position: fixed;
-      top: 13%;
-      right: 1rem;" mat-button disabled>+Create Request</button>
-</ng-template>
+      *ngIf="type=='Requestor'">+Create Request</button>
 <br>
 <hr>
-
 <div class=row>
-<div class="col-md-4">
+<div class="col-lg-6">
 <mat-card class="mat-position">
-<div style="background-color: #f7483b;" class="position-image">
+<div style="background-color: #ee6060;" class="position-image">
 <mat-icon class="icon">warning</mat-icon>
 </div>
     <mat-card-title class="mat-content">Pending Requests</mat-card-title>
-    <mat-card-content style="color: red;">{{ order.pending }}</mat-card-content>
+    <mat-card-content style="color: blue;">{{ order.pending }}</mat-card-content>
     <hr>
   <mat-card-actions align="end">
     <button style="color: blue;"
@@ -33,7 +26,7 @@
 </mat-card>
 </div>
 
-<div class="col-md-4">
+<div class="col-lg-6">
 <mat-card class="mat-position">
 <div style="background-color: #27c43c;" class="position-image">
 <mat-icon class="icon">check_circle_outline</mat-icon>
@@ -46,8 +39,26 @@
   </mat-card-actions>
 </mat-card>
 </div>
+</div>
+<br>
+<hr>
+<br>
+<div class="row">
+<div class="col-lg-6">
+  <mat-card class="mat-position">
+  <div style="background-color:red;" class="position-image">
+  <mat-icon class="icon">cancel</mat-icon>
+  </div>
+      <mat-card-title class="mat-content">Denied Requests</mat-card-title>
+      <mat-card-content style="color: red;">{{ order.denied }}</mat-card-content>
+      <hr>
+    <mat-card-actions align="end">
+      <button style="color: blue;" mat-button [routerLink]="'/denied'">View Requests</button>
+    </mat-card-actions>
+  </mat-card>
+  </div>
 
-<div class="col-md-4">
+<div class="col-lg-6">
 <mat-card class="mat-position">
 <div style="background-color: #f75a0c;" class="position-image">
 <mat-icon class="icon">select_all</mat-icon>
@@ -56,11 +67,7 @@
     <mat-card-content style="color: red;" style="left: 81%;">{{ order.all }}</mat-card-content>
     <hr>
   <mat-card-actions align="end">
-    <button style="color: blue;" mat-button [routerLink]="'/request'"
-    *ngIf="type=='Requestor'; else Approver2"> View Requests </button>
-    <ng-template #Approver2>
-    <button mat-button [routerLink]="'/request'" disabled> View Requests </button>
-    </ng-template>
+    <button style="color: blue;" mat-button [routerLink]="'/request'"> View Requests </button>
   </mat-card-actions>
 </mat-card>
 </div>
@@ -68,9 +75,8 @@
 <br>
 <hr>
 <br>
-
 <div class=row>
-<div class="col-lg-6">
+<div class="col-lg-6" *ngIf="type === 'Requestor'">
 <mat-card class="mat-position">
 <div style="background-color: #4287f5;" class="position-image">
 <mat-icon class="icon-second">description</mat-icon>
@@ -88,7 +94,8 @@
 </mat-card>
 </div>
 
-<div class="col-lg-6">
+<div [ngClass]="{'col-lg-6' : type === 'Requestor',
+                 'col-lg-12' : type === 'Approver'}">
 <mat-card class="mat-position">
 <div style="background-color: #e9f50f;" class="position-image">
 <mat-icon class="icon-second">local_shipping</mat-icon>
@@ -103,18 +110,3 @@
 </mat-card>
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

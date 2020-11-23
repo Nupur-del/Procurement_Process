@@ -38,6 +38,7 @@ export class RequestComponent implements OnInit {
 
   closeResult: string;
   sub: any;
+  type: any;
   locations: any;
   items: any;
   interval: any;
@@ -63,8 +64,7 @@ export class RequestComponent implements OnInit {
   public orderList: any = [];
   public multiLocs: any = [ ];
   public finalItem: any = [ ];
-  displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc',
-                                'status', 'edit', 'delete', 'replicate', 'mark_complete'];
+  displayedColumns: string[];
 
   // Subscription
 
@@ -80,9 +80,19 @@ export class RequestComponent implements OnInit {
               private orderService: OrderService,
               private locationService: LocationService,
               private itemService: ItemService,
-              private statusService: StatusService) { }
+              private statusService: StatusService) {
+              }
 
   ngOnInit() {
+    this.type = localStorage.getItem('type');
+
+    if (this.type === 'Requestor') {
+      this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
+                     'status', 'edit', 'total_cost', 'delete', 'replicate', 'mark_complete'];
+     } else {
+       this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
+                     'status', 'requestor', 'total_cost'];
+     }
     this.orderSub = this.orderService.getAllOrders().subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
       this.orderList = data;
@@ -219,6 +229,7 @@ sortOrder(sort: Sort) {
           case 'order_id': return this.compare(a.order_id, b.order_id, isAsc);
           case 'created_by': return this.compare(a.created_by, b.created_by, isAsc);
           case 'date': return this.compare(a.date, b.date, isAsc);
+          case 'total_price': return this.compare(a.total_price, b.total_price, isAsc);
           default: return 0;
       }
     });

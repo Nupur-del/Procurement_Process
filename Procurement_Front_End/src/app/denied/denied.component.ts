@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../projects/PO/src/app/message.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { DataService as DataViewService } from '../../../projects/PO/src/app/data.service';
 import { SeeOrderComponent } from '../../../projects/PO/src/app/see-order/see-order.component';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
-import { DataService as DataViewService } from '../../../projects/PO/src/app/data.service';
 import { Sort } from '@angular/material';
 
 import {
@@ -24,16 +24,21 @@ import { LocationService } from '../location.service';
 import { ItemService } from '../item.service';
 
 @Component({
-  selector: 'app-pending',
-  templateUrl: './pending.component.html',
-  styleUrls: ['./pending.component.scss']
+  selector: 'app-denied',
+  templateUrl: './denied.component.html',
+  styleUrls: ['./denied.component.scss']
 })
-export class PendingComponent implements OnInit {
+export class DeniedComponent implements OnInit {
 
   closeResult: string;
+
   isShow = true;
+  itemId: any;
   order: any = {};
   orderList: any;
+  sub: any;
+  orderId: any;
+  displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status', 'view'];
   viewItem = {
     comment: '',
     currency: '',
@@ -50,10 +55,7 @@ export class PendingComponent implements OnInit {
     tracking_link: '',
     unit_type: ''
   };
-  sub: any;
-  orderId: any;
-  itemId: any;
-  displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status', 'view'];
+
   message: string;
   actionButtonLabel = ':)';
   action = true;
@@ -61,25 +63,25 @@ export class PendingComponent implements OnInit {
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  type: string;
   addExtraClass = false;
   dataSource: any;
-  type: string;
 
   constructor(private router: Router,
               public http: HttpClient,
               public snackBar: MatSnackBar,
+              private dataView: DataViewService,
               private modalService: NgbModal,
               private data: DataService,
-              private dataView: DataViewService,
-              private dialog: MatDialog,
-              private messageService: MessageService,
               private orderService: OrderService,
+              private messageService: MessageService,
+              private dialog: MatDialog,
               private locationService: LocationService,
               private itemService: ItemService) { }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
-    this.orderService.getOrderByStatus('Pending').subscribe((data: any) => {
+    this.orderService.getOrderByStatus('Denied').subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
       this.orderList = data;
     });
@@ -89,30 +91,32 @@ export class PendingComponent implements OnInit {
     });
     this.data.currentMessage.subscribe(message => this.sub = message);
   }
-  deleteRequest(id, refresher) {
-
-      console.log('Order Id', id);
-      let deleteParams = new HttpParams().set('order_id', id);
-      this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
-      .subscribe(
-        data => {
-           console.log(data);
-           this.message = 'Deleted Sucessfully';
-           this.insert();
-           this.doRefresh(refresher);
-       },
-       err => {
-           this.message = 'Deletion failed';
-           this.insert();
-           console.log(err);
-      });
-  }
 
   onView(order_id) {
     console.log('Edit-' + order_id);
     this.sub = order_id;
     this.data.changeMessage(this.sub);
-    this.router.navigate(['/view']);
+    this.router.navigate(['/order']);
+  }
+
+  seeOrder(orderId) {
+    this.itemId = orderId;
+    const id = '0';
+    this.messageService.changeMessage(this.itemId);
+    this.dataView.changeMessage(id);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.maxHeight = '90vh';
+    const dialog = this.dialog.open(SeeOrderComponent, dialogConfig);
+  }
+
+  getData() {
+    this.orderService.getOrderByStatus('Approved').subscribe( data => {
+      this.orderList = data;
+      console.log(data);
+      this.dataSource = new MatTableDataSource(this.orderList);
+    });
   }
 
   doRefresh(refresher) {
@@ -133,6 +137,23 @@ export class PendingComponent implements OnInit {
     this.snackBar.open(this.message, this.action ? this.actionButtonLabel : undefined, config);
   }
 
+  deleteRequest(id, refresher) {
+    console.log('Order Id', id);
+    let deleteParams = new HttpParams().set('order_id', id);
+    this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
+    .subscribe(
+      data => {
+         console.log(data);
+         this.message = 'Deleted Sucessfully';
+         this.insert();
+         this.doRefresh(refresher);
+     },
+     err => {
+         this.message = 'Deletion failed';
+         this.insert();
+         console.log(err);
+    });
+  }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -140,18 +161,6 @@ export class PendingComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-  }
-
-  seeOrder(orderId) {
-    this.itemId = orderId;
-    const id = '0';
-    this.messageService.changeMessage(this.itemId);
-    this.dataView.changeMessage(id);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '80%';
-    dialogConfig.maxHeight = '90vh';
-    const dialog = this.dialog.open(SeeOrderComponent, dialogConfig);
   }
 
   private getDismissReason(reason: any): string {
@@ -163,7 +172,6 @@ export class PendingComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
-
   applySearch(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
@@ -174,7 +182,6 @@ export class PendingComponent implements OnInit {
         this.dataSource = data;
         return;
     }
-
     this.dataSource = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
@@ -185,11 +192,9 @@ export class PendingComponent implements OnInit {
           default: return 0;
       }
     });
-
   }
 
   compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
 }

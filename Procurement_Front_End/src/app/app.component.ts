@@ -7,34 +7,34 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   loginStatus: any;
   type: any;
-
+  title = 'Requisition';
 
   constructor(private loginService: LoginService,
-              private router: Router)
-  {
-
-  }
+              private router: Router) {}
 
   ngOnInit() {
-    if(localStorage.getItem('type') && localStorage.getItem('loginStatus'))
-    {
-    this.type = localStorage.getItem('type');
-    this.loginStatus =  localStorage.getItem('looginStatus');
-    console.log(this.type);
-    this.router.navigate(['/home']);
-    }
-    else {
+    this.loginService.isLoggedIn.subscribe(status => {
+      this.loginStatus = status;
+    });
+    this.loginService.userType.subscribe(data => {
+      this.type = data;
+    });
+    if (this.loginStatus === true || this.loginStatus === 'true') {
+      this.router.navigate(['/home']);
+    } else if (localStorage.getItem('loginStatus') === 'true' && localStorage.getItem('type')) {
+       this.loginStatus = localStorage.getItem('loginStatus');
+       this.type = localStorage.getItem('type');
+       this.router.navigate(['/home']);
+    } else {
       this.router.navigate(['/login']);
     }
   }
-  title = 'Requisition';
 
   logout() {
     this.loginService.logout();
   }
-
 }

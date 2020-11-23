@@ -1,5 +1,5 @@
 <div style="text-align:right;">
-<button mat-button><a [routerLink]="'/admin'">+Create Request</a></button>
+<button mat-button *ngIf="type === 'Requestor'"><a [routerLink]="'/admin'">+Create Request</a></button>
 </div>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortOrder($event)">
   <!--- Note that these columns can be defined in any order.
@@ -42,16 +42,21 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="edit">
+  <ng-container matColumnDef="edit" *ngIf="type === 'Requestor'">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element" class="action-link">
-      <div *ngIf="element.status == 'Pending' || element.status == 'Approved' || element.status == 'Cancelled';
+      <div *ngIf="element.status == 'Pending' || element.status == 'Cancelled';
       then thenBlock else elseBlock"></div>
       <ng-template #thenBlock>
         <button mat-icon-button color='primary' (click)="onEdit(element.order_id)">
           <mat-icon>edit</mat-icon></button>
       </ng-template>
       <ng-template #elseBlock>
+      <div *ngIf="element.status == 'Approved'; else supplierBlock">
+        <button mat-icon-button color="primary" [routerLink]="'/createPO'"><mat-icon>add_shopping_cart</mat-icon></button>
+      </div>
+      </ng-template>
+      <ng-template #supplierBlock>
       <div *ngIf="element.status == 'Confirmed' || element.status == 'Processing' ||
       element.status == 'Quality Check'  || element.status == 'Dispached' ||
       element.status == 'Item Delivered'; then then2Block else else2Block"></div>
@@ -66,8 +71,17 @@
       </td>
     </ng-container>
 
+<ng-container matColumnDef="requestor" *ngIf="type === 'Approver'">
+  <th mat-header-cell *matHeaderCellDef>Requestor</th>
+  <td mat-cell *matCellDef="let element" class="action-link">{{element.created_by}}</td>
+</ng-container>
 
-  <ng-container matColumnDef="delete">
+<ng-container matColumnDef="total_cost">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header = "total_price"> Total Cost </th>
+  <td mat-cell *matCellDef="let element">{{element.total_price}}</td>
+</ng-container>
+
+  <ng-container matColumnDef="delete" *ngIf="type === 'Requestor'">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element" class="action-link">
       <div *ngIf="element.status == 'Pending' || element.status == 'Approved' ||
@@ -82,7 +96,7 @@
       </td>
     </ng-container>
 
-      <ng-container matColumnDef="replicate">
+      <ng-container matColumnDef="replicate" *ngIf="type === 'Requestor'">
       <th mat-header-cell *matHeaderCellDef> Replicate </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button color='primary' (click)="onReplicate(element.order_id,$event)">
@@ -90,7 +104,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="mark_complete">
+    <ng-container matColumnDef="mark_complete" *ngIf="type === 'Requestor'">
       <th mat-header-cell *matHeaderCellDef> Complete </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button [color]="element.color" (click)="onComplete(element.order_id,$event)">

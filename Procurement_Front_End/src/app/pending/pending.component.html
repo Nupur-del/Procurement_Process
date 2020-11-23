@@ -23,13 +23,25 @@
   <!-- Name Column -->
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef mat-sort-header = "date"> Date </th>
-    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="order_desc">
     <th mat-header-cell *matHeaderCellDef> Description </th>
     <td mat-cell *matCellDef="let element"> {{element.order_desc}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Details">
+    <th mat-header-cell *matHeaderCellDef> Details </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" (click)="seeOrder(element.order_id)"><mat-icon>preview</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="total_cost">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header = "total_price"> Total Cost </th>
+    <td mat-cell *matCellDef="let element">{{element.total_price}}</td>
   </ng-container>
 
   <ng-container matColumnDef="status">

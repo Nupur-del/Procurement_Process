@@ -13,12 +13,12 @@ export class LocationService {
   location: any = [];
   constructor(private http: HttpClient) {}
 
-  getAllLocations(): Observable<ILocation[]> {
-    return this.http.get<ILocation[]>(environment.BASE_URL + 'order/locations');
+  getAllLocations(): Observable<any> {
+    return this.http.get<any>(environment.BASE_URL + 'order/locations');
   }
 
-  getLocationById(order_id: any): Observable<ILocation> {
+  getLocationById(order_id: any): Observable<any> {
     let locParams = new HttpParams().set('order_id', order_id);
-    return this.http.get<ILocation>(environment.BASE_URL + 'order/location_by_order_id', {params: locParams});
+    return this.http.get<any>(environment.BASE_URL + 'order/location_by_order_id', {params: locParams});
   }
 }

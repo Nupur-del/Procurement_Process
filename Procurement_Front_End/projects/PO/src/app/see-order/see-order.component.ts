@@ -50,6 +50,7 @@ export class SeeOrderComponent implements OnInit {
       console.log(data);
     });
 
+
     console.log(this.sub);
     this.orderService.getStatusById(this.sub).subscribe((data: any) =>  {
       this.order.status = data.status;
@@ -62,10 +63,16 @@ export class SeeOrderComponent implements OnInit {
       for (const item of this.itemList) {
         this.finalItem.push(item);
       }
-      console.log(this.finalItem);
+      console.log('FinalItem', this.finalItem);
+      console.log('Value of sub2', this.sub2);
+      if (this.sub2 === '0') {
+        console.log('I am inside if');
+        this.dataSource = new MatTableDataSource(this.finalItem);
+      } else {
       this.item = this.finalItem.filter(item => item.id === this.sub2);
       console.log(this.item);
       this.dataSource = new MatTableDataSource(this.item);
+      }
     });
 
     this.locationService.getLocationById(this.sub).subscribe((data) => {

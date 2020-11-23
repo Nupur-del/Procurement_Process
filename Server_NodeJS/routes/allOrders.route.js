@@ -8,8 +8,9 @@ router.use(cors());
 // Fetch Order with status
 
 router.get('/allOrders', (req,res) => {
-    sql.query(`SELECT o.order_id, o.created_by, o.date, o.order_desc , \ 
-    s.status , s.message, s.color from orders o, order_status s where o.order_id =  s.order_id`, (err,response) => {
+    sql.query(`select o.*, s.status,s.message,s.color, sum(l.total_price) as total_price from orders o, \ 
+    locations l, order_status s where o.order_id = s.order_id and o.order_id = l.order_id group by \
+     o.order_id`, (err,response) => {
        if(err) {
            res.send(err);
        } else {
@@ -36,9 +37,8 @@ router.post('/updateColor', (req,res) => {
 
 router.get('/Order_by_status', (req,res) => {
     const status = req.query.status
-    sql.query(`SELECT o.order_id, o.created_by, o.date, o.order_desc , s.status ,  s.message
-    from orders o, order_status s \ 
-    where s.status = "${status}" AND o.order_id = s.order_id`, (err, response) => {
+    sql.query(`SELECT o.* , s.status ,  s.message, sum(l.total_price) as total_price from orders o, order_status s, locations l \ 
+    where s.status = "${status}" AND o.order_id = s.order_id AND o.order_id = l.order_id group by o.order_id`, (err, response) => {
         if (err) {
             res.send(err);
         } else {

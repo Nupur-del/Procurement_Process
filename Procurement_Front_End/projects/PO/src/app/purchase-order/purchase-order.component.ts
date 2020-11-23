@@ -48,7 +48,7 @@ export class PurchaseOrderComponent implements OnInit {
     estimated_arrival: '',
     id: null,
     name: '',
-    order_id: 584,
+    order_id: '',
     prefered_vendor: '',
     price: null,
     quantity: null,

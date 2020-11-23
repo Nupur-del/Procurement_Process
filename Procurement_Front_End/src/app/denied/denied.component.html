@@ -1,0 +1,64 @@
+<div class="col">
+  <mat-form-field>
+  <input (keyup)="applySearch($event.target.value)" matInput placeholder="Search">
+  </mat-form-field>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange) = "sortOrder($event)">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="order_id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header = "order_id"> Order ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.order_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_by">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header = "created_by"> Created By </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header = "date"> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="order_desc">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.order_desc}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="seeOrder(element.order_id)"><mat-icon>preview</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total_cost">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header = "total_price"> Total Cost </th>
+      <td mat-cell *matCellDef="let element">{{element.total_price}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Order Status </th>
+      <td mat-cell *matCellDef="let element">
+        <span> {{element.status}}
+        Request<button mat-icon-button color='primary'  matTooltip="{{element.message}}"
+        matTooltipPosition="after"><mat-icon>info</mat-icon></button></span></td>
+    </ng-container>
+
+    <ng-container matColumnDef="view">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element" class="action-link">
+          <button mat-icon-button color='primary' [hidden]="type==='Requestor'" (click)="onView(element.order_id)"><mat-icon>remove_red_eye</mat-icon></button>
+          <button mat-icon-button color='primary' [hidden]="type==='Approver'" (click)="deleteRequest()"><mat-icon>delete</mat-icon></button>
+        </td>
+      </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

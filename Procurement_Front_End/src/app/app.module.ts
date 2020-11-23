@@ -47,6 +47,7 @@ import { SupplierModule } from '../../projects/Supplier/src/app/app.module';
 import { POModule } from '../../projects/PO/src/app/app.module';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.component';
+import { DeniedComponent } from './denied/denied.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.co
     OrderComponent,
     MyDialogComponent,
     RequisitionHomeComponent,
-    DeliveredPoComponent
+    DeliveredPoComponent,
+    DeniedComponent
   ],
   imports: [
     BrowserModule,

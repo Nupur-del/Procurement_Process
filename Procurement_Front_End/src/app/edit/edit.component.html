@@ -49,13 +49,8 @@
             </div>
           </div>
         </section>
-        <div class="text-right">
-          <button mat-raised-button color="primary" [disabled]="dept.invalid || cityControl.invalid"
-          class="btn btn-primary mb-2" (click)="locValue(order.order_id,order.loc,order.dept)">
-          Check for the budget availability</button>
-        </div>
-        <div class="row" *ngIf="selectItem">
-          <mat-label>Order Items</mat-label>
+        <h4>Order Items</h4>
+        <div class="row">
           <div class="col-6">
             <section class="container border mb-4 p-3"  >
             <mat-label>Choose Method</mat-label>
@@ -336,10 +331,6 @@
               </div>
           </div>
           </form>
-          <div class="text-right" *ngIf="selectItem">
-            <button mat-raised-button color="primary" [disabled]="finalItem.length === 0" class="btn btn-primary mb-2"
-            (click)="otherlocation()">Add another location</button>
-          </div>
           <br>
          </div>
 

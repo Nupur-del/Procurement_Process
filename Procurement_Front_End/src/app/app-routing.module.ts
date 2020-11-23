@@ -13,15 +13,17 @@ import { SupplierModule } from '../../projects/Supplier/src/app/app.module';
 import { POModule } from '../../projects/PO/src/app/app.module';
 import { EditResolverService } from './edit-resolver.service';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
+import { DeniedComponent } from './denied/denied.component';
 
 const routes: Routes = [
-  // {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'admin', component: AdminComponent},
   {path: 'home', component: HomeComponent},
   {path: 'request', component: RequestComponent},
   {path: 'edit', component: EditComponent, resolve: { editItem: EditResolverService }},
   {path: 'pending', component: PendingComponent},
+  {path: 'denied', component: DeniedComponent},
   {path: 'view', component: ViewComponent},
   {path: 'approved', component: ApprovedComponent},
   {path: 'order', component: OrderComponent},

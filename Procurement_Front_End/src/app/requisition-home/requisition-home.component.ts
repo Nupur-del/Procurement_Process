@@ -8,7 +8,6 @@ import { OrderService } from '../order.service';
 })
 export class RequisitionHomeComponent implements OnInit {
   type: any;
-
   order: any = {};
 
   constructor(private orderService: OrderService) { }
@@ -20,15 +19,20 @@ export class RequisitionHomeComponent implements OnInit {
     this.orderService.getAllOrderCount().subscribe((data: any) => {
       this.order.all = data;
     });
-    let pendingStatus = 'Pending';
+    const pendingStatus = 'Pending';
     this.orderService.getStatusOrderCount(pendingStatus).subscribe((data: any) => {
       console.log(data.data);
       this.order.pending = data.data;
     });
-    let approvedStatus = 'Approved'
+    const approvedStatus = 'Approved';
     this.orderService.getStatusOrderCount(approvedStatus).subscribe((data: any) => {
       this.order.approved = data.data;
     });
+    const deniedStatus = 'Denied';
+    this.orderService.getStatusOrderCount(deniedStatus).subscribe((data: any) => {
+      this.order.denied = data.data;
+    });
+
   }
 
 }
