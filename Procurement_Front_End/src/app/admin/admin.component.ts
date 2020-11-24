@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {ImageService} from '../../../projects/Supplier/src/app/image.service';
 import {Subscription, Observable} from 'rxjs';
+import { LocationService } from '../location.service';
 import {map, startWith} from 'rxjs/operators';
 import {FormControl, NgForm, Validators} from '@angular/forms';
 import { environment } from '../../environments/environment';
@@ -72,6 +73,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   created_by: string;
   public itemValue  = 0;
   public lowBudgetDept = '';
+  public lowBudget = 0;
 
   // Objects
 
@@ -84,6 +86,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   cities: string[];
   departments: string[];
   itemImages: Array<ImageSlider>;
+  budgetAfterApproving: any[] = [];
   public multiLocs: any = [ ];
   public budget: any = [ ];
   public finalItem: any[] = [];
@@ -141,6 +144,7 @@ export class AdminComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               public http: HttpClient,
               public router: Router,
+              private locationService: LocationService,
               private imageService: ImageService,
               private itemService: ItemService,
               private budgetService: BudgetService,
@@ -211,59 +215,73 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   locValue(loc, dept, quant, price) {
-    this.lowBudgetDept = '';
+    let tempBudgetDept = '';
     this.itemValue = 0;
-    const addedDepartment = this.multiLocs.findIndex(city => city.location === loc &&
-       city.department === dept);
+    const addedDepartment = this.multiLocs.findIndex(city => city.location === loc && city.department === dept);
     if (addedDepartment >= 0) {
-      this.itemValue = +this.multiLocs[addedDepartment].total_price +
-      ((+quant) * (+price));
+      this.itemValue = +this.multiLocs[addedDepartment].total_price + ((+quant) * (+price));
       console.log('Item price-', this.itemValue);
     } else {
       this.itemValue = this.itemValue + ((+quant) * (+price));
       console.log('Item price-', this.itemValue);
     }
     console.log('Value', this.itemValue);
-    const budgetIndex = this.budget.findIndex(exist => exist.location === loc && exist.department === dept);
+    const budgetIndex = this.budgetAfterApproving.findIndex(exist => exist.location === loc &&
+      exist.department === dept);
+
     if (budgetIndex < 0) {
-      this.budgetService.getBudgetByDept(dept, loc).subscribe((data: any) => {
-        console.log(data);
-        this.budget.push(data);
-        console.log('balance',  +data.current_balance);
-        console.log('balance',  +data['current_balance']);
-        if (this.itemValue > +data.current_balance) {
-              this.lowBudgetDept = data.department;
-              console.log(this.lowBudgetDept);
-              this.itemValue = this.itemValue - ((+quant) * (+price));
-              console.log('Item price-', this.itemValue);
-        } else {
-        if (addedDepartment >= 0) {
-            this.multiLocs[addedDepartment].total_price = this.itemValue;
-            console.log(this.multiLocs);
-        } else {
-            this.multiLocs.push({
-            location: loc,
+      this.locationService.getSpentLocDept(loc, dept).subscribe(spent => {
+        this.budgetService.getBudgetByDept(dept, loc).subscribe((result: any) => {
+          this.budgetAfterApproving.push({
             department: dept,
-            total_price: this.itemValue
-         });
-            console.log(this.multiLocs);
-         }
-       }
+            location: loc,
+            budget: (+result.current_balance - +spent[0].total_spent)
+          });
+          console.log(this.budgetAfterApproving);
+          const i = this.budgetAfterApproving.findIndex(exist => exist.location === loc &&
+            exist.department === dept);
+          console.log(this.budgetAfterApproving[i].budget);
+          console.log('Type of budget', typeof(this.budgetAfterApproving[i].budget));
+          if (this.itemValue > +this.budgetAfterApproving[i].budget) {
+                tempBudgetDept = dept;
+                this.lowBudget = this.budgetAfterApproving[i].budget - this.itemValue;
+                console.log(tempBudgetDept);
+                this.itemValue = this.itemValue - ((+quant) * (+price));
+                console.log('Item price-', this.itemValue);
+          } else {
+            tempBudgetDept = 'none';
+          }
+          if (addedDepartment >= 0 && tempBudgetDept === 'none') {
+              this.multiLocs[addedDepartment].total_price = this.itemValue;
+              console.log(this.multiLocs);
+          } else if (tempBudgetDept === 'none') {
+                this.multiLocs.push({
+                location: loc,
+                department: dept,
+                total_price: this.itemValue
+          });
+                console.log(this.multiLocs);
+          }
+        }, err => {
+          console.log(err);
+        });
       }, err => {
-        alert(err);
+        console.log(err);
       });
-      console.log('Dept Budget-', this.budget);
     } else {
-      console.log('non', +this.budget[budgetIndex].current_balance);
-      if (this.itemValue > +this.budget[budgetIndex].current_balance) {
+      console.log('non', this.budgetAfterApproving[budgetIndex].budget);
+      console.log(this.itemValue > this.budgetAfterApproving[budgetIndex].budget);
+      if (this.itemValue > this.budgetAfterApproving[budgetIndex].budget) {
         console.log(this.itemValue);
-        this.lowBudgetDept = this.budget[budgetIndex].department;
+        tempBudgetDept = this.budgetAfterApproving[budgetIndex].department;
+        this.lowBudget = this.budgetAfterApproving[budgetIndex].budget - this.itemValue;
         this.itemValue = this.itemValue - ((+quant) * (+price));
         console.log('Item price-', this.itemValue);
       } else {
-      if (addedDepartment >= 0) {
+      tempBudgetDept = 'none';
+      if (addedDepartment >= 0 && tempBudgetDept === 'none') {
           this.multiLocs[addedDepartment].total_price = this.itemValue;
-      } else {
+      } else if (tempBudgetDept === 'none') {
           this.multiLocs.push({
           location: loc,
           department: dept,
@@ -272,7 +290,7 @@ export class AdminComponent implements OnInit, OnDestroy {
        }
       }
     }
-    return this.lowBudgetDept;
+    return tempBudgetDept;
   }
 
   removeLoc(i: number) {
@@ -308,8 +326,11 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (!form.value.location || !form.value.dept) {
       this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
     } else {
-    this.lowBudgetDept = this.locValue(form.value.location, form.value.dept, this.quant.value, this.price.value);
-    if (this.lowBudgetDept === '') {
+    let result = this.locValue(form.value.location, form.value.dept, this.quant.value, this.price.value);
+    console.log('MultiLocs', this.multiLocs);
+    console.log('Result', result);
+    console.log(this.lowBudgetDept);
+    if (result === 'none') {
       const addedItemIndex = this.finalItem.findIndex(item =>
         item.location === form.value.location
             && item.department === form.value.dept &&
@@ -341,10 +362,13 @@ export class AdminComponent implements OnInit, OnDestroy {
     console.log('FinalItem', this.finalItem);
    }
       this.toggleSelected = !true;
-  } else {
+  } else if (result !== 'none' && result !== '') {
+    this.lowBudgetDept = result;
     console.log('low budget dept- ', this.lowBudgetDept);
     this.openDialog();
-      }
+    } else {
+      this.openDialog();
+    }
      }
   }
 
@@ -434,10 +458,11 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (!loc || !dept) {
       this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
     } else {
-    this.lowBudgetDept = this.locValue(loc, dept, product.quantity, product.price);
+    let result = this.locValue(loc, dept, product.quantity, product.price);
     console.log('MultiLocs', this.multiLocs);
+    console.log('Result', result);
     console.log(this.lowBudgetDept);
-    if (this.lowBudgetDept === '') {
+    if (result === 'none') {
       if (product.quantity <= 0) {
       this.snackBar.open('Quantity cannot be less than 1', '', {duration: this.autoHide});
       } else {
@@ -472,9 +497,12 @@ export class AdminComponent implements OnInit, OnDestroy {
      }
    }
       this.toggleSelected = !true;
-    } else {
+    } else if (result !== 'none' && result !== '') {
+      this.lowBudgetDept = result;
       console.log('low budget dept- ', this.lowBudgetDept);
       this.openDialog();
+      } else {
+        this.openDialog();
       }
     }
   }
@@ -541,13 +569,26 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
+    if (this.lowBudgetDept === '') {
+      const dialogRef = this.dialog.open(MyDialogComponent, {
+        data: {
+          message: 'Please try again to add'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+   } else {
     const dialogRef = this.dialog.open(MyDialogComponent, {
-      data: {name: this.lowBudgetDept}
-
+      data: {
+        name: this.lowBudgetDept,
+        budget: this.lowBudget
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+   }
   }
 
   ngOnDestroy() {

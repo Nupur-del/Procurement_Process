@@ -1,4 +1,12 @@
 <h1 mat-dialog-title></h1>
 <mat-dialog-content>
-  <p>Item exceeds budget of Dept- <span  style="color:red;">{{data.name}}</span></p>
+  <div *ngIf="data.message; else elseBlock">
+    <h4>{{data.message}}</h4>
+  </div>
+  <ng-template #elseBlock>
+    <div style="border: solid 1px black;">
+      <p><b>Item exceeds budget of Department -</b><span  style="color:red;">{{data.name}}</span></p>
+      <p><b>Remaining Budget : </b><span  style="color:blue;">{{data.budget}}</span></p>
+      </div>
+  </ng-template>
 </mat-dialog-content>

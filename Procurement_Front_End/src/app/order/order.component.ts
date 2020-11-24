@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BudgetService } from '../budget.service';
 import {environment} from '../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { DataService } from '../data.service';
-import { OrderService, OrdData } from '../order.service';
+import { OrderService} from '../order.service';
 import { LocationService } from '../location.service';
 import { ItemService } from '../item.service';
 
@@ -20,6 +21,9 @@ export class OrderComponent implements OnInit {
   public itemList: any = [ ];
   closeResult: string;
   isShow = true;
+  budget: any = [];
+  locationBudget: any[] = [];
+  budgetAfterApproving: any[] = [];
   new = true;
   catalogDisplay = true;
   decision: any;
@@ -148,6 +152,7 @@ export class OrderComponent implements OnInit {
   constructor(private router: Router,
               private http: HttpClient,
               private data: DataService,
+              private budgetService: BudgetService,
               private orderService: OrderService,
               private locationService: LocationService,
               private itemService: ItemService) { }
@@ -172,11 +177,40 @@ export class OrderComponent implements OnInit {
       }
     });
 
+    let temparray: any = [];
     this.locationService.getLocationById(this.sub).subscribe((data) => {
       this.locationList = data;
       console.log('location data-', data);
       for (const location of this.locationList) {
+        this.locationService.getSpentLocDept(location.location, location.department).subscribe(spent => {
+          temparray.push(spent[0]);
+          this.budgetService.getBudgetByDept(location.department, location.location).subscribe((result: any) => {
+            this.budget.push(result);
+            this.budgetAfterApproving.push({
+              department: location.department,
+              location: location.location,
+              budget: (+result.current_balance - +spent[0].total_spent)
+            });
+          });
+         }, err => {
+           console.log(err);
+         });
         this.multiLocs.push(location);
+      }
+    });
+    this.locationService.getUniqueLocation(this.sub).subscribe(data => {
+      for (let i of data) {
+        this.locationService.getLocationBudget(i.location).subscribe(data => {
+          this.locationService.getLocationSpent(i.location).subscribe(result => {
+            data[0].total_spent = result[0].total_spent;
+            this.locationBudget.push(data[0]);
+            console.log(this.locationBudget);
+          }, err => {
+            console.log(err);
+          });
+        }, err => {
+          console.log(err);
+        });
       }
     });
     console.log(this.sub);

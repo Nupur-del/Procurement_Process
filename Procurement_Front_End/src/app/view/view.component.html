@@ -16,10 +16,13 @@
   </mat-card-header>
   <div class="row">
   <div class="col-sm-4"  *ngFor="let loc of multiLocs; let i=index;">
-    <p>Loc -{{ loc.location }} | Dept.- {{ loc.department }}
-    <!-- <button mat-raised-button mat-icon-button type="button" (click)="removeLoc(loc,i)">
-      <mat-icon>delete</mat-icon></button> -->
-    </p>
+    <span>
+      <b>Location: </b> {{loc.location}}
+    <ul>
+      <li><b>Department: </b> {{ loc.department }}</li>
+      <li><b> Total Cost: </b> {{loc.total_price}} </li>
+    </ul>
+    </span>
     </div>
   </div>
 </mat-card>
@@ -41,11 +44,49 @@
   </mat-card-header>
   <div class="row">
   <div class="col-sm-6"  *ngFor="let item of finalItem; let i=index;">
-    <p>Name -{{ item.name }} | Vendor - {{ item.prefered_vendor }} |  Quantity- {{ item.quantity }}
-    <!-- <button mat-icon-button type="button" mat-raised-button (click)="removeOrderItem(item,i)">
-      <mat-icon>delete</mat-icon>
-    </button> -->
-    </p>
+    <span>
+      <b>Name: </b> {{item.name}}
+      <ul>
+        <li><b>Brand: </b> {{item.prefered_vendor}}</li>
+        <li><b>Quantity: </b> {{item.quantity}}</li>
+      </ul>
+    </span>
+    </div>
+  </div>
+</mat-card>
+<br>
+<hr>
+<mat-card style="background-color:lavender;">
+  <mat-card-header>
+    <mat-card-title>Budget Details</mat-card-title>
+  </mat-card-header>
+  <div class="row">
+  <div class="col-sm-6"  *ngFor="let locBudget of locationBudget; let i=index;">
+    <span>
+      <b>Location: </b> {{locBudget.location}}
+      <ul>
+        <li><b>Budget: </b> {{locBudget.budget}}</li>
+        <li><b>Total Spent in Present Year: </b> {{locBudget.total_spent}}</li>
+      </ul>
+    </span>
+    </div>
+  </div>
+</mat-card>
+<br>
+<hr>
+<mat-card style="background-color:lavender;">
+  <mat-card-header>
+    <mat-card-title>Budget After Order Delivery</mat-card-title>
+  </mat-card-header>
+  <div class="row">
+  <div class="col-sm-6"  *ngFor="let b of budgetAfterApproving; let i=index;">
+    <span>
+      <b>Location: </b> {{b.location}}
+      <ul>
+        <li><b>Department: </b> {{b.department}}</li>
+        <li><b>Remaining Budget: </b> {{b.budget}}</li>
+      </ul>
+    </span>
     </div>
   </div>
 </mat-card>

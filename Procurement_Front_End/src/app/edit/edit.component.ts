@@ -65,6 +65,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   public orderList: any = [ ];
   public locationList: any = [ ];
+  budgetAfterApproving: any[] = [];
   public itemList: any = [ ];
   public multiLocs: any = [ ];
   public budget: any = [ ];
@@ -343,6 +344,7 @@ export class EditComponent implements OnInit, OnDestroy {
   locValue(order_id, loc, dept, quant, price) {
     this.lowBudgetDept = '';
     this.itemValue = 0;
+    let temparray: any = [];
     const addedDepartment = this.multiLocs.findIndex(city => city.location === loc &&
        city.department === dept);
     if (addedDepartment >= 0) {
@@ -354,41 +356,47 @@ export class EditComponent implements OnInit, OnDestroy {
       console.log('Item price-', this.itemValue);
     }
     console.log('Value', this.itemValue);
-    const budgetIndex = this.budget.findIndex(exist => exist.location === loc && exist.department === dept);
+    const budgetIndex = this.budgetAfterApproving.findIndex(exist => exist.location === loc && exist.department === dept);
     if (budgetIndex < 0) {
-      this.budgetService.getBudgetByDept(dept, loc).subscribe((data: any) => {
-        console.log(data);
-        this.budget.push(data);
-        console.log('balance',  +data.current_balance);
-        console.log('balance',  +data['current_balance']);
-        if (this.itemValue > +data.current_balance) {
-              this.lowBudgetDept = data.department;
-              console.log(this.lowBudgetDept);
-              this.itemValue = this.itemValue - ((+quant) * (+price));
-              console.log('Item price-', this.itemValue);
+      this.locationService.getSpentLocDept(loc, dept).subscribe(spent => {
+        temparray.push(spent[0]);
+        this.budgetService.getBudgetByDept(dept, loc).subscribe((result: any) => {
+          this.budget.push(result);
+          this.budgetAfterApproving.push({
+            department: dept,
+            location: loc,
+            budget: (+result.current_balance - +spent[0].total_spent)
+          });
+          console.log(this.budgetAfterApproving);
+          if (this.itemValue > (+result.current_balance - +spent[0].total_spent)) {
+            this.lowBudgetDept = dept;
+            console.log(this.lowBudgetDept);
+            this.itemValue = this.itemValue - ((+quant) * (+price));
+            console.log('Item price-', this.itemValue);
         } else {
         if (addedDepartment >= 0) {
-            this.multiLocs[addedDepartment].total_price = this.itemValue;
-            console.log(this.multiLocs);
+          this.multiLocs[addedDepartment].total_price = this.itemValue;
+          console.log(this.multiLocs);
         } else {
-            this.multiLocs.push({
-            order_id : order_id,
-            location: loc,
-            department: dept,
-            total_price: this.itemValue
+          this.multiLocs.push({
+          location: loc,
+          department: dept,
+          total_price: this.itemValue
          });
-            console.log(this.multiLocs);
+          console.log(this.multiLocs);
          }
        }
+        }, err => {
+          console.log(err);
+        });
       }, err => {
-        alert(err);
+        console.log(err);
       });
-      console.log('Dept Budget-', this.budget);
     } else {
-      console.log('non', +this.budget[budgetIndex].current_balance);
-      if (this.itemValue > +this.budget[budgetIndex].current_balance) {
+      console.log('non', +this.budgetAfterApproving[budgetIndex].budget);
+      if (this.itemValue > +this.budgetAfterApproving[budgetIndex].budget) {
         console.log(this.itemValue);
-        this.lowBudgetDept = this.budget[budgetIndex].department;
+        this.lowBudgetDept = this.budgetAfterApproving[budgetIndex].department;
         this.itemValue = this.itemValue - ((+quant) * (+price));
         console.log('Item price-', this.itemValue);
       } else {

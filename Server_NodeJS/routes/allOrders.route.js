@@ -33,6 +33,98 @@ router.post('/updateColor', (req,res) => {
     });
 })
 
+// Fetching total budget location wise
+
+router.get('/fetchBudget', (req,res) => {
+    const loc = req.query.location;
+    sql.query(`select sum(current_balance) as budget, location from budgets where location = "${loc}"`, (err,response) => {
+       if(err) {
+           res.send(err);
+       } else {
+           res.send(response);
+       }
+    });
+})
+
+// Fetch spent location and department wise
+
+router.get('/spentLocDeptWise', (req,res) => {
+
+    var startYear = "";
+    var endYear = "";
+    var today = new Date();
+    
+    if ((today.getMonth() + 1) <= 3) {
+      startYear = (today.getFullYear() - 1);
+      endYear = today.getFullYear()
+    } else {
+        startYear = today.getFullYear();
+        endYear = (today.getFullYear() + 1);
+    }
+
+    const startDate = startYear + "-3-1";
+    const endDate = endYear + "-3-31";
+    console.log('End', endDate);
+    console.log('Start', startDate);
+    const loc = req.query.location;
+    const dept = req.query.department;
+    sql.query(`select sum(l.total_price) as total_spent,l.location, l.department from orders o,locations l \
+     where o.order_id = l.order_id and o.date between "${startDate}"  and "${endDate}" \
+      and l.location = "${loc}"  and l.department = "${dept}"`, (err, response) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(response);
+        }
+    })
+})
+
+
+
+// distinct location by order_id
+
+router.get('/distinctLocation', (req,res) => {
+    const order_id = req.query.order_id;
+    sql.query(`select distinct(location) from locations where order_id = ${order_id}`, (err,response) => {
+       if(err) {
+           res.send(err);
+       } else {
+           res.send(response);
+       }
+    });
+})
+
+// Fetching total Spent
+
+router.get('/spentYearWise', (req,res) => {
+
+    var startYear = "";
+    var endYear = "";
+    var today = new Date();
+    
+    if ((today.getMonth() + 1) <= 3) {
+      startYear = (today.getFullYear() - 1);
+      endYear = today.getFullYear()
+    } else {
+        startYear = today.getFullYear();
+        endYear = (today.getFullYear() + 1);
+    }
+
+    const startDate = startYear + "-3-1";
+    const endDate = endYear + "-3-31";
+    console.log('End', endDate);
+    console.log('Start', startDate);
+    const loc = req.query.location;
+    sql.query(`select sum(l.total_price) as total_spent,l.location from orders o,locations l \
+     where o.order_id = l.order_id and o.date between "${startDate}"  and "${endDate}" and l.location = "${loc}"`, (err, response) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(response);
+        }
+    })
+})
+
 // Order by status
 
 router.get('/Order_by_status', (req,res) => {
