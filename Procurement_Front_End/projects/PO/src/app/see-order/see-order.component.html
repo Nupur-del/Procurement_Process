@@ -17,8 +17,12 @@
   </mat-card-header>
   <div class="row">
   <div class="col-sm-4"  *ngFor="let loc of multiLocs; let i=index;">
-    <p>Loc -{{ loc.location }} | Dept.- {{ loc.department }}
-    </p>
+     <span>
+       <b>Location: </b> {{loc.location}}
+       <ul>
+         <li><b>Department: </b> {{loc.department}}</li>
+       </ul>
+     </span>
     </div>
   </div>
 </mat-card>
@@ -64,6 +68,14 @@
             <th mat-header-cell *matHeaderCellDef>Price</th>
             <td mat-cell *matCellDef="let element"> {{element.price}} </td>
          </ng-container>
+         <ng-container matColumnDef = "location">
+          <th mat-header-cell *matHeaderCellDef>Location</th>
+          <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+       </ng-container>
+       <ng-container matColumnDef = "department">
+        <th mat-header-cell *matHeaderCellDef>Department</th>
+        <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+     </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

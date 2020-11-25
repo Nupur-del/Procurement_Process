@@ -340,8 +340,8 @@
   </div>
   </form>
   <div class="text-right" *ngIf="selectItem">
-    <button mat-raised-button color="primary" class="btn btn-primary mb-2" [disabled]="finalItem.length === 0"
-     (click)="otherlocation()">Add another location</button>
+    <!-- <button mat-raised-button color="primary" class="btn btn-primary mb-2" [disabled]="finalItem.length === 0"
+     (click)="otherlocation()">Add another location</button> -->
   </div>
 <br>
  </div>
@@ -367,7 +367,7 @@
         <li><b>Specification -</b> {{entity.specification}}</li>
         <li><b>Price-</b> {{entity.price}}</li>
       </ul>
-    <button mat-button-raised (click)="removeOrderItem(i,entity)" mat-icon-button><mat-icon>delete</mat-icon></button>
+    <button mat-button-raised (click)="removeOrderItem(i,entity)" mat-icon-button><mat-icon>delete</mat-icon>Remove Item</button>
     </span>
     </div>
   </div>

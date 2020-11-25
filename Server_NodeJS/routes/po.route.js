@@ -83,12 +83,6 @@ router.get('/po_by_billNo', (req, res) => {
 
 router.get('/allPo', (req,res) => {
     PO.findAndCountAll().then(result => {
-        // let response = {
-        //     data: result,
-        //     status: 200,
-        //     statusCode: 1,
-        //     message: 'Success'
-        // }
         res.send(result)
     }).catch(err => {res.send(err.message)})
 })

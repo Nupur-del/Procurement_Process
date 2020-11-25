@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material';
   templateUrl: './see-order.component.html',
   styleUrls: ['./see-order.component.scss']
 })
+
 export class SeeOrderComponent implements OnInit {
 
   dataSource: any;
@@ -33,7 +34,7 @@ export class SeeOrderComponent implements OnInit {
   order: any = {};
   public multiLocs: any = [ ];
   public finalItem: any = [ ];
-  displayedColumns: string[] = ['Item ID', 'Name', 'Specification', 'Vendor', 'Quantity', 'Price'];
+  displayedColumns: string[] = ['Item ID', 'Name', 'Specification', 'Vendor', 'Quantity', 'Price', 'location', 'department'];
 
   constructor(private orderService: OrderService,
               private itemService: ItemService,
@@ -64,9 +65,7 @@ export class SeeOrderComponent implements OnInit {
         this.finalItem.push(item);
       }
       console.log('FinalItem', this.finalItem);
-      console.log('Value of sub2', this.sub2);
       if (this.sub2 === '0') {
-        console.log('I am inside if');
         this.dataSource = new MatTableDataSource(this.finalItem);
       } else {
       this.item = this.finalItem.filter(item => item.id === this.sub2);

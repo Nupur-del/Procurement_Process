@@ -245,7 +245,7 @@ onSubmit() {
 
   if (!this.fourthFormGroup.valid) {
     this.findInvalidControls(this.fourthFormGroup);
-    alert('Intem Info Form Is Invalid!');
+    alert('Item Info Form Is Invalid!');
   }
   if (this.firstFormGroup.valid && this.secondFormGroup.valid &&
     this.thirdFormGroup.valid && this.fourthFormGroup.valid) {

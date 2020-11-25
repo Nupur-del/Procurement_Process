@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2020 at 10:34 PM
+-- Generation Time: Nov 25, 2020 at 04:12 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -277,7 +277,10 @@ INSERT INTO `locations` (`id`, `order_id`, `location`, `department`, `total_pric
 (9, 998, 'Hyderabad', 'Management', 9600),
 (10, 658, 'Delhi', 'HR', 9600),
 (11, 2732, 'Pune', 'Management', 75000),
-(12, 2732, 'Bangalore', 'Testing', 32000);
+(12, 2732, 'Bangalore', 'Testing', 32000),
+(13, 2766, 'Hyderabad', 'Management', 3200),
+(14, 1784, 'Hyderabad', 'IT', 63000),
+(15, 4376, 'Mumbai', 'Testing', 40000);
 
 -- --------------------------------------------------------
 
@@ -331,9 +334,11 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`) VALUES
 (658, 'test1', '2020-11-24', 'Order for Laptop'),
 (998, 'test1', '2020-11-24', 'Sample Order'),
-(1784, 'test1', '2020-11-24', 'Orders for USB CABLE'),
+(1784, 'test1', '2020-11-25', 'Orders for USB CABLE'),
 (2732, 'test1', '2020-11-24', 'Order for Laptop'),
+(2766, 'test1', '2020-11-25', 'Sample Order'),
 (3844, 'test1', '2020-11-24', 'Sample Order'),
+(4376, 'test1', '2020-11-25', 'Sample Order'),
 (4969, 'test1', '2020-11-24', 'Sample Order');
 
 -- --------------------------------------------------------
@@ -377,13 +382,17 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (2, 3844, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
 (5, 1784, 'UsbCable', '1 TB', 'IBALL', 12, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Electrical', 'test2'),
 (6, 1784, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Testing', 'test2'),
-(7, 4969, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'Testing', NULL),
-(8, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'Electrical', NULL),
-(9, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'Management', NULL),
+(7, 4969, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'PO created', NULL, NULL, 'Mumbai', 'Testing', NULL),
+(8, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Chennai', 'Electrical', NULL),
+(9, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Hyderabad', 'Management', NULL),
 (10, 658, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Delhi', 'HR', 'test2'),
-(11, 2732, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'Management', 'test1'),
-(12, 2732, 'Laptop', '15 inch', 'DELL', 1, 'DX-2323', 32000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'Management', 'test2'),
-(13, 2732, 'Laptop', '15 inch', 'DELL', 1, 'DX-2323', 32000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Testing', 'test2');
+(11, 2732, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'PO created', NULL, NULL, 'Pune', 'Management', 'test1'),
+(12, 2732, 'Laptop', '15 inch', 'DELL', 1, 'DX-2323', 32000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Pune', 'Management', 'test2'),
+(13, 2732, 'Laptop', '15 inch', 'DELL', 1, 'DX-2323', 32000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Testing', 'test2'),
+(14, 2766, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
+(15, 1784, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test1'),
+(16, 1784, 'Laptop', '12 inch', 'HP', 2, 'LK-121212', 10000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test2'),
+(17, 4376, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'Testing', NULL);
 
 -- --------------------------------------------------------
 
@@ -411,11 +420,13 @@ CREATE TABLE `order_status` (
 
 INSERT INTO `order_status` (`id`, `order_id`, `status`, `message`, `color`) VALUES
 (1, 3844, 'Pending', 'Pending for approval', 'primary'),
-(4, 1784, 'Pending', 'Pending for approval', 'primary'),
-(5, 4969, 'Pending', 'Pending for approval', 'primary'),
-(6, 998, 'Pending', 'Pending for approval', 'primary'),
+(5, 4969, 'PO created', 'PO sent to Supplier', 'primary'),
+(6, 998, 'Denied', 'not required', 'primary'),
 (7, 658, 'Approved', 'It is Approved', 'primary'),
-(8, 2732, 'Pending', 'Pending for approval', 'primary');
+(8, 2732, 'PO created', 'PO sent to Supplier', 'primary'),
+(9, 2766, 'Pending', 'Pending for approval', 'primary'),
+(10, 1784, 'Pending', 'Pending for approval', 'primary'),
+(11, 4376, 'Pending', 'Pending for approval', 'primary');
 
 -- --------------------------------------------------------
 
@@ -460,6 +471,14 @@ CREATE TABLE `pos` (
 -- RELATIONSHIPS FOR TABLE `pos`:
 --
 
+--
+-- Dumping data for table `pos`
+--
+
+INSERT INTO `pos` (`billNo`, `order_id`, `item_id`, `reqName`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `message`, `currency`, `org_billed`, `cmp_name`, `location`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `item_name`, `quantity`, `price`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`) VALUES
+(1, 4969, 7, 'test1', 'no', 'we need it on urgent basis', 'we need it on urgent basis', 'TCS', 'product2', 'Thanks in advance', 'INR', 'Tata Consultancy Services', 'TCS', 'Mumbai', 'Ram nagar Mumbai', 'test1', '2020-11-29', '80/23 ramnagar mumbai', 'MUM-32332', 'MUM-3233', 'MUM-21212', 'Laptop', 2, 20000, 40000, '', NULL, '', '', ''),
+(2, 2732, 11, 'test1', 'no', 'We need it', 'We need it', 'TCS', 'product2', 'thanks in advance', 'INR', 'TCS', 'Tata consultancy Services', 'Pune', 'Sitapur Pune', 'Sitapur Pune', '2020-11-29', 'Sitapur Pune', 'PUN-3232', 'PUN-6788', 'PUN-12121', 'Laptop', 1, 43000, 43000, '', NULL, '', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -477,6 +496,14 @@ CREATE TABLE `po_attachments` (
 --   `billNo`
 --       `pos` -> `billNo`
 --
+
+--
+-- Dumping data for table `po_attachments`
+--
+
+INSERT INTO `po_attachments` (`id`, `billNo`, `attachments`) VALUES
+(1, 1, '1606314530598-upload-README.md'),
+(2, 2, '1606315413203-upload-README.md');
 
 -- --------------------------------------------------------
 
@@ -496,6 +523,14 @@ CREATE TABLE `po_status` (
 --   `billNo`
 --       `pos` -> `billNo`
 --
+
+--
+-- Dumping data for table `po_status`
+--
+
+INSERT INTO `po_status` (`id`, `billNo`, `order_id`, `status`) VALUES
+(1, 1, 4969, 'Pending'),
+(2, 2, 2732, 'Pending');
 
 --
 -- Indexes for dumped tables
@@ -635,7 +670,7 @@ ALTER TABLE `item_images`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `logins`
@@ -653,13 +688,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pos`
@@ -671,13 +706,13 @@ ALTER TABLE `pos`
 -- AUTO_INCREMENT for table `po_attachments`
 --
 ALTER TABLE `po_attachments`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `po_status`
 --
 ALTER TABLE `po_status`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

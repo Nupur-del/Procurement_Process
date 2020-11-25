@@ -46,6 +46,39 @@ router.get('/fetchBudget', (req,res) => {
     });
 })
 
+// Fetch the remaining budget location and department wise
+
+router.get('/remainBudgetLocDeptWise', (req,res) => {
+
+    var startYear = "";
+    var endYear = "";
+    var today = new Date();
+    
+    if ((today.getMonth() + 1) <= 3) {
+      startYear = (today.getFullYear() - 1);
+      endYear = today.getFullYear()
+    } else {
+        startYear = today.getFullYear();
+        endYear = (today.getFullYear() + 1);
+    }
+
+    const startDate = startYear + "-3-1";
+    const endDate = endYear + "-3-31";
+    console.log('End', endDate);
+    console.log('Start', startDate);
+    const loc = req.query.location;
+    const dept = req.query.department;
+    sql.query(`select sum(l.total_price) as total_spent,l.location, l.department,  b.current_balance, b.budget from orders o,locations l, budgets b \
+     where o.order_id = l.order_id and o.date between "${startDate}"  and "${endDate}" \
+      and l.location = "${loc}"  and l.department = "${dept}" and l.location = b.location and l.department = b.department`, (err, response) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(response);
+        }
+    })
+})
+
 // Fetch spent location and department wise
 
 router.get('/spentLocDeptWise', (req,res) => {
@@ -78,8 +111,6 @@ router.get('/spentLocDeptWise', (req,res) => {
         }
     })
 })
-
-
 
 // distinct location by order_id
 
