@@ -42,4 +42,8 @@ export class LocationService {
     let orderParams = new HttpParams().set('location', loc).set('department', dept);
     return this.http.get<any>(environment.BASE_URL + 'orders/spentLocDeptWise', {params: orderParams});
   }
+
+  getUniqueLocDept() {
+    return this.http.get<any>(environment.BASE_URL + 'orders/uniqueLocDept');
+  }
 }

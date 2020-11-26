@@ -48,6 +48,7 @@ import { POModule } from '../../projects/PO/src/app/app.module';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.component';
 import { DeniedComponent } from './denied/denied.component';
+import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { DeniedComponent } from './denied/denied.component';
     ApprovedComponent,
     OrderComponent,
     MyDialogComponent,
+    MessageDialogComponent,
     RequisitionHomeComponent,
     DeliveredPoComponent,
     DeniedComponent
@@ -146,7 +148,7 @@ import { DeniedComponent } from './denied/denied.component';
 
     ])
   ],
-  entryComponents: [MyDialogComponent],
+  entryComponents: [MyDialogComponent, MessageDialogComponent],
   providers: [AuthService, AuthGuard, MatDatepickerModule],
   bootstrap: [AppComponent]
 })

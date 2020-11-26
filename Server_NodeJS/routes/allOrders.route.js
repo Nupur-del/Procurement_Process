@@ -125,6 +125,18 @@ router.get('/distinctLocation', (req,res) => {
     });
 })
 
+// distinct combination of location and department
+
+router.get('/uniqueLocDept', (req,res) => {
+    sql.query(`select distinct(location), department from locations`, (err,response) => {
+       if(err) {
+           res.send(err);
+       } else {
+           res.send(response);
+       }
+    });
+})
+
 // Fetching total Spent
 
 router.get('/spentYearWise', (req,res) => {

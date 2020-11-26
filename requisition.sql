@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2020 at 04:12 PM
+-- Generation Time: Nov 26, 2020 at 07:47 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -280,7 +280,11 @@ INSERT INTO `locations` (`id`, `order_id`, `location`, `department`, `total_pric
 (12, 2732, 'Bangalore', 'Testing', 32000),
 (13, 2766, 'Hyderabad', 'Management', 3200),
 (14, 1784, 'Hyderabad', 'IT', 63000),
-(15, 4376, 'Mumbai', 'Testing', 40000);
+(53, 5594, 'Mumbai', 'Testing', 40000),
+(54, 9443, 'Bangalore', 'Electrical', 38400),
+(55, 9443, 'Bangalore', 'Testing', 28800),
+(58, 5120, 'Mumbai', 'Testing', 40000),
+(59, 4220, 'Bangalore', 'Testing', 28800);
 
 -- --------------------------------------------------------
 
@@ -338,8 +342,11 @@ INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`) VALUES
 (2732, 'test1', '2020-11-24', 'Order for Laptop'),
 (2766, 'test1', '2020-11-25', 'Sample Order'),
 (3844, 'test1', '2020-11-24', 'Sample Order'),
-(4376, 'test1', '2020-11-25', 'Sample Order'),
-(4969, 'test1', '2020-11-24', 'Sample Order');
+(4220, 'test1', '2020-11-26', 'Orders for USB CABLE'),
+(4969, 'test1', '2020-11-24', 'Sample Order'),
+(5120, 'test1', '2020-11-26', 'Sample Order'),
+(5594, 'test1', '2020-11-26', 'Sample Order'),
+(9443, 'test1', '2020-11-26', 'Orders for USB CABLE');
 
 -- --------------------------------------------------------
 
@@ -392,7 +399,11 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (14, 2766, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
 (15, 1784, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test1'),
 (16, 1784, 'Laptop', '12 inch', 'HP', 2, 'LK-121212', 10000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test2'),
-(17, 4376, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'Testing', NULL);
+(55, 5594, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'Testing', NULL),
+(56, 9443, 'UsbCable', '1 TB', 'IBALL', 12, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Electrical', NULL),
+(57, 9443, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Testing', NULL),
+(60, 5120, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'Testing', NULL),
+(61, 4220, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Testing', NULL);
 
 -- --------------------------------------------------------
 
@@ -426,7 +437,10 @@ INSERT INTO `order_status` (`id`, `order_id`, `status`, `message`, `color`) VALU
 (8, 2732, 'PO created', 'PO sent to Supplier', 'primary'),
 (9, 2766, 'Pending', 'Pending for approval', 'primary'),
 (10, 1784, 'Pending', 'Pending for approval', 'primary'),
-(11, 4376, 'Pending', 'Pending for approval', 'primary');
+(49, 5594, 'Pending', 'Pending for approval', 'primary'),
+(50, 9443, 'Pending', 'Pending for approval', 'primary'),
+(53, 5120, 'Pending', 'Pending for approval', 'primary'),
+(54, 4220, 'Pending', 'Pending for approval', 'primary');
 
 -- --------------------------------------------------------
 
@@ -670,7 +684,7 @@ ALTER TABLE `item_images`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `logins`
@@ -688,13 +702,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `pos`

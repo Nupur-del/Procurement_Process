@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
+import { MyDialogComponent } from '../my-dialog/my-dialog.component';
+import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 import { environment } from '../../environments/environment';
 import { OrderService } from '../order.service';
 import { LocationService } from '../location.service';
 import { ItemService } from '../item.service';
-import { StatusService } from '../status.service';
+import { BudgetService } from '../budget.service';
 
 import {
   MatSnackBar,
@@ -14,6 +16,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
   MatTableDataSource,
+  MatDialog,
   Sort
 } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -41,9 +44,12 @@ export class RequestComponent implements OnInit {
   type: any;
   locations: any;
   items: any;
+  public lowBudgetDept = '';
+  public lowBudget = 0;
   interval: any;
   dataSource: any;
   message: string;
+  public itemValue  = 0;
   actionButtonLabel = ':)';
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -56,10 +62,12 @@ export class RequestComponent implements OnInit {
   // Arrays
 
   public sorderList: any = [ ];
+  public uniqueLocDept: any = [];
   public locationList: any = [ ];
   public itemList: any = [ ];
   public delOrder: any = [ ];
   public delLocation: any = [ ];
+  budgetAfterApproving: any[] = [];
   public delItem: any = [ ];
   public orderList: any = [];
   public multiLocs: any = [ ];
@@ -77,14 +85,16 @@ export class RequestComponent implements OnInit {
               public http: HttpClient,
               public snackBar: MatSnackBar,
               private data: DataService,
+              public dialog: MatDialog,
               private orderService: OrderService,
               private locationService: LocationService,
               private itemService: ItemService,
-              private statusService: StatusService) {
+              private budgetService: BudgetService) {
               }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
+    console.log('I am inside Init');
 
     if (this.type === 'Requestor') {
       this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
@@ -104,9 +114,41 @@ export class RequestComponent implements OnInit {
 
     this.locationSub = this.locationService.getAllLocations().subscribe((data: any) => {
       this.locationList = data.data;
+      console.log('Location', this.locationList);
     });
+    this.checkBuget();
 
     this.messageSub = this.data.currentMessage.subscribe(message => this.sub = message);
+  }
+
+
+  private checkBuget() {
+    this.uniqueLocDept = [];
+    this.budgetAfterApproving = [];
+    this.locationService.getUniqueLocDept().subscribe((loc: any) => {
+      this.uniqueLocDept = loc;
+      console.log('Unique', this.uniqueLocDept);
+      for (let location of this.uniqueLocDept) {
+      this.locationService.getSpentLocDept(location.location, location.department).subscribe(spent => {
+        const exp = spent[0].total_spent === null ? 0 : spent[0].total_spent;
+        console.log(exp);
+        this.budgetService.getBudgetByDept(location.department, location.location).subscribe((result: any) => {
+            this.budgetAfterApproving.push({
+                  department: location.department,
+                  location: location.location,
+                  budget: (+result.current_balance - +exp)
+            });
+          }, err => {
+            console.log(err);
+          });
+        }, err => {
+          console.log(err);
+        });
+      }
+    }, err => {
+      console.log(err);
+    });
+    console.log('BudgetLocDept', this.budgetAfterApproving);
   }
 
   onEdit(order_id) {
@@ -116,49 +158,86 @@ export class RequestComponent implements OnInit {
     this.router.navigate(['/edit']);
   }
 
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(MyDialogComponent, {
+      data: {
+        name: this.lowBudgetDept,
+        budget: this.lowBudget
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openMessageDialog(): void {
+    const Ref = this.dialog.open(MessageDialogComponent, {
+      data: {
+        message: `Some of the items could not added due to low budget`
+      }
+    });
+    Ref.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
   onReplicate(order_id, refresher) {
 
-    console.log(refresher);
+    this.finalItem = [];
+    this.multiLocs = [];
+    this.lowBudgetDept = '';
+    this.lowBudget = 0;
+
     this.order = this.orderList.filter(order => order.order_id === order_id);
     this.order = this.order[0];
     this.items = this.itemList.filter(item => item.order_id === order_id);
     this.locations = this.locationList.filter(location => location.order_id === order_id);
 
-    for (let item of this.items) {
-      let i: any = {};
-      i.name = item.name;
-      i.specification = item.specification;
-      i.prefered_vendor = item.prefered_vendor;
-      i.quantity = item.quantity;
-      i.location = item.location;
-      i.department = item.department;
-      i.unit_type = item.unit_type;
-      i.price = item.price;
-      i.currency = item.currency;
-      i.custom = item.custom;
-      i.comment = item.comment;
-      this.finalItem.push(i);
-    }
-
     for (let location of this.locations) {
       let l: any = {};
-      l.location = location.location;
-      l.total_price = location.total_price;
-      l.department = location.department;
-      this.multiLocs.push(l);
+      const i = this.budgetAfterApproving.findIndex(exist =>
+                exist.location === location.location && exist.department === location.department);
+      if (location.total_price > +this.budgetAfterApproving[i].budget) {
+              this.lowBudgetDept = location.department;
+              this.lowBudget = this.budgetAfterApproving[i].budget - location.total_price;
+      } else {
+              const filteredItem = this.items.filter(product => product.location === location.location &&
+                                            product.department === location.department);
+              for (let item of filteredItem) {
+                let i: any = {};
+                i.name = item.name;
+                i.specification = item.specification;
+                i.prefered_vendor = item.prefered_vendor;
+                i.quantity = item.quantity;
+                i.location = item.location;
+                i.department = item.department;
+                i.unit_type = item.unit_type;
+                i.price = item.price;
+                i.currency = item.currency;
+                i.comment = item.comment;
+                this.finalItem.push(i);
+            }
+              l.location = location.location;
+              l.total_price = location.total_price;
+              l.department = location.department;
+              this.multiLocs.push(l);
+      }
     }
 
-    console.log('order-', this.order);
-    console.log('item-', this.finalItem);
-    console.log('location-', this.multiLocs);
-
-    this.order.finalItem = this.finalItem;
-    this.order.multiLocs = this.multiLocs;
-    console.log(this.order);
-
-    this.orderService.replicateOrder(this.order);
-    this.message = 'Replicated Sucessfully';
-    this.insert();
+    if (this.finalItem.length === 0 && this.multiLocs.length === 0 && this.lowBudgetDept !== '') {
+       this.openDialog();
+    } else if ( this.finalItem.length > 0 && this.multiLocs.length > 0) {
+        if (this.lowBudgetDept !== '') {
+            this.openMessageDialog();
+        }
+        this.order.finalItem = this.finalItem;
+        this.order.multiLocs = this.multiLocs;
+        this.orderService.replicateOrder(this.order);
+        this.message = 'Replicated Sucessfully';
+        this.checkBuget();
+        this.insert();
+    }
     this.doRefresh(refresher);
   }
 
@@ -168,8 +247,8 @@ export class RequestComponent implements OnInit {
     this.orderSub =  this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
                     .subscribe(
                     data => {
-                      console.log(data);
                       this.message = 'Deleted Sucessfully';
+                      this.checkBuget();
                       this.insert();
                       this.doRefresh(refresher);
                     },

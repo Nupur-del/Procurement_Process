@@ -83,7 +83,7 @@ replicateOrder(order: any): void {
   order.order_id = Math.floor(Math.random() * 10000) + 1;
   order.message = 'Pending for approval';
   order.status = 'Pending';
-  console.log(order);
+  console.log('Replicated Order', order);
   this.http.post(environment.BASE_URL + 'order/order', order).subscribe(data => {
   console.log(data);
   }, err => {
@@ -91,11 +91,6 @@ replicateOrder(order: any): void {
   });
 }
 
-// addOrder(order: any): Observable<string> {
-//   order.action = 'insert';
-//   console.log(order);
-//   return this.http.post<string>('http://localhost/My Project/ionic2php/order.php', order);
-// }
 
 deleteOrder(val: any): void {
   var indexes = [];
