@@ -38,7 +38,7 @@ export class DeniedComponent implements OnInit {
   orderList: any;
   sub: any;
   orderId: any;
-  displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status', 'view'];
+  displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status'];
   viewItem = {
     comment: '',
     currency: '',

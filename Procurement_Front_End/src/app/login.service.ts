@@ -60,4 +60,9 @@ export class LoginService {
         localStorage.removeItem('username');
         this.router.navigate(['/login']);
       }
+
+      getUser(type: string) {
+        let userParams = new HttpParams().set('type', type);
+        return this.http.get<any>(environment.BASE_URL + 'users/getUser', {params: userParams});
+      }
 }

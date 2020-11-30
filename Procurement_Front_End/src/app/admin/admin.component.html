@@ -149,7 +149,7 @@
       <input matInput [value]="catalog.price" disabled>
       </div>
       <div class="col-sm catalog">
-        <input matInput [value]="catalog.supplier" disabled>
+        <input matInput [value]="catalog.supplierName" disabled>
       </div>
       <div class="col-sm catalog">
         <input matInput [value]="catalog.specification" disabled>
@@ -158,10 +158,12 @@
       <input  type="number" style="width: 50px; height: 20px" required
       name="quantity_{{i}}"
       [min]="1"
+      [max]="catalog.quantity"
       matInput
-       [(ngModel)]="catalog.quantity"
+       [(ngModel)]="catalog.defaultQuantity"
        #quantity="ngModel">
        <mat-error *ngIf="quantity.errors?.min" style="font-size: 15px;">value can't be -ve or 0</mat-error>
+       <mat-error *ngIf="quantity.errors?.max" style="font-size: 13px;">Exceeding the quantity limit: {{catalog.quantity}}</mat-error>
        <mat-error *ngIf="quantity.errors?.required"
                style="font-size: 15px;">Please provide quantity</mat-error>
       </div>
@@ -340,8 +342,6 @@
   </div>
   </form>
   <div class="text-right" *ngIf="selectItem">
-    <!-- <button mat-raised-button color="primary" class="btn btn-primary mb-2" [disabled]="finalItem.length === 0"
-     (click)="otherlocation()">Add another location</button> -->
   </div>
 <br>
  </div>

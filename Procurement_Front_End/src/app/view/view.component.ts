@@ -193,6 +193,8 @@ export class ViewComponent implements OnInit {
               location: location.location,
               budget: (+result.current_balance - +spent[0].total_spent)
             });
+          }, err => {
+            console.log(err);
           });
          }, err => {
            console.log(err);
@@ -366,8 +368,21 @@ orderDecision(status, decision, refresher) {
     order_id: this.order.order_id
   };
 
+  if ( status === 'Denied') {
+    for ( let i of this.multiLocs) {
+       const locIndex = this.budgetAfterApproving.findIndex(e => e.location === i.location && e.department === i.department);
+       this.budgetAfterApproving[locIndex].budget = this.budgetAfterApproving[locIndex].budget + i.total_price;
+    }
+  }
   this.http.put(environment.BASE_URL + 'orders/updateStatus', updateData).subscribe(data => {
     console.log(data);
+    for (let i of this.budgetAfterApproving) {
+      this.budgetService.updateBudget(i.department, i.location, i.budget).subscribe(result => {
+         console.log(result);
+      }, err => {
+        console.log(err);
+      });
+    }
     this.router.navigate(['/request']);
   }, err => {
     console.log(err);

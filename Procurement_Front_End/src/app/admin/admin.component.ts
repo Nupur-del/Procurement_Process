@@ -7,6 +7,7 @@ import {map, startWith} from 'rxjs/operators';
 import {FormControl, NgForm, Validators} from '@angular/forms';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import {LoginService} from '../login.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ItemService } from '../../../projects/Supplier/src/app/item.service';
 import { BudgetService } from '../budget.service';
@@ -85,6 +86,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   cities: string[];
   departments: string[];
+  supplierDetails = [];
   itemImages: Array<ImageSlider>;
   budgetAfterApproving: any[] = [];
   public multiLocs: any = [ ];
@@ -144,6 +146,7 @@ export class AdminComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               public http: HttpClient,
               public router: Router,
+              private login: LoginService,
               private locationService: LocationService,
               private imageService: ImageService,
               private itemService: ItemService,
@@ -169,20 +172,34 @@ export class AdminComponent implements OnInit, OnDestroy {
       alert(err);
     });
 
+    this.login.getUser('Supplier').subscribe(data => {
+      this.supplierDetails = data;
+      console.log('Suppliers', this.supplierDetails);
+    });
+
     this.itemSub = this.itemService.getAllItems().subscribe((data: any[]) => {
         for (const i of data) {
-        this.catalog.push(i);
-        if (this.itemProducts.includes(i.name) === false) {
-          this.itemProducts.push(i.name);
-        }
-        if (this.supplierNames.includes(i.supplier) === false) {
-          this.supplierNames.push(i.supplier);
-        }
-        if (this.brandNames.includes(i.brand) === false) {
-          this.brandNames.push(i.brand);
-        }
+          for (const j of this.supplierDetails) {
+            if ( i.supplier === j.id) {
+              this.catalog.push({
+                ...i,
+                supplierName: j.name,
+                defaultQuantity: 1
+              });
+              if (this.supplierNames.includes(j.name) === false) {
+                this.supplierNames.push(j.name);
+              }
+            }
+          }
+          if (this.itemProducts.includes(i.name) === false) {
+            this.itemProducts.push(i.name);
+          }
+          if (this.brandNames.includes(i.brand) === false) {
+            this.brandNames.push(i.brand);
+          }
       }
     });
+    console.log(this.catalog);
     this.autocomplete();
   }
 
@@ -406,10 +423,14 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
   // For filtering the data of catalog Display
 
   toggleDisplay(product: string) {
-    this.isShow = false;
-    console.log('product name', product);
-    this.selectedCatalog = this.catalog.filter(item => item.name === product);
-    console.log('products-', this.selectedCatalog);
+    if (product !== 'None') {
+      this.isShow = false;
+      console.log('product name', product);
+      this.selectedCatalog = this.catalog.filter(item => item.name === product);
+      console.log('products-', this.selectedCatalog);
+    } else {
+      this.isShow = true;
+    }
   }
 
   selectedChoice(option: string) {
@@ -418,17 +439,26 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
   }
 
   toggleSupplier(supplier: string) {
-   this.isShow = false;
-   console.log('Supplier Name', supplier);
-   this.selectedCatalog = this.catalog.filter(item => item.supplier === supplier);
-   console.log('Supplier Data', this.selectedCatalog);
+    if (supplier !== 'None') {
+      this.isShow = false;
+      console.log('Supplier Name', supplier);
+      const filterSupplier = this.supplierDetails.find(e => e.name === supplier).id;
+      this.selectedCatalog = this.catalog.filter(item => item.supplier === filterSupplier);
+      console.log('Supplier Data', this.selectedCatalog);
+    } else {
+      this.isShow = true;
+    }
   }
 
   toggleBrand(brand: string) {
-    this.isShow = false;
-    console.log('Brand Name', brand);
-    this.selectedCatalog = this.catalog.filter(item => item.brand === brand);
-    console.log('Brand Data', this.selectedCatalog);
+    if (brand !== 'None') {
+      this.isShow = false;
+      console.log('Brand Name', brand);
+      this.selectedCatalog = this.catalog.filter(item => item.brand === brand);
+      console.log('Brand Data', this.selectedCatalog);
+    } else {
+      this.isShow = true;
+    }
   }
 
   // For checking the images of items available

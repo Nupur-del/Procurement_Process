@@ -20,6 +20,7 @@ const initRoutes = require("./routes/upload.route");
 const Cities = require("./routes/cities.route");
 const fs = require('fs');
 const Department = require("./routes/department.route");
+const budgetUpdate = require("./routes/budget_update.route");
 
 app.get('/', function(req,res){
     res.send('Hello from server');
@@ -38,6 +39,7 @@ app.use('/department', Department);
 app.use('/Purchase_order', Purchase_order);
 app.use('/item', item);
 app.use('/api', initRoutes);
+app.use('/budgets', budgetUpdate);
 
 app.listen(PORT, function(){
     console.log('Server is up and running ' + PORT);

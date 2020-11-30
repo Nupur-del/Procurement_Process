@@ -62,4 +62,20 @@ router.get('/auth', (req,res) => {
   })
 })
 
+router.get('/getUser', (req,res) => {
+  User.findAll({
+    where: {
+      type: req.query.type
+    }
+  }).then(data => {
+    if(data.length !== 0) {
+        res.send(data);
+    } else {
+      res.json({message:'No user present with this type'});
+    }
+  }).catch( err => {
+    res.send(err);
+  })
+})
+
 module.exports = router

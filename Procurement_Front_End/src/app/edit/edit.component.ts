@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {ImageService} from '../../../projects/Supplier/src/app/image.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
+import {LoginService} from '../login.service';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, map} from 'rxjs/operators';
 import {FormControl, Validators, NgForm} from '@angular/forms';
@@ -67,6 +68,7 @@ export class EditComponent implements OnInit, OnDestroy {
   budgetAfterApproving: any[] = [];
   public itemList: any = [ ];
   public multiLocs: any = [ ];
+  public localLocs: any = [ ];
   public budget: any = [ ];
   public finalItem: any = [ ];
   public selectedCatalog: any = [ ];
@@ -96,6 +98,7 @@ export class EditComponent implements OnInit, OnDestroy {
   itemProducts: string[] = [];
   supplierNames: string[] = [];
   brandNames: string[] = [];
+  supplierDetails = [];
   itemImages: Array<ImageSlider>;
   cities: string[] = [];
   departments: string[] = [];
@@ -150,6 +153,7 @@ export class EditComponent implements OnInit, OnDestroy {
               private imageService: ImageService,
               private orderService: OrderService,
               private sItem: supplierItemService,
+              private login: LoginService,
               private locationService: LocationService,
               private itemService: ItemService,
               private budgetService: BudgetService,
@@ -197,6 +201,10 @@ export class EditComponent implements OnInit, OnDestroy {
       console.log('Existing Item', this.finalItem);
     });
     this.order.order_id = this.sub;
+    this.login.getUser('Supplier').subscribe(data => {
+      this.supplierDetails = data;
+      console.log('Suppliers', this.supplierDetails);
+    });
 
     this.deptSub = this.http.get(environment.BASE_URL + 'department/fetchDepartmentName')
     .subscribe((data: Array<string>) => {
@@ -220,16 +228,24 @@ export class EditComponent implements OnInit, OnDestroy {
 
     this.itemSub = this.sItem.getAllItems().subscribe((data: any[]) => {
       for (let i of data) {
-      this.catalog.push(i);
-      if (this.itemProducts.includes(i.name) === false) {
-        this.itemProducts.push(i.name);
-      }
-      if (this.supplierNames.includes(i.supplier) === false) {
-        this.supplierNames.push(i.supplier);
-      }
-      if (this.brandNames.includes(i.brand) === false) {
-        this.brandNames.push(i.brand);
-      }
+        for (const j of this.supplierDetails) {
+          if ( i.supplier === j.id) {
+            this.catalog.push({
+              ...i,
+              supplierName: j.name,
+              defaultQuantity: 1
+            });
+            if (this.supplierNames.includes(j.name) === false) {
+              this.supplierNames.push(j.name);
+            }
+          }
+        }
+        if (this.itemProducts.includes(i.name) === false) {
+          this.itemProducts.push(i.name);
+        }
+        if (this.brandNames.includes(i.brand) === false) {
+          this.brandNames.push(i.brand);
+        }
     }
   });
     this.autocomplete();
@@ -377,24 +393,37 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   toggleDisplay(product: string) {
-    this.isShow = false;
-    console.log('product name', product);
-    this.selectedCatalog = this.catalog.filter(item => item.name === product);
-    console.log('products-', this.selectedCatalog);
+    if (product !== 'None') {
+      this.isShow = false;
+      console.log('product name', product);
+      this.selectedCatalog = this.catalog.filter(item => item.name === product);
+      console.log('products-', this.selectedCatalog);
+    } else {
+      this.isShow = true;
+    }
   }
 
   toggleSupplier(supplier: string) {
-    this.isShow = false;
-    console.log('Supplier Name', supplier);
-    this.selectedCatalog = this.catalog.filter(item => item.supplier === supplier);
-    console.log('Supplier Data', this.selectedCatalog);
+    if (supplier !== 'None') {
+      this.isShow = false;
+      console.log('Supplier Name', supplier);
+      const filterSupplier = this.supplierDetails.find(e => e.name === supplier).id;
+      this.selectedCatalog = this.catalog.filter(item => item.supplier === filterSupplier);
+      console.log('Supplier Data', this.selectedCatalog);
+    } else {
+      this.isShow = true;
+    }
    }
 
    toggleBrand(brand: string) {
-     this.isShow = false;
-     console.log('Brand Name', brand);
-     this.selectedCatalog = this.catalog.filter(item => item.brand === brand);
-     console.log('Brand Data', this.selectedCatalog);
+     if (brand !== 'None') {
+      this.isShow = false;
+      console.log('Brand Name', brand);
+      this.selectedCatalog = this.catalog.filter(item => item.brand === brand);
+      console.log('Brand Data', this.selectedCatalog);
+     } else {
+       this.isShow = true;
+     }
    }
 
 
@@ -510,16 +539,28 @@ if (item.quantity <= 0) {
           this.snackBar.open('Quantity cannot be less than 1', '', {duration: this.autoHide});
     } else {
         if (multiLocsIndex >= 0) {
-              this.multiLocs[multiLocsIndex].total_price = cost;
+              this.localLocs[multiLocsIndex].total_price = cost;
               console.log(this.multiLocs);
           } else {
-            this.multiLocs.push({
+            this.localLocs.push({
                 location: item.location,
                 department: item.department,
                 total_price: cost
           });
             console.log(this.multiLocs);
         }
+        const existLocation = this.multiLocs.findIndex(e => e.location === item.location && e.department === item.department);
+        if (existLocation >= 0) {
+          this.multiLocs[existLocation].total_price = cost;
+        } else {
+          this.multiLocs.push({
+            location: item.location,
+            department: item.department,
+            total_price: cost
+          });
+        }
+        console.log('MultiLocs', this.multiLocs);
+        console.log('LocalLocs', this.localLocs);
         console.log('addedItem', itemIndex);
         if (itemIndex >= 0) {
               this.snackBar.open('Selected item has already added to selected location and department', '', {duration: this.autoHide});
@@ -562,7 +603,7 @@ orderItem(product: any, loc: string, dept: string) {
         comment: product.comment,
         supplier: product.supplier
      };
-      const addedDepartment = this.multiLocs.findIndex(city => city.location === loc && city.department === dept);
+      const addedDepartment = this.localLocs.findIndex(city => city.location === loc && city.department === dept);
       const addedItemIndex = this.finalItem.findIndex(item =>
                                             item.location === loc
                                               && item.department === dept &&
@@ -573,7 +614,7 @@ orderItem(product: any, loc: string, dept: string) {
                                               && item.specification === product.specification
                                             );
       if (addedDepartment >= 0) {
-            this.itemValue = +this.multiLocs[addedDepartment].total_price + ((+product.quantity) * (+product.price));
+            this.itemValue = +this.localLocs[addedDepartment].total_price + ((+product.quantity) * (+product.price));
             console.log('Item Price', this.itemValue);
       } else {
             this.itemValue = this.itemValue + ((+product.quantity) * (+product.price));
@@ -594,6 +635,9 @@ orderItem(product: any, loc: string, dept: string) {
                     });
                     console.log(this.budgetAfterApproving);
                     const i = this.budgetAfterApproving.findIndex(exist => exist.location === loc && exist.department === dept);
+                    console.log(i);
+                    console.log(this.budgetAfterApproving[i].budget);
+                    console.log(this.itemValue);
                     if (this.itemValue > +this.budgetAfterApproving[i].budget) {
                           this.lowBudgetDept = dept;
                           this.lowBudget = this.budgetAfterApproving[i].budget - this.itemValue;
@@ -625,18 +669,6 @@ orderItem(product: any, loc: string, dept: string) {
       }
   }
 }
-
-
-  // otherlocation() {
-  //   this.selectedOption = null;
-  //   this.isImages = true;
-  //   this.change = true;
-  //   this.new = true;
-  //   this.selectItem = false;
-  //   this.isShow = true;
-  //   this.catalogDisplay = true;
-  //   this.catalogForm.resetForm();
-  // }
 
   removeOrderItem(i: number, item: any) {
     console.log('Before MultiLocs', this.multiLocs);

@@ -145,7 +145,7 @@
               <input matInput [value]="catalog.price" disabled>
               </div>
               <div class="col-sm catalog">
-                <input matInput [value]="catalog.supplier" disabled>
+                <input matInput [value]="catalog.supplierName" disabled>
               </div>
               <div class="col-sm catalog">
                 <input matInput [value]="catalog.specification" disabled>
@@ -153,10 +153,13 @@
               <div class="col-sm catalog">
               <input type="number" required style="width: 50px; height: 20px"  name="quantity{{i}}"
               [min]="1"
-               [(ngModel)]="catalog.quantity"
+              [max]="catalog.quantity"
+               [(ngModel)]="catalog.defaultQuantity"
                #quantCat="ngModel">
                <mat-error *ngIf="quantCat.errors?.min"
                style="font-size: 15px;">value can't be -ve or zero</mat-error>
+               <mat-error *ngIf="quantCat.errors?.max" style="font-size: 13px;">
+                Exceeding the quantity limit: {{catalog.quantity}}</mat-error>
                <mat-error *ngIf="quantCat.errors?.required"
                style="font-size: 15px;">Please provide quantity</mat-error>
               </div>
@@ -333,7 +336,6 @@
           </form>
           <br>
          </div>
-
 &nbsp;
 <div>
 <mat-card style="background-color:lavender;">
@@ -362,9 +364,12 @@
 <hr>
 <br>
 <div class="text-right">
-<button type="button" class="btn btn-success"
-[disabled]="finalItem.length === 0"
-(click)="updateOrder($event)">Update Order</button>
+      <button type="button" color="accent" class="btn my-class"
+      [disabled]="finalItem.length === 0" mat-raised-button
+      (click)="updateOrder($event)">Update Order</button>
+
+      <button type="button" color="primary" class="btn my-class" style="margin-left: 10px;"
+      [routerLink]="'/request'" mat-raised-button>Cancel</button>
 </div>
 </form>
 </section>

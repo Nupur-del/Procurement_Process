@@ -10,7 +10,7 @@ router.use(cors());
 router.get('/allOrders', (req,res) => {
     sql.query(`select o.*, s.status,s.message,s.color, sum(l.total_price) as total_price from orders o, \ 
     locations l, order_status s where o.order_id = s.order_id and o.order_id = l.order_id group by \
-     o.order_id`, (err,response) => {
+     o.order_id order by o.date desc`, (err,response) => {
        if(err) {
            res.send(err);
        } else {
@@ -101,9 +101,10 @@ router.get('/spentLocDeptWise', (req,res) => {
     console.log('Start', startDate);
     const loc = req.query.location;
     const dept = req.query.department;
-    sql.query(`select sum(l.total_price) as total_spent,l.location, l.department from orders o,locations l \
-     where o.order_id = l.order_id and o.date between "${startDate}"  and "${endDate}" \
-      and l.location = "${loc}"  and l.department = "${dept}"`, (err, response) => {
+    sql.query(`select sum(l.total_price) as total_spent,l.location, l.department, s.status \ 
+    from orders o,locations l, order_status s \
+     where o.order_id = l.order_id and o.order_id = s.order_id and o.date between "${startDate}"  and "${endDate}" \
+      and l.location = "${loc}"  and l.department = "${dept}" and s.status != "Denied"`, (err, response) => {
         if (err) {
             res.send(err);
         } else {
@@ -173,7 +174,7 @@ router.get('/spentYearWise', (req,res) => {
 router.get('/Order_by_status', (req,res) => {
     const status = req.query.status
     sql.query(`SELECT o.* , s.status ,  s.message, sum(l.total_price) as total_price from orders o, order_status s, locations l \ 
-    where s.status = "${status}" AND o.order_id = s.order_id AND o.order_id = l.order_id group by o.order_id`, (err, response) => {
+    where s.status = "${status}" AND o.order_id = s.order_id AND o.order_id = l.order_id group by o.order_id order by o.date desc`, (err, response) => {
         if (err) {
             res.send(err);
         } else {

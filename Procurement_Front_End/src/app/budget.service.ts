@@ -16,4 +16,13 @@ export class BudgetService {
     const budgetParams = new HttpParams().set('department', department).set('location', location);
     return this.http.get<IBudget>(environment.BASE_URL + 'budget/budget_by_deptID', {params: budgetParams});
   }
+
+  updateBudget(dept: string, loc: string, cost: number) {
+    const updateBud = {
+      location: loc,
+      department: dept,
+      budget: cost
+    };
+    return this.http.post(environment.BASE_URL + 'budgets/updateBudget', updateBud);
+  }
 }

@@ -81,10 +81,17 @@
   <td mat-cell *matCellDef="let element">{{element.total_price}}</td>
 </ng-container>
 
+<ng-container matColumnDef="Details">
+  <th mat-header-cell *matHeaderCellDef> Details </th>
+  <td mat-cell *matCellDef="let element">
+    <button mat-icon-button color="primary" (click)="seeOrder(element.order_id)"><mat-icon>preview</mat-icon></button>
+  </td>
+</ng-container>
+
   <ng-container matColumnDef="delete" *ngIf="type === 'Requestor'">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element" class="action-link">
-      <div *ngIf="element.status == 'Pending' || element.status == 'Approved' ||
+      <div *ngIf="element.status == 'Pending' ||
       element.status == 'Cancelled'; then thenBlock else elseBlock"></div>
       <ng-template #thenBlock>
         <button mat-icon-button color='warn' (click)="onDelete(element.order_id,$event)">

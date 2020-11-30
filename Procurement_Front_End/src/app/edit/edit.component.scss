@@ -28,6 +28,12 @@ select {
   border: 1px solid #dce0d4;
 }
 
+.my-class{
+  width: 100px!important;
+  min-width: unset!important;
+  padding: 5px;
+}
+
 .example-viewport {
   height: 300px !important;
   width: 980px !important;

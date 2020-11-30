@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from '../../../projects/PO/src/app/message.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
+import { SeeOrderComponent } from '../../../projects/PO/src/app/see-order/see-order.component';
+import { DataService as DataViewService } from '../../../projects/PO/src/app/data.service';
 import { MyDialogComponent } from '../my-dialog/my-dialog.component';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 import { environment } from '../../environments/environment';
@@ -17,6 +20,7 @@ import {
   MatSnackBarVerticalPosition,
   MatTableDataSource,
   MatDialog,
+  MatDialogConfig,
   Sort
 } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -41,6 +45,7 @@ export class RequestComponent implements OnInit {
 
   closeResult: string;
   sub: any;
+  itemId: any;
   type: any;
   locations: any;
   items: any;
@@ -86,6 +91,8 @@ export class RequestComponent implements OnInit {
               public snackBar: MatSnackBar,
               private data: DataService,
               public dialog: MatDialog,
+              private dataView: DataViewService,
+              private messageService: MessageService,
               private orderService: OrderService,
               private locationService: LocationService,
               private itemService: ItemService,
@@ -94,14 +101,13 @@ export class RequestComponent implements OnInit {
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
-    console.log('I am inside Init');
 
     if (this.type === 'Requestor') {
       this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
-                     'status', 'edit', 'total_cost', 'delete', 'replicate', 'mark_complete'];
+                     'status', 'edit', 'total_cost', 'Details','delete', 'replicate', 'mark_complete'];
      } else {
        this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
-                     'status', 'requestor', 'total_cost'];
+                     'status', 'requestor', 'total_cost', 'Details'];
      }
     this.orderSub = this.orderService.getAllOrders().subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
@@ -120,7 +126,6 @@ export class RequestComponent implements OnInit {
 
     this.messageSub = this.data.currentMessage.subscribe(message => this.sub = message);
   }
-
 
   private checkBuget() {
     this.uniqueLocDept = [];
@@ -158,7 +163,6 @@ export class RequestComponent implements OnInit {
     this.router.navigate(['/edit']);
   }
 
-
   openDialog(): void {
     const dialogRef = this.dialog.open(MyDialogComponent, {
       data: {
@@ -181,6 +185,20 @@ export class RequestComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+
+  seeOrder(orderId) {
+    this.itemId = orderId;
+    const id = '0';
+    this.messageService.changeMessage(this.itemId);
+    this.dataView.changeMessage(id);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.maxHeight = '90vh';
+    const dialog = this.dialog.open(SeeOrderComponent, dialogConfig);
+  }
+
 
   onReplicate(order_id, refresher) {
 
@@ -242,12 +260,30 @@ export class RequestComponent implements OnInit {
   }
 
   onDelete(id, refresher) {
+    const locExist  = this.locationList.filter(e => e.order_id === id);
+    const temarray = [];
+    for (let a of locExist) {
+       const locIndex = this.budgetAfterApproving.findIndex(loc => loc.location === a.location &&
+        loc.department === a.department);
+       temarray.push({
+         location: a.location,
+         department: a.department,
+         budget: this.budgetAfterApproving[locIndex].budget + a.total_price
+       });
+    }
+    console.log('UpdateBudgetAfterDelete', temarray);
     console.log('Order Id', id);
     let deleteParams = new HttpParams().set('order_id', id);
     this.orderSub =  this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
                     .subscribe(
                     data => {
                       this.message = 'Deleted Sucessfully';
+                      console.log(this.orderList);
+                      const i  = this.orderList.filter(e => e.order_id === id);
+                      console.log(i);
+                      for ( let j of temarray) {
+                        this.budgetService.updateBudget(j.department, j.location, j.budget);
+                      }
                       this.checkBuget();
                       this.insert();
                       this.doRefresh(refresher);
