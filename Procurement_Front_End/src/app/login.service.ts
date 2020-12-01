@@ -38,6 +38,7 @@ export class LoginService {
           const status = 'true';
           localStorage.setItem('loginStatus', status);
           localStorage.setItem('username', data.name);
+          localStorage.setItem('userId', data.id);
           // tslint:disable-next-line: no-string-literal
           this.router.navigate(['/home']);
       }, error => {
@@ -58,6 +59,7 @@ export class LoginService {
         localStorage.removeItem('loginStatus');
         localStorage.removeItem('type');
         localStorage.removeItem('username');
+        localStorage.removeItem('userId');
         this.router.navigate(['/login']);
       }
 

@@ -14,6 +14,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material';
+import { SeeItemComponent } from '../see-item/see-item.component';
 
 @Component({
   selector: 'app-supplier-items',
@@ -39,7 +40,7 @@ export class SupplierItemsComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   addExtraClass = false;
   // tslint:disable-next-line: max-line-length
-  displayedColumns: string[] = ['Item ID', 'Name', 'SKU', 'Brand', 'Price', 'Currency', 'Features', 'DiscountRate', 'Warranty', 'ReplacementPolicy', 'Location', 'edit', 'delete', 'replicate'];
+  displayedColumns: string[] = ['Item ID', 'Name', 'SKU', 'Brand', 'Price', 'Currency', 'Features', 'DiscountRate', 'Warranty', 'ReplacementPolicy', 'Location', 'Images', 'edit', 'delete', 'replicate'];
 
   constructor(private itemService: ItemService,
               public snackBar: MatSnackBar,
@@ -152,6 +153,19 @@ export class SupplierItemsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
     const dialog = this.dialog.open(CSVComponent, dialogConfig);
+    dialog.afterClosed().subscribe(() => {
+      // Do stuff after the dialog has closed
+      this.doRefresh(refresher);
+    });
+  }
+
+  seeImages(id: any, refresher) {
+    this.data.changeMessage(id);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '40%';
+    dialogConfig.maxHeight = '90vh';
+    const dialog = this.dialog.open(SeeItemComponent, dialogConfig);
     dialog.afterClosed().subscribe(() => {
       // Do stuff after the dialog has closed
       this.doRefresh(refresher);

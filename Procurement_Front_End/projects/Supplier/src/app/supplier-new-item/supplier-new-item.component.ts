@@ -14,6 +14,7 @@ export class SupplierNewItemComponent implements OnInit {
   imageNames:string[] = [];
   uploadedImages: string[] = [];
   image: any;
+  supplierID: any;
   isRemovable = true;
   change = true;
   optional = false;
@@ -24,7 +25,9 @@ export class SupplierNewItemComponent implements OnInit {
   constructor(private http: HttpClient,
               private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.supplierID = localStorage.getItem('userId');
+  }
 
   onFileChange(event) {
     for (var i = 0; i < event.target.files.length; i++) {
@@ -113,6 +116,7 @@ export class SupplierNewItemComponent implements OnInit {
 
   addItem() {
     this.item.imageName = this.uploadedImages;
+    this.item.supplier = this.supplierID;
     console.log(this.item);
     this.http.post(environment.BASE_URL + 'item/items', this.item).subscribe(data => {
     console.log(data);

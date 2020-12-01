@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { environment } from '../../../../../src/environments/environment';
 import { ItemService } from '../item.service';
 import { ImageService } from '../image.service';
@@ -15,6 +14,13 @@ import {
 } from '@angular/material';
 import { EditComponent } from 'src/app/edit/edit.component';
 
+
+interface ImageSlider {
+  image: string;
+  thumbImage: string;
+  alt: string;
+  title: string;
+}
 
 @Component({
   selector: 'app-edit-item',
@@ -31,6 +37,8 @@ export class EditItemComponent implements OnInit {
   sampleMan: any = [];
   imageList: any = [];
   sub: any;
+  itemImages: Array<ImageSlider>;
+  isLoading = false;
   isRemovable = true;
   item = {
     brand: '',
@@ -68,7 +76,6 @@ export class EditItemComponent implements OnInit {
   addExtraClass = false;
 
   constructor(private http: HttpClient,
-              private router: Router,
               public snackBar: MatSnackBar,
               private itemService: ItemService,
               private imageService: ImageService,
@@ -89,6 +96,7 @@ export class EditItemComponent implements OnInit {
       if (data.length !== 0) {
         for (let i = 0 ; i < data.length ; i++ ) {
           this.imageNames.push(this.serviceImage[i].imageName);
+          this.uploadedImages.push(this.serviceImage[i].imageName);
         }
       }
     });
@@ -141,7 +149,13 @@ export class EditItemComponent implements OnInit {
 
   removeImage(i: number) {
     console.log(this.uploadedImages[i]);
-    let params = new HttpParams().set('fileName', this.uploadedImages[i]);
+    let params;
+    if (this.uploadedImages[i]) {
+      params = new HttpParams().set('fileName', this.uploadedImages[i]);
+    } else {
+      params = new HttpParams().set('fileName', this.imageNames[i]);
+    }
+    console.log(params);
     this.http.delete(environment.BASE_URL + 'api/deleteFile', { params: params }).subscribe( data => {
       alert(data['message']);
       console.log(data);

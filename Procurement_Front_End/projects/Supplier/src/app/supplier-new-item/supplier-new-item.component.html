@@ -1,13 +1,8 @@
-
-
-
   <div class="container">
     <h1>New Item Form</h1>
-
     <section class="container border mb-4 p-3"  >
     <form #mainForm="ngForm" class="container mt-3 custom">
     <table>
-
       <tr>
         <td><h5>Name&nbsp;</h5></td>
         <td>
@@ -20,9 +15,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
       <tr>
         <td><h5>SKU&nbsp;</h5></td>
         <td>
@@ -36,9 +29,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
       <tr>
         <td><h5>Brand &nbsp;</h5></td>
         <td>
@@ -51,10 +42,7 @@
         </div>
         </td>
       </tr>
-
-
       <br>
-
       <tr>
         <td><h5>Price &nbsp;</h5></td>
         <td>
@@ -67,10 +55,7 @@
         </div>
         </td>
       </tr>
-
-
       <br>
-
       <tr>
         <td><h5>Currency &nbsp;</h5></td>
         <td>
@@ -86,9 +71,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
       <tr>
         <td><h5>Features &nbsp;</h5></td>
         <td>
@@ -100,10 +83,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
-
       <tr>
         <td><h5>Description</h5></td>
         <td>
@@ -115,9 +95,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
        <tr>
         <td><h5>Discount Rate</h5></td>
         <td>
@@ -130,9 +108,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
        <tr>
         <td><label></label><h5>In Stock</h5></td>
         <td>
@@ -152,9 +128,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
        <tr>
         <td><h5>Images</h5></td>
         <td>
@@ -178,7 +152,6 @@
       <div [hidden]="change"  style="text-align: center;">
       <br>
       <hr>
-
       <mat-card style="background-color:lavender;">
           <mat-card-header>
             <mat-card-title>Uploaded Images</mat-card-title>
@@ -199,7 +172,6 @@
       </div>
       </td>
       </tr>
-
       <tr>
         <td><h5>Warranty</h5></td>
         <td>
@@ -211,9 +183,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
        <tr>
         <td><h5>Replacement Policy</h5></td>
         <td>
@@ -225,9 +195,7 @@
         </div>
         </td>
       </tr>
-
       <br>
-
        <tr>
         <td><h5>Location</h5></td>
         <td>
@@ -239,63 +207,12 @@
         </div>
         </td>
       </tr>
-
       <br>
-  <!--
-      <tr>
-        <td><label></label><h5>Custom Field</h5></td>
-        <td>
-        <div class="form-group">
-        Field Name&nbsp;<input type="text" class="form-control" id="fieldName" [(ngModel)]="fName" ngModel name="fieldName" #fieldName="ngModel" [disabled]="optional" [required]="requireChange">
-        <div class ="alert alert-danger" *ngIf="fieldName.touched && !fieldName.valid" [hidden]="optional">
-        <div *ngIf="fieldName.errors?.required">Field Name is Required</div>
-        </div>
-        </div>
-        </td>
-        <td>Field Type&nbsp;
-        <div class="form-group">
-        <select class="form-control" id="fieldType" [(ngModel)]="fType" ngModel name="fieldType" #fieldType="ngModel" placeholder="FieldType" [disabled]="optional" [required]="requireChange" >
-            <option value="Text">Text</option>
-            <option value="Number">Number</option>
-            <option value="DropDown">DropDown</option>
-            <option calue="date">Date</option>
-        </select>
-        <div class ="alert alert-danger" *ngIf="fieldType.touched && !fieldType.valid" [hidden]="optional">
-        <div *ngIf="fieldType.errors?.required">Field Type is Required</div>
-        </div>
-        </div>
-        </td>
-        <td><label>&nbsp;</label><br><mat-checkbox name="check" [(ngModel)]="optional" onChange="disableFields()">Optional</mat-checkbox></td>
-      </tr>
-
-      -->
-
-
-
       <br>
-
     </table>
      <div class="text-right">
       <button type="submit" class="btn btn-success" (click)="addItem()">Submit Item</button>
       </div>
     </form>
     </section>
-
-
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

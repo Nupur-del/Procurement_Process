@@ -1,0 +1,15 @@
+<div *ngFor="let i of items">
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{i.name}}</mat-card-title>
+    <mat-card-subtitle><b>{{i.brand}}</b></mat-card-subtitle>
+  </mat-card-header>
+    <div *ngIf="isLoading" class="spinner">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </div>
+    <div *ngIf="!isLoading" align="end">
+    <ng-image-slider [images]="itemImages" #nav></ng-image-slider>
+    </div>
+</mat-card>
+</div>

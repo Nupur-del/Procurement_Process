@@ -32,7 +32,9 @@ import { SupplierItemsComponent } from './supplier-items/supplier-items.componen
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { CSVComponent } from './csv/csv.component';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
+import { SeeItemComponent } from './see-item/see-item.component';
+import { NgImageSliderModule } from 'ng-image-slider';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
     SupplierNewItemComponent,
     SupplierItemsComponent,
     EditItemComponent,
-    CSVComponent
+    CSVComponent,
+    SeeItemComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,8 @@ import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
     LayoutModule,
     ReactiveFormsModule,
     FormsModule,
+    NgImageSliderModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
     MatDatepickerModule,
     MatToolbarModule,
@@ -74,12 +79,12 @@ import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CSVComponent]
+  entryComponents: [CSVComponent, SeeItemComponent]
 })
 export class AppModule { }
 
 @NgModule({})
-export class SupplierModule{
+export class SupplierModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: AppModule,

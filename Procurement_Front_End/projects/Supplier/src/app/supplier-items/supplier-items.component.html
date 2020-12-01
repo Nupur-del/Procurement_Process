@@ -48,32 +48,31 @@
             <th mat-header-cell *matHeaderCellDef>Location</th>
             <td mat-cell *matCellDef = "let element"> {{element.location}} </td>
          </ng-container>
+         <ng-container matColumnDef="Images">
+          <th mat-header-cell *matHeaderCellDef> Images </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="seeImages(element.item_id, $event)"><mat-icon>slideshow</mat-icon></button>
+          </td>
+        </ng-container>
          <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button color='primary' (click)="onEdit(element.item_id, $event)"><mat-icon>edit</mat-icon></button>
-
       </td>
     </ng-container>
-
-
   <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button color='warn' (click)="onDelete(element.item_id,$event)"><mat-icon>delete</mat-icon></button>
       </td>
     </ng-container>
-
-
-
       <ng-container matColumnDef="replicate">
       <th mat-header-cell *matHeaderCellDef> Replicate </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button color='primary' (click)="onReplicate(element.item_id,$event)"><mat-icon>repeat</mat-icon></button>
       </td>
     </ng-container>
-        <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
-        <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-

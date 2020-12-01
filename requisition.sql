@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2020 at 08:48 PM
+-- Generation Time: Dec 01, 2020 at 08:39 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -209,9 +209,10 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`item_id`, `name`, `sku`, `brand`, `price`, `currency`, `desc`, `discount`, `quantity`, `specification`, `unit_type`, `threshold`, `warranty`, `policy`, `location`, `features`, `supplier`) VALUES
-(1740, 'UsbCable', 'SK21323212', 'IBALL', 3200, 'INR', 'Usb Cable with long wire', 3.4, 3, '1 TB', 'I-2323', 1, '4 years', '2 months', 'Bangalore', 'Portable', 2),
+(4800, 'UsbCable', 'SK21323212', 'IBALL', 3200, 'INR', 'Usb Cable with long wire', 3.4, 3, '1 TB', 'I-2323', 1, '4 years', '2 months', 'Bangalore', 'Portable', 2),
 (5472, 'Laptop', 'SK2133232', 'HP', 43000, 'INR', 'Laptop with good graphics', 4.3, 3, '30 inch', 'HP-2343', 4, '4 years', '3 months', 'Mumbai', 'TouchPad', 5),
-(7734, 'Laptop', 'PK21323212', 'DELL', 32000, 'INR', 'Laptop with 1 TB RAM', 0, 9, '15 inch', 'DX-2323', 3, '1 year', '2 months', 'Delhi', 'Touch', 2);
+(7734, 'Laptop', 'PK21323212', 'DELL', 32000, 'INR', 'Laptop with 1 TB RAM', 0, 9, '15 inch', 'DX-2323', 3, '1 year', '2 months', 'Delhi', 'Touch', 2),
+(9317, 'Router', 'ASUS21332', 'ASUS', 4200, 'INR', 'It is good for AiProtection', 0.3, 6, NULL, NULL, 4, '4 years', '2 years', 'Lucknow', 'Adaptive QoS', 2);
 
 -- --------------------------------------------------------
 
@@ -242,9 +243,13 @@ INSERT INTO `item_images` (`id`, `item_id`, `imageName`) VALUES
 (236, 5472, '1605277660836-upload-HP_laptop_1.png'),
 (237, 5472, '1605277672387-upload-HP_laptop_7.jpg'),
 (238, 5472, '1605277685150-upload-HP_laptop_5.jpg'),
-(239, 1740, '1605277898204-upload-multi_colored_usb_cables.jpg'),
-(240, 1740, '1605277909996-upload-usb_cable_pic4.jpeg'),
-(241, 1740, '1605277920180-upload-usb_cable_pic5.jpg');
+(242, 9317, '1606829607075-upload-asus_router_1.jpg'),
+(243, 9317, '1606829633719-upload-asus_router_4.jpg'),
+(244, 9317, '1606829618181-upload-asus_router_2.jpg'),
+(245, 9317, '1606829625680-upload-asus_router_3.jpg'),
+(249, 4800, '1606850353295-upload-usb_cable_pic5.jpg'),
+(250, 4800, '1605277898204-upload-multi_colored_usb_cables.jpg'),
+(251, 4800, '1606850884814-upload-usb_cable_pic2.jpg');
 
 -- --------------------------------------------------------
 
@@ -398,7 +403,7 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (2, 3844, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
 (5, 1784, 'UsbCable', '1 TB', 'IBALL', 12, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Electrical', 'test2'),
 (6, 1784, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Testing', 'test2'),
-(7, 4969, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'PO created', NULL, NULL, 'Mumbai', 'Testing', NULL),
+(7, 4969, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Approved', NULL, NULL, 'Mumbai', 'Testing', NULL),
 (8, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Chennai', 'Electrical', NULL),
 (9, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Hyderabad', 'Management', NULL),
 (10, 658, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Delhi', 'HR', 'test2'),
@@ -442,7 +447,7 @@ CREATE TABLE `order_status` (
 
 INSERT INTO `order_status` (`id`, `order_id`, `status`, `message`, `color`) VALUES
 (1, 3844, 'Pending', 'Pending for approval', 'primary'),
-(5, 4969, 'PO created', 'PO sent to Supplier', 'primary'),
+(5, 4969, 'Approved', 'undefined', 'primary'),
 (6, 998, 'Denied', 'not required', 'primary'),
 (7, 658, 'Approved', 'It is Approved', 'primary'),
 (8, 2732, 'PO created', 'PO sent to Supplier', 'primary'),
@@ -502,7 +507,7 @@ CREATE TABLE `pos` (
 --
 
 INSERT INTO `pos` (`billNo`, `order_id`, `item_id`, `reqName`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `message`, `currency`, `org_billed`, `cmp_name`, `location`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `item_name`, `quantity`, `price`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`) VALUES
-(1, 4969, 7, 'test1', 'no', 'we need it on urgent basis', 'we need it on urgent basis', 'TCS', 'product2', 'Thanks in advance', 'INR', 'Tata Consultancy Services', 'TCS', 'Mumbai', 'Ram nagar Mumbai', 'test1', '2020-11-29', '80/23 ramnagar mumbai', 'MUM-32332', 'MUM-3233', 'MUM-21212', 'Laptop', 2, 20000, 40000, '', NULL, '', '', ''),
+(1, 4969, 7, 'test1', 'no', 'we need it on urgent basis', 'we need it on urgent basis', 'TCS', 'product2', 'Thanks in advance', 'INR', 'Tata Consultancy Services', 'TCS', 'Mumbai', 'Ram nagar Mumbai', 'test1', '2020-11-29', '80/23 ramnagar mumbai', 'MUM-32332', 'MUM-3233', 'MUM-21212', 'Laptop', 2, 20000, 40000, '', NULL, 'Approved', '', ''),
 (2, 2732, 11, 'test1', 'no', 'We need it', 'We need it', 'TCS', 'product2', 'thanks in advance', 'INR', 'TCS', 'Tata consultancy Services', 'Pune', 'Sitapur Pune', 'Sitapur Pune', '2020-11-29', 'Sitapur Pune', 'PUN-3232', 'PUN-6788', 'PUN-12121', 'Laptop', 1, 43000, 43000, '', NULL, '', '', '');
 
 -- --------------------------------------------------------
@@ -555,7 +560,7 @@ CREATE TABLE `po_status` (
 --
 
 INSERT INTO `po_status` (`id`, `billNo`, `order_id`, `status`) VALUES
-(1, 1, 4969, 'Pending'),
+(1, 1, 4969, 'Approved'),
 (2, 2, 2732, 'Pending');
 
 --
@@ -685,13 +690,13 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7735;
+  MODIFY `item_id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9318;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
 
 --
 -- AUTO_INCREMENT for table `locations`

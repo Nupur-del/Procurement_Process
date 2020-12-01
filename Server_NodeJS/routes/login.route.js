@@ -29,7 +29,8 @@ router.post('/login', (req,res)=>  {
 
     if( req.body.password === response.data.password ) {
         res.json({type: response.data.type,
-        name: response.data.name})
+        name: response.data.name,
+      id: response.data.id})
       } else {
         response.data = null;
         response.status= 404;

@@ -6,7 +6,6 @@ import { MessageService } from '../message.service';
 import { DataService } from '../data.service';
 import { MatTableDataSource } from '@angular/material';
 
-
 @Component({
   selector: 'app-see-order',
   templateUrl: './see-order.component.html',

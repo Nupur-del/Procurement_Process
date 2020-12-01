@@ -169,9 +169,9 @@
           </mat-card-header>
         <div class="row">
           <div class="col-sm-4"  *ngFor="let image of imageNames; let i=index;">
-            <p>{{ image }}
-            <button mat-button-raised [disabled]="isRemovable" (click)="removeImage(i)">X</button>
-            </p>
+            <a style="margin-right: 10px;" [href]="'http://localhost:3000/images/' + image">{{ image }}
+            <button mat-icon-button (click)="removeImage(i)"><mat-icon>delete</mat-icon></button>
+            </a>
           </div>
           </div>
       </mat-card>
