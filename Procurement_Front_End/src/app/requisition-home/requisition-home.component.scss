@@ -1,11 +1,19 @@
 .center {
     text-align: center;
 }
-
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 html,
 body {
     font-family: 'Open Sans Condensed', sans-serif;
+}
+.sticky {
+background-color: #1d87cf;
+// position: -webkit-sticky;
+position: sticky;
+z-index: 1;
+top: 13%;
+// top: 0;
+right: 1rem;
 }
 
 mat-card-title {

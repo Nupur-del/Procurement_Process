@@ -11,7 +11,7 @@ router.post('/updateBudget', (req,res) => {
     const cost = req.body.budget;
     const loc = req.body.location;
     const dept = req.body.department;
-    sql.query(`update budgets set approx_remaining_budget = ${cost} where location = '${loc}' and department = '${dept}'`, (err,response) => {
+    sql.query(`update budgets set budget = ${cost} where location = '${loc}' and department = '${dept}'`, (err,response) => {
        if (err) {
            res.send(err);
        } else {

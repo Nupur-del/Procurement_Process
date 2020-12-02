@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  MatSnackBar
+} from '@angular/material';
 import { HttpClient} from '@angular/common/http';
 import { DataService } from '../data.service';
 import { OrderService} from '../order.service';
@@ -60,84 +63,7 @@ export class ViewComponent implements OnInit {
     comment: ''
   }];
 
-  public catalog: any[] = [{
-    name: 'Desktop',
-    specification: '15 inch',
-    prefered_vendor: 'Dell',
-    quantity: '4',
-    unit_type: 'DX-2323',
-    price: '23000',
-    currency: 'INR',
-    custom: 'Windows',
-    comment: 'Full Setup'
-  },
-  {
-    name: 'Desktop',
-    specification: '13 inch',
-    prefered_vendor: 'HP',
-    quantity: '6',
-    unit_type: 'HP-733',
-    price: '25000',
-    currency: 'INR',
-    custom: 'Windows',
-    comment: 'Full Setup'
-  },
-  {
-    name: 'Hard Drive',
-    specification: '1 TB',
-    prefered_vendor: 'Toshiba',
-    quantity: '8',
-    unit_type: 'T-3232',
-    price: '3500',
-    currency: 'INR',
-    custom: 'USB-3.0',
-    comment: ''
-  },
-  {
-    name: 'Hard Drive',
-    specification: '1 TB',
-    prefered_vendor: 'Segate',
-    quantity: '2',
-    unit_type: 'S-323',
-    price: '3000',
-    currency: 'INR',
-    custom: 'USB-3.0',
-    comment: ''
-  },
-  {
-    name: 'Wireless Router',
-    specification: 'Mid Range',
-    prefered_vendor: 'Cisco',
-    quantity: '5',
-    unit_type: 'C-4324',
-    price: '1200',
-    currency: 'INR',
-    custom: 'None',
-    comment: 'Reliable'
-  },
-  {
-    name: 'Wireless Router',
-    specification: 'Mid Range',
-    prefered_vendor: 'Asus',
-    quantity: '9',
-    unit_type: 'A-4324',
-    price: '1300',
-    currency: 'INR',
-    custom: 'None',
-    comment: 'Reliable'
-  },
-  {
-    name: 'Printer',
-    specification: 'Ink Jet',
-    prefered_vendor: 'HP',
-    quantity: '6',
-    unit_type: 'HP-2432',
-    price: '3200',
-    currency: 'INR',
-    custom: 'With Extra Catridge',
-    comment: 'Reliable'
-  }
-];
+  public catalog: any[] = [];
 
   public productNames: string[] = ['Desktop', 'Hard Drive', 'Wireless Router', 'Printer'];
   name: string;
@@ -152,6 +78,7 @@ export class ViewComponent implements OnInit {
   ];
 
   constructor(private router: Router,
+              public snackBar: MatSnackBar,
               private http: HttpClient,
               private data: DataService,
               private budgetService: BudgetService,
@@ -184,23 +111,26 @@ export class ViewComponent implements OnInit {
       this.locationList = data;
       console.log('location data', data);
       for (let location of this.locationList) {
-        this.locationService.getSpentLocDept(location.location, location.department).subscribe(spent => {
-          temparray.push(spent[0]);
+        // this.locationService.getSpentLocDept(location.location, location.department).subscribe(spent => {
+        //   temparray.push(spent[0]);
           this.budgetService.getBudgetByDept(location.department, location.location).subscribe((result: any) => {
             this.budget.push(result);
+            const remain = (+result.budget - +location.total_price);
             this.budgetAfterApproving.push({
               department: location.department,
               location: location.location,
-              budget: (+result.current_balance - +spent[0].total_spent)
+              budget: remain
             });
           }, err => {
             console.log(err);
           });
-         }, err => {
-           console.log(err);
-         });
-        this.multiLocs.push(location);
+        //  }, err => {
+        //    console.log(err);
+        //  });
+          this.multiLocs.push(location);
       }
+    }, err => {
+      console.log(err);
     });
     this.locationService.getUniqueLocation(this.sub).subscribe(data => {
       for (let i of data) {
@@ -217,7 +147,7 @@ export class ViewComponent implements OnInit {
         });
       }
     });
-    console.log('Temp', temparray);
+    // console.log('Temp', temparray);
     console.log('BudgetArray', this.budget);
     console.log('BudgetAfterApproving', this.budgetAfterApproving);
     console.log(this.sub);
@@ -357,36 +287,46 @@ itemSelect(option: any) {
 }
 
 orderDecision(status, decision, refresher) {
-  this.order.status = status;
-  console.log('Status needs to update', this.order.status);
-  this.order.message = decision;
-  console.log('Message', this.order.message);
-  console.log('Order_id', this.order.order_id);
-  let updateData = {
-    status: this.order.status,
-    message: this.order.message,
-    order_id: this.order.order_id
-  };
-
-  if ( status === 'Denied') {
-    for ( let i of this.multiLocs) {
-       const locIndex = this.budgetAfterApproving.findIndex(e => e.location === i.location && e.department === i.department);
-       this.budgetAfterApproving[locIndex].budget = this.budgetAfterApproving[locIndex].budget + i.total_price;
+  let lowBudget = '';
+  for (let i of this.multiLocs) {
+    const cost = this.budgetAfterApproving.find(l => l.location === i.location && l.department === i.department).budget;
+    if (cost < i.total_price && status === 'Approved') {
+      this.snackBar.open('Required Budget is not available', '', {duration: 2000});
+      lowBudget = i.location;
+      break;
     }
   }
-  this.http.put(environment.BASE_URL + 'orders/updateStatus', updateData).subscribe(data => {
-    console.log(data);
-    for (let i of this.budgetAfterApproving) {
-      this.budgetService.updateBudget(i.department, i.location, i.budget).subscribe(result => {
-         console.log(result);
-      }, err => {
-        console.log(err);
-      });
+  if ( status === 'Denied') {
+    for ( let i of this.multiLocs) {
+      const locIndex = this.budgetAfterApproving.findIndex(e => e.location === i.location && e.department === i.department);
+      this.budgetAfterApproving[locIndex].budget = this.budgetAfterApproving[locIndex].budget + i.total_price;
     }
-    this.router.navigate(['/request']);
-  }, err => {
-    console.log(err);
-  });
+  }
+  if ((status === 'Approved' && lowBudget === '') || status === 'Denied') {
+    this.order.status = status;
+    console.log('Status needs to update', this.order.status);
+    this.order.message = decision;
+    console.log('Message', this.order.message);
+    console.log('Order_id', this.order.order_id);
+    let updateData = {
+      status: this.order.status,
+      message: this.order.message,
+      order_id: this.order.order_id
+    };
+    this.http.put(environment.BASE_URL + 'orders/updateStatus', updateData).subscribe(data => {
+      console.log(data);
+      for (let i of this.budgetAfterApproving) {
+        this.budgetService.updateBudget(i.department, i.location, i.budget).subscribe(result => {
+          console.log(result);
+        }, err => {
+          console.log(err);
+        });
+      }
+      this.router.navigate(['/request']);
+    }, err => {
+      console.log(err);
+    });
+   }
   }
 
     doRefresh(refresher) {

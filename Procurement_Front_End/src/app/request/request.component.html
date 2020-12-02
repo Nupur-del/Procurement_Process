@@ -58,7 +58,7 @@
       </ng-template>
       <ng-template #supplierBlock>
       <div *ngIf="element.status == 'Confirmed' || element.status == 'Processing' ||
-      element.status == 'Quality Check'  || element.status == 'Dispached' ||
+      element.status == 'Quality Check'  || element.status == 'Dispatched' ||
       element.status == 'Item Delivered'; then then2Block else else2Block"></div>
       <ng-template #then2Block>
         <button mat-icon-button color='accent' (click)="onTrack(element.order_id)">

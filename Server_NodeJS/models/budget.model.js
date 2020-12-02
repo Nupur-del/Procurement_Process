@@ -9,14 +9,6 @@ module.exports = db.sequelize.define(
      autoIncrement: true,
      primaryKey: true
     },
-    location: {
-      type: sequelize.STRING,
-      allowNull: false
-    },
-    approx_remaining_budget: {
-      type: sequelize.BIGINT,
-      allowNull: false
-    },
     department: {
       type: sequelize.STRING,
       allowNull: false

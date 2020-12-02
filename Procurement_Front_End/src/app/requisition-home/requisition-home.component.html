@@ -3,11 +3,13 @@
 <div class="center">
 <br>
 </div>
-<button style="background-color: #1d87cf;
-      position: fixed;
-      top: 13%;
-      right: 1rem;" mat-button [routerLink]="'/admin'"
-      *ngIf="type=='Requestor'">+Create Request</button>
+  <button mat-button
+  style="background-color: #1d87cf;
+  top: 13%;
+  position: absolute;
+  right: 1rem;"
+  [routerLink]="'/admin'"
+  *ngIf="type=='Requestor'">+Create Request</button>
 <br>
 <hr>
 <div class=row>
