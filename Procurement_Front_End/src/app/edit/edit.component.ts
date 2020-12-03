@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import {Location} from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import {ImageService} from '../../../projects/Supplier/src/app/image.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
@@ -153,9 +154,11 @@ export class EditComponent implements OnInit, OnDestroy {
               private imageService: ImageService,
               private orderService: OrderService,
               private sItem: supplierItemService,
+              private route: ActivatedRoute,
               private login: LoginService,
               private locationService: LocationService,
               private itemService: ItemService,
+              private back: Location,
               // private budgetService: BudgetService,
               public dialog: MatDialog) { }
 
@@ -166,7 +169,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
     this.orderSub = this.orderService.getOrderById(this.sub).subscribe((data: any) => {
       this.order = data[0];
-      console.log('Order',this.order);
+      console.log('Order', this.order);
     });
 
     this.statusSub = this.orderService.getStatusById(this.sub).subscribe((data: any) => {
@@ -730,7 +733,7 @@ orderItem(product: any, loc: string, dept: string) {
               console.log(data);
               this.message = 'Order Updated Sucessfully';
               this.insertSnack();
-              this.router.navigate(['/request']);
+              this.goTo();
             },
             err => {
               console.log(err);
@@ -760,6 +763,11 @@ orderItem(product: any, loc: string, dept: string) {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+
+  goTo() {
+    this.back.back();
   }
 
   ngOnDestroy() {

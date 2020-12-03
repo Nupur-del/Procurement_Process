@@ -18,9 +18,9 @@ export class ItemService {
     return this.http.get<any[]>(environment.BASE_URL + 'order/items');
   }
 
-  getItemById(order_id: any): Observable<IItem[]> {
+  getItemById(order_id: any): Observable<any[]> {
     let params = new HttpParams().set('order_id', order_id);
-    return this.http.get<Item[]>(environment.BASE_URL + 'order/Item_by_order_id', { params: params });
+    return this.http.get<any[]>(environment.BASE_URL + 'order/Item_by_order_id', { params: params });
   }
 
   getItemByStatus(status: any): Observable<IItem[]> {

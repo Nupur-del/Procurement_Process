@@ -369,7 +369,7 @@
       (click)="updateOrder($event)">Update Order</button>
 
       <button type="button" color="primary" class="btn my-class" style="margin-left: 10px;"
-      [routerLink]="'/request'" mat-raised-button>Cancel</button>
+      (click)="goTo()" mat-raised-button>Cancel</button>
 </div>
 </form>
 </section>

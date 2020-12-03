@@ -14,6 +14,7 @@ import { POModule } from '../../projects/PO/src/app/app.module';
 import { EditResolverService } from './edit-resolver.service';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 import { DeniedComponent } from './denied/denied.component';
+import { PendingResolverService } from './pending-resolver.service';
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -46,4 +47,6 @@ const routes: Routes = [
 POModule.forRoot()],
   exports: [RouterModule]
 })
+
+// , resolve: {orderList: PendingResolverService}
 export class AppRoutingModule { }

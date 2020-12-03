@@ -4,6 +4,7 @@ import { Status, IStatus } from '../app/status';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 export interface OrdData {
   order_id: number;
@@ -37,6 +38,7 @@ today = new Date();
 dd = String(this.today.getDate()).padStart(2, '0');
 mm = String(this.today.getMonth() + 1).padStart(2, '0');
 yyyy = this.today.getFullYear();
+orderList: Array<IOrder> = [];
 d1 = this.mm + '/' + this.dd + '/' + this.yyyy;
 private orders: Array<Order> = [
 // tslint:disable-next-line: max-line-length
@@ -50,7 +52,8 @@ private orders: Array<Order> = [
   order_desc: 'Sample Order 2', status: 'pending' , message: 'Request submitted for review'}
 ];
 
-constructor(private http: HttpClient) { }
+constructor(private http: HttpClient,
+            private router: Router) { }
 
   // tslint:disable-next-line: variable-name
 getOrderById(order_id: any): Observable<IOrder> {
@@ -79,13 +82,16 @@ getAllOrders(): Observable<IOrder[]> {
   return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/allOrders');
   }
 
-replicateOrder(order: any): void {
+replicateOrder(order: any, path?: string): void {
   order.order_id = Math.floor(Math.random() * 10000) + 1;
   order.message = 'Pending for approval';
   order.status = 'Pending';
   console.log('Replicated Order', order);
   this.http.post(environment.BASE_URL + 'order/order', order).subscribe(data => {
   console.log(data);
+  if (path === 'Approved' || path === 'Denied') {
+    this.router.navigate(['/pending']);
+   }
   }, err => {
   console.log(err);
   });

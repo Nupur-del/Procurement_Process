@@ -8,6 +8,7 @@ export interface IItem {
   unit_type: string;
   price: number;
   currency: string;
+  supplier: string;
   custom: string;
   comment: string;
 }
@@ -21,6 +22,7 @@ export class Item {
   quantity: number;
   unit_type: string;
   price: number;
+  supplier: string;
   currency: string;
   custom: string;
   comment: string;

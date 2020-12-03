@@ -114,7 +114,7 @@
     <ng-container matColumnDef="mark_complete" *ngIf="type === 'Requestor'">
       <th mat-header-cell *matHeaderCellDef> Complete </th>
       <td mat-cell *matCellDef="let element" class="action-link">
-        <button mat-icon-button [color]="element.color" (click)="onComplete(element.order_id,$event)">
+        <button mat-icon-button color="primary" (click)="onComplete(element.order_id,$event)">
           <mat-icon>thumb_up_alt</mat-icon></button>
       </td>
     </ng-container>

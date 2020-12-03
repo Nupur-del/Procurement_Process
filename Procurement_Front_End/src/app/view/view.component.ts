@@ -290,7 +290,7 @@ itemSelect(option: any) {
 orderDecision(status, decision, refresher) {
   let lowBudget = '';
   for (let i of this.multiLocs) {
-    const cost = this.budgetAfterApproving.find(l => l.location === i.location && l.department === i.department).budget;
+    const cost = this.budgetAfterApproving.find(l => l.location === i.location && l.department === i.department).actualbudget;
     if (cost < i.total_price && status === 'Approved') {
       this.snackBar.open('Required Budget is not available', '', {duration: 2000});
       lowBudget = i.location;

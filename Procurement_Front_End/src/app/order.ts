@@ -5,6 +5,7 @@ export interface IOrder {
   order_desc: string;
   status: string;
   message: string;
+  total_price?: number;
 }
 
 export class Order {

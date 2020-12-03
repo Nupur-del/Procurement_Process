@@ -6,11 +6,12 @@ import { DataService} from './data.service';
 @Injectable({
   providedIn: 'root'
 })
-export class EditResolverService implements Resolve<any>{
+export class EditResolverService implements Resolve<any> {
 
   // serviceImage: any;
   // imageLength: any;
   // imageList: any = [];
+
 
   item: any = [];
   sub: any;

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { MessageService } from '../../../projects/PO/src/app/message.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SeeOrderComponent } from '../../../projects/PO/src/app/see-order/see-order.component';
@@ -22,16 +22,18 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { OrderService } from '../order.service';
 import { LocationService } from '../location.service';
 import { ItemService } from '../item.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pending',
   templateUrl: './pending.component.html',
   styleUrls: ['./pending.component.scss']
 })
-export class PendingComponent implements OnInit {
+export class PendingComponent implements OnInit, OnDestroy {
 
   closeResult: string;
   isShow = true;
+  items: any;
   order: any = {};
   orderList: any;
   viewItem = {
@@ -53,7 +55,7 @@ export class PendingComponent implements OnInit {
   sub: any;
   orderId: any;
   itemId: any;
-  displayedColumns: string[] = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status', 'view'];
+  displayedColumns: string[];
   message: string;
   actionButtonLabel = ':)';
   action = true;
@@ -63,6 +65,10 @@ export class PendingComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   addExtraClass = false;
   dataSource: any;
+  itemSub: Subscription;
+  orderSub: Subscription;
+  finalItem: any[] = [];
+  multiLocs: any[] = [];
   type: string;
 
   constructor(private router: Router,
@@ -71,6 +77,7 @@ export class PendingComponent implements OnInit {
               private modalService: NgbModal,
               private data: DataService,
               private dataView: DataViewService,
+              private route: ActivatedRoute,
               private dialog: MatDialog,
               private messageService: MessageService,
               private orderService: OrderService,
@@ -79,16 +86,56 @@ export class PendingComponent implements OnInit {
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
-    this.orderService.getOrderByStatus('Pending').subscribe((data: any) => {
+
+    if (this.type === 'Requestor') {
+      this.displayedColumns =
+      ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status', 'edit', 'replicate', 'view'];
+    } else {
+      this.displayedColumns =  ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status', 'view'];
+    }
+
+    // this.route.data.subscribe((result: Data) => {
+    //   this.orderList = result['orderList'];
+    //   console.log(result);
+    //   this.dataSource = new MatTableDataSource(this.orderList);
+    // });
+    // console.log(this.dataSource);
+    // console.log(this.orderList);
+    // this.messageService.currentMessage.subscribe(message => this.itemId = message);
+
+    // this.itemSub = this.itemService.getItemByItemId(this.itemId).subscribe((data: any) => {
+    //   this.viewItem = data[0];
+    // });
+
+    // this.data.currentMessage.subscribe(message => this.sub = message);
+
+    this.orderSub = this.orderService.getOrderByStatus('Pending').subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
       this.orderList = data;
-    });
+      });
     this.messageService.currentMessage.subscribe(message => this.itemId = message);
-    this.itemService.getItemByItemId(this.itemId).subscribe((data: any) => {
+
+    this.itemSub = this.itemService.getItemByItemId(this.itemId).subscribe((data: any) => {
       this.viewItem = data[0];
     });
+
     this.data.currentMessage.subscribe(message => this.sub = message);
   }
+
+  // getTableData() {
+  //   this.orderSub = this.orderService.getOrderByStatus('Pending').subscribe((data: any) => {
+  //   this.dataSource = new MatTableDataSource(data);
+  //   this.orderList = data;
+  //   });
+  //   this.messageService.currentMessage.subscribe(message => this.itemId = message);
+
+  //   this.itemSub = this.itemService.getItemByItemId(this.itemId).subscribe((data: any) => {
+  //     this.viewItem = data[0];
+  //   });
+
+  //   this.data.currentMessage.subscribe(message => this.sub = message);
+  // }
+
   deleteRequest(id, refresher) {
 
       console.log('Order Id', id);
@@ -121,6 +168,7 @@ export class PendingComponent implements OnInit {
     setTimeout(() => {
       console.log('Async operation has ended');
       this.ngOnInit();
+      // this.getTableData();
       refresher.target.complete();
     }, 2000);
   }
@@ -164,6 +212,64 @@ export class PendingComponent implements OnInit {
     }
   }
 
+  onReplicate(order_id, refresher) {
+
+    this.finalItem = [];
+    this.multiLocs = [];
+
+    this.order = this.orderList.filter(order => order.order_id === order_id);
+    this.order = this.order[0];
+
+    this.itemService.getItemById(order_id).subscribe((data: any) => {
+      console.log(data);
+      for (let i of data) {
+        console.log(i.supplier);
+        this.finalItem.push({
+          name: i.name,
+          specification: i.specification,
+          prefered_vendor: i.prefered_vendor,
+          quantity: i.quantity,
+          location: i.location,
+          department: i.department,
+          unit_type: i.unit_type,
+          price: i.price,
+          currency: i.currency,
+          comment: i.comment,
+          supplier: i.supplier
+        });
+      }
+      console.log(this.finalItem);
+      this.locationService.getLocationById(order_id).subscribe((result: any) => {
+        for (let j of result) {
+          this.multiLocs.push({
+            location: j.location,
+            total_price: j.total_price,
+            department: j.department
+          });
+        }
+        console.log(this.multiLocs);
+        this.order.finalItem = this.finalItem;
+        this.order.multiLocs = this.multiLocs;
+        console.log('Replicated Order', this.order);
+        this.orderService.replicateOrder(this.order);
+        this.message = 'Replicated Sucessfully';
+        this.insert();
+        this.doRefresh(refresher);
+      }, err => {
+        console.log(err);
+      });
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  onEdit(order_id) {
+    console.log('Edit-' + order_id);
+    this.sub = order_id;
+    this.data.changeMessage(this.sub);
+    this.router.navigate(['/edit']);
+  }
+
   applySearch(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
@@ -192,4 +298,12 @@ export class PendingComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
+  ngOnDestroy() {
+    if (this.orderSub ) {
+      this.orderSub.unsubscribe();
+    }
+    if (this.itemSub) {
+      this.itemSub.unsubscribe();
+    }
+  }
 }

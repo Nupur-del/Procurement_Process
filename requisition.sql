@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2020 at 02:49 PM
+-- Generation Time: Dec 03, 2020 at 07:47 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -48,13 +48,13 @@ CREATE TABLE `budgets` (
 INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balance`) VALUES
 (1, 'Technical', 'Mumbai', 140000, 140000),
 (2, 'HR', 'Mumbai', 22000, 150000),
-(3, 'Testing', 'Mumbai', 80000, 120000),
+(3, 'Testing', 'Mumbai', 40000, 120000),
 (4, 'Management', 'Mumbai', 66000, 130000),
-(5, 'IT', 'Mumbai', 100000, 100000),
+(5, 'IT', 'Mumbai', 3200, 100000),
 (6, 'Electrical', 'Mumbai', 90000, 90000),
 (7, 'Technical', 'Chennai', 140000, 140000),
 (8, 'HR', 'Chennai', 150000, 150000),
-(9, 'Electrical', 'Chennai', 90000, 90000),
+(9, 'Electrical', 'Chennai', 80400, 90000),
 (10, 'Testing', 'Chennai', 120000, 120000),
 (11, 'Management', 'Chennai', 130000, 130000),
 (12, 'IT', 'Chennai', 100000, 100000),
@@ -67,17 +67,17 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (19, 'Technical', 'Hyderabad', 140000, 140000),
 (20, 'HR', 'Hyderabad', 150000, 150000),
 (21, 'Testing', 'Hyderabad', 120000, 120000),
-(22, 'Management', 'Hyderabad', 126800, 130000),
-(23, 'IT', 'Hyderabad', 100000, 100000),
+(22, 'Management', 'Hyderabad', 117200, 130000),
+(23, 'IT', 'Hyderabad', 37000, 100000),
 (24, 'Electrical', 'Hyderabad', 90000, 90000),
 (25, 'Technical', 'Bangalore', 140000, 140000),
 (26, 'HR', 'Bangalore', 150000, 150000),
-(27, 'Testing', 'Bangalore', 62400, 120000),
+(27, 'Testing', 'Bangalore', 33600, 120000),
 (28, 'Management', 'Bangalore', 130000, 130000),
 (29, 'IT', 'Bangalore', 100000, 100000),
-(30, 'Electrical', 'Bangalore', 51600, 90000),
+(30, 'Electrical', 'Bangalore', 13200, 90000),
 (31, 'Technical', 'Pune', 140000, 140000),
-(32, 'HR', 'Pune', 150000, 150000),
+(32, 'HR', 'Pune', 64000, 150000),
 (33, 'Testing', 'Pune', 120000, 120000),
 (34, 'Management', 'Pune', 130000, 130000),
 (35, 'IT', 'Pune', 100000, 100000),
@@ -307,7 +307,15 @@ INSERT INTO `locations` (`id`, `order_id`, `location`, `department`, `total_pric
 (68, 3707, 'Hyderabad', 'Testing', 80600),
 (69, 6876, 'Mumbai', 'HR', 98000),
 (70, 2996, 'Mumbai', 'IT', 48400),
-(71, 2996, 'Pune', 'HR', 43000);
+(71, 2996, 'Pune', 'HR', 43000),
+(72, 4272, 'Mumbai', 'IT', 48400),
+(73, 4272, 'Pune', 'HR', 43000),
+(126, 749, 'Mumbai', 'IT', 48400),
+(127, 749, 'Pune', 'HR', 43000),
+(134, 310, 'Mumbai', 'IT', 48400),
+(135, 310, 'Pune', 'HR', 43000),
+(136, 792, 'Mumbai', 'IT', 48400),
+(137, 792, 'Pune', 'HR', 43000);
 
 -- --------------------------------------------------------
 
@@ -349,7 +357,7 @@ INSERT INTO `logins` (`id`, `email`, `password`, `type`, `name`, `contact_no`) V
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `created_by` varchar(200) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime DEFAULT NULL,
   `order_desc` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -362,23 +370,27 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`) VALUES
-(658, 'test1', '2020-11-24', 'Order for Laptop'),
-(998, 'test1', '2020-11-24', 'Sample Order'),
-(1784, 'test1', '2020-11-25', 'Orders for USB CABLE'),
-(2732, 'test1', '2020-11-24', 'Order for Laptop'),
-(2766, 'test1', '2020-11-25', 'Sample Order'),
-(2996, 'test1', '2020-12-02', 'Order for Laptop'),
-(3372, 'test1', '2020-11-28', 'Sample Order'),
-(3707, 'test1', '2020-12-02', 'Sample Order'),
-(3844, 'test1', '2020-11-24', 'Sample Order'),
-(4164, 'test1', '2020-12-02', 'Order for Routers'),
-(4220, 'test1', '2020-11-26', 'Orders for USB CABLE'),
-(4969, 'test1', '2020-11-24', 'Sample Order'),
-(5249, 'test1', '2020-12-02', 'Sample Order'),
-(5594, 'test1', '2020-11-26', 'Sample Order'),
-(6050, 'test1', '2020-11-28', 'Sample Order'),
-(6876, 'test1', '2020-12-02', 'Order'),
-(9443, 'test1', '2020-11-26', 'Orders for USB CABLE');
+(310, 'test1', '2020-12-03 00:00:00', 'Order for Laptop'),
+(658, 'test1', '2020-11-24 00:00:00', 'Order for Laptop'),
+(749, 'test1', '2020-12-03 00:00:00', 'Order for Laptop'),
+(792, 'test1', '2020-12-03 16:23:09', 'Order for Laptop'),
+(998, 'test1', '2020-11-24 00:00:00', 'Sample Order'),
+(1784, 'test1', '2020-11-25 00:00:00', 'Orders for USB CABLE'),
+(2732, 'test1', '2020-11-24 00:00:00', 'Order for Laptop'),
+(2766, 'test1', '2020-11-25 00:00:00', 'Sample Order'),
+(2996, 'test1', '2020-12-02 00:00:00', 'Order for Laptop'),
+(3372, 'test1', '2020-11-28 00:00:00', 'Sample Order'),
+(3707, 'test1', '2020-12-02 00:00:00', 'Sample Order'),
+(3844, 'test1', '2020-11-24 00:00:00', 'Sample Order'),
+(4164, 'test1', '2020-12-02 00:00:00', 'Order for Routers'),
+(4220, 'test1', '2020-11-26 00:00:00', 'Orders for USB CABLE'),
+(4272, 'test1', '2020-12-02 00:00:00', 'Order for Laptop'),
+(4969, 'test1', '2020-11-24 00:00:00', 'Sample Order'),
+(5249, 'test1', '2020-12-02 00:00:00', 'Sample Order'),
+(5594, 'test1', '2020-11-26 00:00:00', 'Sample Order'),
+(6050, 'test1', '2020-11-28 00:00:00', 'Sample Order'),
+(6876, 'test1', '2020-12-02 00:00:00', 'Order'),
+(9443, 'test1', '2020-11-26 00:00:00', 'Orders for USB CABLE');
 
 -- --------------------------------------------------------
 
@@ -417,10 +429,10 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_vendor`, `quantity`, `unit_type`, `price`, `currency`, `custom`, `comment`, `status`, `estimated_arrival`, `tracking_link`, `location`, `department`, `supplier`) VALUES
-(1, 3844, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Chennai', 'Electrical', 'test2'),
-(2, 3844, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
-(5, 1784, 'UsbCable', '1 TB', 'IBALL', 12, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Electrical', 'test2'),
-(6, 1784, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Bangalore', 'Testing', 'test2'),
+(1, 3844, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Chennai', 'Electrical', 'test2'),
+(2, 3844, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
+(5, 1784, 'UsbCable', '1 TB', 'IBALL', 12, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Electrical', 'test2'),
+(6, 1784, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Testing', 'test2'),
 (7, 4969, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Approved', NULL, NULL, 'Mumbai', 'Testing', NULL),
 (8, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Chennai', 'Electrical', NULL),
 (9, 998, 'UsbCable', '1 TB', 'IBALL', 3, 'I-2323', 3200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Hyderabad', 'Management', NULL),
@@ -429,9 +441,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (12, 2732, 'Laptop', '15 inch', 'DELL', 1, 'DX-2323', 32000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Pune', 'Management', 'test2'),
 (13, 2732, 'Laptop', '15 inch', 'DELL', 1, 'DX-2323', 32000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Testing', 'test2'),
 (14, 2766, 'UsbCable', '1 TB', 'IBALL', 1, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Hyderabad', 'Management', 'test2'),
-(15, 1784, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test1'),
-(16, 1784, 'Laptop', '12 inch', 'HP', 2, 'LK-121212', 10000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Hyderabad', 'IT', 'test2'),
-(55, 5594, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'Testing', NULL),
+(15, 1784, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Hyderabad', 'IT', 'test1'),
+(16, 1784, 'Laptop', '12 inch', 'HP', 2, 'LK-121212', 10000, 'INR', NULL, 'none', 'Approved', NULL, NULL, 'Hyderabad', 'IT', 'test2'),
+(55, 5594, 'Laptop', '15 inch', 'HP', 2, 'HN-3232', 20000, 'INR', NULL, 'none', 'Approved', NULL, NULL, 'Mumbai', 'Testing', NULL),
 (56, 9443, 'UsbCable', '1 TB', 'IBALL', 12, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Electrical', NULL),
 (57, 9443, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Testing', NULL),
 (61, 4220, 'UsbCable', '1 TB', 'IBALL', 9, 'I-2323', 3200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Bangalore', 'Testing', NULL),
@@ -452,9 +464,21 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (77, 3707, 'Router', NULL, 'ASUS', 3, NULL, 4200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Hyderabad', 'Testing', NULL),
 (78, 6876, 'Laptop', '45 inch', 'DELL', 1, 'JN-453534', 34000, 'INR', NULL, 'none', 'Denied', NULL, NULL, 'Mumbai', 'HR', 'test5'),
 (79, 6876, 'Laptop', '15 inch', 'DELL', 2, 'DX-2323', 32000, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Mumbai', 'HR', '2'),
-(80, 2996, 'Router', '89 inch', 'CISCO', 2, 'CISCO-2321', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'IT', 'test5'),
-(81, 2996, 'Router', NULL, 'ASUS', 2, NULL, 4200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Mumbai', 'IT', '2'),
-(82, 2996, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'HR', '5');
+(80, 2996, 'Router', '89 inch', 'CISCO', 2, 'CISCO-2321', 20000, 'INR', NULL, 'none', 'Approved', NULL, NULL, 'Mumbai', 'IT', 'test5'),
+(81, 2996, 'Router', NULL, 'ASUS', 2, NULL, 4200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Mumbai', 'IT', '2'),
+(82, 2996, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Pune', 'HR', '5'),
+(83, 4272, 'Router', '89 inch', 'CISCO', 2, 'CISCO-2321', 20000, 'INR', NULL, 'none', 'Approved', NULL, NULL, 'Mumbai', 'IT', NULL),
+(84, 4272, 'Router', NULL, 'ASUS', 2, NULL, 4200, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Mumbai', 'IT', NULL),
+(85, 4272, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Approved', NULL, NULL, 'Pune', 'HR', NULL),
+(155, 749, 'Router', '89 inch', 'CISCO', 2, 'CISCO-2321', 20000, 'INR', NULL, 'none', 'Denied', NULL, NULL, 'Mumbai', 'IT', 'test5'),
+(156, 749, 'Router', NULL, 'ASUS', 2, NULL, 4200, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Mumbai', 'IT', '2'),
+(157, 749, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Denied', NULL, NULL, 'Pune', 'HR', '5'),
+(167, 310, 'Router', '89 inch', 'CISCO', 2, 'CISCO-2321', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'IT', NULL),
+(168, 310, 'Router', NULL, 'ASUS', 2, NULL, 4200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Mumbai', 'IT', NULL),
+(169, 310, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'HR', NULL),
+(170, 792, 'Router', '89 inch', 'CISCO', 2, 'CISCO-2321', 20000, 'INR', NULL, 'none', 'Pending', NULL, NULL, 'Mumbai', 'IT', NULL),
+(171, 792, 'Router', NULL, 'ASUS', 2, NULL, 4200, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Mumbai', 'IT', NULL),
+(172, 792, 'Laptop', '30 inch', 'HP', 1, 'HP-2343', 43000, 'INR', NULL, NULL, 'Pending', NULL, NULL, 'Pune', 'HR', NULL);
 
 -- --------------------------------------------------------
 
@@ -481,14 +505,14 @@ CREATE TABLE `order_status` (
 --
 
 INSERT INTO `order_status` (`id`, `order_id`, `status`, `message`, `color`) VALUES
-(1, 3844, 'Pending', 'Pending for approval', 'primary'),
+(1, 3844, 'Approved', 'Approved', 'primary'),
 (5, 4969, 'Approved', 'undefined', 'primary'),
 (6, 998, 'Denied', 'not required', 'primary'),
 (7, 658, 'Approved', 'It is Approved', 'primary'),
 (8, 2732, 'PO created', 'PO sent to Supplier', 'primary'),
 (9, 2766, 'Approved', 'Request is approved', 'primary'),
-(10, 1784, 'Pending', 'Pending for approval', 'primary'),
-(49, 5594, 'Pending', 'Pending for approval', 'primary'),
+(10, 1784, 'Approved', 'Approved', 'primary'),
+(49, 5594, 'Approved', 'Approved', 'primary'),
 (50, 9443, 'Approved', 'Request is approved', 'primary'),
 (54, 4220, 'Approved', 'Request is approved', 'primary'),
 (55, 6050, 'Approved', 'Request is approved', 'primary'),
@@ -497,7 +521,11 @@ INSERT INTO `order_status` (`id`, `order_id`, `status`, `message`, `color`) VALU
 (59, 4164, 'Denied', 'Required budget is not available', 'primary'),
 (60, 3707, 'Denied', 'For Chennai location, we don\'t have required balance', 'primary'),
 (61, 6876, 'Denied', 'Required budget is not available', 'primary'),
-(63, 2996, 'Pending', 'Pending for approval', 'primary');
+(63, 2996, 'Approved', 'approved', 'primary'),
+(64, 4272, 'Approved', 'approved', 'primary'),
+(95, 749, 'Denied', 'Required budget is not available for It', NULL),
+(102, 310, 'Pending', 'Pending for approval', NULL),
+(103, 792, 'Pending', 'Pending for approval', NULL);
 
 -- --------------------------------------------------------
 
@@ -742,7 +770,7 @@ ALTER TABLE `item_images`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `logins`
@@ -754,19 +782,19 @@ ALTER TABLE `logins`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9946;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9955;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `pos`
