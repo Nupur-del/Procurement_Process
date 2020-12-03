@@ -119,6 +119,7 @@ export class ViewComponent implements OnInit {
             this.budgetAfterApproving.push({
               department: location.department,
               location: location.location,
+              actualbudget: result.budget,
               budget: remain
             });
           }, err => {
