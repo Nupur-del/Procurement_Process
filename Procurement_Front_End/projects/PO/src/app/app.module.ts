@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { TrackOrderComponent } from './track-order/track-order.component';
@@ -69,6 +70,7 @@ import { TrackDashboardComponent } from './track-dashboard/track-dashboard.compo
     BrowserAnimationsModule,
     FormsModule,
     FileUploadModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
     MatProgressBarModule,
     HttpClientModule,

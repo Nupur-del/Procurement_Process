@@ -5,6 +5,9 @@ import { LocationService } from '../../../../../src/app/location.service';
 import { MessageService } from '../message.service';
 import { DataService } from '../data.service';
 import { MatTableDataSource } from '@angular/material';
+import {environment} from '../../../../../src/environments/environment';
+import {HttpClient} from '@angular/common/http';
+import { LoginService } from 'src/app/login.service';
 
 @Component({
   selector: 'app-see-order',
@@ -18,10 +21,21 @@ export class SeeOrderComponent implements OnInit {
   sub2: any;
   sub: any;
   item: any;
+  locDetails = [];
+  deptDetails = [];
+  supplierDetails = [{
+    name: '',
+    id: null
+  }];
+  brandDetails = [{
+    brandName: '',
+    brandpk: null
+  }];
   public orderList: any = [ ];
   public locationList: any = [ ];
   public itemList: any = [ ];
   closeResult: string;
+  requestorDetails = [];
   isShow = true;
   new = true;
   catalogDisplay = true;
@@ -33,52 +47,80 @@ export class SeeOrderComponent implements OnInit {
   order: any = {};
   public multiLocs: any = [ ];
   public finalItem: any = [ ];
-  displayedColumns: string[] = ['Item ID', 'Name', 'Specification', 'Vendor', 'Quantity', 'Price', 'location', 'department'];
+  displayedColumns: string[] = ['Item ID', 'Name', 'Specification', 'Vendor', 'Quantity', 'Price', 'location', 'department', 'status'];
 
   constructor(private orderService: OrderService,
               private itemService: ItemService,
+              private login: LoginService,
+              private http: HttpClient,
               private locationService: LocationService,
               private message: MessageService,
               private dataService: DataService) { }
 
   ngOnInit() {
+    this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    .subscribe((loc: any) => {
+      this.locDetails = loc;
+      this.http.get(environment.BASE_URL + 'department/deptDetails')
+      .subscribe((dept: any) => {
+        this.deptDetails = dept;
+        this.login.getSupplier().subscribe(supp => {
+          this.supplierDetails = supp;
+          this.http.get(environment.BASE_URL + 'order/getStatus')
+          .subscribe((status: any) => {
+          this.itemService.getItemById(this.sub).subscribe((pro) => {
+            this.itemList = pro;
+            console.log('item data-', pro);
+            for (const item of this.itemList) {
+              this.finalItem.push({
+                id: item.id,
+                name: item.name,
+                specification: item.specification,
+                prefered_vendor: item.prefered_vendor,
+                quantity: item.quantity,
+                unit_type: item.unit_type,
+                status: status.find(d => d.id === item.status).orderStatus,
+                locationName: this.locDetails.find(e => e.locLocationPK === item.location).locName,
+                departmentName: this.deptDetails.find(s => s.id === item.department).department_name,
+                supplierName: this.supplierDetails.find(a => a.id === item.prefered_vendor).name,
+                location: item.location,
+                department: item.department,
+                price: item.price,
+                currency: item.currency,
+                comment: item.comment,
+                brand: item.brand
+              });
+            }
+            console.log('FinalItem', this.finalItem);
+            if (this.sub2 === '0') {
+              this.dataSource = new MatTableDataSource(this.finalItem);
+            } else {
+            this.item = this.finalItem.filter(item => item.id === this.sub2);
+            console.log(this.item);
+            this.dataSource = new MatTableDataSource(this.item);
+            }
+          });
+         });
+        });
+      }, err => {
+        console.log(err);
+      });
+    }, err => {
+      console.log(err);
+    });
+    this.login.getUser('Requestor').subscribe(user => {
+      this.requestorDetails = user;
+      this.orderService.getOrderById(this.sub).subscribe((data: any) => {
+        this.order = data[0];
+        this.order.creator = this.requestorDetails.find(a => a.id === this.order.created_by).name;
+        console.log(data);
+      });
+    }, err => {
+      console.log(err);
+    });
+
     this.dataService.currentMessage.subscribe(message => this.sub2 = message);
     this.message.currentMessage.subscribe(message => this.sub = message);
     console.log(this.sub);
-    this.orderService.getOrderById(this.sub).subscribe((data: any) => {
-      this.order = data[0];
-      console.log(data);
-    });
-
-
-    console.log(this.sub);
-    this.orderService.getStatusById(this.sub).subscribe((data: any) =>  {
-      this.order.status = data.status;
-      this.order.message = data.message;
-    });
-
-    this.itemService.getItemById(this.sub).subscribe((data) => {
-      this.itemList = data;
-      console.log('item data-', data);
-      for (const item of this.itemList) {
-        this.finalItem.push(item);
-      }
-      console.log('FinalItem', this.finalItem);
-      if (this.sub2 === '0') {
-        this.dataSource = new MatTableDataSource(this.finalItem);
-      } else {
-      this.item = this.finalItem.filter(item => item.id === this.sub2);
-      console.log(this.item);
-      this.dataSource = new MatTableDataSource(this.item);
-      }
-    });
-
-    this.locationService.getLocationById(this.sub).subscribe((data) => {
-      this.locationList = data;
-      console.log('location data-', data);
-      for (const location of this.locationList) {
-        this.multiLocs.push(location);
-      }
-    });
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import {MatPaginator} from '@angular/material/paginator';
 import { POService } from '../po.service';
 import { Sort } from '@angular/material';
 import { MessageService } from '../message.service';
@@ -16,6 +17,7 @@ export class DeliveredPoComponent implements OnInit {
   sub: any;
   dataSource: any;
   poList: any = [];
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['Bill No', 'Order Id', 'Item Id',
   'Item Name', 'Request Name', 'org_billed', 'create', 'viewInvoice'];
 
@@ -29,6 +31,7 @@ export class DeliveredPoComponent implements OnInit {
     this.poService.getPOItemByStatus(status).subscribe((data: any) => {
       console.log(data);
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
       this.poList = data;
       console.log(this.poList);
     });

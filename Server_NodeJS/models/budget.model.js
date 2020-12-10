@@ -10,7 +10,7 @@ module.exports = db.sequelize.define(
      primaryKey: true
     },
     department: {
-      type: sequelize.STRING,
+      type: sequelize.INTEGER,
       allowNull: false
     },
     location: {
@@ -18,11 +18,11 @@ module.exports = db.sequelize.define(
       allowNull: false
     },
     budget: {
-       type: sequelize.INTEGER,
+       type: sequelize.BIGINT,
        allowNull: false
     },
     current_balance: {
-        type: sequelize.INTEGER,
+        type: sequelize.BIGINT,
         allowNull: false
     }
   },

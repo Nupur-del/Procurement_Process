@@ -3,29 +3,24 @@ const router = express.Router();
 const cors = require('cors');
 
 const Order = require('../models/order.model');
-const Location = require('../models/location.model');
 const Order_status = require('../models/order_status.model');
 const Order_items = require('../models/order_item.model');
+const locations = require('../models/datalocation.model');
 
 router.use(cors()); 
 
 // Add Order
+
 router.post('/order', (req,res) => {
   const today = new Date();
   const orderData = {
-    created_by : req.body.created_by,
+    created_by : req.body.creator,
     date: today,
     order_desc: req.body.order_desc,
-    order_id: req.body.order_id
-  }
-
-  const orderStatus = {
-   order_id: req.body.order_id,
-   status: req.body.status,
-   color: req.body.color,
-   message: req.body.message
-  }
-
+    order_id: req.body.order_id,
+    message: req.body.message,
+    status: 1
+  } 
   Order.findOne({
     where: {
       order_id: req.body.order_id
@@ -47,54 +42,24 @@ router.post('/order', (req,res) => {
         response.data = order;
         response.status= 200;
         response.statusCode = 1;
-        let locationData;
-        for(let i of req.body.multiLocs) {
-        locationData = {
-          order_id: req.body.order_id,
-          ...i
-        }
-        Location.create(locationData)
-        .then(loc => {
-          response.data = loc;
-          response.status= 200;
-          response.statusCode = 1;
-        }).catch(err => {
-          res.send(err);
-         })
-       }
          let orderItemData;
          for (let i of req.body.finalItem) {
           orderItemData = {
             order_id: req.body.order_id,
              ...i,
-            status: req.body.status
+            status: 1
            }
           Order_items.create(orderItemData)
           .then(order_item => {
             response.data = order_item;
             response.status= 200;
             response.statusCode = 1;
+            response.message = 'Order submitted successfully'
+            res.send(response);
           }).catch(err => {
             res.send(err);
-          })
-        }
-            Order_status.create(orderStatus)
-            .then(order_status => {
-              response.data = order_status;
-              response.status= 200;
-              response.statusCode = 1;
-              response.message = 'Order submitted Successfully'
-              res.send({
-                  status: response.status,    
-                  message: response.message
-               })
-            })
-            .catch(error => {
-              res.json({
-                message: error,
-                order_id: req.body.order_id
-              });
-            })
+           })
+         }
        })
       .catch(error => {
         res.json({
@@ -128,10 +93,18 @@ router.get('/items', (req,res) => {
   })
 })
 
+router.get('/getStatus', (req,res) => {
+  Order_status.findAll().then(result => {
+    res.send(result);
+  }).catch(err => {
+    res.status(500).send(err);
+  })
+})
+
 // Fetch all the Locations
 
 router.get('/locations', (req,res) => {
-  Location.findAll()
+  locations.findAll()
   .then(locs => {
     let response = {
       data: locs,
@@ -235,16 +208,6 @@ router.delete('/removeOrder', (req,res) => {
     }
 }).then(order => {
   if(order) {
-    Order_status.destroy({
-      where: {
-        order_id: order.order_id
-      }
-    }).then(result => {
-      Location.destroy({
-         where: {
-           order_id: order.order_id
-          }
-      }).then(result => {
           Order_items.destroy({
             where: {
                 order_id: order.order_id
@@ -254,17 +217,15 @@ router.delete('/removeOrder', (req,res) => {
                 where: {
                     order_id: order.order_id
                 }
-              }).then(result => {
+              }).then(exist => {
                   let response = {
-                    data: result,
+                    data: exist,
                     status: 200,
                     message: 'Order deleted Successfully'
                   }
                   res.send(response)
               }).catch(err => { res.send(err) })
           }).catch(err => { res.send(err) })
-      }).catch(err => { res.send(err) })     
-    }).catch(err => { res.send(err) })
    }
  }).catch(err => { res.json({message: 'Order with provided order id does not exist'}) })
 })

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild,  } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import {NgForm} from '@angular/forms';
 import { LoginService, LoginCreds } from '../login.service';
 
 @Component({
@@ -8,12 +9,14 @@ import { LoginService, LoginCreds } from '../login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
   email: any;
   password: any;
+  @ViewChild('log', {static: false}) loginForm: NgForm;
   type: any;
-
+  selected: string;
   accountType = [
     'Requestor',
     'Supplier',
@@ -44,8 +47,10 @@ export class LoginComponent implements OnInit {
   login() {
     const authCred: LoginCreds = {
       email: this.email,
-      password: this.password
+      password: this.password,
+      user_type: this.selected
     };
+    console.log(authCred);
     this.loginService.login(authCred);
   }
 

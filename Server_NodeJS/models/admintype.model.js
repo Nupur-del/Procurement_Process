@@ -2,16 +2,16 @@ const sequelize = require('sequelize');
 const db = require('../database/db');
 
 module.exports = db.sequelize.define(
-  'orderstatus',
+  'admintype',
   {
-    id: {
+    admintypeid: {
         type: sequelize.TINYINT,
-        primaryKey: true,
-        autoIncrement: true
-    },  
-    orderStatus: {
-      type: sequelize.STRING,
-      allowNull: true
+        autoIncrement: true,
+        primaryKey: true
+       },
+    admintype: {
+        type: sequelize.STRING,
+        allowNull: false   
     }
   },
   {

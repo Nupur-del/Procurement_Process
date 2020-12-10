@@ -5,7 +5,7 @@ module.exports = db.sequelize.define(
   'order_item',
   {
     id:{
-        type: sequelize.BIGINT,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },  
@@ -13,9 +13,9 @@ module.exports = db.sequelize.define(
       type: sequelize.INTEGER,
       allowNull: false
     },
-    supplier: {
-      type: sequelize.STRING,
-      allowNull: true
+    brand: {
+      type: sequelize.INTEGER,
+      allowNull: false
     },
     quantity: {
         type: sequelize.INTEGER,
@@ -30,14 +30,10 @@ module.exports = db.sequelize.define(
       allowNull: true
     },
     department: {
-      type: sequelize.STRING,
+      type: sequelize.INTEGER,
       allowNull: true
     },
     unit_type: {
-        type: sequelize.STRING,
-        allowNull: true
-    },
-    custom: {
         type: sequelize.STRING,
         allowNull: true
     },

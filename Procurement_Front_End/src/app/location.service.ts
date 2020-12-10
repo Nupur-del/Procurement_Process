@@ -20,7 +20,7 @@ export class LocationService {
 
   getLocationById(order_id: any): Observable<any> {
     let locParams = new HttpParams().set('order_id', order_id);
-    return this.http.get<any>(environment.BASE_URL + 'order/location_by_order_id', {params: locParams});
+    return this.http.get<any>(environment.BASE_URL + 'orders/totalCost', {params: locParams});
   }
 
   getLocationSpent(location: string) {

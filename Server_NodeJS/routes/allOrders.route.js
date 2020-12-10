@@ -2,15 +2,34 @@ const sql = require('../database/db_connect');
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
+const { response } = require('express');
 
 router.use(cors());
 
 // Fetch Order with status
 
-router.get('/allOrders', (req,res) => {
-    sql.query(`select o.*, s.status,s.message,s.color, sum(l.total_price) as total_price from orders o, \ 
-    locations l, order_status s where o.order_id = s.order_id and o.order_id = l.order_id group by \
-     o.order_id order by o.date desc`, (err,response) => {
+router.get('/allOrders', (req, res) => {
+    const requestor = req.query.userID;
+    sql.query(`select o.order_id, a.admName as created_by, o.date, o.order_desc,o.message,\
+    s.orderStatus as status, sum(i.price*i.quantity) as total_price from orders o, 
+        orderstatus s, order_items i, dataadmin a where o.order_id = i.order_id and \
+        o.status = s.id  and o.created_by = a.admAdminPK and o.created_by = ${requestor}
+        group by o.order_id order by o.date desc`, (err,response) => {
+       if(err) {
+           res.send(err);
+       } else {
+           res.send(response);
+       }
+    });
+})
+
+router.get('/allOrdersApprover', (req, res) => {
+    const approver = req.query.userID;
+    sql.query(`  select o.order_id, a.admName as created_by, o.date, o.order_desc, o.message, if(o.approved_by is NULL, "Not Assigned", b.admName) as approved_by,\
+    s.orderStatus as status, sum(i.price*i.quantity) as total_price from orders o, 
+        orderstatus s, order_items i, dataadmin a, dataadmin b where o.order_id = i.order_id and \
+        o.status = s.id  and o.created_by = a.admAdminPK and (o.approved_by is NULL or \
+        o.approved_by = ${approver}) and b.admAdminPK = o.approved_by group by o.order_id order by o.date desc;`, (err,response) => {
        if(err) {
            res.send(err);
        } else {
@@ -47,6 +66,41 @@ router.get('/fetchBudget', (req,res) => {
 })
 
 // Fetch the remaining budget location and department wise
+
+router.get('/totalCost', (req,res) => {
+    const order_id = req.query.order_id;
+    sql.query(`select 
+    o.order_id,  
+    o.date, 
+    o.order_desc,
+    o.message, 
+    s.orderStatus as status, 
+    a.admName as created_by,
+    l.locName as location, 
+    d.department_name as department, 
+    sum(i.price * i.quantity) as total_price 
+    from 
+    orders o, 
+    orderstatus s, 
+    order_items i, 
+    dataadmin a, 
+    datalocation l, 
+    departments d 
+    where 
+    o.order_id = ${order_id} and 
+    l.locLocationPK = i.location and 
+    i.department = d.id and 
+    o.order_id = i.order_id and 
+    o.status = s.id and 
+    o.created_by = a.admAdminPK 
+    group by i.location, i.department`, (err, response) => {
+        if(err) {
+            res.send(err);
+        } else {
+            res.send(response);
+        }
+    })
+})
 
 router.get('/remainBudgetLocDeptWise', (req,res) => {
 
@@ -154,7 +208,7 @@ router.get('/spentYearWise', (req,res) => {
         endYear = (today.getFullYear() + 1);
     }
 
-    const startDate = startYear + "-3-1";
+    const startDate = startYear + "-4-1";
     const endDate = endYear + "-3-31";
     console.log('End', endDate);
     console.log('Start', startDate);
@@ -172,15 +226,65 @@ router.get('/spentYearWise', (req,res) => {
 // Order by status
 
 router.get('/Order_by_status', (req,res) => {
-    const status = req.query.status
-    sql.query(`SELECT o.* , s.status ,  s.message, sum(l.total_price) as total_price from orders o, order_status s, locations l \ 
-    where s.status = "${status}" AND o.order_id = s.order_id AND o.order_id = l.order_id group by o.order_id order by o.date desc`, (err, response) => {
+    const status = req.query.status;
+    const userID = req.query.userID;
+    if (status === 'Pending') {
+    sql.query(`select o.order_id, a.admName as created_by, o.date, o.order_desc,o.message, \
+    s.orderStatus as status, sum(i.price*i.quantity) as total_price from orders o, \
+    orderstatus s, order_items i, dataadmin a where o.order_id = i.order_id and \
+    s.orderStatus = '${status}' and o.status = s.id and o.created_by = ${userID} and \
+    o.created_by = a.admAdminPK group by o.order_id order by o.date desc`, (err, response) => {
         if (err) {
             res.send(err);
         } else {
             res.send(response);
         }
     })
+   } else {
+    sql.query(`select o.order_id, a.admName as created_by, o.date, b.admName as approved_by, \
+    o.order_desc,o.message, s.orderStatus as status, sum(i.price*i.quantity) as total_price from \
+    orders o, orderstatus s, order_items i, dataadmin a, dataadmin b where o.order_id = i.order_id \
+    and s.orderStatus = '${status}' and o.status = s.id and o.created_by = ${userID} and \
+    b.admAdminPK = o.approved_by and o.created_by = a.admAdminPK group by o.order_id \
+    order by o.date desc`, (err, response) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(response);
+        }
+    })
+   }
+})
+
+router.get('/Order_by_statusApprover', (req,res) => {
+    const status = req.query.status;
+    const userID = req.query.userID;
+    if (status === 'Pending') {
+        sql.query(`select o.order_id, a.admName as created_by, o.date, o.order_desc,o.message, \
+        s.orderStatus as status, sum(i.price*i.quantity) as total_price from orders o, \
+        orderstatus s, order_items i, dataadmin a where o.order_id = i.order_id and \
+        s.orderStatus = '${status}' and o.status = s.id and \
+        o.created_by = a.admAdminPK group by o.order_id order by o.date desc`, (err, response) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(response);
+            }
+        })
+    } else {
+        sql.query(`select o.order_id, a.admName as created_by, b.admName as approved_by, o.date, o.order_desc,o.message, \
+        s.orderStatus as status, sum(i.price*i.quantity) as total_price from orders o, \
+        orderstatus s, order_items i, dataadmin a, dataadmin b where o.order_id = i.order_id \
+        and b.admAdminPK = o.approved_by and s.orderStatus = '${status}' and o.status = s.id \
+        and (o.approved_by is NULL or o.approved_by = ${userID}) and \
+        o.created_by = a.admAdminPK group by o.order_id order by o.date desc`, (err, response) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(response);
+            }
+        })
+    }
 })
 
 // Item by status
@@ -214,8 +318,8 @@ router.get('/trackItems', (req,res) => {
 
 router.get('/countStatusOrder', (req,res) => {
     const status = req.query.status;
-    sql.query(`SELECT count(*) as total from orders o, order_status s 
-    where s.status = "${status}" AND o.order_id = s.order_id`, (err, response) =>{
+    sql.query(` SELECT count(*) as total from orders o, orderstatus s 
+    where s.orderStatus = '${status}' AND s.id = o.status;`, (err, response) =>{
         if(err) {
             res.send(err)
         } else {
@@ -232,11 +336,30 @@ router.get('/countStatusOrder', (req,res) => {
 
 // update the status of Order
 
+router.put('/partialUpdate', (req, res) => {
+    let error = '';
+    let result = '';
+       sql.query(`update orders set status = ${req.body[0].orderStatus}, approved_by = ${req.body[0].approved_by}, \
+       message = '${req.body[0].message}' where order_id = ${req.body[0].order_id}`, (err, response) => {
+           if(!err) {
+    for (let i of req.body) {
+               sql.query(`update order_items set status = ${i.itemStatus} \
+               where location = ${i.location} and department = ${i.department} and order_id = ${i.order_id}`, (err1, response1) => {
+              });
+           }
+           res.send(response);
+       } else {
+           res.send(err);
+       }
+   });
+})
+
 router.put('/updateStatus', (req,res) => {
     const status = req.body.status;
     const order_id = req.body.order_id;
     const message = req.body.message;
-    sql.query(`update  order_status set status = "${status}", message = "${message}" \ 
+    const approved_by = req.body.approver;
+    sql.query(`update  orders set status = ${status}, message = "${message}", approved_by = ${approved_by} \ 
     where order_id = ${order_id}`, (err, response) => {
         if(!err) {
             sql.query(`update  order_items set status = "${status}" \ 

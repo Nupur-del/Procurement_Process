@@ -20,6 +20,8 @@ const initRoutes = require("./routes/upload.route");
 const Cities = require("./routes/cities.route");
 const fs = require('fs');
 const Department = require("./routes/department.route");
+const supplier = require("./routes/supplier_login.route");
+const brand = require("./routes/brand.route");
 const budgetUpdate = require("./routes/budget_update.route");
 
 app.get('/', function(req,res){
@@ -29,8 +31,10 @@ app.use(express.static('public'));
 app.use('/images', express.static(__dirname + '/uploads'));
   
 app.use('/users', login);
+app.use('/supplier', supplier);
 app.use('/order', order);
 app.use('/orders', allOrder);
+app.use('/brand', brand);
 app.use('/budget',budget);
 app.use('/invoice', invoice);
 app.use('/Purchase', Po);

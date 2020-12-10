@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CustomFormsModule } from 'ng2-validation';
+import {MatRadioModule} from '@angular/material/radio';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule, MatNativeDateModule  } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AuthGuard } from './auth.guard';
 import { MatMenuModule } from '@angular/material';
@@ -74,6 +76,7 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
     NgbModule,
     AppRoutingModule,
     MatSortModule,
+    MatRadioModule,
     MatAutocompleteModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -86,6 +89,7 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatPaginatorModule,
     CustomFormsModule,
     MatCheckboxModule,
     MatSidenavModule,
@@ -101,7 +105,6 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
     MatMenuModule,
     MatNativeDateModule ,
     MatListModule,
-    MatSelectModule,
     SupplierModule.forRoot(),
     POModule.forRoot(),
     RouterModule.forRoot([

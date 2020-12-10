@@ -40,17 +40,7 @@ mm = String(this.today.getMonth() + 1).padStart(2, '0');
 yyyy = this.today.getFullYear();
 orderList: Array<IOrder> = [];
 d1 = this.mm + '/' + this.dd + '/' + this.yyyy;
-private orders: Array<Order> = [
-// tslint:disable-next-line: max-line-length
-{ order_id: 1232, created_by: 'Harshit Singh', date: this.d1,
-  order_desc: 'Sample Order 1', status: 'pending' , message: 'Request submitted for review'},
-// tslint:disable-next-line: max-line-length
-{ order_id: 3232, created_by: 'Alec', date: this.d1,
-  order_desc: 'Sample Order 3', status: 'pending' , message: 'Request submitted for review'},
-// tslint:disable-next-line: max-line-length
-{ order_id: 4545, created_by: 'Alexender', date: this.d1,
-  order_desc: 'Sample Order 2', status: 'pending' , message: 'Request submitted for review'}
-];
+private orders: Array<Order> = [];
 
 constructor(private http: HttpClient,
             private router: Router) { }
@@ -73,19 +63,27 @@ getStatusById(order_id: any): Observable<IStatus> {
   return this.http.get<IStatus>(environment.BASE_URL + 'order/Status_by_order_id', { params: orderParams });
 }
 
-getOrderByStatus(status: string): Observable<IOrder[]> {
-  let statusParams = new HttpParams().set('status', status);
-  return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/Order_by_status', { params: statusParams });
+getOrderByStatus(status: string, userID: any, userType: string): Observable<IOrder[]> {
+  let statusParams = new HttpParams().set('status', status).set('userID', userID);
+  if (userType === 'Requestor') {
+    return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/Order_by_status', { params: statusParams });
+  } else {
+    return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/Order_by_statusApprover', { params: statusParams });
+  }
 }
 
-getAllOrders(): Observable<IOrder[]> {
-  return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/allOrders');
+getAllOrders(userID: any, userType: string): Observable<IOrder[]> {
+  let userParams = new HttpParams().set('userID', userID);
+  if (userType === 'Requestor') {
+      return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/allOrders', {params: userParams});
+  } else {
+    return this.http.get<IOrder[]>(environment.BASE_URL + 'orders/allOrdersApprover', {params: userParams});
   }
+}
 
 replicateOrder(order: any, path?: string): void {
   order.order_id = Math.floor(Math.random() * 10000) + 1;
   order.message = 'Pending for approval';
-  order.status = 'Pending';
   console.log('Replicated Order', order);
   this.http.post(environment.BASE_URL + 'order/order', order).subscribe(data => {
   console.log(data);
@@ -109,7 +107,6 @@ deleteOrder(val: any): void {
     indexes[i] = indexes[i] - i;
     this.orders.splice(indexes[i], 1);
   }
-  console.log('Order Service Data-', this.getAllOrders());
 }
 
 updateOrder(order: IOrder): void {
@@ -119,7 +116,6 @@ updateOrder(order: IOrder): void {
 
 editOrder(order: any): Observable<any> {
   order.message = 'Pending for approval';
-  order.status = 'Pending';
   console.log('Edit Order', order);
   return this.http.post<any>(environment.BASE_URL + 'order/order', order);
 }

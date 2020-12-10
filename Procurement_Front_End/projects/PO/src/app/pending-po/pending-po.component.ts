@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { POService } from '../po.service';
 import { Sort } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
 import { MessageService } from '../message.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { MessageService } from '../message.service';
 export class PendingPOComponent implements OnInit {
 
   sub: any;
-
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSource: any;
   poList: any = [];
 
@@ -27,6 +28,7 @@ export class PendingPOComponent implements OnInit {
     this.poService.getPOByStatus('Pending').subscribe((data: any) =>{
       console.log(data);
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
       this.poList = data;
     });
 

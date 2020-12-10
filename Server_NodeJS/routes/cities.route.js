@@ -10,12 +10,20 @@ router.get('/citiesName', (req,res) => {
     Cities.findAll().then(data => {
         const location = [];
         for(let i of data) {
-          location.push(i.location);
+          location.push(i.locName);
         }
+        console.log(location);
         res.send(location);
     }).catch(err => {
         res.json({message: err.message})
     })
 })
 
+router.get('/locationDetails', (req,res) => {
+    Cities.findAll().then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.json({message: err.message})
+    })
+})
 module.exports = router;

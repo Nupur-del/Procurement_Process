@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { ItemService } from '../item.service';
 import { ImageService } from '../image.service';
 import { DataService } from '../data.service';
 import { Router} from '@angular/router';
+import {MatPaginator} from '@angular/material/paginator';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { CSVComponent } from '../csv/csv.component';
 import { EditItemComponent } from '../edit-item/edit-item.component';
@@ -30,7 +31,7 @@ export class SupplierItemsComponent implements OnInit {
   itemList: any = [];
   dataSource: any;
   uploadedImages: any = [];
-
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   message: string;
   actionButtonLabel = ':)';
   action = true;
@@ -52,6 +53,7 @@ export class SupplierItemsComponent implements OnInit {
   ngOnInit() {
     this.itemService.getItems().subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
       this.itemList = data;
     });
 

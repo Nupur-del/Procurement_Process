@@ -4,7 +4,7 @@
     <form #mainForm="ngForm" class="container mt-3">
       <div class="form-group ">
         <label for="created_by"><h4>Created By &nbsp;</h4></label>
-        <input type="text" class="created_by" id="created_by" [(ngModel)]="order.created_by" name="created_by" disabled>
+        <input type="text" class="created_by" id="created_by" [(ngModel)]="order.creator" name="created_by" disabled>
       </div>
       <br>
       <hr>
@@ -47,14 +47,17 @@
     <span>
       <b>Name: </b> {{item.name}}
       <ul>
-        <li><b>Brand: </b> {{item.prefered_vendor}}</li>
+        <li><b>Brand: </b> {{item.brandName}}</li>
+        <li><b>Supplier:</b> {{item.supplierName}}</li>
         <li><b>Quantity: </b> {{item.quantity}}</li>
+        <li><b>Location: </b>{{item.locationName}}</li>
+        <li><b>Department: </b>{{item.departmentName}}</li>
       </ul>
     </span>
     </div>
   </div>
 </mat-card>
-<br>
+<!-- <br>
 <hr>
 <mat-card style="background-color:lavender;">
   <mat-card-header>
@@ -71,7 +74,7 @@
     </span>
     </div>
   </div>
-</mat-card>
+</mat-card> -->
 <br>
 <hr>
 <mat-card style="background-color:lavender;">
@@ -101,10 +104,26 @@
       <br>
       <hr>
       <br>
+      <div *ngIf="selectLocDept" class="form-group">
+          <label class="example-margin"><b>Select the Location and Department:</b></label>
+          <mat-radio-group class="example-radio-group" name="loc" ngModel *ngFor="let loc of budgetAfterApproving"
+          [(ngModel)]="loc">
+            <mat-radio-button class="example-margin" [value]="loc">
+              {{loc.location}} {{loc.department}}
+            </mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <br>
+      <hr>
+      <br>
       <div class="text-right">
-      <button type="button" class="btn btn-success" (click)="orderDecision('Denied',decision,$event)">Deny Request</button>
+      <button type="submit" class="btn btn-danger" [hidden]="partialApproved" (click)="orderDecision('Denied', decision, $event)">Deny Request</button>
       &nbsp;
-      <button type="button" class="btn btn-success" (click)="orderDecision('Approved',decision,$event)">Approve Request</button>
+      <button type="button" class="btn btn-warning" [hidden]="partialApproved" (click)="orderDecision('Partial Approved', decision, $event)">Partially Approved</button>
+      &nbsp;
+      <button type="submit" class="btn btn-warning" [hidden]="openPartial" (click)="partialdecision(mainForm)">Partial Approved</button>
+      &nbsp;
+      <button type="submit" class="btn btn-success" [hidden]="partialApproved" (click)="orderDecision('Approved',decision,$event)">Approve Request</button>
       </div>
     </form>
     </section>

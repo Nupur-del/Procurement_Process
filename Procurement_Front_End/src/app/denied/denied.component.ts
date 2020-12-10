@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../login.service';
 import { MessageService } from '../../../projects/PO/src/app/message.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DataService as DataViewService } from '../../../projects/PO/src/app/data.service';
@@ -7,6 +8,7 @@ import { SeeOrderComponent } from '../../../projects/PO/src/app/see-order/see-or
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
+import {MatPaginator} from '@angular/material/paginator';
 import { Sort } from '@angular/material';
 
 import {
@@ -31,7 +33,7 @@ import { ItemService } from '../item.service';
 export class DeniedComponent implements OnInit {
 
   closeResult: string;
-
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   isShow = true;
   itemId: any;
   finalItem: any[] = [];
@@ -61,6 +63,7 @@ export class DeniedComponent implements OnInit {
   message: string;
   actionButtonLabel = ':)';
   action = true;
+  userID: number;
   setAutoHide = true;
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -75,6 +78,7 @@ export class DeniedComponent implements OnInit {
               private dataView: DataViewService,
               private modalService: NgbModal,
               private data: DataService,
+              private login: LoginService,
               private orderService: OrderService,
               private messageService: MessageService,
               private dialog: MatDialog,
@@ -83,15 +87,18 @@ export class DeniedComponent implements OnInit {
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
+    this.userID = +localStorage.getItem('userId');
 
     if (this.type === 'Requestor') {
-      this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'replicate', 'status'];
+      this.displayedColumns = ['order_id', 'created_by', 'approved_by',
+      'date', 'order_desc', 'Details', 'total_cost', 'replicate', 'status'];
     } else {
-      this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc', 'Details', 'total_cost', 'status'];
+      this.displayedColumns = ['order_id', 'created_by', 'approved_by', 'date', 'order_desc', 'Details', 'total_cost', 'status'];
     }
 
-    this.orderService.getOrderByStatus('Denied').subscribe((data: any) => {
+    this.orderService.getOrderByStatus('Denied', this.userID, this.type).subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
       this.orderList = data;
     });
     this.messageService.currentMessage.subscribe(message => this.itemId = message);
@@ -118,14 +125,6 @@ export class DeniedComponent implements OnInit {
     dialogConfig.width = '80%';
     dialogConfig.maxHeight = '90vh';
     const dialog = this.dialog.open(SeeOrderComponent, dialogConfig);
-  }
-
-  getData() {
-    this.orderService.getOrderByStatus('Approved').subscribe( data => {
-      this.orderList = data;
-      console.log(data);
-      this.dataSource = new MatTableDataSource(this.orderList);
-    });
   }
 
   doRefresh(refresher) {
@@ -175,11 +174,9 @@ export class DeniedComponent implements OnInit {
   onReplicate(order_id, refresher) {
 
     this.finalItem = [];
-    this.multiLocs = [];
-
     this.order = this.orderList.filter(order => order.order_id === order_id);
     this.order = this.order[0];
-
+    this.order.creator = this.userID;
     this.itemService.getItemById(order_id).subscribe((data: any) => {
       console.log(data);
       for (let i of data) {
@@ -193,30 +190,17 @@ export class DeniedComponent implements OnInit {
           department: i.department,
           unit_type: i.unit_type,
           price: i.price,
+          brand: i.brand,
           currency: i.currency,
-          comment: i.comment,
-          supplier: i.supplier
+          comment: i.comment
         });
       }
       console.log(this.finalItem);
-      this.locationService.getLocationById(order_id).subscribe((result: any) => {
-        for (let j of result) {
-          this.multiLocs.push({
-            location: j.location,
-            total_price: j.total_price,
-            department: j.department
-          });
-        }
-        console.log(this.multiLocs);
-        this.order.finalItem = this.finalItem;
-        this.order.multiLocs = this.multiLocs;
-        console.log('Replicated Order', this.order);
-        this.orderService.replicateOrder(this.order, 'Denied');
-        this.message = 'Replicated Sucessfully';
-        this.insert();
-      }, err => {
-        console.log(err);
-      });
+      this.order.finalItem = this.finalItem;
+      console.log('Replicated Order', this.order);
+      this.orderService.replicateOrder(this.order, 'Denied');
+      this.message = 'Replicated Sucessfully';
+      this.insert();
     }, err => {
       console.log(err);
     });
@@ -246,6 +230,7 @@ export class DeniedComponent implements OnInit {
       switch (sort.active) {
           case 'order_id': return this.compare(a.order_id, b.order_id, isAsc);
           case 'created_by': return this.compare(a.created_by, b.created_by, isAsc);
+          case 'approved_by': return this.compare(a.approved_by, b.approved_by, isAsc);
           case 'date': return this.compare(a.date, b.date, isAsc);
           case 'total_price': return this.compare(a.total_price, b.total_price, isAsc);
           default: return 0;

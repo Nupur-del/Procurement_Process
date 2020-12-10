@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { MessageService } from '../../../projects/PO/src/app/message.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -6,6 +6,8 @@ import { SeeOrderComponent } from '../../../projects/PO/src/app/see-order/see-or
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
+import {LoginService} from '../login.service';
+import {MatPaginator} from '@angular/material/paginator';
 import { DataService as DataViewService } from '../../../projects/PO/src/app/data.service';
 import { Sort } from '@angular/material';
 
@@ -33,6 +35,7 @@ export class PendingComponent implements OnInit, OnDestroy {
 
   closeResult: string;
   isShow = true;
+  userID: number;
   items: any;
   order: any = {};
   orderList: any;
@@ -61,6 +64,7 @@ export class PendingComponent implements OnInit, OnDestroy {
   action = true;
   setAutoHide = true;
   autoHide = 2000;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   addExtraClass = false;
@@ -79,6 +83,7 @@ export class PendingComponent implements OnInit, OnDestroy {
               private dataView: DataViewService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
+              private login: LoginService,
               private messageService: MessageService,
               private orderService: OrderService,
               private locationService: LocationService,
@@ -86,6 +91,7 @@ export class PendingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
+    this.userID = +localStorage.getItem('userId');
 
     if (this.type === 'Requestor') {
       this.displayedColumns =
@@ -109,8 +115,9 @@ export class PendingComponent implements OnInit, OnDestroy {
 
     // this.data.currentMessage.subscribe(message => this.sub = message);
 
-    this.orderSub = this.orderService.getOrderByStatus('Pending').subscribe((data: any) => {
+    this.orderSub = this.orderService.getOrderByStatus('Pending', this.userID, this.type).subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
       this.orderList = data;
       });
     this.messageService.currentMessage.subscribe(message => this.itemId = message);
@@ -215,11 +222,9 @@ export class PendingComponent implements OnInit, OnDestroy {
   onReplicate(order_id, refresher) {
 
     this.finalItem = [];
-    this.multiLocs = [];
-
     this.order = this.orderList.filter(order => order.order_id === order_id);
     this.order = this.order[0];
-
+    this.order.creator = this.userID;
     this.itemService.getItemById(order_id).subscribe((data: any) => {
       console.log(data);
       for (let i of data) {
@@ -233,31 +238,18 @@ export class PendingComponent implements OnInit, OnDestroy {
           department: i.department,
           unit_type: i.unit_type,
           price: i.price,
+          brand: i.brand,
           currency: i.currency,
-          comment: i.comment,
-          supplier: i.supplier
+          comment: i.comment
         });
       }
       console.log(this.finalItem);
-      this.locationService.getLocationById(order_id).subscribe((result: any) => {
-        for (let j of result) {
-          this.multiLocs.push({
-            location: j.location,
-            total_price: j.total_price,
-            department: j.department
-          });
-        }
-        console.log(this.multiLocs);
-        this.order.finalItem = this.finalItem;
-        this.order.multiLocs = this.multiLocs;
-        console.log('Replicated Order', this.order);
-        this.orderService.replicateOrder(this.order);
-        this.message = 'Replicated Sucessfully';
-        this.insert();
-        this.doRefresh(refresher);
-      }, err => {
-        console.log(err);
-      });
+      this.order.finalItem = this.finalItem;
+      console.log('Replicated Order', this.order);
+      this.orderService.replicateOrder(this.order);
+      this.message = 'Replicated Sucessfully';
+      this.insert();
+      this.doRefresh(refresher);
     }, err => {
       console.log(err);
     });

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  MatSnackBar
-} from '@angular/material';
+import {NgForm} from '@angular/forms';
+import {LoginService} from '../login.service';
+import {MatSnackBar} from '@angular/material';
 import { HttpClient} from '@angular/common/http';
 import { DataService } from '../data.service';
 import { OrderService} from '../order.service';
@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss']
 })
+
 export class ViewComponent implements OnInit {
 
   sub: any;
@@ -31,11 +32,12 @@ export class ViewComponent implements OnInit {
   catalogDisplay = true;
   decision: any;
   change = true;
+  openPartial = true;
   toggleSelected = true;
   option: string;
   interval: any;
   order: any = {};
-
+  requestorDetails = [];
   public multiLocs: any = [ ];
   public finalItem: any = [ ];
   public selectedCatalog: any = [ ];
@@ -62,24 +64,30 @@ export class ViewComponent implements OnInit {
     custom: '',
     comment: ''
   }];
-
+  selectLocDept = false;
+  partialApproved = false;
+  userID: number;
   public catalog: any[] = [];
-
-  public productNames: string[] = ['Desktop', 'Hard Drive', 'Wireless Router', 'Printer'];
   name: string;
+  locDetails = [];
+  deptDetails = [];
+  statusDetatils = [];
+  supplierDetails = [{
+    name: '',
+    id: null
+  }];
+  brandDetails = [{
+    brandName: '',
+    brandpk: null
+  }];
   department: string;
   date: Date;
   order_desc: string;
-  cities: string[] = [
-    'Mumbai', 'Chennai', 'Delhi', 'Hyderabad', 'Bengalore', 'Pune'
-  ];
-  departments: string[] = [
-    'IT', 'Electrical', 'HR', 'Management', 'Technical', 'Testing'
-  ];
 
   constructor(private router: Router,
               public snackBar: MatSnackBar,
               private http: HttpClient,
+              private login: LoginService,
               private data: DataService,
               private budgetService: BudgetService,
               private orderService: OrderService,
@@ -89,21 +97,64 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.data.currentMessage.subscribe(message => this.sub = message);
-    this.orderService.getOrderById(this.sub).subscribe((data: any) => {
-      this.order = data[0];
+    this.userID = +localStorage.getItem('userId');
+
+    this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    .subscribe((loc: any) => {
+      this.locDetails = loc;
+      this.http.get(environment.BASE_URL + 'department/deptDetails')
+      .subscribe((dept: any) => {
+        this.deptDetails = dept;
+        this.login.getSupplier().subscribe(data => {
+          this.supplierDetails = data;
+          this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+          this.itemService.getItemById(this.sub).subscribe(pro => {
+            this.itemList = pro;
+            console.log('item data', pro);
+            for (const item of this.itemList) {
+              this.finalItem.push({
+                name: item.name,
+                specification: item.specification,
+                prefered_vendor: item.prefered_vendor,
+                quantity: item.quantity,
+                unit_type: item.unit_type,
+                locationName: this.locDetails.find(e => e.locLocationPK === item.location).locName,
+                departmentName: this.deptDetails.find(s => s.id === item.department).department_name,
+                supplierName: this.supplierDetails.find(a => a.id === item.prefered_vendor).name,
+                location: item.location,
+                department: item.department,
+                price: item.price,
+                currency: item.currency,
+                comment: item.comment,
+                brand: item.brand,
+                brandName: brandDetails.find(f => f.brandpk === item.brand).brandName
+              });
+            }
+          });
+        });
+       });
+      }, err => {
+        console.log(err);
+      });
+    }, err => {
+      console.log(err);
     });
 
-    this.orderService.getStatusById(this.sub).subscribe((data: any) => {
-      this.order.status = data.status;
-      this.order.message = data.message;
+    this.http.get(environment.BASE_URL + 'order/getStatus')
+    .subscribe((data: any) => {
+      this.statusDetatils = data;
+    }, err => {
+      console.log(err);
     });
 
-    this.itemService.getItemById(this.sub).subscribe((data) => {
-      this.itemList = data;
-      console.log('item data', data);
-      for (const item of this.itemList) {
-        this.finalItem.push(item);
-      }
+    this.login.getUser('Requestor').subscribe(user => {
+      this.requestorDetails = user;
+      this.orderService.getOrderById(this.sub).subscribe((data: any) => {
+        this.order = data[0];
+        this.order.creator = this.requestorDetails.find(a => a.id === this.order.created_by).name;
+      });
+    }, err => {
+      console.log(err);
     });
 
     let temparray: any = [];
@@ -111,8 +162,6 @@ export class ViewComponent implements OnInit {
       this.locationList = data;
       console.log('location data', data);
       for (let location of this.locationList) {
-        // this.locationService.getSpentLocDept(location.location, location.department).subscribe(spent => {
-        //   temparray.push(spent[0]);
           this.budgetService.getBudgetByDept(location.department, location.location).subscribe((result: any) => {
             this.budget.push(result);
             const remain = (+result.budget - +location.total_price);
@@ -125,29 +174,27 @@ export class ViewComponent implements OnInit {
           }, err => {
             console.log(err);
           });
-        //  }, err => {
-        //    console.log(err);
-        //  });
           this.multiLocs.push(location);
       }
     }, err => {
       console.log(err);
     });
-    this.locationService.getUniqueLocation(this.sub).subscribe(data => {
-      for (let i of data) {
-        this.locationService.getLocationBudget(i.location).subscribe(data => {
-          this.locationService.getLocationSpent(i.location).subscribe(result => {
-            data[0].total_spent = result[0].total_spent;
-            this.locationBudget.push(data[0]);
-            console.log(this.locationBudget);
-          }, err => {
-            console.log(err);
-          });
-        }, err => {
-          console.log(err);
-        });
-      }
-    });
+
+    // this.locationService.getUniqueLocation(this.sub).subscribe(data => {
+    //   for (let i of data) {
+    //     this.locationService.getLocationBudget(i.location).subscribe(data => {
+    //       this.locationService.getLocationSpent(i.location).subscribe(result => {
+    //         data[0].total_spent = result[0].total_spent;
+    //         this.locationBudget.push(data[0]);
+    //         console.log(this.locationBudget);
+    //       }, err => {
+    //         console.log(err);
+    //       });
+    //     }, err => {
+    //       console.log(err);
+    //     });
+    //   }
+    // });
     // console.log('Temp', temparray);
     console.log('BudgetArray', this.budget);
     console.log('BudgetAfterApproving', this.budgetAfterApproving);
@@ -178,7 +225,7 @@ export class ViewComponent implements OnInit {
 
   }
 
-  getItem(order_id: any) {
+getItem(order_id: any) {
     this.itemService.getItemById(order_id).subscribe((data) => {
       this.itemList = data;
       console.log("item data-",data);
@@ -187,7 +234,8 @@ export class ViewComponent implements OnInit {
       }
     });
   }
-  addItems() {
+
+addItems() {
   this.items.push({
   name: '',
   specification: '',
@@ -289,6 +337,12 @@ itemSelect(option: any) {
 
 orderDecision(status, decision, refresher) {
   let lowBudget = '';
+  if (status === 'Partial Approved') {
+    this.selectLocDept = true;
+    this.partialApproved = true;
+    this.openPartial = false;
+  }
+
   for (let i of this.multiLocs) {
     const cost = this.budgetAfterApproving.find(l => l.location === i.location && l.department === i.department).actualbudget;
     if (cost < i.total_price && status === 'Approved') {
@@ -304,13 +358,15 @@ orderDecision(status, decision, refresher) {
     }
   }
   if ((status === 'Approved' && lowBudget === '') || status === 'Denied') {
-    this.order.status = status;
+    this.order.status = this.statusDetatils.find(e => e.orderStatus === status).id;
     console.log('Status needs to update', this.order.status);
     this.order.message = decision;
+    this.order.approver = this.userID;
     console.log('Message', this.order.message);
     console.log('Order_id', this.order.order_id);
     let updateData = {
       status: this.order.status,
+      approver: this.order.approver,
       message: this.order.message,
       order_id: this.order.order_id
     };
@@ -330,6 +386,47 @@ orderDecision(status, decision, refresher) {
    }
   }
 
+  partialdecision(form: NgForm) {
+    let updateData = [];
+    const result = this.budgetAfterApproving.find(e => e.location === form.value.loc.location
+      && e.department === form.value.loc.department);
+    if (result.budget < 0) {
+      this.snackBar.open('Wrong location and department got selected please check once again', '', {duration: 2000});
+    } else {
+      console.log(this.budgetAfterApproving);
+      for (let i of this.budgetAfterApproving) {
+        if (i.location === form.value.loc.location && i.department === form.value.loc.department) {
+          updateData.push({
+            order_id: this.order.order_id,
+            location: this.locDetails.find(q => q.locName === i.location).locLocationPK,
+            department: this.deptDetails.find(d => d.department_name === i.department).id,
+            orderStatus: 3,
+            itemStatus: 4,
+            message: form.value.decision,
+            approved_by: this.userID
+          });
+        } else {
+          updateData.push({
+            order_id: this.order.order_id,
+            location: this.locDetails.find(q => q.locName === i.location).locLocationPK,
+            department: this.deptDetails.find(d => d.department_name === i.department).id,
+            orderStatus: 3,
+            itemStatus: 2,
+            message: form.value.decision,
+            approved_by: this.userID
+          });
+        }
+      }
+      console.log(updateData);
+      this.http.put(environment.BASE_URL + 'orders/partialUpdate', updateData).subscribe(data => {
+        if (data) {
+         this.router.navigate(['/request']);
+        }
+      }, err => {
+        console.log(err);
+      });
+    }
+  }
     doRefresh(refresher) {
       console.log('Begin async operation', refresher);
 

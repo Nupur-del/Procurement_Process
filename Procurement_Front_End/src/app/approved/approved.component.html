@@ -3,6 +3,7 @@
 <input (keyup)="applySearch($event.target.value)" matInput placeholder="Search">
 </mat-form-field>
 </div>
+<div class="mat-elevation-z8">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortOrder($event)">
 
   <!--- Note that these columns can be defined in any order.
@@ -17,6 +18,11 @@
   <ng-container matColumnDef="created_by">
     <th mat-header-cell *matHeaderCellDef mat-sort-header = "created_by"> Created By </th>
     <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="approved_by">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header = "approved_by"> Approved By </th>
+    <td mat-cell *matCellDef="let element"> {{element.approved_by}} </td>
   </ng-container>
 
   <!-- Name Column -->
@@ -57,7 +63,6 @@
     <td mat-cell *matCellDef="let element"> {{element.status}} </td>
   </ng-container>
 
-
   <!-- <ng-container matColumnDef="view">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element" class="action-link">
@@ -66,8 +71,8 @@
       </td>
   </ng-container> -->
 
-
-
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

@@ -18,4 +18,12 @@ router.get('/fetchDepartmentName', (req,res) => {
     })
 })
 
+router.get('/deptDetails', (req,res) => {
+    Department.findAll().then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.json({message: err.message})
+    })
+})
+
 module.exports = router;

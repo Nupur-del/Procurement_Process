@@ -2,16 +2,16 @@ const sequelize = require('sequelize');
 const db = require('../database/db');
 
 module.exports = db.sequelize.define(
-  'orderstatus',
+  'brands',
   {
-    id: {
-        type: sequelize.TINYINT,
-        primaryKey: true,
-        autoIncrement: true
-    },  
-    orderStatus: {
+    brandpk: {
+     type: sequelize.INTEGER,
+     autoIncrement: true,
+     primaryKey: true
+    },
+    brandName: {
       type: sequelize.STRING,
-      allowNull: true
+      allowNull: false
     }
   },
   {

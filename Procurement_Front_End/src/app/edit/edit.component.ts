@@ -7,7 +7,7 @@ import { DataService } from '../data.service';
 import {LoginService} from '../login.service';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, map} from 'rxjs/operators';
-import {FormControl, Validators, NgForm} from '@angular/forms';
+import {FormControl, NgControl, Validators, NgForm} from '@angular/forms';
 import { OrderService } from '../order.service';
 import { LocationService } from '../location.service';
 import { environment } from '../../environments/environment';
@@ -71,6 +71,7 @@ export class EditComponent implements OnInit, OnDestroy {
   public multiLocs: any = [ ];
   public localLocs: any = [ ];
   public budget: any = [ ];
+  requestorDetails = [];
   public finalItem: any = [ ];
   public selectedCatalog: any = [ ];
   public items: any[] = [{
@@ -99,7 +100,17 @@ export class EditComponent implements OnInit, OnDestroy {
   itemProducts: string[] = [];
   supplierNames: string[] = [];
   brandNames: string[] = [];
-  supplierDetails = [];
+  locDetails = [];
+  deptDetails = [];
+  statusDetatils = [];
+  supplierDetails = [{
+    name: '',
+    id: null
+  }];
+  brandDetails = [{
+    brandName: '',
+    brandpk: null
+  }];
   itemImages: Array<ImageSlider>;
   cities: string[] = [];
   departments: string[] = [];
@@ -115,6 +126,8 @@ export class EditComponent implements OnInit, OnDestroy {
   public itemValue = 0;
   public lowBudgetDept = '';
   date: Date;
+  created_by: string;
+  created_ID: number;
   order_desc: string;
   message: string;
   actionButtonLabel = ':)';
@@ -142,6 +155,9 @@ export class EditComponent implements OnInit, OnDestroy {
   quant = new FormControl('', Validators.min(1));
   @ViewChild('catalogForm', {static: false}) catalogForm: NgForm;
   price = new FormControl('', Validators.min(1));
+  @ViewChild('pname', {static: false}) prodName: NgControl;
+  @ViewChild('sname', {static: false}) suppName: NgControl;
+  @ViewChild('bname', {static: false}) bName: NgControl;
 
   // Objects
 
@@ -164,56 +180,55 @@ export class EditComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-
     this.data.currentMessage.subscribe(message => this.sub = message);
+    this.created_by = localStorage.getItem('username');
+    this.created_ID = +localStorage.getItem('userId');
 
-    this.orderSub = this.orderService.getOrderById(this.sub).subscribe((data: any) => {
-      this.order = data[0];
-      console.log('Order', this.order);
+    this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    .subscribe((data: any) => {
+      this.locDetails = data;
+    }, err => {
+      console.log(err);
     });
 
-    this.statusSub = this.orderService.getStatusById(this.sub).subscribe((data: any) => {
-      this.order.status = data.status;
-      this.order.message = data.message;
-      console.log('status', this.order);
+    this.http.get(environment.BASE_URL + 'order/getStatus')
+    .subscribe((data: any) => {
+      this.statusDetatils = data;
+    }, err => {
+      console.log(err);
     });
 
-    this.locationSub = this.locationService.getLocationById(this.sub).subscribe((data) => {
-      this.locationList = data;
-      console.log('location data-', data);
-      for (const location of this.locationList) {
-        this.multiLocs.push(location);
-        console.log('Location with itemValue', this.multiLocs);
-        // this.budgetService.getBudgetByDept(location.department, location.location).subscribe(
-        // // tslint:disable-next-line: no-shadowed-variable
-        // data => {
-        //   this.budget.push(data);
-        //   console.log('Dept Budget-', this.budget);
-        // });
-      }
+    this.http.get(environment.BASE_URL + 'department/deptDetails')
+    .subscribe((data: any) => {
+      this.deptDetails = data;
+    }, err => {
+      console.log(err);
     });
 
-    this.itemSub = this.itemService.getItemById(this.sub).subscribe((data) => {
-      this.itemList = data;
-      console.log('item data-', data);
-      for (const item of this.itemList) {
-        this.finalItem.push(item);
-        // this.itemValue = this.itemValue + ((+item.quantity) * (+item.price));
-        // console.log('Item price-', this.itemValue);
-      }
-      console.log('Existing Item', this.finalItem);
-    });
+    this.login.getUser('Requestor').subscribe(user => {
+        this.requestorDetails = user;
+        this.orderSub = this.orderService.getOrderById(this.sub).subscribe((data: any) => {
+            this.order = data[0];
+            this.order.user = this.requestorDetails.find(a => a.id === this.order.created_by).name;
+        });
+      }, err => {
+        console.log(err);
+      });
+
     this.order.order_id = this.sub;
-    this.login.getUser('Supplier').subscribe(data => {
+
+    this.login.getSupplier().subscribe(data => {
       this.supplierDetails = data;
-      console.log('Suppliers', this.supplierDetails);
+      for(let i of data) {
+        if (this.supplierNames.includes(i.name) === false) {
+          this.supplierNames.push(i.name);
+        }
+      }
     });
 
     this.deptSub = this.http.get(environment.BASE_URL + 'department/fetchDepartmentName')
     .subscribe((data: Array<string>) => {
       this.departments = data;
-      console.log(data);
-      console.log('Dept', this.departments);
     }, err => {
       console.log(err);
       alert(err);
@@ -222,35 +237,64 @@ export class EditComponent implements OnInit, OnDestroy {
     this.citySub = this.http.get(environment.BASE_URL + 'cities/citiesName')
     .subscribe((data: Array<string>) => {
       this.cities = data;
-      console.log(data);
-      console.log(this.cities);
     }, err => {
       console.log(err);
       alert(err);
     });
 
     this.itemSub = this.sItem.getAllItems().subscribe((data: any[]) => {
+    this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+      this.brandDetails = brandDetails;
       for (let i of data) {
-        for (const j of this.supplierDetails) {
-          if ( i.supplier === j.id) {
-            this.catalog.push({
-              ...i,
-              supplierName: j.name,
-              defaultQuantity: 1
-            });
-            if (this.supplierNames.includes(j.name) === false) {
-              this.supplierNames.push(j.name);
-            }
-          }
-        }
+        const nameBrand = brandDetails.find(a => a.brandpk === i.brand).brandName;
+        const nameSupplier = this.supplierDetails.find(b => b.id === i.supplier).name;
+        this.catalog.push({
+          ...i,
+          brandName: nameBrand,
+          supplierName: nameSupplier,
+          defaultQuantity: 1
+        });
         if (this.itemProducts.includes(i.name) === false) {
           this.itemProducts.push(i.name);
         }
-        if (this.brandNames.includes(i.brand) === false) {
-          this.brandNames.push(i.brand);
-        }
     }
+      for (const z of brandDetails) {
+        if (this.brandNames.includes(z.brandName) === false) {
+          this.brandNames.push(z.brandName);
+        }
+      }
+  }, err => {
+    console.log(err);
   });
+}, err => {
+  console.log(err);
+});
+
+    this.itemSub = this.itemService.getItemById(this.sub).subscribe((data) => {
+      this.itemList = data;
+      console.log('item data-', data);
+      for (const item of this.itemList) {
+        this.finalItem.push({
+          name: item.name,
+          specification: item.specification,
+          prefered_vendor: item.prefered_vendor,
+          quantity: item.quantity,
+          unit_type: item.unit_type,
+          locationName: this.locDetails.find(e => e.locLocationPK === item.location).locName,
+          departmentName: this.deptDetails.find(s => s.id === item.department).department_name,
+          supplierName: this.supplierDetails.find(a => a.id === item.prefered_vendor).name,
+          location: item.location,
+          department: item.department,
+          price: item.price,
+          currency: item.currency,
+          comment: item.comment,
+          brand: item.brand
+        });
+        // this.itemValue = this.itemValue + ((+item.quantity) * (+item.price));
+        // console.log('Item price-', this.itemValue);
+      }
+      console.log('Existing Item', this.finalItem);
+    });
     this.autocomplete();
   }
 
@@ -260,16 +304,16 @@ export class EditComponent implements OnInit, OnDestroy {
       startWith(''),
       map(value => this._filter(this.itemProducts, value))
     );
-    this.filteredOptionSupplier = this.supplierControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(this.supplierNames, value))
-    );
-    this.filteredOptionBrand = this.BrandControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(this.brandNames, value))
-    );
+    // this.filteredOptionSupplier = this.supplierControl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this._filter(this.supplierNames, value))
+    // );
+    // this.filteredOptionBrand = this.BrandControl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this._filter(this.brandNames, value))
+    // );
   }
 
   private _filter(feature: string[], value: string): string[] {
@@ -293,6 +337,9 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   selectedChoice(option: string) {
+    this.suppName.reset();
+    this.bName.reset();
+    this.prodName.reset();
     this.selectedOption = option;
     console.log(option);
   }
@@ -400,6 +447,12 @@ export class EditComponent implements OnInit, OnDestroy {
       this.isShow = false;
       console.log('product name', product);
       this.selectedCatalog = this.catalog.filter(item => item.name === product);
+      if (this.selectedCatalog.length !== 0) {
+        this.isShow = false;
+      } else {
+        this.snackBar.open('No Items are available of this product', '', {duration: this.autoHide});
+        this.isShow = true;
+      }
       console.log('products-', this.selectedCatalog);
     } else {
       this.isShow = true;
@@ -415,54 +468,70 @@ export class EditComponent implements OnInit, OnDestroy {
         this.isShow = false;
       } else {
         this.snackBar.open('No Items are available for this supplier', '', {duration: this.autoHide});
+        this.isShow = true;
       }
       console.log('Supplier Data', this.selectedCatalog);
     } else {
       this.isShow = true;
     }
-   }
+  }
 
-   toggleBrand(brand: string) {
-     if (brand !== 'None') {
+  toggleBrand(brand: string) {
+    if (brand !== 'None') {
       this.isShow = false;
       console.log('Brand Name', brand);
-      this.selectedCatalog = this.catalog.filter(item => item.brand === brand);
+      const brandId = this.brandDetails.find(e => e.brandName === brand).brandpk;
+      this.selectedCatalog = this.catalog.filter(item => item.brand === brandId);
       console.log('Brand Data', this.selectedCatalog);
-     } else {
-       this.isShow = true;
-     }
-   }
+      if (this.selectedCatalog.length !== 0) {
+        this.isShow = false;
+      } else {
+        this.snackBar.open('No Items are available of this brand', '', {duration: this.autoHide});
+        this.isShow = true;
+      }
+      console.log('Supplier Data', this.selectedCatalog);
+    } else {
+      this.isShow = true;
+    }
+  }
 
    addfinalItem(form: NgForm) {
+    const selectedSup = this.supplierDetails.find(e => e.name === this.supplierControl.value).id;
+    const selectedBrand = this.brandDetails.find(b => b.brandName === this.BrandControl.value).brandpk;
+    const selectedLoc = this.locDetails.find(e => e.locName === form.value.location).locLocationPK;
+    const selectedDept = this.deptDetails.find(b => b.department_name === form.value.dept).id;
     if (!form.value.location || !form.value.dept) {
           this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
     } else {
           this.itemValue = 0;
           // this.lowBudgetDept = '';
           const itemAdd = {
-                name: this.myControl.value,
-                specification: form.value.specification,
-                prefered_vendor: this.BrandControl.value,
-                quantity: this.quant.value,
-                unit_type: form.value.unit,
-                location: form.value.location,
-                department: form.value.dept,
-                price: this.price.value,
-                currency: form.value.currency,
-                comment: form.value.comment,
-                supplier: this.supplierControl.value
-          };
+            name: this.myControl.value,
+            specification: form.value.specification,
+            prefered_vendor: selectedSup,
+            quantity: this.quant.value,
+            unit_type: form.value.unit,
+            location: selectedLoc,
+            department: selectedDept,
+            locationName: form.value.location,
+            departmentName: form.value.dept,
+            supplierName: this.supplierControl.value,
+            price: this.price.value,
+            currency: form.value.currency,
+            comment: form.value.comment,
+            brand: selectedBrand
+      };
           const addedDepartment = this.multiLocs.findIndex(city => city.location === form.value.location &&
                                   city.department === form.value.dept);
           const addedItemIndex = this.finalItem.findIndex(item =>
-              item.location === form.value.location
-              && item.department === form.value.dept &&
-              item.name === this.myControl.value &&
-              item.supplier === this.supplierControl.value
-              && item.prefered_vendor === this.BrandControl.value
-              && item.price === this.price.value
-              && item.specification === form.value.specification
-          );
+                item.location === selectedLoc
+                && item.department === selectedDept &&
+                item.name === this.myControl.value &&
+                item.brand === selectedBrand
+                && item.prefered_vendor === selectedSup
+                && item.price === this.price.value
+                && item.specification === form.value.specification
+        );
           if (addedDepartment >= 0) {
               this.itemValue = +this.multiLocs[addedDepartment].total_price + ((+this.quant.value) * (+this.price.value));
               console.log('Item Price', this.itemValue);
@@ -572,25 +641,30 @@ if (item.quantity <= 0) {
               this.snackBar.open('Selected item has already added to selected location and department', '', {duration: this.autoHide});
               this.finalItem[itemIndex].quantity =  +this.finalItem[itemIndex].quantity + +item.quantity;
         } else {
-              this.finalItem.push({
-                  name: item.name,
-                  specification: item.specification,
-                  prefered_vendor: item.prefered_vendor,
-                  quantity: item.quantity,
-                  unit_type: item.unit_type,
-                  location: item.location,
-                  department: item.department,
-                  price: item.price,
-                  currency: item.currency,
-                  comment: item.comment,
-                  supplier: item.supplier
-                });
+          this.finalItem.push({
+            name: item.name,
+            specification: item.specification,
+            prefered_vendor: item.prefered_vendor,
+            quantity: item.quantity,
+            unit_type: item.unit_type,
+            locationName: item.locationName,
+            departmentName: item.departmentName,
+            supplierName: item.supplierName,
+            location: item.location,
+            department: item.department,
+            price: item.price,
+            currency: item.currency,
+            comment: item.comment,
+            brand: item.brand
+          });
         }
   }
 this.toggleSelected = !true;
 }
 
 orderItem(product: any, loc: string, dept: string) {
+  const selectedLoc = this.locDetails.find(e => e.locName === loc).locLocationPK;
+  const selectedDept = this.deptDetails.find(b => b.department_name === dept).id;
   if (!loc || !dept) {
         this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
   } else {
@@ -598,27 +672,30 @@ orderItem(product: any, loc: string, dept: string) {
       this.itemValue = 0;
       const itemAdd = {
         name: product.name,
-        department: dept,
-        location: loc,
+        department: selectedDept,
+        location: selectedLoc,
+        locationName: loc,
+        departmentName: dept,
+        supplierName: product.supplierName,
         specification: product.specification,
-        prefered_vendor: product.brand,
+        prefered_vendor: product.supplier,
         quantity: product.defaultQuantity,
         unit_type: product.unit_type,
         price: product.price,
         currency: product.currency,
         comment: product.comment,
-        supplier: product.supplier
+        brand: product.brand
      };
       const addedDepartment = this.localLocs.findIndex(city => city.location === loc && city.department === dept);
       const addedItemIndex = this.finalItem.findIndex(item =>
-                                            item.location === loc
-                                              && item.department === dept &&
-                                              item.name === product.name &&
-                                              item.supplier === product.supplier
-                                              && item.prefered_vendor === product.brand
-                                              && item.price === product.price
-                                              && item.specification === product.specification
-                                            );
+                                                      item.location === selectedLoc
+                                                      && item.department === selectedDept &&
+                                                      item.name === product.name &&
+                                                      item.brand === product.brand
+                                                      && item.prefered_vendor === product.supplier
+                                                      && item.price === product.price
+                                                      && item.specification === product.specification
+                                                    );
       if (addedDepartment >= 0) {
             this.itemValue = +this.localLocs[addedDepartment].total_price + ((+product.defaultQuantity) * (+product.price));
             console.log('Item Price', this.itemValue);
@@ -715,20 +792,19 @@ orderItem(product: any, loc: string, dept: string) {
   }
 
   updateOrder(refresher) {
-    this.order.multiLocs = this.multiLocs;
     this.order.finalItem = this.finalItem;
-    console.log('MultiLocs', this.multiLocs);
     console.log('Items', this.finalItem);
-    this.order.color = 'primary';
-    if (this.finalItem.length <= 0 || this.multiLocs.length <= 0) {
+    this.order.status = this.statusDetatils.find(e => e.orderStatus === 'Pending').id;
+    if (this.finalItem.length <= 0) {
       this.snackBar.open('No item is available in request', '', {duration: this.autoHide});
     } else {
     let deleteParams = new HttpParams().set('order_id', this.order.order_id);
     this.updateOrderSub = this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
       .subscribe(
         data => {
+           this.order.creator = this.order.created_by;
            console.log(data);
-           console.log('Update Order',this.order);
+           console.log('Update Order', this.order);
            this.orderSub = this.orderService.editOrder(this.order).subscribe(data => {
               console.log(data);
               this.message = 'Order Updated Sucessfully';

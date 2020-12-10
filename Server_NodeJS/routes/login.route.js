@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 
-const User = require('../models/login.model');
+const User = require('../models/dataadmin.model');
+const adminaccess = require('../models/adminaccess.model');
+const admintype = require('../models/admintype.model');
+
 router.use(cors());
 router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -13,9 +16,10 @@ router.use(function(req, res, next) {
 
 // Login
 router.post('/login', (req,res)=>  {
+  console.log(req.body);
   User.findOne({
     where: {
-      email: req.body.email
+      admEmail: req.body.email
     }
   })
   .then(user => {
@@ -25,22 +29,68 @@ router.post('/login', (req,res)=>  {
         statusCode:1,
         message:'Success'
     };
-    console.log('user = ',user);
-
-    if( req.body.password === response.data.password ) {
-        res.json({type: response.data.type,
-        name: response.data.name,
-      id: response.data.id})
+    console.log('user = ', user);
+    if (user) {
+      if( req.body.password === response.data.admpwd ) {
+        adminaccess.findOne({
+          where: {
+            adminid: response.data.admAdminPK
+          }
+        }).then(found => {
+          console.log(found);
+          if (found) {
+            admintype.findOne({
+              where: {
+                admintypeid: found.admintype
+              }
+            }).then(userDetails => {
+              if (userDetails) {
+                if (req.body.user_type === userDetails.admintype) {
+                  if (user.admIsActive === true) {
+                    res.json({
+                      type: userDetails.admintype,
+                      name: response.data.admName,
+                      id: found.adminid
+                    });
+                  } else {
+                    res.status(400).send({
+                      message: "User is not active"
+                    });
+                  }
+                } else {
+                  res.status(400).send({
+                    message: "Invalid user type"
+                  });
+                }
+              } else {
+                res.status(404).send({
+                  message: "User does not exist"
+                });
+              }
+            }).catch(err => {
+              res.send(err);
+            })
+          } else {
+            res.status(400).send({
+              message: "Invalid user"
+            })
+          }
+        }).catch(error => {
+          res.send(error);
+        })
       } else {
         response.data = null;
         response.status= 404;
         response.statusCode = 0;
-        response.message = "User does not exist";
-        return res.status(404).send(response);
+        response.message = "Invalid Password";
+        res.status(404).send(response);
       }
+    } else {
+      return res.status(404).send({ message: 'User does not exist'});
+    }
   }).catch(err => {
     console.log('err = ',err);
-    return res.status(500).send({
+    res.status(500).send({
         message: "Error occurred while fetch the user"
       });
    });
@@ -64,19 +114,38 @@ router.get('/auth', (req,res) => {
 })
 
 router.get('/getUser', (req,res) => {
-  User.findAll({
-    where: {
-      type: req.query.type
-    }
-  }).then(data => {
-    if(data.length !== 0) {
-        res.send(data);
-    } else {
-      res.json({message:'No user present with this type'});
-    }
-  }).catch( err => {
-    res.send(err);
+  let dataadminDetails = [];
+  User.findAll().then(data => {
+     dataadminDetails = data;
+  }).catch(err => {
+    console.log(err);
   })
-})
+
+  admintype.findOne({
+    where: {
+      admintype: req.query.type
+    }
+  }).then(usertype => {
+    adminaccess.findAll({
+      where: {
+        admintype: usertype.admintypeid
+      }
+    }).then(users => {
+      let result = [];
+      for (let i of users) {
+        result.push({
+          name: dataadminDetails.find(e => e.admAdminPK === i.adminid).admName,
+          id: dataadminDetails.find(a => a.admAdminPK === i.adminid).admAdminPK
+        })
+      }
+      res.send(result);
+      console.log(result);
+    }).catch(err => {
+      res.send(err);
+    })
+  }).catch(err => {
+    res.send(err);
+   })
+ })
 
 module.exports = router

@@ -5,18 +5,38 @@
                 <div class="card-body">
 <h2 class="title" style="text-align: center;">LOGIN</h2>
 <br>
-<form style="text-align: center;">
+<form style="text-align: center;" #log="ngForm">
   <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput placeholder="Enter your email" name="email" type="email" [(ngModel)]="email">
+    <input required matInput
+    placeholder="Enter your email"  email name="email" type="email"
+    [(ngModel)]="email"
+    #emailControl="ngModel">
+    <mat-error *ngIf="emailControl.errors?.required && emailControl.touched">Please enter the email</mat-error>
+    <mat-error *ngIf="emailControl.errors?.email && emailControl.touched">Email is not in proper format</mat-error>
   </mat-form-field>
   <br>
   <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>Password</mat-label>
-    <input matInput placeholder="Enter your password" name="password" type="password" [(ngModel)]="password">
+    <input required matInput
+    placeholder="Enter your password" name="password"
+    type="password" [(ngModel)]="password"
+    #pwdControl="ngModel">
+    <mat-error *ngIf="emailControl.errors?.required && emailControl.touched">Please enter the password</mat-error>
   </mat-form-field>
   <br>
-  <button mat-raised-button color="primary" (click)="login()">Submit</button>
+  <div style="justify-content: center;">
+  <mat-form-field style="margin-right: 30px;" appearance="outline">
+    <mat-label>Login as</mat-label>
+    <mat-select required name="usertype" [(ngModel)]="selected" #selectControl="ngModel">
+      <mat-option value="Requestor">Requestor</mat-option>
+      <mat-option value="Approver">Approver</mat-option>
+      <mat-option value="Supplier">Supplier</mat-option>
+    </mat-select>
+    <mat-error *ngIf="selectControl.errors?.required && selectControl.touched">Please select the usertype</mat-error>
+  </mat-form-field>
+  <button align="end" [disabled]="log.invalid" mat-raised-button color="primary" type="submit" (click)="login()">Submit</button>
+</div>
 </form>
                 </div>
             </div>

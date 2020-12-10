@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../projects/PO/src/app/message.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from '../data.service';
+import {LoginService} from '../login.service';
 import { SeeOrderComponent } from '../../../projects/PO/src/app/see-order/see-order.component';
 import { DataService as DataViewService } from '../../../projects/PO/src/app/data.service';
 import { MyDialogComponent } from '../my-dialog/my-dialog.component';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 import { environment } from '../../environments/environment';
 import { OrderService } from '../order.service';
+import {MatPaginator} from '@angular/material/paginator';
 import { LocationService } from '../location.service';
 import { ItemService } from '../item.service';
 import { BudgetService } from '../budget.service';
@@ -48,11 +50,13 @@ export class RequestComponent implements OnInit {
   itemId: any;
   type: any;
   locations: any;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   items: any;
   public lowBudgetDept = '';
   public lowBudget = 0;
   interval: any;
   dataSource: any;
+  userID: number;
   message: string;
   public itemValue  = 0;
   actionButtonLabel = ':)';
@@ -96,31 +100,28 @@ export class RequestComponent implements OnInit {
               private orderService: OrderService,
               private locationService: LocationService,
               private itemService: ItemService,
+              private login: LoginService,
               private budgetService: BudgetService) {
               }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
-
+    this.userID = +localStorage.getItem('userId');
     if (this.type === 'Requestor') {
       this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
-                     'status', 'edit', 'total_cost', 'Details','delete', 'replicate', 'mark_complete'];
+                     'status', 'edit', 'total_cost', 'Details', 'delete', 'replicate', 'mark_complete'];
      } else {
-       this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
-                     'status', 'requestor', 'total_cost', 'Details'];
+       this.displayedColumns = ['order_id', 'created_by', 'approved_by', 'date', 'order_desc',
+                     'status', 'total_cost', 'Details'];
      }
-    this.orderSub = this.orderService.getAllOrders().subscribe((data: any) => {
+    this.orderSub = this.orderService.getAllOrders(this.userID, this.type).subscribe((data: any) => {
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
       this.orderList = data;
     });
 
     this.itemSub = this.itemService.getAllItems().subscribe((data: any) => {
       this.itemList = data.data;
-    });
-
-    this.locationSub = this.locationService.getAllLocations().subscribe((data: any) => {
-      this.locationList = data.data;
-      console.log('Location', this.locationList);
     });
     // this.checkBuget();
 
@@ -203,14 +204,11 @@ export class RequestComponent implements OnInit {
   onReplicate(order_id, refresher) {
 
     this.finalItem = [];
-    this.multiLocs = [];
-    this.lowBudgetDept = '';
-    this.lowBudget = 0;
 
     this.order = this.orderList.filter(order => order.order_id === order_id);
     this.order = this.order[0];
+    this.order.creator = this.userID;
     this.items = this.itemList.filter(item => item.order_id === order_id);
-    this.locations = this.locationList.filter(location => location.order_id === order_id);
 
     for (let item of this.items) {
       let i: any = {};
@@ -222,13 +220,14 @@ export class RequestComponent implements OnInit {
       i.department = item.department;
       i.unit_type = item.unit_type;
       i.price = item.price;
+      i.brand = item.brand;
       i.currency = item.currency;
       i.comment = item.comment;
       this.finalItem.push(i);
     }
 
-    for (let location of this.locations) {
-      let l: any = {};
+    // for (let location of this.locations) {
+    //   let l: any = {};
       // const i = this.budgetAfterApproving.findIndex(exist =>
       //           exist.location === location.location && exist.department === location.department);
       // if (location.total_price > +this.budgetAfterApproving[i].budget) {
@@ -251,12 +250,12 @@ export class RequestComponent implements OnInit {
       //           i.comment = item.comment;
       //           this.finalItem.push(i);
       //       }
-      l.location = location.location;
-      l.total_price = location.total_price;
-      l.department = location.department;
-      this.multiLocs.push(l);
-      // }
-    }
+    //   l.location = location.location;
+    //   l.total_price = location.total_price;
+    //   l.department = location.department;
+    //   this.multiLocs.push(l);
+    //   // }
+    // }
 
     // if (this.finalItem.length === 0 && this.multiLocs.length === 0 && this.lowBudgetDept !== '') {
     //    this.openDialog();
@@ -265,7 +264,6 @@ export class RequestComponent implements OnInit {
     //         this.openMessageDialog();
     //     }
     this.order.finalItem = this.finalItem;
-    this.order.multiLocs = this.multiLocs;
     this.orderService.replicateOrder(this.order);
     this.message = 'Replicated Sucessfully';
     // this.checkBuget();
@@ -311,7 +309,7 @@ export class RequestComponent implements OnInit {
   }
 
   getData() {
-   this.orderSub = this.orderService.getAllOrders().subscribe((data: any[]) => {
+   this.orderSub = this.orderService.getAllOrders(this.userID, this.type).subscribe((data: any[]) => {
       this.orderList = data;
       this.dataSource = new MatTableDataSource(this.orderList);
     });
@@ -358,6 +356,7 @@ sortOrder(sort: Sort) {
       switch (sort.active) {
           case 'order_id': return this.compare(a.order_id, b.order_id, isAsc);
           case 'created_by': return this.compare(a.created_by, b.created_by, isAsc);
+          case 'approved_by': return this.compare(a.approved_by, b.approved_by, isAsc);
           case 'date': return this.compare(a.date, b.date, isAsc);
           case 'total_price': return this.compare(a.total_price, b.total_price, isAsc);
           default: return 0;
