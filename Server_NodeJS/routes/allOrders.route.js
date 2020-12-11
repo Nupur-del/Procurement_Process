@@ -290,8 +290,10 @@ router.get('/Order_by_statusApprover', (req,res) => {
 // Item by status
 
 router.get('/Item_by_status', (req,res) => {
-    const status = req.query.status
-    sql.query(`SELECT * from order_items where status = "${status}"`, (err, response) => {
+    const status = req.query.status;
+    const user = req.query.userID;
+    sql.query(`SELECT * from order_items i, orders o where i.status = (select id from orderstatus where orderStatus = '${status}') \
+    and o.created_by = ${user} and o.order_id = i.order_id`, (err, response) => {
         if (err) {
             res.send(err);
         } else {
@@ -318,8 +320,9 @@ router.get('/trackItems', (req,res) => {
 
 router.get('/countStatusOrder', (req,res) => {
     const status = req.query.status;
-    sql.query(` SELECT count(*) as total from orders o, orderstatus s 
-    where s.orderStatus = '${status}' AND s.id = o.status;`, (err, response) =>{
+    const user = req.query.userID;
+    sql.query(`SELECT count(*) as total from orders o, orderstatus s 
+    where s.orderStatus = '${status}' AND s.id = o.status and o.created_by = ${user};`, (err, response) =>{
         if(err) {
             res.send(err)
         } else {
@@ -332,6 +335,42 @@ router.get('/countStatusOrder', (req,res) => {
             res.send(result);
         }
     })
+})
+
+router.get('/countStatusOrderApprover', (req,res) => {
+    const status = req.query.status;
+    const user = req.query.userID;
+    if (status !== 'Pending') {
+        sql.query(` SELECT count(*) as total from orders o, orderstatus s 
+        where s.orderStatus = '${status}' AND s.id = o.status and o.approved_by = ${user};`, (err, response) =>{
+            if(err) {
+                res.send(err)
+            } else {
+                const order = JSON.parse(JSON.stringify(response));
+                let result = { 
+                    data : order[0].total,
+                    status: 200,
+                    message: 'Success'
+                }
+                res.send(result);
+            }
+        })
+    } else {
+        sql.query(` SELECT count(*) as total from orders o, orderstatus s 
+        where s.orderStatus = '${status}' AND s.id = o.status;`, (err, response) =>{
+            if(err) {
+                res.send(err)
+            } else {
+                const order = JSON.parse(JSON.stringify(response));
+                let result = { 
+                    data : order[0].total,
+                    status: 200,
+                    message: 'Success'
+                }
+                res.send(result);
+            }
+        })
+    }
 })
 
 // update the status of Order

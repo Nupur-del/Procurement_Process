@@ -23,8 +23,8 @@ export class ItemService {
     return this.http.get<any[]>(environment.BASE_URL + 'order/Item_by_order_id', { params: params });
   }
 
-  getItemByStatus(status: any): Observable<IItem[]> {
-    let params = new HttpParams().set('status', status);
+  getItemByStatus(status: any, user: any): Observable<IItem[]> {
+    let params = new HttpParams().set('status', status).set('userID', user);
     return this.http.get<IItem[]>(environment.BASE_URL + 'orders/Item_by_status', { params: params });
   }
 

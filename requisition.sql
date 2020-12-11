@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2020 at 08:57 PM
+-- Generation Time: Dec 11, 2020 at 02:57 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -53,7 +53,8 @@ INSERT INTO `adminaccess` (`id`, `admintype`, `adminid`) VALUES
 (3, 1, 112951),
 (4, 1, 121565),
 (5, 1, 126422),
-(6, 2, 346755);
+(6, 2, 346755),
+(7, 2, 71455);
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (25, 1, '01010101008', 100000, 100000),
 (26, 1, '01010101019', 100000, 100000),
 (27, 3, '01010101005', 90000, 90000),
-(28, 3, '01010101003', 90000, 90000),
+(28, 3, '01010101003', 30000, 90000),
 (29, 3, '01010101006', 90000, 90000),
 (30, 3, '01010101024', 90000, 90000),
 (31, 3, '01010101025', 90000, 90000),
@@ -187,7 +188,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (56, 4, '01010101024', 150000, 150000),
 (57, 4, '01010101025', 150000, 150000),
 (58, 4, '01010101018', 150000, 150000),
-(59, 4, '01010101002', 57600, 150000),
+(59, 4, '01010101002', 150000, 150000),
 (60, 4, '01010101007', 150000, 150000),
 (61, 4, '01010101016', 150000, 150000),
 (62, 4, '01010101021', 150000, 150000),
@@ -195,7 +196,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (64, 4, '01010101015', 150000, 150000),
 (65, 4, '01010101017', 150000, 150000),
 (66, 4, '01010101014', 150000, 150000),
-(67, 4, '01010101020', 104000, 150000),
+(67, 4, '01010101020', 150000, 150000),
 (68, 4, '01010101013', 150000, 150000),
 (69, 4, '01010101012', 150000, 150000),
 (70, 4, '01010101011', 150000, 150000),
@@ -207,8 +208,8 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (76, 4, '01010101022', 150000, 150000),
 (77, 4, '01010101008', 150000, 150000),
 (78, 4, '01010101019', 150000, 150000),
-(79, 5, '01010101005', 130000, 130000),
-(80, 5, '01010101003', 130000, 130000),
+(79, 5, '01010101005', 126800, 130000),
+(80, 5, '01010101003', 98000, 130000),
 (81, 5, '01010101006', 130000, 130000),
 (82, 5, '01010101024', 130000, 130000),
 (83, 5, '01010101025', 130000, 130000),
@@ -216,19 +217,19 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (85, 5, '01010101002', 130000, 130000),
 (86, 5, '01010101007', 130000, 130000),
 (87, 5, '01010101016', 130000, 130000),
-(88, 5, '01010101021', 106000, 130000),
+(88, 5, '01010101021', 130000, 130000),
 (89, 5, '01010101023', 130000, 130000),
 (90, 5, '01010101015', 130000, 130000),
 (91, 5, '01010101017', 130000, 130000),
 (92, 5, '01010101014', 130000, 130000),
 (93, 5, '01010101020', 130000, 130000),
-(94, 5, '01010101013', 130000, 130000),
-(95, 5, '01010101012', 130000, 130000),
+(94, 5, '01010101013', 62000, 130000),
+(95, 5, '01010101012', 94800, 130000),
 (96, 5, '01010101011', 130000, 130000),
 (97, 5, '01010101010', 130000, 130000),
-(98, 5, '01010101026', 130000, 130000),
+(98, 5, '01010101026', 117200, 130000),
 (99, 5, '01010101009', 130000, 130000),
-(100, 5, '01010101001', 66000, 130000),
+(100, 5, '01010101001', 130000, 130000),
 (101, 5, '01010101004', 130000, 130000),
 (102, 5, '01010101022', 130000, 130000),
 (103, 5, '01010101008', 130000, 130000),
@@ -247,7 +248,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (116, 6, '01010101015', 140000, 140000),
 (117, 6, '01010101017', 140000, 140000),
 (118, 6, '01010101014', 140000, 140000),
-(119, 6, '01010101020', 136800, 140000),
+(119, 6, '01010101020', 140000, 140000),
 (120, 6, '01010101013', 140000, 140000),
 (121, 6, '01010101012', 140000, 140000),
 (122, 6, '01010101011', 140000, 140000),
@@ -265,7 +266,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (134, 7, '01010101024', 120000, 120000),
 (135, 7, '01010101025', 120000, 120000),
 (136, 7, '01010101018', 120000, 120000),
-(137, 7, '01010101002', 116800, 120000),
+(137, 7, '01010101002', 120000, 120000),
 (138, 7, '01010101007', 120000, 120000),
 (139, 7, '01010101016', 120000, 120000),
 (140, 7, '01010101021', 120000, 120000),
@@ -322,7 +323,7 @@ INSERT INTO `dataadmin` (`admAdminPK`, `admName`, `admDOJ`, `admIsActive`, `admp
 (13722, 'Narendra Bhanushali', '2000-01-01', b'1', '12345678', '29071955', '$2a$12$iyplE4CRTkw5hAzdGGjyeuvNKCozyf/KvCTWUciEYs84TLuYzuOQu', '67783219', '9223427417', '', 'narendra.bhanushali@tcs.co', '4223219', 'C:\\CommonFolderMirror\\UserImages\\13722.jpg'),
 (14176, 'Thomas Mathew', '1989-12-18', b'1', '12345678', 'wife\'s name', '$2a$12$..r6EvsNm4zJO9LRUPXWeenmfx5qzpVM6M8k4aGWlNcosMbnKBNd2', '67798741', '7045537808', '', 'thomas2.mathew@tcs.com', '', 'C:\\CommonFolderMirror\\UserImages\\14176.png'),
 (33855, 'Chaitanya Sathe', '2000-01-01', b'1', '12345678', '33855', '$2a$12$nbmVf/BdNsxK8l1MiwrSm.8ledAA2md.3ZvhsC86SzuwXo4RXsbbm', '67795606', '', '', 'chaitanya.sathe@tcs.com', '', 'C:\\CommonFolderMirror\\UserImages\\33855.jpg'),
-(71455, 'Shirish Dhurat', '1991-04-08', b'1', '12345678', 'What is your Mother\'s Name', '$2a$12$EeB75cMABq66YjmXufXvT.eIhNQ2ePD85kNy0WsT5K5Ov8Yi6bZZO', '67789976', '9223313064', '67789000', ' shirish.dhurat@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\71455.JPG'),
+(71455, 'Shirish Dhurat', '1991-04-08', b'1', '12345678', 'What is your Mother\'s Name', '$2a$12$EeB75cMABq66YjmXufXvT.eIhNQ2ePD85kNy0WsT5K5Ov8Yi6bZZO', '67789976', '9223313064', '67789000', 'shirish.dhurat@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\71455.JPG'),
 (78361, 'Praful Chandran', '1993-06-12', b'1', '12345678', 'Mother\'s maiden name', '$2a$12$8Cq7U4NoRdaKvOYcPWABqOTsSecxveEDUxhl4of0KWGKY7PHc6fnq', '677895640', '8097096664', '', ' t.praful@tcs.com ', '4295640', 'C:\\CommonFolderMirror\\UserImages\\78361.jpg'),
 (102549, 'Preethi santosh', '1994-09-26', b'1', '12345678', 'Mother\'s name', '$2a$12$.Xgfu1sRA4C37y9b9MIOn.Fj3C9k0rnZj7tVRlpi/bOXeNqEaSWOa', '67799762', '9823251730', '', 'preethi.santosh@tcs.com', '', 'C:\\CommonFolderMirror\\UserImages\\102549.jpg'),
 (103384, 'Sushma Patkar', '1995-04-03', b'1', '12345678', 'Place of birth', '$2a$12$zRWZ8a4ny4Jzl2dp1TCD3.8SuBQgvdYfCZBd9BufTGKkhKrOlRcBu', '67798627', '9819568684', '', 'sushma.patkar@tcs.com', '', 'C:\\CommonFolderMirror\\UserImages\\103384.JPG'),
@@ -334,7 +335,7 @@ INSERT INTO `dataadmin` (`admAdminPK`, `admName`, `admDOJ`, `admIsActive`, `admp
 (112951, 'Sunil Sudhakaran', '1998-01-19', b'1', '12345678', 'what is your first school name?', '$2a$12$CxdohDPEABzvb5.F6jSLoOjROldYD58EzLFuaTlOJVoHx3cZaOgZO', '02267797222', '9223101151', '', 's.sunil@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\112951.jpg'),
 (116169, 'Prafulla Poojary', '1998-11-02', b'1', '12345678', 'Godess', '$2a$12$hgKUR6Bb1mBw3iiqUgfye.NcK4uE4n9dozMyxK9WgnfrIYjVNy8YC', '67798933', '9869338087', '', 'prafulla.poojary@tcs.com', '', 'C:\\CommonFolderMirror\\UserImages\\116169.jpg'),
 (120224, 'Lekha Raghu', '1900-01-01', b'1', '12345678', '', '$2a$12$NdjkeLLlb3alKF4rMNt6BuuZ/VdwcxHeZzFLLrPaWh3sX/bcs66VS', '', '', '', 'lekha.raghu@tcs.com', '', NULL),
-(121565, 'Thulasi Sunil', '2000-08-01', b'1', '12345678', 'Mother Maiden Name', '$2a$12$vh4loJgJj6Ur2NdFDwHAUupFSd8To7y20AHBA//3LzP0XajZKJFH2', '61327774', '', '', ' thulasi.chandran@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\121565.jpg'),
+(121565, 'Thulasi Sunil', '2000-08-01', b'1', '12345678', 'Mother Maiden Name', '$2a$12$vh4loJgJj6Ur2NdFDwHAUupFSd8To7y20AHBA//3LzP0XajZKJFH2', '61327774', '', '', 'thulasi.chandran@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\121565.jpg'),
 (123521, 'Sangameshwaran Iyer', '2000-11-20', b'1', '12345678', '', '', '', '', '', '', '', NULL),
 (126422, 'Sandip Divekar', '2001-04-20', b'1', '12345678', 'My birth place', '$2a$12$pMnYj6px8XA2JpiGLUAk.exkZ.7gU6FzKOoXGxiqg714GORSUKkAO', '022-67798655', '9223357825', '', ' sandip.divekar@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\126422.jpg'),
 (126477, 'Joshy Joseph', '2001-04-26', b'1', '12345678', 'mothers name', '$2a$12$qEdJTa9HEVGj32jfSOG10.TKfGp2U2cggoSDLPPosIPHbtkEzrp/m', '67782672', '8097001082', '67782190', 'joshy.joseph@tcs.com', '4222672', 'C:\\CommonFolderMirror\\UserImages\\126477.PNG'),
@@ -1036,12 +1037,17 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`, `message`, `status`, `approved_by`) VALUES
-(1503, 104657, '2020-12-09 15:04:05', 'Order', 'Approved', 4, 346755),
-(3667, 104657, '2020-12-10 15:26:02', 'Order of USB', 'Partially Approved', 3, 346755),
-(8261, 104657, '2020-12-09 15:08:34', 'Order', 'Approved it', 4, 346755),
-(8557, 104657, '2020-12-10 19:25:58', 'Order', 'Pending for approval', 1, NULL),
-(9888, 104657, '2020-12-10 19:26:05', 'Order', 'Partially Approved', 3, 346755),
-(9985, 104657, '2020-12-10 15:28:42', 'Order of USB', 'Approved', 4, 346755);
+(107, 121565, '2020-12-11 13:55:07', 'Order', 'Approved', 4, 71455),
+(258, 121565, '2020-12-11 09:59:30', 'Order', 'Approving it', 4, 346755),
+(454, 121565, '2020-12-11 13:54:50', 'Order', 'Pending for approval', 1, NULL),
+(2047, 121565, '2020-12-11 10:36:02', 'Order', 'Approved', 4, 71455),
+(2925, 104657, '2020-12-11 09:53:09', 'Sample', 'Approving it', 4, 71455),
+(4696, 121565, '2020-12-11 09:56:27', 'Order', 'Approving it', 4, 71455),
+(6517, 121565, '2020-12-11 10:36:16', 'Order', 'Pending for approval', 1, NULL),
+(7464, 121565, '2020-12-11 09:56:35', 'Order', 'Approving it', 4, 71455),
+(7554, 104657, '2020-12-11 09:53:50', 'Sample', 'Required budget is not available for AIR INDIA', 2, 346755),
+(8540, 104657, '2020-12-11 09:53:39', 'Sample', 'Pending for approval', 1, NULL),
+(8845, 121565, '2020-12-11 09:57:09', 'Order', 'Denied', 2, 346755);
 
 -- --------------------------------------------------------
 
@@ -1111,23 +1117,30 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_vendor`, `quantity`, `unit_type`, `price`, `currency`, `comment`, `status`, `estimated_arrival`, `tracking_link`, `department`, `location`, `brand`) VALUES
-(207, 1503, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 4, NULL, NULL, 4, '01010101002', 3),
-(208, 1503, 'UsbCable', '1 TB', 2, 2, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 4, '01010101002', 2),
-(209, 1503, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 7, '01010101002', 2),
-(210, 8261, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 4, NULL, NULL, 4, '01010101002', 3),
-(211, 8261, 'UsbCable', '1 TB', 2, 2, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 4, '01010101002', 2),
-(212, 8261, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 7, '01010101002', 2),
-(258, 3667, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101001', 4),
-(259, 3667, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101001', 1),
-(260, 3667, 'UsbCable', '21-inch', 2, 2, 'HN-21123', 12000, 'INR', 'none', 4, NULL, NULL, 5, '01010101021', 2),
-(270, 9985, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101001', 4),
-(271, 9985, 'UsbCable', '21-inch', 2, 2, 'HN-21123', 12000, 'INR', 'none', 4, NULL, NULL, 5, '01010101021', 2),
-(272, 9985, 'Laptop', '56 inch', 3, 2, 'HN-32131', 23000, 'INR', 'none', 4, NULL, NULL, 4, '01010101020', 2),
-(273, 9985, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 6, '01010101020', 2),
-(274, 8557, 'Router', '89 inch', 3, 2, 'Hn-323', 90000, 'INR', 'none', 1, NULL, NULL, 5, '01010101004', 3),
-(275, 8557, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 4),
-(276, 9888, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101025', 4),
-(277, 9888, 'Router', '89 inch', 3, 2, 'Hn-323', 90000, 'INR', 'none', 2, NULL, NULL, 5, '01010101004', 3);
+(4, 2925, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 4, NULL, NULL, 3, '01010101003', 4),
+(5, 2925, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101005', 2),
+(8, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101005', 2),
+(9, 8540, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 1, NULL, NULL, 3, '01010101003', 4),
+(10, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 4, '01010101018', 2),
+(11, 7554, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 4, '01010101018', 2),
+(12, 7554, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101005', 2),
+(13, 7554, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101003', 4),
+(14, 4696, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
+(15, 7464, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
+(17, 8845, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101026', 2),
+(18, 8845, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101013', 1),
+(21, 258, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
+(22, 258, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
+(23, 2047, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
+(24, 2047, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
+(25, 6517, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101026', 2),
+(26, 6517, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 5, '01010101013', 1),
+(33, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101003', 4),
+(34, 454, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101012', 2),
+(35, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101012', 4),
+(36, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101003', 4),
+(37, 107, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101012', 2),
+(38, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101012', 4);
 
 -- --------------------------------------------------------
 
@@ -1370,7 +1383,7 @@ ALTER TABLE `po_status`
 -- AUTO_INCREMENT for table `adminaccess`
 --
 ALTER TABLE `adminaccess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `admintype`
@@ -1430,7 +1443,7 @@ ALTER TABLE `orderstatus`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `pos`

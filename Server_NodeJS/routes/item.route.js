@@ -82,6 +82,18 @@ router.get('/item_by_id', (req,res) => {
 // Fetch all item
 
 router.get('/allItems', (req,res) => {
+    Items.findAll({
+        where: {
+            supplier: req.query.user
+        }
+    }).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.json({message: err.message})
+    })
+})
+
+router.get('/allItemsRequestor', (req,res) => {
     Items.findAll().then(data => {
         res.send(data)
     }).catch(err => {
@@ -125,7 +137,11 @@ router.delete('/deleteItems', (req, res) => {
 // Fetch and count the item
 
 router.get('/itemCount', (req, res) => {
-    Items.findAndCountAll().then(result => {
+    Items.findAndCountAll({
+        where: {
+            supplier: req.query.user
+        }
+    }).then(result => {
          res.send(result);
     }).catch( err => {
         res.send(err);

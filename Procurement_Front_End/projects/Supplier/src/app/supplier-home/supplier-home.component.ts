@@ -10,14 +10,18 @@ import { ItemService } from '../item.service';
 export class SupplierHomeComponent implements OnInit {
 
   po: any = {};
+  userID: number;
+  type: any;
   item: any = {};
   constructor(private poService: POService,
               private itemService: ItemService) { }
 
-
   ngOnInit() {
 
-    this.itemService.getItemCount().subscribe((data: any) => {
+    this.type = localStorage.getItem('type');
+    this.userID = +localStorage.getItem('userId');
+
+    this.itemService.getItemCount(this.userID).subscribe((data: any) => {
       this.item.all = data.count;
     });
 

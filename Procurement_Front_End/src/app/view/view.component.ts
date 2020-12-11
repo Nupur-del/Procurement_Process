@@ -25,6 +25,7 @@ export class ViewComponent implements OnInit {
   public itemList: any = [ ];
   closeResult: string;
   isShow = true;
+  selectLocPartial: any;
   budget: any = [];
   locationBudget: any[] = [];
   budgetAfterApproving: any[] = [];
@@ -337,11 +338,11 @@ itemSelect(option: any) {
 
 orderDecision(status, decision, refresher) {
   let lowBudget = '';
-  if (status === 'Partial Approved') {
-    this.selectLocDept = true;
-    this.partialApproved = true;
-    this.openPartial = false;
-  }
+  // if (status === 'Partial Approved') {
+  //   this.selectLocDept = true;
+  //   this.partialApproved = true;
+  //   this.openPartial = false;
+  // }
 
   for (let i of this.multiLocs) {
     const cost = this.budgetAfterApproving.find(l => l.location === i.location && l.department === i.department).actualbudget;
@@ -386,47 +387,52 @@ orderDecision(status, decision, refresher) {
    }
   }
 
-  partialdecision(form: NgForm) {
-    let updateData = [];
-    const result = this.budgetAfterApproving.find(e => e.location === form.value.loc.location
-      && e.department === form.value.loc.department);
-    if (result.budget < 0) {
-      this.snackBar.open('Wrong location and department got selected please check once again', '', {duration: 2000});
-    } else {
-      console.log(this.budgetAfterApproving);
-      for (let i of this.budgetAfterApproving) {
-        if (i.location === form.value.loc.location && i.department === form.value.loc.department) {
-          updateData.push({
-            order_id: this.order.order_id,
-            location: this.locDetails.find(q => q.locName === i.location).locLocationPK,
-            department: this.deptDetails.find(d => d.department_name === i.department).id,
-            orderStatus: 3,
-            itemStatus: 4,
-            message: form.value.decision,
-            approved_by: this.userID
-          });
-        } else {
-          updateData.push({
-            order_id: this.order.order_id,
-            location: this.locDetails.find(q => q.locName === i.location).locLocationPK,
-            department: this.deptDetails.find(d => d.department_name === i.department).id,
-            orderStatus: 3,
-            itemStatus: 2,
-            message: form.value.decision,
-            approved_by: this.userID
-          });
-        }
-      }
-      console.log(updateData);
-      this.http.put(environment.BASE_URL + 'orders/partialUpdate', updateData).subscribe(data => {
-        if (data) {
-         this.router.navigate(['/request']);
-        }
-      }, err => {
-        console.log(err);
-      });
-    }
-  }
+  // partialdecision(form: NgForm) {
+  //   console.log(form.value);
+  //   let wrongSelected = false;
+  //   let updateData = [];
+  //   for (let j of form.value.loc) {
+  //     if (j.budget < 0) {
+  //       wrongSelected = true;
+  //     }
+  //   }
+  //   if (wrongSelected === true) {
+  //     this.snackBar.open('Wrong location and department got selected please check once again', '', {duration: 2000});
+  //   } else {
+  //     for (let z of form.value.loc) {
+  //       for (let i of this.budgetAfterApproving) {
+  //         if (i.location === z.location && i.department === z.department) {
+  //           updateData.push({
+  //             order_id: this.order.order_id,
+  //             location: this.locDetails.find(q => q.locName === i.location).locLocationPK,
+  //             department: this.deptDetails.find(d => d.department_name === i.department).id,
+  //             orderStatus: 3,
+  //             itemStatus: 4,
+  //             message: form.value.decision,
+  //             approved_by: this.userID
+  //           });
+  //         } else {
+  //           updateData.push({
+  //             order_id: this.order.order_id,
+  //             location: this.locDetails.find(q => q.locName === i.location).locLocationPK,
+  //             department: this.deptDetails.find(d => d.department_name === i.department).id,
+  //             orderStatus: 3,
+  //             itemStatus: 2,
+  //             message: form.value.decision,
+  //             approved_by: this.userID
+  //           });
+  //          }
+  //        }
+  //       }
+  //     this.http.put(environment.BASE_URL + 'orders/partialUpdate', updateData).subscribe(data => {
+  //       if (data) {
+  //         this.router.navigate(['/request']);
+  //       }
+  //     }, err => {
+  //       console.log(err);
+  //     });
+  //     }
+  // }
     doRefresh(refresher) {
       console.log('Begin async operation', refresher);
 

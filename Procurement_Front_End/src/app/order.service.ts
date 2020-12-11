@@ -120,13 +120,22 @@ editOrder(order: any): Observable<any> {
   return this.http.post<any>(environment.BASE_URL + 'order/order', order);
 }
 
-getAllOrderCount(): Observable<number> {
-  return this.http.get<number>(environment.BASE_URL + 'order/countOrder');
+getAllOrderCount(userID: any, type: any): Observable<number> {
+  let userParams = new HttpParams().set('userID', userID);
+  if (type === 'Requestor') {
+    return this.http.get<number>(environment.BASE_URL + 'order/countOrder', {params : userParams});
+  } else {
+    return this.http.get<number>(environment.BASE_URL + 'order/countOrderApprover', {params : userParams});
+  }
 }
 
-getStatusOrderCount(status: any): Observable<number>  {
-  let statusParams = new HttpParams().set('status', status);
-  return this.http.get<number>(environment.BASE_URL + 'orders/countStatusOrder', { params: statusParams });
+getStatusOrderCount(status: any, userID: any, userType: any): Observable<number>  {
+  let statusParams = new HttpParams().set('status', status).set('userID', userID);
+  if (userType === 'Requestor') {
+    return this.http.get<number>(environment.BASE_URL + 'orders/countStatusOrder', { params: statusParams });
+  } else {
+    return this.http.get<number>(environment.BASE_URL + 'orders/countStatusOrderApprover', { params: statusParams });
+  }
 }
 
 }

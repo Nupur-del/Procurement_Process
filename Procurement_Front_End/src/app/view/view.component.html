@@ -104,26 +104,26 @@
       <br>
       <hr>
       <br>
-      <div *ngIf="selectLocDept" class="form-group">
-          <label class="example-margin"><b>Select the Location and Department:</b></label>
-          <mat-radio-group class="example-radio-group" name="loc" ngModel *ngFor="let loc of budgetAfterApproving"
-          [(ngModel)]="loc">
-            <mat-radio-button class="example-margin" [value]="loc">
+      <!-- <div *ngIf="selectLocDept" class="form-group">
+          <label><b>Select the Location and Department:</b></label>
+          <mat-select  class="form-control" multiple name="loc" ngModel
+          (ngModel)="selectLocPartial">
+            <mat-option *ngFor="let loc of budgetAfterApproving" [value]="loc">
               {{loc.location}} {{loc.department}}
-            </mat-radio-button>
-          </mat-radio-group>
+            </mat-option>
+          </mat-select>
       </div>
       <br>
       <hr>
-      <br>
+      <br> -->
       <div class="text-right">
-      <button type="submit" class="btn btn-danger" [hidden]="partialApproved" (click)="orderDecision('Denied', decision, $event)">Deny Request</button>
+      <button type="submit" class="btn btn-danger" (click)="orderDecision('Denied', decision, $event)">Deny Request</button>
       &nbsp;
-      <button type="button" class="btn btn-warning" [hidden]="partialApproved" (click)="orderDecision('Partial Approved', decision, $event)">Partially Approved</button>
+      <!-- <button type="button" class="btn btn-warning" [hidden]="partialApproved" (click)="orderDecision('Partial Approved', decision, $event)">Partially Approved</button>
       &nbsp;
       <button type="submit" class="btn btn-warning" [hidden]="openPartial" (click)="partialdecision(mainForm)">Partial Approved</button>
-      &nbsp;
-      <button type="submit" class="btn btn-success" [hidden]="partialApproved" (click)="orderDecision('Approved',decision,$event)">Approve Request</button>
+      &nbsp; -->
+      <button type="submit" class="btn btn-success" (click)="orderDecision('Approved',decision,$event)">Approve Request</button>
       </div>
     </form>
     </section>

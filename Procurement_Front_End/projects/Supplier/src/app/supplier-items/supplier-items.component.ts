@@ -35,6 +35,8 @@ export class SupplierItemsComponent implements OnInit {
   message: string;
   actionButtonLabel = ':)';
   action = true;
+  userID: number;
+  type: any;
   setAutoHide = true;
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -51,15 +53,25 @@ export class SupplierItemsComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.itemService.getItems().subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
+    this.type = localStorage.getItem('type');
+    this.userID = +localStorage.getItem('userId');
+
+    this.itemService.getItems(this.userID).subscribe(item => {
+      this.dataSource = new MatTableDataSource(item);
       this.dataSource.paginator = this.paginator;
-      this.itemList = data;
+      this.itemList = item;
+      for (let i of item) {
+        this.imageService.getImageById(i.item_id).subscribe(imag => {
+          this.imageList.push(imag);
+        });
+      }
+      console.log(this.imageList);
     });
 
-    this.imageService.getAllImages().subscribe(data => {
-      this.imageList = data;
-    });
+    // this.imageService.getAllImages().subscribe(data => {
+    //   this.imageList = data;
+    // });
+
     this.data.currentMessage.subscribe(message => this.sub = message);
   }
 
@@ -85,7 +97,7 @@ export class SupplierItemsComponent implements OnInit {
   }
 
   getData() {
-    this.itemService.getItems().subscribe(data => {
+    this.itemService.getItems(this.userID).subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
     });
   }

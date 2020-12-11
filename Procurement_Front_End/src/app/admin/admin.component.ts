@@ -21,7 +21,6 @@ interface ImageSlider {
   image: string;
   thumbImage: string;
   alt: string;
-  title: string;
 }
 
 @Component({
@@ -210,7 +209,6 @@ export class AdminComponent implements OnInit, OnDestroy {
           this.supplierNames.push(i.name);
         }
       }
-      console.log('Suppliers', this.supplierDetails);
     });
 
     this.itemSub = this.itemService.getAllItems().subscribe((data: any[]) => {
@@ -541,8 +539,7 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
     this.itemImages = [{
       image: 'http://localhost:3000/images/dummy_image.jpg',
       thumbImage: 'http://localhost:3000/images/dummy_image.jpg',
-      alt: 'dummy',
-      title: 'Appliances'
+      alt: 'dummy'
     }];
     this.imageSub = this.imageService.getImageById(item_id).subscribe((data: Array<any>) => {
       console.log(data);
@@ -552,8 +549,7 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
       this.itemImages.push({
         image: 'http://localhost:3000/images/' + i.imageName,
         thumbImage: 'http://localhost:3000/images/' + i.imageName,
-        alt: 'alt of image',
-        title: 'USB CABLE'
+        alt: 'alt of image'
       });
       this.isLoading = false;
       }

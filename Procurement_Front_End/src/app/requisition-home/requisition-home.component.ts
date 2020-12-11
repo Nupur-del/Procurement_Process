@@ -9,27 +9,29 @@ import { OrderService } from '../order.service';
 export class RequisitionHomeComponent implements OnInit {
   type: any;
   order: any = {};
+  userID: number;
 
   constructor(private orderService: OrderService) { }
 
   ngOnInit() {
 
     this.type = localStorage.getItem('type');
+    this.userID = +localStorage.getItem('userId');
 
-    this.orderService.getAllOrderCount().subscribe((data: any) => {
+    this.orderService.getAllOrderCount(this.userID, this.type).subscribe((data: any) => {
       this.order.all = data;
     });
     const pendingStatus = 'Pending';
-    this.orderService.getStatusOrderCount(pendingStatus).subscribe((data: any) => {
+    this.orderService.getStatusOrderCount(pendingStatus, this.userID, this.type).subscribe((data: any) => {
       console.log(data.data);
       this.order.pending = data.data;
     });
     const approvedStatus = 'Approved';
-    this.orderService.getStatusOrderCount(approvedStatus).subscribe((data: any) => {
+    this.orderService.getStatusOrderCount(approvedStatus, this.userID, this.type).subscribe((data: any) => {
       this.order.approved = data.data;
     });
     const deniedStatus = 'Denied';
-    this.orderService.getStatusOrderCount(deniedStatus).subscribe((data: any) => {
+    this.orderService.getStatusOrderCount(deniedStatus, this.userID, this.type).subscribe((data: any) => {
       this.order.denied = data.data;
     });
 

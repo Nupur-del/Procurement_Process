@@ -270,7 +270,25 @@ router.delete('/orderDeletion', (req,res) => {
 // Fetch Orders and count
 
 router.get('/countOrder', (req,res) => {
-  Order.findAndCountAll().then(response => {
+  Order.findAndCountAll({
+    where: {
+      created_by: req.query.userID
+    }
+  }).then(response => {
+    console.log(response.count);
+    console.log(response['count']);
+    res.json(''+ response.count);
+  }).catch(err => {
+    res.send({message: err.message})
+  })
+})
+
+router.get('/countOrderApprover', (req,res) => {
+  Order.findAndCountAll({
+    where: {
+      approved_by: req.query.userID
+    }
+  }).then(response => {
     console.log(response.count);
     console.log(response['count']);
     res.json(''+ response.count);

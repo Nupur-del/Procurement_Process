@@ -25,7 +25,7 @@ export class ItemService {
   }
 
   getAllItems() {
-    return this.http.get(environment.BASE_URL + 'item/allItems');
+    return this.http.get(environment.BASE_URL + 'item/allItemsRequestor');
   }
 
   replicateItem(item: any): Observable<any> {
@@ -63,11 +63,13 @@ export class ItemService {
     });
   }
 
-  getItems(): Observable<IItem[]> {
-    return this.http.get<IItem[]>(environment.BASE_URL + 'item/allItems');
+  getItems(user: any): Observable<IItem[]> {
+    let iParams = new HttpParams().set('user', user);
+    return this.http.get<IItem[]>(environment.BASE_URL + 'item/allItems', {params: iParams});
   }
 
-  getItemCount(): Observable<number> {
-    return this.http.get<number>(environment.BASE_URL + 'item/itemCount');
+  getItemCount(user: any): Observable<number> {
+    let iParams = new HttpParams().set('user', user);
+    return this.http.get<number>(environment.BASE_URL + 'item/itemCount', {params: iParams});
   }
 }
