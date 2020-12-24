@@ -2,8 +2,8 @@
       position: fixed;
       top: 30%;
       right: 1rem;" class="btn btn-primary" (click)="seePO()">View PO</button> -->
-<div class="container">
-    <h1>Purchase Order - <span style="color:red;">{{ po.billNo }}</span></h1>
+<div class="container" *ngIf="po.length !== 0">
+    <h1>Purchase Order - <span style="color:red;">{{ po[0].billNo }}</span></h1>
     <section class="container border mb-4 p-3"  >
     <form #mainForm="ngForm" class="container mt-3 custom">
     <table>
@@ -12,7 +12,7 @@
         <td>
         <div class="form-group">
         <input type="text" class="form-control"
-         [(ngModel)]="po.tracking_link" name="tracking_link" placeholder="Tracking Link" required>
+         [(ngModel)]="po[0].tracking_link" name="tracking_link" placeholder="Tracking Link" required>
         </div>
         </td>
       </tr>
@@ -20,19 +20,25 @@
       <tr>
         <td><h5>Estimated Arrival&nbsp;</h5></td>
         <td>
-        <div class="form-group">
+        <!-- <div class="form-group">
         <input type="date" class="form-control"  [(ngModel)]="po.estimated_arrival" name="estimated_arrival" required>
-        </div>
+        </div> -->
+        <mat-form-field  style="width: 100%;">
+          <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
+           [(ngModel)]="po[0].estimated_arrival"
+          name="estimated_arrival" ngModel required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+           <mat-datepicker #picker></mat-datepicker>
+         </mat-form-field>
         </td>
       </tr>
        <tr>
         <td><h5>Update Status&nbsp;</h5></td>
         <td>
         <div class="form-group">
-          <select  [(ngModel)]="po.po_status" class="form-control" name="status" placeholder="Status" required>
-            <option value="Confirmed">Order Confirmed</option>
-            <option value="Processing">Order Processing</option>
-            <option value="Quality Check">Item Quality Check</option>
+          <select  [(ngModel)]="po[0].po_status" class="form-control" name="status" placeholder="Status" required>
+            <option value="Order Processing">Order Processing</option>
+            <option value="Item Quality Check">Item Quality Check</option>
             <option value="Item Dispatched">Item Dispatched</option>
             <option value="Item Delivered">Item Delivered</option>
         </select>
@@ -43,7 +49,7 @@
         <td><h5>Message for Client&nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control"  [(ngModel)]="po.message_client" name="message"
+        <input type="text" class="form-control"  [(ngModel)]="po[0].message_client" name="message"
         placeholder="Message"required>
         </div>
         </td>

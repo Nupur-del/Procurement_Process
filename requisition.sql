@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2020 at 05:28 AM
+-- Generation Time: Dec 24, 2020 at 06:15 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -1084,7 +1084,10 @@ INSERT INTO `orderstatus` (`id`, `orderStatus`) VALUES
 (5, 'PO Created'),
 (6, 'PO Denied'),
 (7, 'Item Delivered'),
-(8, 'PO Approved');
+(8, 'PO Approved'),
+(9, 'Order Processing'),
+(10, 'Item Quality Check'),
+(11, 'Item Dispatched');
 
 -- --------------------------------------------------------
 
@@ -1129,7 +1132,7 @@ CREATE TABLE `order_items` (
 
 INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_vendor`, `quantity`, `unit_type`, `price`, `currency`, `comment`, `status`, `estimated_arrival`, `tracking_link`, `department`, `location`, `brand`) VALUES
 (4, 2925, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 4, NULL, NULL, 3, '01010101003', 4),
-(5, 2925, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 8, NULL, NULL, 5, '01010101005', 2),
+(5, 2925, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 9, NULL, NULL, 5, '01010101005', 2),
 (8, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101005', 2),
 (9, 8540, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101003', 4),
 (10, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 4, '01010101018', 2),
@@ -1141,9 +1144,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (17, 8845, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101026', 2),
 (18, 8845, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101013', 1),
 (21, 258, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
-(22, 258, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 8, NULL, NULL, 5, '01010101013', 1),
+(22, 258, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 9, NULL, NULL, 5, '01010101013', 1),
 (23, 2047, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
-(24, 2047, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 8, NULL, NULL, 5, '01010101013', 1),
+(24, 2047, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 9, NULL, NULL, 5, '01010101013', 1),
 (25, 6517, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
 (26, 6517, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
 (33, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 4),
@@ -1166,8 +1169,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (59, 2097, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 5, '01010101021', 4),
 (60, 2097, 'UsbCable', '1 TB', 2, 2, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101021', 2),
 (61, 8383, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 4, '01010101022', 2),
-(62, 8383, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 4, '01010101022', 4),
-(63, 8383, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 6, '01010101022', 4),
+(62, 8383, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 9, NULL, NULL, 4, '01010101022', 4),
+(63, 8383, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 9, NULL, NULL, 6, '01010101022', 4),
 (64, 9324, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 2),
 (65, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 5),
 (66, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 6, '01010101025', 5),
@@ -1224,15 +1227,15 @@ CREATE TABLE `pos` (
 --
 
 INSERT INTO `pos` (`billNo`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `cmp_name`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`, `currency`, `location`, `supplier`) VALUES
-(3, 'no', 'We need it', 'Deliver it on time', 126422, 'goods', 'Tata Consultancy Services', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 126422, '2021-01-13 18:30:00', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 'Technical', 'MUM5788', 'MUM1345', 3200, '', NULL, 8, 'Approve it', '', 'INR', '01010101005', 2),
+(3, 'no', 'We need it', 'Deliver it on time', 126422, 'goods', 'Tata Consultancy Services', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 126422, '2021-01-13 18:30:00', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 'Technical', 'MUM5788', 'MUM1345', 3200, 'http://sample.com', '2020-12-29 18:30:00', 9, 'Order is getting Processed', '', 'INR', '01010101005', 2),
 (4, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'GT Road', 121565, '2020-12-30 18:30:00', 'GT Road', 'Management', 'MUM3213', 'MU56', 9600, '', NULL, 6, 'Do not have the requested items', '', 'INR', '01010101026', 2),
 (6, 'yes', 'We need it', 'Deliver', 126422, 'project', 'Tata Consultancy Services', 'KC Road', 104657, '2020-12-25 18:30:00', 'KC Road', 'IT', 'MUM2', 'MUM89', 86000, '', NULL, 8, 'Approve it', '', 'INR', '01010101003', 5),
-(7, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 121565, '2020-12-30 18:30:00', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 'Management', 'MUM232', 'MUM466', 68000, '', NULL, 8, 'Approve it', '', 'INR', '01010101013', 2),
+(7, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 121565, '2020-12-30 18:30:00', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 'Management', 'MUM232', 'MUM466', 68000, 'https://sample.com', '2020-12-28 18:30:00', 9, 'Order is getting processed', '', 'INR', '01010101013', 2),
 (8, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 121565, '2021-01-05 18:30:00', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 'Management', 'MUM89', 'MUM21', 35200, '', NULL, 6, 'Do not have the requested items', '', 'INR', '01010101012', 2),
 (9, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 121565, '2021-01-12 18:30:00', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 'Management', 'MUM566', 'MUM988', 23000, '', NULL, 1, '', '', 'INR', '01010101002', 3),
 (10, 'no', 'We need it', 'Deliver it on time', 121565, 'semi_finished_Product', 'Tata Consultancy Services', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 121565, '2020-12-30 18:30:00', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 'Testing', 'MUM32', 'MUM89', 32000, '', NULL, 6, 'Do not have the requested laptop', '', 'INR', '01010101004', 2),
 (11, 'no', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 121565, '2020-12-30 18:30:00', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 'Management', 'MUM56', 'MUM78', 32000, '', NULL, 8, 'Laptop is available', '', 'INR', '01010101021', 2),
-(12, 'yes', 'We need it', 'Deliver it on time', 104657, 'finished_product', 'Tata Consultancy Services', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 104657, '2020-12-30 18:30:00', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 'Testing', 'MUM08', 'MUM121', 96000, '', NULL, 8, 'Laptop is available', '', 'INR', '01010101022', 2),
+(12, 'yes', 'We need it', 'Deliver it on time', 104657, 'finished_product', 'Tata Consultancy Services', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 104657, '2020-12-30 18:30:00', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 'Testing', 'MUM08', 'MUM121', 96000, 'http://sample.com', '2020-12-28 18:30:00', 9, 'Order is getting Processed', '', 'INR', '01010101022', 2),
 (13, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 121565, '2021-01-19 18:30:00', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 'Management', 'MUM5', 'MUM4', 20000, '', NULL, 1, '', '', 'INR', '01010101025', 2);
 
 -- --------------------------------------------------------
@@ -1506,7 +1509,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `orderstatus`
 --
 ALTER TABLE `orderstatus`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_items`

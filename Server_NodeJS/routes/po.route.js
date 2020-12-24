@@ -133,6 +133,43 @@ router.put('/update_po_status', (req, res) => {
    });
 })
 
+
+router.put('/poTrack', (req, res) => {
+    PO.update({
+        message_client: req.body.order_msg,
+        po_status: req.body.order_status,
+        estimated_arrival: req.body.estimated_arrival,
+        tracking_link: req.body.tracking_link
+    },
+    {   returning: true,
+        where: { billNo: req.body.billNo }
+    }).then(updated => {
+        console.log(updated);
+        let result = {
+            data: updated,
+            message: 'Updated PO successfully'
+        };
+        for (let i of req.body.item) {
+            Order_item.update({
+              status: i.status
+            }, {
+                returning: true,
+                where: {id: i.item_id}
+            }).then(u => {
+                result.message = 'Updated item status successfully'
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+        res.send(result);
+    }).catch(err => {
+        res.status(404).send({
+            message: 'Do not exist'
+        });
+    });
+ })
+
+
 // Fetch order_id and item_id by billNo
 
 router.get('/fetchOrders', (req,res) => {

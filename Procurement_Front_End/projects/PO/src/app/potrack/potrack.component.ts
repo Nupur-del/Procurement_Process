@@ -17,39 +17,10 @@ export class POTrackComponent implements OnInit {
 
   item: any = {};
   sub: any;
-  po = {
-    behalf: '',
-    billNo: null,
-    bill_to_address: '',
-    budget_code: '',
-    cmp_name: '',
-    comment: '',
-    cost_center: '',
-    currency: '',
-    delivery_address: '',
-    delivery_to: '',
-    estimated_arrival: '',
-    invoice_status: '',
-    item_id: null,
-    item_name: '',
-    location: '',
-    message: '',
-    message_client: '',
-    order_id: null,
-    org_billed: '',
-    po_status: '',
-    price: null,
-    project_code: '',
-    purchase_type: '',
-    quantity: null,
-    reason: '',
-    reqName: '',
-    required_by: '',
-    total: null,
-    tracking_link: '',
-    urg_msg: '',
-};
+  po = [];
   imageNames: any = [];
+  statusDetails = [];
+  todayDate:Date = new Date();
   isLinear = false;
   constructor(private router: Router,
               private message: MessageService,
@@ -59,11 +30,14 @@ export class POTrackComponent implements OnInit {
 
   ngOnInit() {
     this.message.poBillNo.subscribe(message => this.sub = message);
+    this.http.get(environment.BASE_URL + 'order/getStatus').subscribe((sta: any) => {
+      this.statusDetails = sta;
     this.poService.getPoByBillNo(this.sub).subscribe((data: any) => {
       console.log(data);
-      this.po = data[0];
+      this.po = data;
       console.log('Po', this.po);
     });
+  });
 
     this.poService.getAttachmentsByBillNo(this.sub).subscribe((data: any) => {
       console.log(data);
@@ -74,17 +48,27 @@ export class POTrackComponent implements OnInit {
   send() {
     console.log('Po', this.po);
     this.item.billNo = this.sub;
-    console.log('Order_id', this.po.order_id);
-    this.item.order_id = this.po.order_id;
-    console.log('Item_id', this.po.item_id);
-    this.item.item_id = this.po.item_id;
-    this.item.tracking_link = this.po.tracking_link;
-    this.item.estimated_arrival = this.po.estimated_arrival as string;
-    this.item.order_status = this.po.po_status;
-    this.item.order_msg = this.po.message_client;
+    // console.log('Order_id', this.po.order_id);
+    // this.item.order_id = this.po.order_id;
+    // console.log('Item_id', this.po.item_id);
+    // this.item.item_id = this.po.item_id;
+    this.item.item = [];
+    for (let i of this.po) {
+      if (i.status === 8) {
+        this.item.item.push({
+          item_id: i.id,
+          status: this.statusDetails.find(s => s.orderStatus === this.po[0].po_status).id
+        })
+      }
+    }
+    console.log(this.item.item);
+    this.item.tracking_link = this.po[0].tracking_link;
+    this.item.estimated_arrival = this.po[0].estimated_arrival as string;
+    this.item.order_status = this.statusDetails.find(s => s.orderStatus === this.po[0].po_status).id;
+    this.item.order_msg = this.po[0].message_client;
     console.log(this.item);
     console.log('Date', this.item.estimated_arrival);
-    this.http.put(environment.BASE_URL + 'Purchase_order/trackPO', this.item).
+    this.http.put(environment.BASE_URL + 'Purchase/poTrack', this.item).
     subscribe((data: any) => {
       console.log(data);
       this.router.navigate(['/approvedPO']);
