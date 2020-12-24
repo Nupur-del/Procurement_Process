@@ -2,64 +2,59 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import {SeePOComponent} from '../see-po/see-po.component';
-import {MatPaginator} from '@angular/material/paginator';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
 import { environment } from '../../../../../src/environments/environment';
 import { POService } from '../po.service';
-import { LoginService} from '../../../../../src/app/login.service';
 import { Sort } from '@angular/material';
 import { MessageService } from '../message.service';
 import { HttpClient } from '@angular/common/http';
+import { LoginService } from 'src/app/login.service';
 
 @Component({
-  selector: 'app-approved-po',
-  templateUrl: './approved-po.component.html',
-  styleUrls: ['./approved-po.component.scss']
+  selector: 'app-denied-po',
+  templateUrl: './denied-po.component.html',
+  styleUrls: ['./denied-po.component.scss']
 })
-export class ApprovedPOComponent implements OnInit {
+export class DeniedPOComponent implements OnInit {
 
   sub: any;
   dataSource: any;
-  poList: any = [];
+  userID: number;
+  statusDetails: any;
   type: any;
-  userID: any;
   locDetails = [];
+  deptDetails = [];
   requestorDetails = [];
-  statusDetails = [];
+  poList: any = [];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  displayedColumns = [];
+  displayedColumns: string[] = ['billNo', 'reqName', 'Urgent', 'org_billed', 'total', 'Location',
+  'required_by', 'supplier', 'status', 'details'];
   constructor(private router: Router,
               private poService: POService,
-              private message: MessageService,
-              private dialog: MatDialog,
               private login: LoginService,
+              private dialog: MatDialog,
+              private message: MessageService,
               private http: HttpClient) { }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
     this.userID = +localStorage.getItem('userId');
-
-    if(this.type === 'Requestor') {
-     this.displayedColumns = ['billNo', 'reqName', 'org_billed', 'Urgent', 'Location', 'total', 'required_by',
-     'supplier', 'status','details'];
-    } else {
-     this.displayedColumns = ['billNo', 'reqName', 'org_billed', 'Urgent', 'Location', 'total', 'required_by',
-  'status','details', 'view'];
-    }
-
     this.http.get(environment.BASE_URL + 'order/getStatus')
     .subscribe((statusfromAPI: any) => {
       this.statusDetails = statusfromAPI;
-      const status = this.statusDetails.find(s => s.orderStatus === 'Pending').id;
+      const status = this.statusDetails.find(s => s.orderStatus === 'PO Denied').id;
       this.login.getUser('Requestor').subscribe(user => {
         this.requestorDetails = user;
+        console.log(this.requestorDetails);
       this.http.get(environment.BASE_URL + 'cities/locationDetails')
         .subscribe((loc: any) => {
         this.locDetails = loc;
         this.login.getSupplier().subscribe(supp => {
-    this.poService.getInProgressPO(this.type, this.userID).subscribe((data: any) =>{
-      console.log(data);
+     this.poService.getPOByStatus(status, this.type, this.userID).subscribe((data: any) =>{
       const tableData = [];
+      console.log(data);
+      console.log(this.requestorDetails);
       for (let i of data) {
        tableData.push({
          ...i,
@@ -71,26 +66,17 @@ export class ApprovedPOComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource(tableData);
       this.dataSource.paginator = this.paginator;
-      this.poList = data;
+      this.poList = tableData;
+     });
     });
   });
-});
- });
-    });
+   });
+  });
     this.message.currentMessage.subscribe(message => this.sub = message);
   }
 
   applySearch(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
-  }
-
-  seePO(billNo: any) {
-    this.message.changeBillNo(billNo);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '80%';
-    dialogConfig.maxHeight = '90vh';
-    const dialog = this.dialog.open(SeePOComponent, dialogConfig);
   }
 
   sortOrder(sort: Sort) {
@@ -104,8 +90,9 @@ export class ApprovedPOComponent implements OnInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
          case 'billNo': return this.compare(a.billNo, b.billNo, isAsc);
-         case 'order_id': return this.compare(a.order_id, b.order_id, isAsc);
-         case 'reqName': return this.compare(a.reqName, b.reqName, isAsc);
+         case 'reqName': return this.compare(a.creator, b.creator, isAsc);
+         case 'required_by': return this.compare(a.required_by, b.required_by, isAsc);
+         case 'total': return this.compare(a.total, b.total, isAsc);
          default: return 0;
       }
    });
@@ -115,28 +102,13 @@ export class ApprovedPOComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
  }
 
- onView(billNo: any) {
+ seePO(billNo: any) {
   this.message.changeBillNo(billNo);
-  this.router.navigate(['/poTrack']);
- }
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.autoFocus = true;
+  dialogConfig.width = '80%';
+  dialogConfig.maxHeight = '90vh';
+  const dialog = this.dialog.open(SeePOComponent, dialogConfig);
+}
 
- onCancel(billNo, item_id, order_id) {
-  let po: any = {};
-  po.message = prompt('Reason for cancellation');
-  if (po.message) {
-  po.status = 'Cancelled';
-  po.po_status = 'Cancelled';
-  po.action = 'update';
-  po.billNo = billNo;
-  po.order_id = order_id;
-  po.item_id = item_id;
-  console.log(po);
-  this.http.post(environment.BASE_URL + 'Purchase_order/update_po_status', po).subscribe(data => {
-    console.log(data);
-    this.router.navigate(['/supplierHome']);
-  }, err => {
-  console.log(err);
-  });
-  }
- }
 }

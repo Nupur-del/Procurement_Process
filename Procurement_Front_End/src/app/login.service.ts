@@ -72,7 +72,11 @@ export class LoginService {
               this.router.navigate(['/home']);
              }, error => {
                 console.log(error);
-                alert(error.error.message);
+                if(error.error.message) {
+                  alert(error.error.message);
+                } else {
+                  alert(error.error);
+                }
                 this.loginstatus = false;
                 this.userType.next('');
                 this.type = '';

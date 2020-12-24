@@ -16,6 +16,8 @@ import { DeliveredPoComponent } from './delivered-po/delivered-po.component';
 import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
+import { DeniedComponent } from 'src/app/denied/denied.component';
+import { DeniedPOComponent } from './denied-po/denied-po.component';
 
 
 
@@ -27,6 +29,7 @@ const routes: Routes = [
   {path: "PO", component: AppComponent},
   {path: "createPO", component: CreatePOComponent},
   {path: "pendingPO", component: PendingPOComponent},
+  {path: "deniedPO", component: DeniedPOComponent},
   {path: "approvedPO", component: ApprovedPOComponent},
   {path: "poTrack", component: POTrackComponent},
   {path: "checkPO", component: CheckPOComponent},

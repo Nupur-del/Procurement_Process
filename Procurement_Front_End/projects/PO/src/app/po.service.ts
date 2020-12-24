@@ -15,48 +15,17 @@ export class POService {
 
   addPO(po: any) {
       console.log(po);
-      let poData: IPO;
-      for (let i of po.attachments) {
-        poData = {
-          billNo: po.billNo,
-          order_id: po.order_id,
-          item_id: po.item_id,
-          reqName: po.reqName,
-          urg_msg: po.urg_msg,
-          attachments: i,
-          reason: po.reason,
-          comment: po.reason,
-          behalf: po.behalf,
-          purchase_type: po.purchase_type,
-          message: po.message,
-          currency: po.currency,
-          org_billed: po.org_billed,
-          cmp_name: po.cmp_name,
-          location: po.location,
-          bill_to_address: po.bill_to_address,
-          delivery_to: po.delivery_to,
-          required_by: po.required_by,
-          delivery_address: po.delivery_address,
-          cost_center: po.cost_center,
-          project_code: po.project_code,
-          budget_code: po.budget_code,
-          item_name: po.item_name,
-          quantity: po.quantity,
-          price: po.price,
-          total: po.total,
-          status: 'Pending'
-        };
-      }
-      this.http.post(environment.BASE_URL + 'Purchase/po', poData).subscribe(data => {
+      this.http.post(environment.BASE_URL + 'Purchase/po', po).subscribe(data => {
       console.log(data);
       let orderData = {
-        status: 'PO created',
-        order_id: po.order_id,
-        item_id: po.item_id,
+        status: 5,
+        item: po.item,
         message: 'PO sent to Supplier'
       };
       this.http.post(environment.BASE_URL + 'Purchase_order/update_status', orderData).subscribe(response => {
-      console.log(response);
+        console.log(response);
+      }, err => {
+        console.log(err);
       });
       this.router.navigate(['/requisitionHome']);
     }, err => {
@@ -65,14 +34,15 @@ export class POService {
     });
    }
 
-   getPOByStatus(status: any): Observable<IPO[]> {
-     let Poparams = new HttpParams().set('status', status);
-     return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase_order/po_by_status',
-     { params: Poparams });
+   getPOByStatus(status: any, usertype: any, user?: any): Observable<IPO[]> {
+     let Poparams = new HttpParams().set('status', status).set('user', user).set('type', usertype);
+     console.log(status, user, usertype);
+     return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase_order/po_by_status', { params: Poparams });
    }
 
-   getInProgressPO(): Observable<IPO[]> {
-      return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase_order/inProgress_PO');
+   getInProgressPO(type: any, user: any): Observable<IPO[]> {
+      let sparams = new HttpParams().set('type', type).set('user',user);
+      return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase_order/inProgress_PO', {params: sparams});
    }
 
    getPOItemByStatus(status: any): Observable<IPO[]> {
@@ -84,18 +54,23 @@ export class POService {
      return this.http.get<number>(environment.BASE_URL + 'Purchase/allPo');
    }
 
-   getStatusPOCount(status: any): Observable<any> {
-     let Sparams = new HttpParams().set('status', status);
+   getallPO(): Observable<any> {
+      return this.http.get<any>(environment.BASE_URL + 'Purchase/all');
+   }
+
+   getStatusPOCount(status: any, type: any, userId?: any): Observable<any> {
+     let Sparams = new HttpParams().set('status', status).set('user', userId).set('type', type);
      return this.http.get<any>(environment.BASE_URL + 'Purchase_order/countPo_by_status', { params: Sparams });
    }
 
-   getInprogressPoCount(): Observable<any> {
-     return this.http.get<any>(environment.BASE_URL + 'Purchase_order/InProgressPo_count');
+   getInprogressPoCount(type: any,userId?: any): Observable<any> {
+    let Sparams = new HttpParams().set('user', userId).set('type', type);
+     return this.http.get<any>(environment.BASE_URL + 'Purchase_order/InProgressPo_count', {params: Sparams});
    }
 
    getPoByBillNo(billNo: any): Observable<any> {
     let Bparams = new HttpParams().set('billNo', billNo);
-    return this.http.get<any>(environment.BASE_URL + 'Purchase/po_by_billNo', { params: Bparams });
+    return this.http.get<any>(environment.BASE_URL + 'Purchase_order/po_by_billNo', { params: Bparams });
    }
 
    getAttachmentsByBillNo(billNo: any): Observable<string[]> {

@@ -1,21 +1,14 @@
+table {
+  width: 100%;
+}
+
 @import "src/theme.scss";
 select {
-    border: 1px solid #d3d4d1;
+    border: 1px solid #dce0d4;
     border-radius: 5px;
     margin: 5px;
     padding: 5px;
     width: max-content;
-}
-
-address {
-  border: 1px solid #d3d4d1;
-  border-radius: 5px;
-  background-color: white;
-}
-
-.icon-display {
-  transform: scale(1.5);
-  margin-bottom: 15px;
 }
 
 label {
@@ -25,12 +18,6 @@ label {
 }
 
 input[type='text'] {
-    border: 1px solid #dce0d4;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-textarea {
     border: 1px solid #dce0d4;
     border-radius: 5px;
     padding: 5px;
@@ -84,6 +71,14 @@ input[type='button']:hover {
     font-size: 18px;
 }
 
+.make-red {
+  background-color: rgb(240, 121, 121);
+}
+
+.icon-display {
+  transform: scale(1.5);
+  margin-bottom: 15px;
+}
 .example-container {
     width: 100%;
     height: 100%;
@@ -93,37 +88,4 @@ input[type='button']:hover {
 
 .item {
     background: "white";
-}
-
-table {
-    width: 100%;
-}
-
-.normal-field {
-    width: 100%;
-}
-
-.custom {
-    text-align: center;
-}
-
-.text-right {
-    text-align: right;
-}
-
-.mat-stepper-horizontal {
-    margin-top: 8px;
-}
-
-.mat-form-field {
-    margin-top: 16px;
-}
-
-.ng-valid.ng-dirty:not(form) {
-    border: solid 2px lightgreen;
-}
-
-.ng-invalid.ng-dirty:not(form),
-.ng-invalid:not(form).form-submitted {
-    border: solid 2px lightcoral;
 }

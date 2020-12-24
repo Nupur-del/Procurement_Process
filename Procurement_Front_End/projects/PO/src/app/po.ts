@@ -9,9 +9,7 @@ export interface IPO {
   comment: string;
   behalf: string;
   purchase_type: string;
-  message: string;
   currency: string;
-  org_billed: string;
   cmp_name: string;
   location: string;
   bill_to_address: string;
@@ -21,9 +19,6 @@ export interface IPO {
   cost_center: string;
   project_code: string;
   budget_code: string;
-  item_name: string;
-  quantity: number;
-  price: number;
   total: number;
   status?: string;
 }

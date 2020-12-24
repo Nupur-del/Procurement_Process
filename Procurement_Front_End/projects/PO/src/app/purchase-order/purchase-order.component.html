@@ -1,7 +1,7 @@
-<button style="background-color: #1d87cf;
+<!-- <button style="background-color: #1d87cf;
       position: fixed;
       top: 30%;
-      right: 1rem;" class="btn btn-primary" (click)="seeOrder()">View Order</button>
+      right: 1rem;" class="btn btn-primary" (click)="seeOrder()">View Order</button> -->
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
@@ -11,13 +11,13 @@
       <tr>
         <td><h5>Requisition Name&nbsp;</h5></td>
         <td>
-        <input type="text" class="form-control"  [(ngModel)]="po.reqName"
-        formControlName="reqName"  required>
+        <input type="text" class="form-control"  [(ngModel)]="userName"
+        formControlName="reqName" disabled required>
         </td>
       </tr>
      <br>
       <tr>
-        <td><h5>Urgent Message&nbsp;</h5></td>
+        <td><h5>Is this Order Urgent?&nbsp;</h5></td>
         <td>
       	<input type="radio" formControlName="urg_msg" [(ngModel)]="po.urg_msg" value="yes">Yes
         <input type="radio" formControlName="urg_msg"  [(ngModel)]="po.urg_msg" value="no">No
@@ -29,7 +29,7 @@
        <td>
        <input type="file" formControlName="attachments" id="file"
         name="file" multiple (change)="onFileChange($event)"
-        [(ngModel)]="image" required>
+        [(ngModel)]="image">
        </td>
        <td>
         <button type="button" (click)="onReset()">Reset</button>
@@ -76,44 +76,55 @@
        <td><h5>Comment for supplier</h5></td>
        <td>
        <input type="text" class="form-control" [(ngModel)]="po.comment"
-       formControlName="comment" required>
+       formControlName="comment" placeholder="Instructions for supplier about the ongoing purchase">
        </td>
       </tr>
       <br>
       <tr>
-       <td><h5>On Behalf Of</h5></td>
+        <td><h5>Are you placing this order on behalf of someone?&nbsp;</h5></td>
+        <td>
+      	<input type="radio"  formControlName="option" [(ngModel)]="Option" value="yes">Yes
+        <input type="radio"  formControlName="option" [(ngModel)]="Option" value="no">No
+        </td>
+      </tr>
+      <br>
+      <tr *ngIf="Option === 'yes'">
+       <td><h5>Mention the name of the person</h5></td>
        <td>
-       <input type="text" class="form-control" [(ngModel)]="po.behalf"
-       formControlName="behalf" required>
+       <!-- <input type="text" class="form-control" [(ngModel)]="po.behalf"
+       formControlName="behalf" required> -->
+       <mat-select formControlName="behalf" [(ngModel)]="po.behalf" class="form-control">
+         <mat-option *ngFor="let i of requestor" [value]="i.id">{{i.name}}</mat-option>
+       </mat-select>
        </td>
       </tr>
        <br>
       <tr>
        <td><h5>Purchase Type</h5></td>
        <td>
-      <select  [(ngModel)]="po.purchase_type" class="form-control"
+      <mat-select  [(ngModel)]="po.purchase_type" class="form-control"
       formControlName="purchase_type" required>
-            <option value="expense">Expense</option>
-            <option value="capital">Capital</option>
-            <option value="project">Project</option>
-            <option value="customer">Customer</option>
-            <option value="goods">Dangerous Goods</option>
-            <option value="materials">Raw Materials</option>
-            <option value="product1">Semi-finished Product</option>
-            <option value="product2">Finished Product</option>
-            <option value="repair">Maintenace repair and operating items</option>
-            <option value="transportation">Transportation and 3rd party purchasing</option>
-        </select>
+            <mat-option value="expense">Expense</mat-option>
+            <mat-option value="capital">Capital</mat-option>
+            <mat-option value="project">Project</mat-option>
+            <mat-option value="customer">Customer</mat-option>
+            <mat-option value="dangerous_goods">Dangerous Goods</mat-option>
+            <mat-option value="materials">Raw Materials</mat-option>
+            <mat-option value="semi_finished_Product">Semi-finished Product</mat-option>
+            <mat-option value="finished_product">Finished Product</mat-option>
+            <mat-option value="repair">Maintenace repair and operating items</mat-option>
+            <mat-option value="transportation">Transportation and 3rd party purchasing</mat-option>
+        </mat-select>
         </td>
       </tr>
       <br>
-      <tr>
+      <!-- <tr>
        <td><h5>Your Message</h5></td>
        <td>
        <input type="text" class="form-control" [(ngModel)]="po.message"
        formControlName="message" required>
        </td>
-      </tr>
+      </tr> -->
       </table>
       <br>
       <div class="text-right">
@@ -137,28 +148,29 @@
       <tr>
         <td><h5>Currency&nbsp;</h5></td>
         <td>
-     <select  [(ngModel)]="po.currency" class="form-control" formControlName="currency" required>
+          <input  [(ngModel)]="po.currency" class="form-control" disabled formControlName="currency" type="text">
+     <!-- <select  [(ngModel)]="po.currency" class="form-control" formControlName="currency" required>
             <option value="INR">INR</option>
             <option value="Dollars">Dollars</option>
             <option value="Euros">Euros</option>
             <option value="yen">yen</option>
-        </select>
+        </select> -->
      </td>
       </tr>
      <br>
-     <tr>
+     <!-- <tr>
        <td><h5>Organization To be Billed</h5></td>
        <td>
        <input type="text" class="form-control" [(ngModel)]="po.org_billed"
        formControlName="org_billed" required>
        </td>
       </tr>
-       <br>
+       <br> -->
        <tr>
        <td><h5>Company Name</h5></td>
        <td>
        <input type="text" class="form-control" [(ngModel)]="po.cmp_name"
-       formControlName="cmp_name" required>
+       formControlName="cmp_name" required disabled>
        </td>
       </tr>
        <br>
@@ -166,38 +178,56 @@
        <td><h5>Location</h5></td>
        <td>
        <input type="text" class="form-control"
-       [(ngModel)]="po.location" formControlName="location" required>
+       [(ngModel)]="po.locationName" disabled formControlName="location" required>
        </td>
       </tr>
        <br>
        <tr>
-       <td><h5>Bill to Address</h5></td>
+       <td><h5>Billing Address</h5></td>
        <td>
-       <textarea class="form-control" [(ngModel)]="po.bill_to_address"
+       <textarea class="form-control" [(ngModel)]="po.bill_to_address" placeholder="Enter the address for the bill"
        formControlName="bill_to_address" required></textarea>
        </td>
       </tr>
        <br>
        <tr>
-       <td><h5>Delivery To</h5></td>
+       <td><h5>Deliver To</h5></td>
        <td>
-       <input type="text" class="form-control" [(ngModel)]="po.delivery_to"
-       formControlName="delivery_to" required>
+       <!-- <input type="text" class="form-control" [(ngModel)]="po.delivery_to"
+       formControlName="delivery_to" required placeholder="Person to deliver the product"> -->
+       <mat-select formControlName="delivery_to" required [(ngModel)]="po.delivery_to"
+       class="form-control">
+        <mat-option *ngFor="let i of requestor" [value]="i.id">{{i.name}}</mat-option>
+      </mat-select>
        </td>
       </tr>
        <br>
        <tr>
        <td><h5>Required By</h5></td>
        <td>
-       <input type="date" class="form-control" [(ngModel)]="po.required_by"
+      <mat-form-field  style="width: 100%;">
+       <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
+        [(ngModel)]="po.required_by"
        formControlName="required_by" required>
+       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
        </td>
       </tr>
        <br>
        <tr>
-       <td><h5>Delivery Address</h5></td>
+       <td><h5>Shipping Address</h5></td>
        <td>
-       <textarea class="form-control" [(ngModel)]="po.delivery_address"
+        <tr>
+          <td><h5>Same as billing address?&nbsp;</h5></td>
+          <td>
+          <input type="radio"  formControlName="shipTobill" [(ngModel)]="shipTobill" value="yes">Yes
+          <input type="radio" formControlName="shipTobill" [(ngModel)]="shipTobill" value="no">No
+          </td>
+        </tr>
+       <textarea *ngIf="shipTobill === 'no'" class="form-control" [(ngModel)]="po.delivery_address"
+       formControlName="delivery_address" required></textarea>
+       <textarea *ngIf="shipTobill === 'yes'" disabled class="form-control" [(ngModel)]="po.bill_to_address" placeholder="enter the address for the bill"
        formControlName="delivery_address" required></textarea>
        </td>
       </tr>
@@ -218,7 +248,7 @@
       <tr>
         <td><h5>Cost Center&nbsp;</h5></td>
         <td>
-        <input type="text" class="form-control"
+        <input type="text" class="form-control" placeholder="Name the department"
         [(ngModel)]="po.cost_center" formControlName="cost_center" required>
         </td>
       </tr>
@@ -226,14 +256,16 @@
      <tr>
         <td><h5>Project Code&nbsp;</h5></td>
         <td>
-        <input type="text" class="form-control"  [(ngModel)]="po.project_code" formControlName="project_code" required>
+        <input type="text" class="form-control" placeholder="Enter your Project Code"
+         [(ngModel)]="po.project_code" formControlName="project_code" required>
         </td>
       </tr>
      <br>
      <tr>
         <td><h5>Budget Code&nbsp;</h5></td>
         <td>
-        <input type="text" class="form-control"  [(ngModel)]="po.budget_code" formControlName="budget_code" required>
+        <input type="text" class="form-control"  placeholder="Enter the assigned budget No"
+         [(ngModel)]="po.budget_code" formControlName="budget_code" required>
         </td>
       </tr>
      <br>
@@ -245,11 +277,11 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="fourthFormGroup">
-  <form [formGroup]="fourthFormGroup">
+  <mat-step>
+  <form>
     <ng-template matStepLabel>Item Info</ng-template>
     <br>
-    <table>
+    <!-- <table>
       <tr>
         <td><h5>Item Name&nbsp;</h5></td>
         <td>
@@ -281,7 +313,60 @@
         </td>
       </tr>
      <br>
-     </table>
+     </table> -->
+     <div class="mat-elevation-z8 tableUpdated">
+      <table mat-table [dataSource] = "dataSource" class="mat-elevation-z8 tableUpdated">
+
+        <ng-container matColumnDef = "Order ID">
+          <th mat-header-cell *matHeaderCellDef>Order Id</th>
+          <td mat-cell *matCellDef = "let element"> {{element.order_id}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+       </ng-container>
+
+       <ng-container matColumnDef = "Name">
+        <th mat-header-cell *matHeaderCellDef>Item Name</th>
+        <td mat-cell *matCellDef = "let element"> {{element.name}} </td>
+        <td mat-footer-cell *matFooterCellDef><b>Total Cost</b></td>
+     </ng-container>
+
+     <ng-container matColumnDef = "Specification">
+      <th mat-header-cell *matHeaderCellDef>Specification</th>
+      <td mat-cell *matCellDef = "let element"> {{element.specification}} </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+   </ng-container>
+
+   <ng-container matColumnDef = "Quantity">
+    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+    <td mat-cell *matCellDef = "let element"> {{element.quantity}}</td>
+    <td mat-footer-cell *matFooterCellDef></td>
+ </ng-container>
+
+ <ng-container matColumnDef = "Price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef = "let element"> {{element.price}} </td>
+          <td mat-footer-cell *matFooterCellDef><b>{{totalAmount}}</b></td>
+  </ng-container>
+
+  <ng-container matColumnDef = "Brand">
+    <th mat-header-cell *matHeaderCellDef>Brand</th>
+    <td mat-cell *matCellDef = "let element"> {{element.brandName}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
+
+      <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+      <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+</div>
+<br>
+<!-- <table>
+  <td><h5>Total Amount</h5></td>
+  <td>
+    <span>{{totalAmount}}</span>
+  </td>
+</table> -->
+<br>
     <div class="text-right">
       <button class="btn btn-primary" (click)="stepper.reset()">Reset</button>&nbsp;
       <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;

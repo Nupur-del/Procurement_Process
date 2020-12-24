@@ -9,18 +9,6 @@ module.exports = db.sequelize.define(
      autoIncrement: true,
      primaryKey: true
     },
-    order_id: {
-      type: sequelize.INTEGER,
-      allowNull: false
-    },
-    item_id: {
-      type: sequelize.INTEGER,
-      allowNull: false
-    },
-    reqName: {
-       type: sequelize.STRING,
-       allowNull: false
-    },
     urg_msg: {
         type: sequelize.STRING,
         allowNull: false
@@ -34,14 +22,10 @@ module.exports = db.sequelize.define(
         allowNull: false
     },
     behalf: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false
     },
     purchase_type: {
-        type: sequelize.STRING,
-        allowNull: false
-    },
-    message: {
         type: sequelize.STRING,
         allowNull: false
     },
@@ -49,15 +33,7 @@ module.exports = db.sequelize.define(
         type: sequelize.STRING,
         allowNull: false
     },
-    org_billed: {
-        type: sequelize.STRING,
-        allowNull: false
-    },
     cmp_name: {
-        type: sequelize.STRING,
-        allowNull: false
-    },
-    location: {
         type: sequelize.STRING,
         allowNull: false
     },
@@ -89,10 +65,6 @@ module.exports = db.sequelize.define(
         type: sequelize.STRING,
         allowNull: false
     },
-    item_name: {
-        type: sequelize.STRING,
-        allowNull: false
-    },
     tracking_link: {
         type: sequelize.STRING,
         allowNull: true
@@ -102,8 +74,16 @@ module.exports = db.sequelize.define(
         allowNull: true
     },
     po_status: {
-        type: sequelize.STRING,
+        type: sequelize.TINYINT,
         allowNull: true
+    },
+    supplier: {
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+    location: {
+        type: sequelize.STRING,
+        allowNull: false
     },
     message_client: {
         type: sequelize.STRING,
@@ -112,14 +92,6 @@ module.exports = db.sequelize.define(
     invoice_status: {
         type: sequelize.STRING,
         allowNull: true
-    },
-    quantity: {
-        type: sequelize.INTEGER,
-        allowNull: false
-    },
-    price: {
-        type: sequelize.INTEGER,
-        allowNull: false
     },
     total: {
         type: sequelize.INTEGER,

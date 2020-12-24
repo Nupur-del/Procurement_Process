@@ -5,6 +5,7 @@ import { MessageService } from '../message.service';
 import { POService } from '../po.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import {SeePOComponent} from '../see-po/see-po.component';
 import { CheckPOComponent } from '../check-po/check-po.component';
 
 @Component({
@@ -57,7 +58,7 @@ export class POTrackComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.message.currentMessage.subscribe(message => this.sub = message);
+    this.message.poBillNo.subscribe(message => this.sub = message);
     this.poService.getPoByBillNo(this.sub).subscribe((data: any) => {
       console.log(data);
       this.po = data[0];
@@ -97,6 +98,6 @@ export class POTrackComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     dialogConfig.maxHeight = '90vh';
-    const dialog = this.dialog.open(CheckPOComponent, dialogConfig);
+    const dialog = this.dialog.open(SeePOComponent, dialogConfig);
   }
 }

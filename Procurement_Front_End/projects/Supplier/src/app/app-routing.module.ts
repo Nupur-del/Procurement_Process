@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'track-dashboard', loadChildren: '../../../PO/src/app/app.module#POModule'},
   { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
   { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
+  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule'},
   { path: 'viewPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
   { path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
 ];

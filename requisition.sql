@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2020 at 02:57 PM
+-- Generation Time: Dec 24, 2020 at 05:28 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -54,7 +54,8 @@ INSERT INTO `adminaccess` (`id`, `admintype`, `adminid`) VALUES
 (4, 1, 121565),
 (5, 1, 126422),
 (6, 2, 346755),
-(7, 2, 71455);
+(7, 2, 71455),
+(8, 1, 1033012);
 
 -- --------------------------------------------------------
 
@@ -188,7 +189,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (56, 4, '01010101024', 150000, 150000),
 (57, 4, '01010101025', 150000, 150000),
 (58, 4, '01010101018', 150000, 150000),
-(59, 4, '01010101002', 150000, 150000),
+(59, 4, '01010101002', 127000, 150000),
 (60, 4, '01010101007', 150000, 150000),
 (61, 4, '01010101016', 150000, 150000),
 (62, 4, '01010101021', 150000, 150000),
@@ -205,32 +206,32 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (73, 4, '01010101009', 150000, 150000),
 (74, 4, '01010101001', 150000, 150000),
 (75, 4, '01010101004', 150000, 150000),
-(76, 4, '01010101022', 150000, 150000),
+(76, 4, '01010101022', 82800, 150000),
 (77, 4, '01010101008', 150000, 150000),
 (78, 4, '01010101019', 150000, 150000),
 (79, 5, '01010101005', 126800, 130000),
-(80, 5, '01010101003', 98000, 130000),
+(80, 5, '01010101003', 12000, 130000),
 (81, 5, '01010101006', 130000, 130000),
 (82, 5, '01010101024', 130000, 130000),
-(83, 5, '01010101025', 130000, 130000),
+(83, 5, '01010101025', 118400, 130000),
 (84, 5, '01010101018', 130000, 130000),
 (85, 5, '01010101002', 130000, 130000),
 (86, 5, '01010101007', 130000, 130000),
 (87, 5, '01010101016', 130000, 130000),
-(88, 5, '01010101021', 130000, 130000),
+(88, 5, '01010101021', 91600, 130000),
 (89, 5, '01010101023', 130000, 130000),
 (90, 5, '01010101015', 130000, 130000),
 (91, 5, '01010101017', 130000, 130000),
 (92, 5, '01010101014', 130000, 130000),
 (93, 5, '01010101020', 130000, 130000),
-(94, 5, '01010101013', 62000, 130000),
+(94, 5, '01010101013', 28000, 130000),
 (95, 5, '01010101012', 94800, 130000),
 (96, 5, '01010101011', 130000, 130000),
 (97, 5, '01010101010', 130000, 130000),
-(98, 5, '01010101026', 117200, 130000),
+(98, 5, '01010101026', 114000, 130000),
 (99, 5, '01010101009', 130000, 130000),
 (100, 5, '01010101001', 130000, 130000),
-(101, 5, '01010101004', 130000, 130000),
+(101, 5, '01010101004', 98000, 130000),
 (102, 5, '01010101022', 130000, 130000),
 (103, 5, '01010101008', 130000, 130000),
 (104, 5, '01010101019', 130000, 130000),
@@ -238,7 +239,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (106, 6, '01010101003', 140000, 140000),
 (107, 6, '01010101006', 140000, 140000),
 (108, 6, '01010101024', 140000, 140000),
-(109, 6, '01010101025', 140000, 140000),
+(109, 6, '01010101025', 131600, 140000),
 (110, 6, '01010101018', 140000, 140000),
 (111, 6, '01010101002', 140000, 140000),
 (112, 6, '01010101007', 140000, 140000),
@@ -257,7 +258,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (125, 6, '01010101009', 140000, 140000),
 (126, 6, '01010101001', 140000, 140000),
 (127, 6, '01010101004', 140000, 140000),
-(128, 6, '01010101022', 140000, 140000),
+(128, 6, '01010101022', 108000, 140000),
 (129, 6, '01010101008', 140000, 140000),
 (130, 6, '01010101019', 140000, 140000),
 (131, 7, '01010101005', 120000, 120000),
@@ -1039,15 +1040,22 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`, `message`, `status`, `approved_by`) VALUES
 (107, 121565, '2020-12-11 13:55:07', 'Order', 'Approved', 4, 71455),
 (258, 121565, '2020-12-11 09:59:30', 'Order', 'Approving it', 4, 346755),
-(454, 121565, '2020-12-11 13:54:50', 'Order', 'Pending for approval', 1, NULL),
+(454, 121565, '2020-12-11 13:54:50', 'Order', 'Denied it as AIR INDIA do not have required budget', 2, 346755),
 (2047, 121565, '2020-12-11 10:36:02', 'Order', 'Approved', 4, 71455),
+(2097, 121565, '2020-12-23 08:46:47', 'Order for Usbcable', 'approving', 4, 346755),
 (2925, 104657, '2020-12-11 09:53:09', 'Sample', 'Approving it', 4, 71455),
+(3402, 121565, '2020-12-15 10:02:52', 'Order', 'denied', 2, 346755),
+(3452, 121565, '2020-12-15 10:06:25', 'Order', 'Approve', 4, 346755),
 (4696, 121565, '2020-12-11 09:56:27', 'Order', 'Approving it', 4, 71455),
-(6517, 121565, '2020-12-11 10:36:16', 'Order', 'Pending for approval', 1, NULL),
+(6517, 121565, '2020-12-11 10:36:16', 'Order', 'Approving it', 4, 346755),
+(7428, 121565, '2020-12-24 04:09:31', 'Sample Order ', 'Approving it', 4, 71455),
 (7464, 121565, '2020-12-11 09:56:35', 'Order', 'Approving it', 4, 71455),
 (7554, 104657, '2020-12-11 09:53:50', 'Sample', 'Required budget is not available for AIR INDIA', 2, 346755),
-(8540, 104657, '2020-12-11 09:53:39', 'Sample', 'Pending for approval', 1, NULL),
-(8845, 121565, '2020-12-11 09:57:09', 'Order', 'Denied', 2, 346755);
+(8232, 104657, '2020-12-23 08:43:35', 'Order for Laptop', 'required budget is not available', 2, 346755),
+(8383, 104657, '2020-12-23 11:40:25', 'Order ', 'Approving it', 4, 346755),
+(8540, 104657, '2020-12-11 09:53:39', 'Sample', 'AIR INDIA Do not have required budget', 2, 346755),
+(8845, 121565, '2020-12-11 09:57:09', 'Order', 'Denied', 2, 346755),
+(9324, 121565, '2020-12-24 04:09:25', 'Sample Order ', 'Pending for approval', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1073,7 +1081,10 @@ INSERT INTO `orderstatus` (`id`, `orderStatus`) VALUES
 (2, 'Denied'),
 (3, 'Partially Approved'),
 (4, 'Approved'),
-(5, 'PO Created');
+(5, 'PO Created'),
+(6, 'PO Denied'),
+(7, 'Item Delivered'),
+(8, 'PO Approved');
 
 -- --------------------------------------------------------
 
@@ -1118,29 +1129,51 @@ CREATE TABLE `order_items` (
 
 INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_vendor`, `quantity`, `unit_type`, `price`, `currency`, `comment`, `status`, `estimated_arrival`, `tracking_link`, `department`, `location`, `brand`) VALUES
 (4, 2925, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 4, NULL, NULL, 3, '01010101003', 4),
-(5, 2925, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101005', 2),
-(8, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101005', 2),
-(9, 8540, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 1, NULL, NULL, 3, '01010101003', 4),
-(10, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 4, '01010101018', 2),
+(5, 2925, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 8, NULL, NULL, 5, '01010101005', 2),
+(8, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101005', 2),
+(9, 8540, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101003', 4),
+(10, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 4, '01010101018', 2),
 (11, 7554, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 4, '01010101018', 2),
 (12, 7554, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101005', 2),
 (13, 7554, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101003', 4),
-(14, 4696, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
-(15, 7464, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
+(14, 4696, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
+(15, 7464, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 5, NULL, NULL, 5, '01010101026', 2),
 (17, 8845, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101026', 2),
 (18, 8845, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101013', 1),
-(21, 258, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
-(22, 258, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
-(23, 2047, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
-(24, 2047, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
-(25, 6517, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101026', 2),
-(26, 6517, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 5, '01010101013', 1),
-(33, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101003', 4),
-(34, 454, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101012', 2),
-(35, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101012', 4),
+(21, 258, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
+(22, 258, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 8, NULL, NULL, 5, '01010101013', 1),
+(23, 2047, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
+(24, 2047, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 8, NULL, NULL, 5, '01010101013', 1),
+(25, 6517, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
+(26, 6517, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
+(33, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 4),
+(34, 454, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101012', 2),
+(35, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101012', 4),
 (36, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101003', 4),
-(37, 107, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101012', 2),
-(38, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101012', 4);
+(37, 107, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101012', 2),
+(38, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 6, NULL, NULL, 5, '01010101012', 4),
+(44, 3402, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 3),
+(45, 3402, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 1),
+(46, 3402, 'Laptop', '12 inch', 3, 1, '323', 23000, 'INR', 'none', 2, NULL, NULL, 4, '01010101002', 4),
+(47, 3402, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101004', 4),
+(52, 3452, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 8, NULL, NULL, 5, '01010101003', 3),
+(53, 3452, 'Laptop', '12 inch', 3, 1, '323', 23000, 'INR', 'none', 5, NULL, NULL, 4, '01010101002', 4),
+(54, 3452, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 6, NULL, NULL, 5, '01010101004', 4),
+(55, 8232, 'Laptop', '15 inch', 2, 3, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 4, '01010101014', 4),
+(56, 8232, 'Laptop', '30 inch', 5, 3, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 4, '01010101014', 3),
+(57, 8232, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 3, '01010101016', 3),
+(58, 8232, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 3, '01010101016', 4),
+(59, 2097, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 5, '01010101021', 4),
+(60, 2097, 'UsbCable', '1 TB', 2, 2, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101021', 2),
+(61, 8383, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 4, '01010101022', 2),
+(62, 8383, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 4, '01010101022', 4),
+(63, 8383, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 6, '01010101022', 4),
+(64, 9324, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 2),
+(65, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 5),
+(66, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 6, '01010101025', 5),
+(67, 7428, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 5, NULL, NULL, 5, '01010101025', 2),
+(68, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 5, NULL, NULL, 5, '01010101025', 5),
+(69, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 5, NULL, NULL, 6, '01010101025', 5);
 
 -- --------------------------------------------------------
 
@@ -1150,48 +1183,57 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 
 CREATE TABLE `pos` (
   `billNo` int(40) NOT NULL,
-  `order_id` int(40) NOT NULL,
-  `item_id` int(40) NOT NULL,
-  `reqName` varchar(200) NOT NULL,
-  `urg_msg` varchar(200) NOT NULL,
+  `urg_msg` varchar(10) NOT NULL,
   `reason` varchar(200) NOT NULL,
   `comment` varchar(200) NOT NULL,
-  `behalf` varchar(200) NOT NULL,
-  `purchase_type` varchar(200) NOT NULL,
-  `message` varchar(200) NOT NULL,
-  `currency` varchar(200) NOT NULL,
-  `org_billed` varchar(200) NOT NULL,
+  `behalf` int(9) NOT NULL,
+  `purchase_type` varchar(45) NOT NULL,
   `cmp_name` varchar(200) NOT NULL,
-  `location` varchar(200) NOT NULL,
   `bill_to_address` varchar(200) NOT NULL,
-  `delivery_to` varchar(200) NOT NULL,
-  `required_by` varchar(200) NOT NULL,
+  `delivery_to` int(9) DEFAULT NULL,
+  `required_by` datetime NOT NULL,
   `delivery_address` varchar(200) NOT NULL,
   `cost_center` varchar(200) NOT NULL,
-  `project_code` varchar(200) NOT NULL,
-  `budget_code` varchar(200) NOT NULL,
-  `item_name` varchar(200) NOT NULL,
-  `quantity` int(40) NOT NULL,
-  `price` int(40) NOT NULL,
+  `project_code` varchar(40) DEFAULT NULL,
+  `budget_code` varchar(40) DEFAULT NULL,
   `total` int(40) NOT NULL,
   `tracking_link` varchar(200) NOT NULL,
   `estimated_arrival` varchar(200) DEFAULT NULL,
-  `po_status` varchar(200) NOT NULL,
+  `po_status` tinyint(4) DEFAULT NULL,
   `message_client` varchar(200) NOT NULL,
-  `invoice_status` varchar(200) NOT NULL
+  `invoice_status` varchar(200) NOT NULL,
+  `currency` varchar(40) NOT NULL,
+  `location` varchar(11) NOT NULL,
+  `supplier` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `pos`:
+--   `supplier`
+--       `datavendor` -> `venVendorPK`
+--   `behalf`
+--       `dataadmin` -> `admAdminPK`
+--   `delivery_to`
+--       `dataadmin` -> `admAdminPK`
+--   `po_status`
+--       `orderstatus` -> `id`
 --
 
 --
 -- Dumping data for table `pos`
 --
 
-INSERT INTO `pos` (`billNo`, `order_id`, `item_id`, `reqName`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `message`, `currency`, `org_billed`, `cmp_name`, `location`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `item_name`, `quantity`, `price`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`) VALUES
-(1, 4969, 7, 'test1', 'no', 'we need it on urgent basis', 'we need it on urgent basis', 'TCS', 'product2', 'Thanks in advance', 'INR', 'Tata Consultancy Services', 'TCS', 'Mumbai', 'Ram nagar Mumbai', 'test1', '2020-11-29', '80/23 ramnagar mumbai', 'MUM-32332', 'MUM-3233', 'MUM-21212', 'Laptop', 2, 20000, 40000, '', NULL, 'Approved', '', ''),
-(2, 2732, 11, 'test1', 'no', 'We need it', 'We need it', 'TCS', 'product2', 'thanks in advance', 'INR', 'TCS', 'Tata consultancy Services', 'Pune', 'Sitapur Pune', 'Sitapur Pune', '2020-11-29', 'Sitapur Pune', 'PUN-3232', 'PUN-6788', 'PUN-12121', 'Laptop', 1, 43000, 43000, '', NULL, '', '', '');
+INSERT INTO `pos` (`billNo`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `cmp_name`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`, `currency`, `location`, `supplier`) VALUES
+(3, 'no', 'We need it', 'Deliver it on time', 126422, 'goods', 'Tata Consultancy Services', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 126422, '2021-01-13 18:30:00', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 'Technical', 'MUM5788', 'MUM1345', 3200, '', NULL, 8, 'Approve it', '', 'INR', '01010101005', 2),
+(4, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'GT Road', 121565, '2020-12-30 18:30:00', 'GT Road', 'Management', 'MUM3213', 'MU56', 9600, '', NULL, 6, 'Do not have the requested items', '', 'INR', '01010101026', 2),
+(6, 'yes', 'We need it', 'Deliver', 126422, 'project', 'Tata Consultancy Services', 'KC Road', 104657, '2020-12-25 18:30:00', 'KC Road', 'IT', 'MUM2', 'MUM89', 86000, '', NULL, 8, 'Approve it', '', 'INR', '01010101003', 5),
+(7, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 121565, '2020-12-30 18:30:00', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 'Management', 'MUM232', 'MUM466', 68000, '', NULL, 8, 'Approve it', '', 'INR', '01010101013', 2),
+(8, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 121565, '2021-01-05 18:30:00', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 'Management', 'MUM89', 'MUM21', 35200, '', NULL, 6, 'Do not have the requested items', '', 'INR', '01010101012', 2),
+(9, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 121565, '2021-01-12 18:30:00', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 'Management', 'MUM566', 'MUM988', 23000, '', NULL, 1, '', '', 'INR', '01010101002', 3),
+(10, 'no', 'We need it', 'Deliver it on time', 121565, 'semi_finished_Product', 'Tata Consultancy Services', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 121565, '2020-12-30 18:30:00', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 'Testing', 'MUM32', 'MUM89', 32000, '', NULL, 6, 'Do not have the requested laptop', '', 'INR', '01010101004', 2),
+(11, 'no', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 121565, '2020-12-30 18:30:00', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 'Management', 'MUM56', 'MUM78', 32000, '', NULL, 8, 'Laptop is available', '', 'INR', '01010101021', 2),
+(12, 'yes', 'We need it', 'Deliver it on time', 104657, 'finished_product', 'Tata Consultancy Services', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 104657, '2020-12-30 18:30:00', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 'Testing', 'MUM08', 'MUM121', 96000, '', NULL, 8, 'Laptop is available', '', 'INR', '01010101022', 2),
+(13, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 121565, '2021-01-19 18:30:00', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 'Management', 'MUM5', 'MUM4', 20000, '', NULL, 1, '', '', 'INR', '01010101025', 2);
 
 -- --------------------------------------------------------
 
@@ -1216,35 +1258,56 @@ CREATE TABLE `po_attachments` (
 --
 
 INSERT INTO `po_attachments` (`id`, `billNo`, `attachments`) VALUES
-(1, 1, '1606314530598-upload-README.md'),
-(2, 2, '1606315413203-upload-README.md');
+(3, 3, '1608304918672-upload-download.jpg'),
+(6, 8, '1608665065871-upload-download.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `po_status`
+-- Table structure for table `po_items`
 --
 
-CREATE TABLE `po_status` (
-  `id` int(40) NOT NULL,
+CREATE TABLE `po_items` (
+  `id` tinyint(4) NOT NULL,
   `billNo` int(40) NOT NULL,
-  `order_id` int(40) NOT NULL,
-  `status` varchar(40) NOT NULL
+  `order_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- RELATIONSHIPS FOR TABLE `po_status`:
+-- RELATIONSHIPS FOR TABLE `po_items`:
 --   `billNo`
 --       `pos` -> `billNo`
+--   `item_id`
+--       `order_items` -> `id`
+--   `order_id`
+--       `orders` -> `order_id`
 --
 
 --
--- Dumping data for table `po_status`
+-- Dumping data for table `po_items`
 --
 
-INSERT INTO `po_status` (`id`, `billNo`, `order_id`, `status`) VALUES
-(1, 1, 4969, 'Approved'),
-(2, 2, 2732, 'Pending');
+INSERT INTO `po_items` (`id`, `billNo`, `order_id`, `item_id`) VALUES
+(7, 3, 2925, 5),
+(17, 4, 258, 21),
+(18, 4, 2047, 23),
+(19, 4, 4696, 14),
+(22, 6, 3452, 52),
+(23, 7, 2047, 24),
+(24, 7, 258, 22),
+(25, 8, 107, 38),
+(26, 8, 107, 37),
+(27, 9, 3452, 53),
+(28, 10, 3452, 54),
+(29, 11, 2097, 59),
+(30, 11, 2097, 60),
+(31, 12, 8383, 61),
+(32, 12, 8383, 62),
+(33, 12, 8383, 63),
+(34, 13, 7428, 69),
+(35, 13, 7428, 68),
+(36, 13, 7428, 67);
 
 --
 -- Indexes for dumped tables
@@ -1359,21 +1422,27 @@ ALTER TABLE `order_items`
 -- Indexes for table `pos`
 --
 ALTER TABLE `pos`
-  ADD PRIMARY KEY (`billNo`);
+  ADD PRIMARY KEY (`billNo`),
+  ADD KEY `po_f1` (`behalf`),
+  ADD KEY `po_f2` (`delivery_to`),
+  ADD KEY `po_fk3` (`po_status`),
+  ADD KEY `ibfk_2` (`supplier`);
 
 --
 -- Indexes for table `po_attachments`
 --
 ALTER TABLE `po_attachments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `billNo` (`billNo`);
+  ADD KEY `po_fk9` (`billNo`);
 
 --
--- Indexes for table `po_status`
+-- Indexes for table `po_items`
 --
-ALTER TABLE `po_status`
+ALTER TABLE `po_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `billNo` (`billNo`);
+  ADD KEY `po_fk4` (`billNo`),
+  ADD KEY `po_fk5` (`item_id`),
+  ADD KEY `po_fk6` (`order_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1383,7 +1452,7 @@ ALTER TABLE `po_status`
 -- AUTO_INCREMENT for table `adminaccess`
 --
 ALTER TABLE `adminaccess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `admintype`
@@ -1437,31 +1506,31 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `orderstatus`
 --
 ALTER TABLE `orderstatus`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `pos`
 --
 ALTER TABLE `pos`
-  MODIFY `billNo` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `billNo` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `po_attachments`
 --
 ALTER TABLE `po_attachments`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `po_status`
+-- AUTO_INCREMENT for table `po_items`
 --
-ALTER TABLE `po_status`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `po_items`
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -1511,16 +1580,27 @@ ALTER TABLE `order_items`
   ADD CONSTRAINT `vendor_ibfk1` FOREIGN KEY (`prefered_vendor`) REFERENCES `datavendorinfo` (`vendorPK`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `pos`
+--
+ALTER TABLE `pos`
+  ADD CONSTRAINT `ibfk_2` FOREIGN KEY (`supplier`) REFERENCES `datavendor` (`venVendorPK`),
+  ADD CONSTRAINT `po_f1` FOREIGN KEY (`behalf`) REFERENCES `dataadmin` (`admAdminPK`),
+  ADD CONSTRAINT `po_f2` FOREIGN KEY (`delivery_to`) REFERENCES `dataadmin` (`admAdminPK`),
+  ADD CONSTRAINT `po_fk3` FOREIGN KEY (`po_status`) REFERENCES `orderstatus` (`id`);
+
+--
 -- Constraints for table `po_attachments`
 --
 ALTER TABLE `po_attachments`
-  ADD CONSTRAINT `po_attachments_ibfk_1` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`);
+  ADD CONSTRAINT `po_fk9` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`);
 
 --
--- Constraints for table `po_status`
+-- Constraints for table `po_items`
 --
-ALTER TABLE `po_status`
-  ADD CONSTRAINT `po_status_ibfk_2` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`);
+ALTER TABLE `po_items`
+  ADD CONSTRAINT `po_fk4` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`),
+  ADD CONSTRAINT `po_fk5` FOREIGN KEY (`item_id`) REFERENCES `order_items` (`id`),
+  ADD CONSTRAINT `po_fk6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

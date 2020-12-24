@@ -38,6 +38,9 @@ const routes: Routes = [
   {path: 'invoice', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'createPO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
   {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
+  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
+  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule'},
+  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
   {path: '**', redirectTo: '/home', pathMatch: 'full'},
 ];
 

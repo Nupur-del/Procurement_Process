@@ -5,8 +5,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import { HttpClientModule } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableFilterModule } from 'mat-table-filter';
+import {MatSortModule} from '@angular/material/sort';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
@@ -44,6 +47,8 @@ import { DeliveredPoComponent } from './delivered-po/delivered-po.component';
 import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
+import { DeniedPOComponent } from './denied-po/denied-po.component';
+import { SeePOComponent } from './see-po/see-po.component';
 
 @NgModule({
   declarations: [
@@ -63,12 +68,16 @@ import { TrackDashboardComponent } from './track-dashboard/track-dashboard.compo
     EditInvoiceComponent,
     ViewInvoiceComponent,
     TrackDashboardComponent,
+    DeniedPOComponent,
+    SeePOComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatRadioModule,
+    MatTableFilterModule,
     FileUploadModule,
     MatPaginatorModule,
     ReactiveFormsModule,
@@ -86,6 +95,7 @@ import { TrackDashboardComponent } from './track-dashboard/track-dashboard.compo
     MatSidenavModule,
     MatSnackBarModule,
     MatTableModule,
+    MatSortModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
@@ -101,7 +111,7 @@ import { TrackDashboardComponent } from './track-dashboard/track-dashboard.compo
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SeeOrderComponent]
+  entryComponents: [SeeOrderComponent, SeePOComponent]
 })
 export class AppModule { }
 @NgModule({})

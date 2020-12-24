@@ -1,11 +1,14 @@
-import { Component, ElementRef, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { MessageService } from '../message.service';
+import { MatTableDataSource } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
 import { ItemService } from '../../../../../src/app/item.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SeeOrderComponent } from '../see-order/see-order.component';
 import { HttpClient, HttpParams} from '@angular/common/http';
 import { POService } from '../po.service';
+import { LoginService} from '../../../../../src/app/login.service';
 
 import {
   MatSnackBar,
@@ -24,21 +27,30 @@ export class PurchaseOrderComponent implements OnInit {
 
   myFiles: string[] = [];
   imageNames: string[] = [];
+  Option = 'No';
   uploadedImages: any = [];
   image: any;
   isRemovable = true;
   change = true;
   optional = false;
+  totalAmount = 0;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   requireChange = true;
+  userName: string;
+  shipTobill: any;
   fName: any;
+  displayedColumns: string[] = ['Order ID', 'Name', 'Specification', 'Quantity', 'Price', 'Brand'];
   fType: any;
   po: any = {};
   isLinear = false;
+  todayDate:Date = new Date();
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
   total = 0;
+  userID: number;
+  type: string;
   order: any;
   sub: any;
   item = {
@@ -58,9 +70,12 @@ export class PurchaseOrderComponent implements OnInit {
     unit_type: ''
   };
   message1: string;
+  poDetails = [];
   actionButtonLabel = ':)';
   action = true;
   setAutoHide = true;
+  requestor = [];
+  dataSource: any;
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -71,42 +86,59 @@ export class PurchaseOrderComponent implements OnInit {
               private message: MessageService,
               private itemService: ItemService,
               private dialog: MatDialog,
+              private login: LoginService,
               private http: HttpClient,
               private poService: POService,
               private el: ElementRef) { }
 
 ngOnInit() {
-this.poService.getPOCount().subscribe((data: any) => {
-  this.po.billNo = data.count + 1;
+
+  this.type = localStorage.getItem('type');
+  this.userID = +localStorage.getItem('userId');
+  this.userName = localStorage.getItem('username');
+  this.po.cmp_name = 'Tata Consultancy Services';
+
+this.poService.getallPO().subscribe((data: any) => {
+  this.po.billNo = data[data.length - 1].billNo + 1;
 });
 
-this.message.currentMessage.subscribe(message => this.sub = message);
-this.itemService.getItemByItemId(this.sub).subscribe((data: any) => {
-  this.item = data[0];
-  console.log(this.item);
-  this.sub = this.item.order_id;
-  this.message.changeMessage(this.sub);
-  this.total = this.item.price * this.item.quantity;
+this.login.getUser('Requestor').subscribe(requestors => {
+  this.requestor = requestors;
+})
+
+
+this.message.poData.subscribe(data => {
+  this.poDetails = data;
+  this.dataSource = new MatTableDataSource<any>(this.poDetails);
+  this.dataSource.paginator = this.paginator;
+  this.po.currency = this.poDetails[0].currency;
+  this.po.locationName = this.poDetails[0].locationName;
+  this.po.location = this.poDetails[0].location;
+  for (let i of this.poDetails) {
+     this.totalAmount = this.totalAmount + +(i.price * i.quantity);
+  }
+  console.log('Total Amount', this.totalAmount);
+  console.log(this.poDetails);
 });
 
 this.firstFormGroup = this._formBuilder.group({
   reqName: ['', Validators.required],
   urg_msg: ['', Validators.required],
-  attachments: ['', Validators.required],
+  attachments: [''],
   reason: ['', Validators.required],
-  comment: ['', Validators.required],
-  behalf: ['', Validators.required],
-  purchase_type: ['', Validators.required],
-  message: ['', Validators.required],
+  comment: [''],
+  option: [''],
+  behalf: [''],
+  purchase_type: ['', Validators.required]
 });
 
 this.secondFormGroup = this._formBuilder.group({
   billno: ['', Validators.required],
   currency: ['', Validators.required],
-  org_billed: ['', Validators.required],
   cmp_name: ['', Validators.required],
   location: ['', Validators.required],
   bill_to_address: ['', Validators.required],
+  shipTobill: ['', Validators.required],
   delivery_to: ['', Validators.required],
   required_by: ['', Validators.required],
   delivery_address: ['', Validators.required],
@@ -117,13 +149,6 @@ this.thirdFormGroup = this._formBuilder.group({
   project_code: ['', Validators.required],
   budget_code: ['', Validators.required],
 });
-
-this.fourthFormGroup = this._formBuilder.group({
-  item_name: ['', Validators.required],
-  quantity: ['', Validators.required],
-  price: ['', Validators.required],
-  total: ['', Validators.required],
- });
 }
 
 insert() {
@@ -242,20 +267,31 @@ onSubmit() {
     this.findInvalidControls(this.thirdFormGroup);
     alert('Cost Booking Form Is Invalid!');
   }
-
-  if (!this.fourthFormGroup.valid) {
-    this.findInvalidControls(this.fourthFormGroup);
-    alert('Item Info Form Is Invalid!');
-  }
   if (this.firstFormGroup.valid && this.secondFormGroup.valid &&
-    this.thirdFormGroup.valid && this.fourthFormGroup.valid) {
+    this.thirdFormGroup.valid) {
+    console.log(this.firstFormGroup);
+    console.log(this.secondFormGroup);
+    console.log(this.thirdFormGroup)
+    this.po.item = [];
+    if (this.Option === 'no') {
+      this.po.behalf = this.userID;
+    }
+    this.po.supplier = this.poDetails[0].prefered_vendor;
+    console.log(this.requestor);
     this.po.attachments = this.uploadedImages;
-    this.po.item_id = this.item.id;
-    this.po.order_id = this.item.order_id;
-    this.po.item_name = this.item.name;
-    this.po.quantity = this.item.quantity;
-    this.po.price = this.item.price;
-    this.po.total = this.total;
+    this.po.total = this.totalAmount;
+    this.po.status = 1;
+    for (let i of this.poDetails) {
+      this.po.item.push({
+        order_id: i.order_id,
+        item_id: i.id
+      })
+    }
+    if (this.shipTobill === 'yes') {
+      this.po.delivery_address = this.po.bill_to_address;
+    }
+    console.log(this.po.item);
+    console.log('PO', this.po);
     const postatus: any =  this.poService.addPO(this.po);
     if (!postatus) {
       this.message1 = 'PO Added Sucessfully';

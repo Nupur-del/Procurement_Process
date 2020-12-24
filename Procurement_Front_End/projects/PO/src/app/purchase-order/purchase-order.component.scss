@@ -6,6 +6,7 @@ select {
     padding: 5px;
     width: max-content;
 }
+
 .hidden-file {
   visibility: hidden;
   position: absolute;
@@ -99,6 +100,14 @@ table {
     text-align: center;
 }
 
+.tableUpdated {
+  width: 100% !important;
+}
+
+.tableNeed {
+  width: 100% !important;
+}
+
 .normal-field {
     width: 100%;
 }
@@ -119,9 +128,9 @@ table {
     margin-top: 16px;
 }
 
-.ng-valid.ng-dirty:not(form) {
-    border: solid 2px lightgreen;
-}
+// .ng-valid.ng-dirty:not(form) {
+//     border: solid 2px lightgreen;
+// }
 
 .ng-invalid.ng-dirty:not(form),
 .ng-invalid:not(form).form-submitted {

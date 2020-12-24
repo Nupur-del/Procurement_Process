@@ -9,28 +9,59 @@ router.use(cors());
 
 router.get('/po_by_status', (req,res) => {
     const status = req.query.status;
-    sql.query(`SELECT p.* , s.status \
-    from pos p, po_status s where s.status = "${status}" AND p.billNo = s.billNo`, (err,response) => {
-       if(err) {
-           res.send(err);
-       } else {
-           res.send(response);
-       }
-    });
+    const user = req.query.user;
+    const type = req.query.type;
+    if (type === 'Supplier') {
+        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
+        orders s where i.order_id = s.order_id and p.po_status = ${status} and \
+        p.billNo = i.billNo and p.supplier = ${user}`, (err,response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.send(response);
+            }
+         });
+    } else {
+        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
+        orders s where i.order_id = s.order_id and p.po_status = ${status} and \
+        p.billNo = i.billNo and s.created_by = ${user}`, 
+        (err,response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.send(response);
+            }
+         });
+    }
 })
 
 // Fetch In Progress PO
 
 router.get('/inProgress_PO', (req,res) => {
-    sql.query(`SELECT p.* , s.status \
-    from pos p, po_status s where s.status Not in ("Item Delivered", "Pending")\
-    AND p.billNo = s.billNo`, (err,response) => {
-       if(err) {
-           res.send(err);
-       } else {
-           res.send(response);
-       }
-    });
+    const user = req.query.user;
+    const type = req.query.type;
+    if (type === 'Supplier') {
+        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
+        orders s where i.order_id = s.order_id and p.po_status not in (1,7,6) and \
+        p.billNo = i.billNo and p.supplier = ${user}`, (err,response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.send(response);
+            }
+         });
+    } else {
+        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
+        orders s where i.order_id = s.order_id and p.po_status not in (1,7,6) and \
+        p.billNo = i.billNo and s.created_by = ${user}`, 
+        (err,response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.send(response);
+            }
+         });
+    }
 })
 
 // Update invoice status in PO
@@ -50,92 +81,136 @@ router.post('/update_invoice_status', (req,res) => {
 // Order status and update order_item
 
 router.post('/update_status', (req, res) => {
-    const order_id = req.body.order_id;
+    // const order_id = req.body.order_id;
     const status = req.body.status;
-    const message = req.body.message;
-    const item_id = req.body.item_id;
-    sql.query(`UPDATE order_status set status = "${status}", message = "${message}" \
-    WHERE order_id = ${order_id}`, (err, response) => {
-        if(!err) {
-                    sql.query(`UPDATE order_items SET status = "${status}" \
-                    WHERE id = ${item_id}`, (err, response) => {})
-            res.send(response);
-        } else {
-            res.send(err);
+    let result;
+    // const message = req.body.message;
+    // const item_id = req.body.item_id;
+    // sql.query(`UPDATE order_status set status = "${status}", message = "${message}" \
+    // WHERE order_id = ${order_id}`, (err, response) => {
+    //     if(!err) {
+        for (let i of req.body.item) {
+            sql.query(`UPDATE order_items SET status = "${status}" \
+            WHERE id = ${i.item_id} and order_id = ${i.order_id}`, (err, response) => {
+              if(!err) {
+                  result = response;
+              } else {
+                  result = err;
+              } 
+            })
         }
-    })
+        res.send(result);
+            // res.send(response);
+        // } else {
+        //     res.send(err);
+        // }
+    // })
 })
 
 // Po count as by status
 
 router.get('/countPo_by_status', (req,res) => {
     const status = req.query.status;
-    sql.query(`SELECT count(*) as total from pos p, po_status s 
-    where s.status = "${status}" AND p.billNo = s.billNo`, (err, response) => {
-        if(err) {
-            res.send(err);
-        } else {
-            const PO = JSON.parse(JSON.stringify(response));
-            let result = { 
-                data : PO[0].total,
-                status: 200,
-                message: 'Success'
+    const user = req.query.user;
+    const type = req.query.type;
+    if (type === 'Supplier') {
+        sql.query(`SELECT count(*) as total from pos where po_status = "${status}" and supplier = ${user}`, (err, response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                const PO = JSON.parse(JSON.stringify(response));
+                let result = { 
+                    data : PO[0].total,
+                    status: 200,
+                    message: 'Success'
+                }
+                res.send(result);
             }
-            res.send(result);
-        }
-    })
+        });
+    } else {
+        sql.query(`select count(*) as total from pos where billNo in (select p.billNo from pos p, po_items i,orders s where i.order_id = s.order_id and 
+            p.po_status = ${status} and p.billNo = i.billNo and s.created_by = ${user})`, (err, response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                const PO = JSON.parse(JSON.stringify(response));
+                let result = { 
+                    data : PO[0].total,
+                    status: 200,
+                    message: 'Success'
+                }
+                res.send(result);
+            }
+        });
+    }
+    
 })
 
 // Fetch inProgress POs
 
 router.get('/InProgressPo_count', (req,res) => {
-    const status = req.query.status;
-    sql.query(`SELECT count(*) as total from pos p, po_status s 
-    where s.status Not in ("Item Delivered", "Pending") AND p.billNo = s.billNo`, (err, response) => {
+     const user = req.query.user;
+     const type = req.query.type;
+     if ( type === 'Supplier') {
+        sql.query(`SELECT count(*) as total from pos where po_status not in (1,7,6) \
+        and supplier = ${user}`,
+         (err, response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                const PO = JSON.parse(JSON.stringify(response));
+                let result = { 
+                    data : PO[0].total,
+                    status: 200,
+                    message: 'Success'
+                }
+                res.send(result);
+            }
+        })
+     } else {
+        sql.query(`select count(*) as total from pos where billNo in (select p.billNo from pos p, po_items i,orders s where i.order_id = s.order_id and 
+            p.po_status not in (1, 7,6) and p.billNo = i.billNo and s.created_by = ${user})`,
+         (err, response) => {
+            if(err) {
+                res.send(err);
+            } else {
+                const PO = JSON.parse(JSON.stringify(response));
+                let result = { 
+                    data : PO[0].total,
+                    status: 200,
+                    message: 'Success'
+                }
+                res.send(result);
+            }
+        });
+     }
+})
+
+router.put('/updateItem_Status', (req, res) => {
+    console.log(req.body);
+    let result;
+    for (let i of req.body) {
+        sql.query(`UPDATE order_items set status = "${i.status}" \
+        WHERE id = ${i.id}`, (err, response) => {
+          if (err) {
+              result = err;
+          } else {
+              result = response;
+          }
+        });
+    }
+    res.send(result);
+})
+
+router.get('/po_by_billNo', (req, res) => {
+    const bill = req.query.billNo;
+    sql.query(`select p.*, s.created_by, i.* , p.comment as commentSupplier from pos p, orders s, order_items i, \
+    po_items t where p.billNo = t.billNo and s.order_id = t.order_id and i.id = t.item_id \
+    and p.billNo = ${bill};`, (err,response) => {
         if(err) {
             res.send(err);
         } else {
-            const PO = JSON.parse(JSON.stringify(response));
-            let result = { 
-                data : PO[0].total,
-                status: 200,
-                message: 'Success'
-            }
-            res.send(result);
-        }
-    })
-})
-
-// Update status of PO
-
-router.post('/update_po_status', (req, res) => {
-    const order_id = req.body.order_id;
-    const status = req.body.status;
-    const billNo = req.body.billNo;
-    const message = req.body.message;
-    const item_id = req.body.item_id;
-    sql.query(`UPDATE order_status set status = "${status}", message = "${message}" \
-    WHERE order_id = ${order_id}`, (err, response) => {
-        if(!err) {
-                    sql.query(`UPDATE order_items SET status = "${status}" \
-                    WHERE id = ${item_id}`, (err, response) => {
-                        if(!err) {
-                            sql.query(`UPDATE po_status SET status = "${status}" \
-                    WHERE billNo = ${billNo}`, (err, response) => {
-                        if(!err) {
-                            sql.query(`UPDATE pos SET po_status = "${status}" \
-                    WHERE billNo = ${billNo}`, (err, response) => {
-                        if(err) {
-                            res.send(err);
-                        }
-                    })
-                        }
-                    });
-                        }
-                    });
             res.send(response);
-        } else {
-            res.send(err);
         }
     })
 })
