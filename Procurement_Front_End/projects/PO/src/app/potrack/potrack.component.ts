@@ -6,7 +6,7 @@ import { POService } from '../po.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import {SeePOComponent} from '../see-po/see-po.component';
-import { CheckPOComponent } from '../check-po/check-po.component';
+import {LoginService} from '../../../../../src/app/login.service';
 
 @Component({
   selector: 'app-potrack',
@@ -19,12 +19,14 @@ export class POTrackComponent implements OnInit {
   sub: any;
   po = [];
   imageNames: any = [];
+  poStatus = [];
   statusDetails = [];
   todayDate:Date = new Date();
   isLinear = false;
   constructor(private router: Router,
               private message: MessageService,
               private poService: POService,
+              private login: LoginService,
               private http: HttpClient,
               private dialog: MatDialog) { }
 
@@ -35,6 +37,24 @@ export class POTrackComponent implements OnInit {
     this.poService.getPoByBillNo(this.sub).subscribe((data: any) => {
       console.log(data);
       this.po = data;
+      this.po[0].po_status = this.statusDetails.find(a => a.id === this.po[0].po_status).orderStatus;
+      switch(this.po[0].po_status) {
+        case 'PO Approved':
+          this.poStatus = ['Order Processing'];
+          break;
+        case 'Order Processing':
+          this.poStatus = ['Item Quality Check', 'Item Dispatched', 'Item Delivered'];
+          break;
+        case 'Item Quality Check':
+          this.poStatus = ['Item Dispatched', 'Item Delivered'];
+          break;
+        case 'Item Dispatched':
+          this.poStatus = ['Item Delivered'];
+          break;
+        default:
+          this.poStatus = [];
+      }
+      this.po[0].arrival_date = new Date(this.po[0].arrival_date);
       console.log('Po', this.po);
     });
   });
@@ -48,13 +68,9 @@ export class POTrackComponent implements OnInit {
   send() {
     console.log('Po', this.po);
     this.item.billNo = this.sub;
-    // console.log('Order_id', this.po.order_id);
-    // this.item.order_id = this.po.order_id;
-    // console.log('Item_id', this.po.item_id);
-    // this.item.item_id = this.po.item_id;
     this.item.item = [];
     for (let i of this.po) {
-      if (i.status === 8) {
+      if (i.status !== 6) {
         this.item.item.push({
           item_id: i.id,
           status: this.statusDetails.find(s => s.orderStatus === this.po[0].po_status).id
@@ -62,19 +78,55 @@ export class POTrackComponent implements OnInit {
       }
     }
     console.log(this.item.item);
-    this.item.tracking_link = this.po[0].tracking_link;
-    this.item.estimated_arrival = this.po[0].estimated_arrival as string;
+    this.item.tracking_link = this.po[0].track;
+    this.item.estimated_arrival = this.po[0].arrival_date as string;
     this.item.order_status = this.statusDetails.find(s => s.orderStatus === this.po[0].po_status).id;
     this.item.order_msg = this.po[0].message_client;
     console.log(this.item);
     console.log('Date', this.item.estimated_arrival);
-    this.http.put(environment.BASE_URL + 'Purchase/poTrack', this.item).
-    subscribe((data: any) => {
-      console.log(data);
-      this.router.navigate(['/approvedPO']);
-    }, err => {
-    console.log(err);
+
+    this.login.userEmail.subscribe(uEmail => {
+      this.login.getUser('Requestor').subscribe((uDetails:any) => {
+      this.login.userPassword.subscribe(uPassword => {
+        if (!uEmail || !uPassword) {
+          uEmail = localStorage.getItem('email');
+          uPassword = localStorage.getItem('password');
+        }
+        let user = {
+          email: uEmail,
+          password: uPassword,
+          tracking_link: this.item.tracking_link ,
+          order_id: this.item.billNo,
+          suppemail : uDetails.find(a => a.id === this.po[0].created_by).email,
+          name : uDetails.find(a => a.id === this.po[0].created_by).name,
+          user: localStorage.getItem('username')
+      }
+      if (this.po[0].po_status === 'Item Dispatched' || this.po[0].po_status === 'Item Delivered') {
+        this.http.put(environment.BASE_URL + 'Purchase/poTrack', this.item).
+        subscribe((data: any) => {
+          console.log(data);
+          this.http.post(environment.BASE_URL + 'sendmail', user).subscribe(
+           (result: any) => {
+             console.log(result);
+             this.router.navigate(['/approvedPO']);
+           },err => {
+             console.log(err);
+           });
+        }, err => {
+        console.log(err);
+        });
+      } else {
+        this.http.put(environment.BASE_URL + 'Purchase/poTrack', this.item).
+        subscribe((data: any) => {
+          console.log(data);
+             this.router.navigate(['/approvedPO']);
+        }, err => {
+        console.log(err);
+        });
+      }
+      });
     });
+    })
   }
 
   seePO() {

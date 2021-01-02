@@ -135,7 +135,8 @@ router.get('/getUser', (req,res) => {
       for (let i of users) {
         result.push({
           name: dataadminDetails.find(e => e.admAdminPK === i.adminid).admName,
-          id: dataadminDetails.find(a => a.admAdminPK === i.adminid).admAdminPK
+          id: dataadminDetails.find(a => a.admAdminPK === i.adminid).admAdminPK,
+          email: dataadminDetails.find(b => b.admAdminPK === i.adminid).admEmail
         })
       }
       res.send(result);

@@ -204,7 +204,8 @@ router.put('/updateItem_Status', (req, res) => {
 
 router.get('/po_by_billNo', (req, res) => {
     const bill = req.query.billNo;
-    sql.query(`select p.*, s.created_by, i.* , p.comment as commentSupplier from pos p, orders s, order_items i, \
+    sql.query(`select p.*, s.created_by, i.* , p.comment as commentSupplier, \
+    p.tracking_link as track, p.estimated_arrival as arrival_date from pos p, orders s, order_items i, \
     po_items t where p.billNo = t.billNo and s.order_id = t.order_id and i.id = t.item_id \
     and p.billNo = ${bill};`, (err,response) => {
         if(err) {

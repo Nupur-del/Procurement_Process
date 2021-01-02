@@ -6,48 +6,92 @@
   <button mat-raised-button color="accent" (click)="onBack()">Ok</button>
 </div>
 <div>
-<div *ngFor="let item of items; let i=index;">
+<div>
 <div class="content">
 	<div class="content1">
-		<h2>Order Tracking: {{ item.order_id }}</h2>
-    <h4 style="color: white;">Item ID: {{ item.id }} </h4>
+		<h2>Purchase Order Tracking: {{ items[0].billNo }}</h2>
     <h5 style="color: white;">Tracking Link: <a style="color: deeppink;"
-      [href]="item.tracking_link">{{ item.tracking_link}}</a></h5>
+      [href]="items[0].tracking_link">{{ items[0].tracking_link}}</a></h5>
     <br>
+    <h5 style="color: white;">Estimated Arrival Date: {{ items[0].estimated_arrival | date}}</h5>
+      <br>
     <button style="color: white; background-color: black;"
-    *ngIf="item.status == 'Item Delivered'" mat-button (click)="getInvoice(item.id)">Get Invoice</button>
+    *ngIf="items[0].poStatus === 'Item Delivered'"
+    mat-button (click)="getInvoice(items[0].billNo)">Get Invoice</button>
 	</div>
-	<div class="content2">
-    <div class="content2-header1">
-			<p>Vendor : <span>{{ item.prefered_vendor }}</span></p>
-		</div>
-		<div class="content2-header1">
-			<p>Status : <span>{{ item.status }}</span></p>
-		</div>
-		<div class="content2-header1">
-			<p>Expected Date : <span>{{ item.estimated_arrival}}</span></p>
-		</div>
 		<div class="clear"></div>
-	</div>
+  </div>
+  <br>
+  <div *ngIf="items.length !== 0" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" id="myTable" #myTable>
+
+     <ng-container matColumnDef = "name">
+      <th mat-header-cell *matHeaderCellDef>Item Name</th>
+      <td mat-cell *matCellDef = "let element"> {{element.name}} </td>
+      <td mat-footer-cell *matFooterCellDef><b>Total Cost</b></td>
+   </ng-container>
+
+   <ng-container matColumnDef = "Location">
+    <th mat-header-cell *matHeaderCellDef>Location</th>
+    <td mat-cell *matCellDef = "let element"> {{element.locationName}} </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+ </ng-container>
+
+ <ng-container matColumnDef = "Department">
+  <th mat-header-cell *matHeaderCellDef>Department</th>
+  <td mat-cell *matCellDef = "let element"> {{element.departmentName}} </td>
+  <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
+
+ <ng-container matColumnDef = "Quantity">
+  <th mat-header-cell *matHeaderCellDef>Quantity</th>
+  <td mat-cell *matCellDef = "let element"> {{element.quantity}}</td>
+  <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
+
+<ng-container matColumnDef = "Price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef = "let element"> {{element.price}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
+
+<ng-container matColumnDef = "Total_Price">
+<th mat-header-cell *matHeaderCellDef>Total Price</th>
+<td mat-cell *matCellDef = "let element"> {{element.price * element.quantity}}</td>
+<td mat-footer-cell *matFooterCellDef><b>{{items[0].total}}</b></td>
+</ng-container>
+
+<ng-container matColumnDef = "Brand">
+<th mat-header-cell *matHeaderCellDef>Brand</th>
+<td mat-cell *matCellDef = "let element"> {{element.brandName}} </td>
+<td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
+
+    <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+    <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+</div>
   <br>
   <div>
-<div *ngIf="item.status == 'Confirmed';">
+<div *ngIf="items[0].poStatus == 'PO Approved';">
 <mat-progress-bar mode="determinate" value=8 ></mat-progress-bar>
 </div>
 
-<div *ngIf="item.status == 'Processing';">
+<div *ngIf="items[0].poStatus == 'Order Processing';">
 <mat-progress-bar mode="determinate" value=28 ></mat-progress-bar>
 </div>
 
-<div *ngIf="item.status == 'Quality Check';">
+<div *ngIf="items[0].poStatus == 'Item Quality Check';">
 <mat-progress-bar mode="determinate" value=46 ></mat-progress-bar>
 </div>
 
-<div *ngIf="item.status == 'Item Dispatched';">
+<div *ngIf="items[0].poStatus == 'Item Dispatched';">
 <mat-progress-bar mode="determinate" value=67 ></mat-progress-bar>
 </div>
 
-<div *ngIf="item.status == 'Item Delivered';">
+<div *ngIf="items[0].poStatus == 'Item Delivered';">
 <mat-progress-bar mode="determinate" value=100 ></mat-progress-bar>
 </div>
 <div class="row" style="position:relative;">

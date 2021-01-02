@@ -91,8 +91,6 @@
       <tr *ngIf="Option === 'yes'">
        <td><h5>Mention the name of the person</h5></td>
        <td>
-       <!-- <input type="text" class="form-control" [(ngModel)]="po.behalf"
-       formControlName="behalf" required> -->
        <mat-select formControlName="behalf" [(ngModel)]="po.behalf" class="form-control">
          <mat-option *ngFor="let i of requestor" [value]="i.id">{{i.name}}</mat-option>
        </mat-select>
@@ -118,13 +116,6 @@
         </td>
       </tr>
       <br>
-      <!-- <tr>
-       <td><h5>Your Message</h5></td>
-       <td>
-       <input type="text" class="form-control" [(ngModel)]="po.message"
-       formControlName="message" required>
-       </td>
-      </tr> -->
       </table>
       <br>
       <div class="text-right">
@@ -149,23 +140,9 @@
         <td><h5>Currency&nbsp;</h5></td>
         <td>
           <input  [(ngModel)]="po.currency" class="form-control" disabled formControlName="currency" type="text">
-     <!-- <select  [(ngModel)]="po.currency" class="form-control" formControlName="currency" required>
-            <option value="INR">INR</option>
-            <option value="Dollars">Dollars</option>
-            <option value="Euros">Euros</option>
-            <option value="yen">yen</option>
-        </select> -->
      </td>
       </tr>
      <br>
-     <!-- <tr>
-       <td><h5>Organization To be Billed</h5></td>
-       <td>
-       <input type="text" class="form-control" [(ngModel)]="po.org_billed"
-       formControlName="org_billed" required>
-       </td>
-      </tr>
-       <br> -->
        <tr>
        <td><h5>Company Name</h5></td>
        <td>
@@ -193,8 +170,6 @@
        <tr>
        <td><h5>Deliver To</h5></td>
        <td>
-       <!-- <input type="text" class="form-control" [(ngModel)]="po.delivery_to"
-       formControlName="delivery_to" required placeholder="Person to deliver the product"> -->
        <mat-select formControlName="delivery_to" required [(ngModel)]="po.delivery_to"
        class="form-control">
         <mat-option *ngFor="let i of requestor" [value]="i.id">{{i.name}}</mat-option>
@@ -281,39 +256,6 @@
   <form>
     <ng-template matStepLabel>Item Info</ng-template>
     <br>
-    <!-- <table>
-      <tr>
-        <td><h5>Item Name&nbsp;</h5></td>
-        <td>
-        <input type="text" class="form-control" [ngModel]="item.name"
-        formControlName="item_name" required>
-        </td>
-      </tr>
-     <br>
-     <tr>
-        <td><h5>Quantity&nbsp;</h5></td>
-        <td>
-        <input type="number" class="form-control" [ngModel]="item.quantity"
-        formControlName="quantity" required>
-        </td>
-      </tr>
-     <br>
-     <tr>
-        <td><h5>Price Per Unit&nbsp;</h5></td>
-        <td>
-        <input type="number" class="form-control"  [ngModel]="item.price"
-        formControlName="price" required>
-        </td>
-      </tr>
-     <br>
-     <tr>
-        <td><h5>Total Price&nbsp;</h5></td>
-        <td>
-        <input type="number" class="form-control" formControlName="total" [ngModel]="total" required>
-        </td>
-      </tr>
-     <br>
-     </table> -->
      <div class="mat-elevation-z8 tableUpdated">
       <table mat-table [dataSource] = "dataSource" class="mat-elevation-z8 tableUpdated">
 
@@ -360,12 +302,6 @@
   <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
 </div>
 <br>
-<!-- <table>
-  <td><h5>Total Amount</h5></td>
-  <td>
-    <span>{{totalAmount}}</span>
-  </td>
-</table> -->
 <br>
     <div class="text-right">
       <button class="btn btn-primary" (click)="stepper.reset()">Reset</button>&nbsp;

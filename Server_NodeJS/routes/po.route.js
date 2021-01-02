@@ -92,7 +92,8 @@ router.get('/all', (req,res) => {
 router.get('/allPo_byStatus', (req, res) => {
     PO.findAll({
         where: {
-            po_status: req.query.status
+            po_status: req.query.status,
+            suppier: req.query.user
         }
     }).then(result => {
         res.send(result)
@@ -151,7 +152,9 @@ router.put('/poTrack', (req, res) => {
         };
         for (let i of req.body.item) {
             Order_item.update({
-              status: i.status
+              status: i.status,
+              estimated_arrival: req.body.estimated_arrival,
+              tracking_link: req.body.tracking_link
             }, {
                 returning: true,
                 where: {id: i.item_id}

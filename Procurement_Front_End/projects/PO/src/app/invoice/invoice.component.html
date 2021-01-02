@@ -1,16 +1,13 @@
-
-<button style="background-color: #1d87cf;
+<!-- <button style="background-color: #1d87cf;
       position: fixed;
       top: 30%;
-      right: 1rem;" class="btn btn-primary" (click)="seePO()">View PO</button>
-
+      right: 1rem;" class="btn btn-primary" (click)="seePO()">View PO</button> -->
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
     <ng-template matStepLabel>Invoice Details</ng-template>
     <br>
-         <table>
-
+         <table *ngIf="poList.length !== 0">
       <tr>
         <td><h5>Invoice Date&nbsp;</h5></td>
         <td>
@@ -39,118 +36,125 @@
        <td><h5>Credit Days</h5></td>
        <td>
         <input type="number" [(ngModel)]="invoice.credit_days" formControlName = "credit_days" name="credit_days" id="field5" class="form-control"/>
-
        </td>
       </tr>
-
       <br>
-
       <tr>
        <td><h5>Invoice to Address</h5></td>
        <td>
-        <textarea [(ngModel)]="invoice.invoice_address" formControlName = "invoice_address" name="invoice_address" id="field5" class="form-control field-textarea"></textarea>
-
+        <textarea [(ngModel)]="poList[0].bill_to_address" formControlName="invoice_address"
+         name="invoice_address" id="field5" class="form-control field-textarea"></textarea>
        </td>
       </tr>
-
             <br>
-
       <tr>
        <td><h5>Description</h5></td>
        <td>
-       <textarea [(ngModel)]="invoice.description" formControlName = "description" name="description" id="field5" class="form-control field-textarea"></textarea>
-
+       <textarea [(ngModel)]="invoice.description" formControlName="description"
+        name="description" id="field5" class="form-control field-textarea"></textarea>
        </td>
       </tr>
-
       <br>
-
-
+      <tr>
+      <td><h5>Tax</h5></td>
+      <td>
+      <input type="number" [(ngModel)]="invoice.tax" (change)="caltotal()" formControlName="tax"
+       name="tax" class="form-control"/>
+      </td>
+     </tr>
+      <br>
       </table>
-
       <br>
       <div class="text-right">
         <button class="btn btn-primary" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
+  <mat-step>
+    <form #secondFormGroup="ngForm">
       <ng-template matStepLabel>Item Details</ng-template>
       <br>
-      <table>
+       <div class="mat-elevation-z8 tableUpdated" *ngIf="poList.length !== 0">
+        <table mat-table [dataSource] = "dataSource" class="mat-elevation-z8 tableUpdated">
 
-      <tr>
-        <td><h5>Item Number&nbsp;</h5></td>
-        <td>
-        <input type="number" class="form-control"  [(ngModel)]="po.item_id" formControlName="item_id" disabled required>
-        </td>
-      </tr>
-     <br>
+          <ng-container matColumnDef = "Order ID">
+            <th mat-header-cell *matHeaderCellDef>Order Id</th>
+            <td mat-cell *matCellDef = "let element"> {{element.order_id}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+         </ng-container>
 
-      <tr>
-        <td><h5>Item Name&nbsp;</h5></td>
-        <td>
-      <input type="text" class="form-control"  [(ngModel)]="po.item_name" formControlName="item_name" required>
-     </td>
-      </tr>
-     <br>
+         <ng-container matColumnDef = "Name">
+          <th mat-header-cell *matHeaderCellDef>Item Name</th>
+          <td mat-cell *matCellDef = "let element"> {{element.name}} </td>
+          <td mat-footer-cell *matFooterCellDef><b>Total Cost</b></td>
+       </ng-container>
 
-     <tr>
-       <td><h5>Market Price</h5></td>
-       <td>
-       <input type="number" [(ngModel)]="invoice.market_price" class="form-control" formControlName="item_market_price" required>
-       </td>
-      </tr>
+     <ng-container matColumnDef = "Quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef = "let element"> {{element.quantity}}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+   </ng-container>
 
-       <br>
+   <ng-container matColumnDef = "Price">
+            <th mat-header-cell *matHeaderCellDef>Unit Price</th>
+            <td mat-cell *matCellDef = "let element"> {{element.price}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
 
-       <tr>
-       <td><h5>Unit Price</h5></td>
-       <td>
-       <input type="number" [(ngModel)]="invoice.unit_price" class="form-control" formControlName="item_unit_price" required>
-       </td>
-      </tr>
+    <ng-container matColumnDef = "Total_Price">
+      <th mat-header-cell *matHeaderCellDef>Total Price</th>
+      <td mat-cell *matCellDef = "let element">{{element.price * element.quantity}}</td>
+      <td mat-footer-cell *matFooterCellDef>{{this.poList[0].total}}</td>
+</ng-container>
 
-       <br>
+<ng-container matColumnDef = "market_price">
+  <th mat-header-cell *matHeaderCellDef>Market Price</th>
+  <td mat-cell *matCellDef = "let element; let rowIdx = index">
+    <mat-form-field style="width: 100px; margin: 10px">
+      <input matInput
+      name="market_price{{rowIdx}}"
+      type="number" ngModel #market="ngModel" required>
+          <mat-error *ngIf="market?.invalid">
+              <div *ngIf="market.errors.required && market.errors.touched">Name is required</div>
+          </mat-error>
+      </mat-form-field>
+  </td>
+  <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
 
-       <tr>
-       <td><h5>Ordered Quantity</h5></td>
-       <td>
-       <input type="number" [(ngModel)]="invoice.ordered_quantity" class="form-control" formControlName="item_ordered_quantity" required>
-       </td>
-      </tr>
+<ng-container matColumnDef = "invoiced_quantity">
+  <th mat-header-cell *matHeaderCellDef>Invoiced Quantity</th>
+  <td mat-cell *matCellDef = "let element; let rowIdx = index">
+    <mat-form-field  style="width: 100px; margin: 10px">
+      <input matInput
+      name="invoiced_quantity{{rowIdx}}"
+      type="number" ngModel
+      #invoiced="ngModel"
+       required>
+          <mat-error *ngIf="invoiced.invalid">
+              <div *ngIf="invoiced.errors.required && invoiced.errors.touched">Name is required</div>
+          </mat-error>
+      </mat-form-field>
+  </td>
+  <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
 
-       <br>
+    <ng-container matColumnDef = "Brand">
+      <th mat-header-cell *matHeaderCellDef>Brand</th>
+      <td mat-cell *matCellDef = "let element"> {{element.brandName}} </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
 
-       <tr>
-       <td><h5>Invoiced Quantity</h5></td>
-       <td>
-       <input type="number" [(ngModel)]="invoice.invoiced_quantity" class="form-control" formControlName="item_invoiced_quantity" required>
-       </td>
-      </tr>
-
-       <br>
-
-       <tr>
-       <td><h5>Taxes</h5></td>
-       <td>
-       <input type="number" [(ngModel)]="invoice.tax" class="form-control" formControlName="item_tax" required>
-       </td>
-      </tr>
-
-
-       <br>
-
-
-
-     </table>
+        <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+        <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+  </div>
       <div class="text-right">
         <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
-        <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+        <button class="btn btn-primary" (click)="onSubmit(secondFormGroup)">Submit</button>
       </div>
     </form>
   </mat-step>
-
-
 </mat-horizontal-stepper>

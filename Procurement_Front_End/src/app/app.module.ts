@@ -23,7 +23,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule, MatNativeDateModule  } from '@angular/material';
-import { RouterModule } from '@angular/router';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AuthGuard } from './auth.guard';
@@ -36,7 +35,7 @@ import {MatCardModule} from '@angular/material/card';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSelectModule, MatOptionModule } from '@angular/material';
+import { MatSelectModule} from '@angular/material';
 import { RequestComponent } from './request/request.component';
 import { EditComponent } from './edit/edit.component';
 import { PendingComponent } from './pending/pending.component';
@@ -51,6 +50,9 @@ import { RequisitionHomeComponent } from './requisition-home/requisition-home.co
 import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.component';
 import { DeniedComponent } from './denied/denied.component';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
+import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,10 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
     MessageDialogComponent,
     RequisitionHomeComponent,
     DeliveredPoComponent,
-    DeniedComponent
+    DeniedComponent,
+    SupplierRegistrationComponent,
+    HomePageComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -106,50 +111,7 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
     MatNativeDateModule ,
     MatListModule,
     SupplierModule.forRoot(),
-    POModule.forRoot(),
-    RouterModule.forRoot([
-      {
-        path: '',
-        component: AppComponent
-      },
-      {
-        path: 'home',
-        component: AppComponent
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
-      {
-        path: 'admin',
-        component: AdminComponent
-      },
-      {
-        path: 'request',
-        component: RequestComponent
-      },
-      {
-        path: 'edit',
-        component: EditComponent
-      },
-      {
-        path: 'pending',
-        component: PendingComponent
-      },
-      {
-        path: 'view',
-        component: ViewComponent
-      },
-      {
-        path: 'approved',
-        component: ApprovedComponent
-      },
-      {
-        path: 'order',
-        component: OrderComponent
-      }
-
-    ])
+    POModule.forRoot()
   ],
   entryComponents: [MyDialogComponent, MessageDialogComponent],
   providers: [AuthService, AuthGuard, MatDatepickerModule],

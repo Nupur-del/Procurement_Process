@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import jsPDF from 'jspdf';
-import {Invoice3Service} from '../invoice3.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { MatTableDataSource } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
+import { LoginService} from '../../../../../src/app/login.service';
 import {environment} from '../../../../../src/environments/environment';
-import {FormBuilder, Validators, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import { MessageService } from '../message.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -25,7 +28,7 @@ import {
 export class ViewInvoiceComponent implements OnInit {
 
   @ViewChild('pdfTable', {static: false}) pdfTable: ElementRef;
-
+  @ViewChild('myTable', {static: false}) myTable: ElementRef;
   msg: string;
   actionButtonLabel = ':)';
   action = true;
@@ -36,47 +39,68 @@ export class ViewInvoiceComponent implements OnInit {
   addExtraClass = false;
   due_date: any;
   date: any;
+  dataSource: any;
+  displayedColumns = ['name', 'Quantity','Invoiced_Quantity', 'Price' , 'Market_Price', 'Total_Price', 'Brand'];
   item: any = {};
   po: any = {};
-  invoice: any = {};
+  invoice = [];
   sub: any;
+  type: any;
+  userID: number;
+  locDetails = [];
+  requestorDetails = [];
+  statusDetails = [];
+  deptDetails = [];
   isLinear = false;
   firstFormGroup: FormGroup;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   secondFormGroup: FormGroup;
 
-  constructor(private invoice3Service: Invoice3Service,
-              private formBuilder: FormBuilder,
-              private http: HttpClient,
+  constructor(private http: HttpClient,
               private message: MessageService,
               private dialog: MatDialog,
               private poService: POService,
+              private login: LoginService,
               private router: Router,
               private snackBar: MatSnackBar) { }
 
 
   ngOnInit() {
-  this.message.currentMessage.subscribe(message => this.sub = message);
+  this.message.poBillNo.subscribe(message => this.sub = message);
+  this.type = localStorage.getItem('type');
+  this.userID = +localStorage.getItem('userId');
 
-  this.firstFormGroup = this.formBuilder.group({
-    invoice_date: ['', Validators.required],
-    invoice_due_date: ['', Validators.required],
-    credit_days: ['', Validators.required],
-    invoice_address: ['', Validators.required],
-    description: ['', Validators.required],
+  this.login.getUser('Requestor').subscribe(req => {
+    this.requestorDetails = req;
+    this.http.get(environment.BASE_URL + 'department/deptDetails').subscribe((dept: any) => {
+      this.deptDetails = dept;
+     this.http.get(environment.BASE_URL + 'cities/locationDetails')
+      .subscribe((loc: any) => {
+      this.locDetails = loc;
+      this.http.get(environment.BASE_URL + 'order/getStatus').subscribe((sta: any) => {
+        this.statusDetails = sta;
+        this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+  this.poService.getInvoiceByBillNo(this.sub).subscribe((invoicedata: any) => {
+    console.log(invoicedata);
+    const invoiceD = [];
+    for (let i of invoicedata) {
+      invoiceD.push({
+        ...i,
+        creator: this.requestorDetails.find(v => v.id === i.created_by).name,
+        locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
+        departmentName: this.deptDetails.find(s => s.id === i.department).department_name,
+        status: this.statusDetails.find(s => s.id === i.status).orderStatus,
+        brandName: brandDetails.find(v => v.brandpk === i.brand).brandName
+      })
+    }
+    this.dataSource = new MatTableDataSource(invoiceD);
+    this.dataSource.paginator = this.paginator;
+    this.invoice = invoiceD;
   });
-  this.secondFormGroup = this.formBuilder.group({
-    item_id: ['', Validators.required],
-    item_name: ['', Validators.required],
-    item_market_price: ['', Validators.required],
-    item_unit_price: ['', Validators.required],
-    item_ordered_quantity: ['', Validators.required],
-    item_invoiced_quantity: ['', Validators.required],
-    item_tax: ['', Validators.required],
-  });
-
-  this.poService.getInvoiceByItemId(this.sub).subscribe((data: any) => {
-    console.log(data);
-    this.invoice = data[0];
+});
+      });
+    });
+    });
   });
 }
   insert() {
@@ -110,65 +134,26 @@ export class ViewInvoiceComponent implements OnInit {
   return [date.getFullYear(), mnth, day].join("-");
   }
 
-  onSubmit() {
-    if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
-      this.invoice.billNo = this.sub;
-      this.invoice.item_id =  this.po.item_id;
-      this.invoice.item_name =  this.po.item_name;
-      this.invoice.invoice_date =  this.date;
-      this.invoice.invoice_due_date =  this.due_date;
-      console.log(this.invoice);
-      this.http.post(environment.BASE_URL + 'invoice/invoice', this.invoice).subscribe(data => {
-        console.log(data);
-        this.msg = 'Invoice Created Successfully';
-        const updatePo = {
-           billNo: this.invoice.billNo,
-           status: this.invoice.status
-        };
-        this.http.post(environment.BASE_URL + 'Purchase_order/update_invoice_status', updatePo)
-        .subscribe(updated => {
-          console.log(updated);
-        });
-        this.insert();
-        this.router.navigate(['/deliveredPO']);
-        }, err => {
-          console.log(err);
-          alert('Sorry try again later');
-      });
-    } else {
-      alert('Please fill all the fields');
-      for(var control in this.firstFormGroup.controls) {
-        if(this.firstFormGroup.controls[control].invalid) {
-          this.firstFormGroup.controls[control].markAsDirty();
-        }
-      }
-
-      for(var control in this.secondFormGroup.controls) {
-        if(this.secondFormGroup.controls[control].invalid) {
-          this.secondFormGroup.controls[control].markAsDirty();
-        }
-      }
-      return;
-    }
-  }
-
   downloadAsPDF() {
+    var dataOfTable = [];
+    this.invoice.forEach(e => {
+      var temp = [];
+      temp.push(e.order_id);
+      temp.push(e.item_id);
+      temp.push(e.name);
+      temp.push(e.price);
+      temp.push(e.quantity);
+      temp.push(e.price * e.quantity);
+      temp.push(e.market_price);
+      temp.push(e.invoiced_quantity);
+      dataOfTable.push(temp);
+    })
     const doc = new jsPDF();
-    const pdfTable = this.pdfTable.nativeElement;
-    console.log(pdfTable.innerHTML);
 
-    var margins = {
-      top: 0,
-      bottom: 60,
-      left: 40,
-      width: 522
-    };
-
-    doc.fromHTML(pdfTable.innerHTML, margins.left, // x coord
-      margins.top, { // y coord
-          'width': margins.width
-      });
+    doc.autoTable({html: '#mytable'});
+    doc.autoTable({html: '#myTable'});
 
     doc.save('invoice.pdf');
+    this.router.navigate(['/deliveredPO']);
   }
 }

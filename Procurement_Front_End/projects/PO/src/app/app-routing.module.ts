@@ -16,10 +16,7 @@ import { DeliveredPoComponent } from './delivered-po/delivered-po.component';
 import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
-import { DeniedComponent } from 'src/app/denied/denied.component';
 import { DeniedPOComponent } from './denied-po/denied-po.component';
-
-
 
 const routes: Routes = [
   {path: "purchase-order", component: PurchaseOrderComponent, resolve: { po: POResolverService }},

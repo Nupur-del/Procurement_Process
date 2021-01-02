@@ -5,24 +5,20 @@ const cors = require('cors');
 router.use(cors());
 
 const Invoice = require('../models/invoice.model');
+const InvoiceItem = require('../models/invoice_item.model');
 
 // Create Invoice
 
 router.post('/invoice', (req,res) => {
     const invoiceData = {
         billNo: req.body.billNo,
-        item_id: req.body.item_id,
         invoice_date: req.body.invoice_date,
         invoice_due_date: req.body.invoice_due_date,
         credit_days: req.body.credit_days,
         invoice_address: req.body.invoice_address,
         description: req.body.description,
-        item_name: req.body.item_name,
-        market_price: req.body.market_price,
-        unit_price: req.body.unit_price,
-        ordered_quantity: req.body.ordered_quantity,
-        invoiced_quantity: req.body.invoiced_quantity,
-        tax: req.body.tax
+        tax: req.body.tax,
+        total: req.body.total
     }
     Invoice.findOne({
         where: {
@@ -37,11 +33,26 @@ router.post('/invoice', (req,res) => {
                     statusCode: 0,
                     message: 'Success'
                 }
-                res.send(response)
+                let invoice_item = [];
+                for (let i of req.body.item) {
+                    invoice_item.push({
+                        market_price: i.market_price,
+                        invoiced_quantity: i.invoiced_quantity,
+                        item_id: i.item_id,
+                        Total_price: i.total_price,
+                        invoice_no: invoices.invoice_no
+                    })
+                }
+                InvoiceItem.bulkCreate(invoice_item, {returning: true}).then(item => {
+                    response.message = 'Invoice created Sucessfully'
+                    res.send(response);
+                }).catch( error => {
+                    res.status(404).send(error.message);
+                })
           }).catch( err => {
-              res.send(err.message)
+              res.status(404).send(err.message);
           })
-        } else { res.send('Invoice details has been already present for this billNo')}
+        } else { res.status(404).send('Invoice details has been already present for this billNo')}
     }).catch( err => {
       res.send(err.message)
     })
@@ -53,20 +64,6 @@ router.get('/invoice_by_item_id', (req,res) => {
     Invoice.findAll({
         where: {
             item_id: req.query.item_id
-        }
-    }).then(data => {
-        res.send(data)
-    }).catch(err => {
-        res.json({message: err.message})
-    })
-})
-
-// Fetch Invoice by BillNo
-
-router.get('/invoice_by_billNo', (req,res) => {
-    Invoice.findAll({
-        where: {
-            billNo: req.query.billNo
         }
     }).then(data => {
         res.send(data)

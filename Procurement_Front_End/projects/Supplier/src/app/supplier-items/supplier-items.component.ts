@@ -68,10 +68,6 @@ export class SupplierItemsComponent implements OnInit {
       console.log(this.imageList);
     });
 
-    // this.imageService.getAllImages().subscribe(data => {
-    //   this.imageList = data;
-    // });
-
     this.data.currentMessage.subscribe(message => this.sub = message);
   }
 

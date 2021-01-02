@@ -45,10 +45,14 @@ export class POService {
       return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase_order/inProgress_PO', {params: sparams});
    }
 
-   getPOItemByStatus(status: any): Observable<IPO[]> {
-     let Pparams = new HttpParams().set('status', status);
-     return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase/allPo_byStatus', { params: Pparams });
-   }
+  //  getPOItemByStatus(status: any, usertype: any, user: any): Observable<IPO[]> {
+  //    let Pparams = new HttpParams().set('status', status).set('type', usertype).set('user', user);
+  //    if (usertype === 'Supplier') {
+  //     return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase/allPo_byStatus', { params: Pparams });
+  //    } else {
+  //     return this.http.get<IPO[]>(environment.BASE_URL + 'Purchase/allPo_by', { params: Pparams });
+  //    }
+  //  }
 
    getPOCount(): Observable<number> {
      return this.http.get<number>(environment.BASE_URL + 'Purchase/allPo');
@@ -78,9 +82,9 @@ export class POService {
     return this.http.get<string[]>(environment.BASE_URL + 'Purchase_order/attachments_by_billNo', { params: Bparams });
    }
 
-   getInvoiceByBillNo(billNo: any): Observable<IPO> {
+   getInvoiceByBillNo(billNo: any): Observable<any> {
     let Iparams = new HttpParams().set('billNo', billNo);
-    return this.http.get<IPO>(environment.BASE_URL + 'invoice/invoice_by_billNo', { params: Iparams });
+    return this.http.get<any>(environment.BASE_URL + 'invoice_up/invoice_by_billNo', { params: Iparams });
    }
 
    getInvoiceByItemId(item_id: any): Observable<IPO> {

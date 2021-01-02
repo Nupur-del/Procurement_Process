@@ -14,33 +14,40 @@ import { POModule } from '../../projects/PO/src/app/app.module';
 import { EditResolverService } from './edit-resolver.service';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 import { DeniedComponent } from './denied/denied.component';
-import { PendingResolverService } from './pending-resolver.service';
+import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
+import { HomePageComponent} from './home-page/home-page.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/homePage', pathMatch: 'full'},
+  {path: 'homePage', component: HomePageComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'admin', component: AdminComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'request', component: RequestComponent},
-  {path: 'edit', component: EditComponent, resolve: { editItem: EditResolverService }},
-  {path: 'pending', component: PendingComponent},
-  {path: 'denied', component: DeniedComponent},
-  {path: 'view', component: ViewComponent},
-  {path: 'approved', component: ApprovedComponent},
-  {path: 'order', component: OrderComponent},
-  {path: 'requisitionHome', component: RequisitionHomeComponent},
-  {path: 'supplierItems', loadChildren: '../../projects/Supplier/src/app/app.module#SupplierModule'},
-  {path: 'supplierHome', loadChildren: '../../projects/Supplier/src/app/app.module#SupplierModule'},
-  {path: 'PO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  {path: 'purchase-order', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  {path: 'track-order', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  {path: 'track-dashboard', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  {path: 'invoice', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  {path: 'createPO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule'},
-  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule'},
-  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent,  canActivate: [AuthGuard]},
+  {path: 'request', component: RequestComponent,  canActivate: [AuthGuard]},
+  {path: 'edit', component: EditComponent, resolve: { editItem: EditResolverService },  canActivate: [AuthGuard]},
+  {path: 'pending', component: PendingComponent,  canActivate: [AuthGuard]},
+  {path: 'denied', component: DeniedComponent,  canActivate: [AuthGuard]},
+  {path: 'view', component: ViewComponent,  canActivate: [AuthGuard]},
+  {path: 'approved', component: ApprovedComponent, canActivate: [AuthGuard]},
+  {path: 'order', component: OrderComponent,  canActivate: [AuthGuard]},
+  {path: 'requisitionHome', component: RequisitionHomeComponent,  canActivate: [AuthGuard]},
+  {path: 'supplierRegistration', component: SupplierRegistrationComponent},
+  {path: 'verify-email', component: VerifyEmailComponent},
+  {path: 'supplierItems', loadChildren: '../../projects/Supplier/src/app/app.module#SupplierModule',  canActivate: [AuthGuard]},
+  {path: 'supplierHome', loadChildren: '../../projects/Supplier/src/app/app.module#SupplierModule',  canActivate: [AuthGuard]},
+  {path: 'PO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'purchase-order', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'track-order', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'track-dashboard', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'invoice', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'createPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   {path: '**', redirectTo: '/home', pathMatch: 'full'},
 ];
 

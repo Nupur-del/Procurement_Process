@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2020 at 06:15 AM
+-- Generation Time: Jan 02, 2021 at 10:04 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -55,7 +55,8 @@ INSERT INTO `adminaccess` (`id`, `admintype`, `adminid`) VALUES
 (5, 1, 126422),
 (6, 2, 346755),
 (7, 2, 71455),
-(8, 1, 1033012);
+(8, 1, 1033012),
+(9, 1, 123);
 
 -- --------------------------------------------------------
 
@@ -162,7 +163,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (29, 3, '01010101006', 90000, 90000),
 (30, 3, '01010101024', 90000, 90000),
 (31, 3, '01010101025', 90000, 90000),
-(32, 3, '01010101018', 90000, 90000),
+(32, 3, '01010101018', 21000, 90000),
 (33, 3, '01010101002', 90000, 90000),
 (34, 3, '01010101007', 90000, 90000),
 (35, 3, '01010101016', 90000, 90000),
@@ -186,9 +187,9 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (53, 4, '01010101005', 150000, 150000),
 (54, 4, '01010101003', 150000, 150000),
 (55, 4, '01010101006', 150000, 150000),
-(56, 4, '01010101024', 150000, 150000),
+(56, 4, '01010101024', 127000, 150000),
 (57, 4, '01010101025', 150000, 150000),
-(58, 4, '01010101018', 150000, 150000),
+(58, 4, '01010101018', 81000, 150000),
 (59, 4, '01010101002', 127000, 150000),
 (60, 4, '01010101007', 150000, 150000),
 (61, 4, '01010101016', 150000, 150000),
@@ -214,7 +215,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (81, 5, '01010101006', 130000, 130000),
 (82, 5, '01010101024', 130000, 130000),
 (83, 5, '01010101025', 118400, 130000),
-(84, 5, '01010101018', 130000, 130000),
+(84, 5, '01010101018', 61000, 130000),
 (85, 5, '01010101002', 130000, 130000),
 (86, 5, '01010101007', 130000, 130000),
 (87, 5, '01010101016', 130000, 130000),
@@ -319,6 +320,7 @@ CREATE TABLE `dataadmin` (
 --
 
 INSERT INTO `dataadmin` (`admAdminPK`, `admName`, `admDOJ`, `admIsActive`, `admpwd`, `admSecretQn`, `admSecretAns`, `admOffLandLineNo`, `admMobileNo`, `admFaxNo`, `admEmail`, `admVoIP`, `admPhotoURL`) VALUES
+(123, 'Nupur Swami', '2020-12-08', b'1', '12345678', 'What is your favourite city', 'Lucknow', '2692873', '9543059543', '3212312', 'abc091xyz1234@gmail.com', NULL, NULL),
 (9130, 'Murahar Kulkarni', '1980-10-01', b'1', '12345678', 'What is my monther\'s maiden name?', '$2a$12$Dbb/Aw5MLPSRRroD9s/3G.sUyBTiCtnN74Jcd13KLjXNKZWVCNSQW', '022-6778 8165', '91 98191 00959', '', 'murahar.kulkarni@tcs.com', '', 'C:\\CommonFolderMirror\\UserImages\\9130.jpg'),
 (13269, 'Vijay Jayakar', '2000-01-01', b'1', '12345678', 'Location', '$2a$12$yh.QRfHmBuB3JAyP2cCD0exQSWxGPNEbXc8LHHxYz1LQ1YjYqGSaS', '67787560', '9223313189', '', 'vijay.jayakar@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\13269.jpg'),
 (13722, 'Narendra Bhanushali', '2000-01-01', b'1', '12345678', '29071955', '$2a$12$iyplE4CRTkw5hAzdGGjyeuvNKCozyf/KvCTWUciEYs84TLuYzuOQu', '67783219', '9223427417', '', 'narendra.bhanushali@tcs.co', '4223219', 'C:\\CommonFolderMirror\\UserImages\\13722.jpg'),
@@ -531,6 +533,7 @@ CREATE TABLE `datavendor` (
 --
 
 INSERT INTO `datavendor` (`venVendorPK`, `venName`, `venAbbrName`, `venYearOfEst`, `venAffliationWithTcs`, `venRegistrationNo`, `venLicenceNo`, `venBussinessLogo`, `venIsActive`) VALUES
+(0, 'angel.cute1234', 'angel', 2019, '2020-12-16', '321321321', '2131321', NULL, b'1'),
 (1, 'Voltas Ltd', 'Voltas', 1900, NULL, 'NA', 'NA', NULL, b'1'),
 (2, 'STULZ CHSPL (India) Pvt Ltd', 'STULZ', 1900, NULL, 'NA', 'NA', NULL, b'1'),
 (3, 'Emerson Networking Power Ltd', 'Emerson', 1900, NULL, 'NA', 'NA', NULL, b'1'),
@@ -709,6 +712,7 @@ CREATE TABLE `datavendorinfo` (
 --
 
 INSERT INTO `datavendorinfo` (`vendorPK`, `vendorpwd`, `vendorSecretQn`, `vendorSecretAns`, `vendorOffLandLineNo`, `vendorMobileNo`, `vendorFaxNo`, `vendorEmail`, `vendorVoIP`) VALUES
+(0, 'shardadevi', 'which is your favourite city', 'lucknow', '05222692873', '9532054401', '2323', 'angel.cute1234@gmail.com', 'dasds'),
 (1, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test1@test.com', NULL),
 (2, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test2@test.com', NULL),
 (3, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test3@test.com', NULL),
@@ -896,30 +900,59 @@ INSERT INTO `departments` (`id`, `department_name`) VALUES
 CREATE TABLE `invoices` (
   `invoice_no` int(40) NOT NULL,
   `billNo` int(40) NOT NULL,
-  `item_id` int(40) NOT NULL,
-  `invoice_date` varchar(200) NOT NULL,
-  `invoice_due_date` varchar(200) NOT NULL,
+  `invoice_date` datetime DEFAULT NULL,
+  `invoice_due_date` datetime DEFAULT NULL,
   `credit_days` int(40) NOT NULL,
   `invoice_address` varchar(200) NOT NULL,
+  `tax` int(40) NOT NULL,
   `description` varchar(200) NOT NULL,
-  `item_name` varchar(200) NOT NULL,
-  `market_price` int(40) NOT NULL,
-  `unit_price` int(40) NOT NULL,
-  `ordered_quantity` int(40) NOT NULL,
-  `invoiced_quantity` int(40) NOT NULL,
-  `tax` int(40) NOT NULL
+  `total` int(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `invoices`:
+--   `billNo`
+--       `pos` -> `billNo`
 --
 
 --
 -- Dumping data for table `invoices`
 --
 
-INSERT INTO `invoices` (`invoice_no`, `billNo`, `item_id`, `invoice_date`, `invoice_due_date`, `credit_days`, `invoice_address`, `description`, `item_name`, `market_price`, `unit_price`, `ordered_quantity`, `invoiced_quantity`, `tax`) VALUES
-(8, 1, 386, '2020-11-18 00:00:00', '2020-11-15 00:00:00', 2, 'Ramnagar Mumbai', 'Item is delivered', 'Laptop', 43000, 43000, 1, 43000, 2);
+INSERT INTO `invoices` (`invoice_no`, `billNo`, `invoice_date`, `invoice_due_date`, `credit_days`, `invoice_address`, `tax`, `description`, `total`) VALUES
+(9, 14, '2020-12-30 00:00:00', '2020-12-31 00:00:00', 2, 'GT Road Mumbai', 300, 'It is delivered', 207300);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice_item`
+--
+
+CREATE TABLE `invoice_item` (
+  `id` int(40) NOT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `market_price` int(40) DEFAULT NULL,
+  `invoiced_quantity` int(40) DEFAULT NULL,
+  `Total_Price` int(40) DEFAULT NULL,
+  `invoice_no` int(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `invoice_item`:
+--   `invoice_no`
+--       `invoices` -> `invoice_no`
+--   `item_id`
+--       `order_items` -> `id`
+--
+
+--
+-- Dumping data for table `invoice_item`
+--
+
+INSERT INTO `invoice_item` (`id`, `item_id`, `market_price`, `invoiced_quantity`, `Total_Price`, `invoice_no`) VALUES
+(1, 71, 70000, 3, NULL, 9),
+(2, 72, 70000, 3, NULL, 9),
+(3, 73, 70000, 3, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -963,6 +996,7 @@ INSERT INTO `items` (`item_id`, `name`, `sku`, `brand`, `price`, `currency`, `de
 (4721, 'Router', 'CIS232132', 1, 34000, 'INR', 'It is useful for encrypted data', 0.3, 8, 'Good encryption', NULL, 2, '4 years', '2 years', 'Hyderabad', 'Secure Sockets Layer', 2),
 (4800, 'UsbCable', 'SK21323212', 2, 3200, 'INR', 'Usb Cable with long wire', 3.4, 3, '1 TB', 'I-2323', 1, '4 years', '2 months', 'Bangalore', 'Portable', 2),
 (5472, 'Laptop', 'SK2133232', 3, 43000, 'INR', 'Laptop with good graphics', 4.3, 3, '30 inch', 'HP-2343', 4, '4 years', '3 months', 'Mumbai', 'TouchPad', 5),
+(6993, 'Laptop', 'HM213123', 4, 23000, 'INR', 'Good for gaming', 0.23, 3, NULL, NULL, 1, '3 years', '2 years', 'Lucknow', '23 inch', 0),
 (7734, 'Laptop', 'PK21323212', 4, 32000, 'INR', 'Laptop with 1 TB RAM', 0, 9, '15 inch', 'DX-2323', 3, '1 year', '2 months', 'Delhi', 'Touch', 2),
 (9317, 'Router', 'ASUS21332', 5, 4200, 'INR', 'It is good for AiProtection', 0.3, 6, 'AiProtection', NULL, 4, '4 years', '2 years', 'Lucknow', 'Adaptive QoS', 2);
 
@@ -1005,7 +1039,9 @@ INSERT INTO `item_images` (`id`, `item_id`, `imageName`) VALUES
 (252, 4721, '1606887927304-upload-cisco_router_1.png'),
 (253, 4721, '1606887935087-upload-cisco_router_2.jpg'),
 (254, 4721, '1606887944068-upload-cisco_router_3.jpg'),
-(255, 4721, '1606887951976-upload-cisco_router_4.jpg');
+(255, 4721, '1606887951976-upload-cisco_router_4.jpg'),
+(256, 6993, '1609073152915-upload-Dell_laptop_4.jpg'),
+(257, 6993, '1609073165738-upload-Dell_laptop_2.jpg');
 
 -- --------------------------------------------------------
 
@@ -1047,6 +1083,8 @@ INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`, `message`,
 (3402, 121565, '2020-12-15 10:02:52', 'Order', 'denied', 2, 346755),
 (3452, 121565, '2020-12-15 10:06:25', 'Order', 'Approve', 4, 346755),
 (4696, 121565, '2020-12-11 09:56:27', 'Order', 'Approving it', 4, 71455),
+(5206, 123, '2020-12-27 12:52:54', 'Order for Laptop', 'Pending for approval', 1, NULL),
+(5225, 123, '2020-12-27 12:51:35', 'Order for Laptop', 'approved', 4, 71455),
 (6517, 121565, '2020-12-11 10:36:16', 'Order', 'Approving it', 4, 346755),
 (7428, 121565, '2020-12-24 04:09:31', 'Sample Order ', 'Approving it', 4, 71455),
 (7464, 121565, '2020-12-11 09:56:35', 'Order', 'Approving it', 4, 71455),
@@ -1055,6 +1093,7 @@ INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`, `message`,
 (8383, 104657, '2020-12-23 11:40:25', 'Order ', 'Approving it', 4, 346755),
 (8540, 104657, '2020-12-11 09:53:39', 'Sample', 'AIR INDIA Do not have required budget', 2, 346755),
 (8845, 121565, '2020-12-11 09:57:09', 'Order', 'Denied', 2, 346755),
+(8855, 123, '2020-12-27 12:52:58', 'Order for Laptop', 'Pending for approval', 1, NULL),
 (9324, 121565, '2020-12-24 04:09:25', 'Sample Order ', 'Pending for approval', 1, NULL);
 
 -- --------------------------------------------------------
@@ -1087,7 +1126,9 @@ INSERT INTO `orderstatus` (`id`, `orderStatus`) VALUES
 (8, 'PO Approved'),
 (9, 'Order Processing'),
 (10, 'Item Quality Check'),
-(11, 'Item Dispatched');
+(11, 'Item Dispatched'),
+(12, 'Invoice_created'),
+(13, 'Invoice_not_created');
 
 -- --------------------------------------------------------
 
@@ -1166,17 +1207,29 @@ INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_
 (56, 8232, 'Laptop', '30 inch', 5, 3, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 4, '01010101014', 3),
 (57, 8232, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 3, '01010101016', 3),
 (58, 8232, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 3, '01010101016', 4),
-(59, 2097, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 8, NULL, NULL, 5, '01010101021', 4),
+(59, 2097, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 9, '2020-12-30 18:30:00', 'http://sample.com', 5, '01010101021', 4),
 (60, 2097, 'UsbCable', '1 TB', 2, 2, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101021', 2),
 (61, 8383, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 4, '01010101022', 2),
-(62, 8383, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 9, NULL, NULL, 4, '01010101022', 4),
-(63, 8383, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 9, NULL, NULL, 6, '01010101022', 4),
+(62, 8383, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 10, NULL, NULL, 4, '01010101022', 4),
+(63, 8383, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 10, NULL, NULL, 6, '01010101022', 4),
 (64, 9324, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 2),
 (65, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 5),
 (66, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 6, '01010101025', 5),
-(67, 7428, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 5, NULL, NULL, 5, '01010101025', 2),
-(68, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 5, NULL, NULL, 5, '01010101025', 5),
-(69, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 5, NULL, NULL, 6, '01010101025', 5);
+(67, 7428, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101025', 2),
+(68, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 7, '2020-12-30 18:30:00', 'http://sample.com', 5, '01010101025', 5),
+(69, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 7, '2020-12-30 18:30:00', 'http://sample.com', 6, '01010101025', 5),
+(70, 5225, 'Laptop', NULL, 0, 1, NULL, 23000, 'INR', NULL, 4, NULL, NULL, 4, '01010101024', 4),
+(71, 5225, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 7, '2020-12-29 02:00:00', 'http://sample.com', 5, '01010101018', 4),
+(72, 5225, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 7, '2020-12-29 02:00:00', 'http://sample.com', 3, '01010101018', 4),
+(73, 5225, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 7, '2020-12-29 02:00:00', 'http://sample.com', 4, '01010101018', 4),
+(74, 5206, 'Laptop', NULL, 0, 1, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101024', 4),
+(75, 5206, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 5, '01010101018', 4),
+(76, 5206, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 3, '01010101018', 4),
+(77, 5206, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101018', 4),
+(78, 8855, 'Laptop', NULL, 0, 1, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101024', 4),
+(79, 8855, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 5, '01010101018', 4),
+(80, 8855, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 3, '01010101018', 4),
+(81, 8855, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101018', 4);
 
 -- --------------------------------------------------------
 
@@ -1204,7 +1257,7 @@ CREATE TABLE `pos` (
   `estimated_arrival` varchar(200) DEFAULT NULL,
   `po_status` tinyint(4) DEFAULT NULL,
   `message_client` varchar(200) NOT NULL,
-  `invoice_status` varchar(200) NOT NULL,
+  `invoice_status` tinyint(4) DEFAULT NULL,
   `currency` varchar(40) NOT NULL,
   `location` varchar(11) NOT NULL,
   `supplier` int(6) NOT NULL
@@ -1227,16 +1280,17 @@ CREATE TABLE `pos` (
 --
 
 INSERT INTO `pos` (`billNo`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `cmp_name`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`, `currency`, `location`, `supplier`) VALUES
-(3, 'no', 'We need it', 'Deliver it on time', 126422, 'goods', 'Tata Consultancy Services', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 126422, '2021-01-13 18:30:00', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 'Technical', 'MUM5788', 'MUM1345', 3200, 'http://sample.com', '2020-12-29 18:30:00', 9, 'Order is getting Processed', '', 'INR', '01010101005', 2),
-(4, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'GT Road', 121565, '2020-12-30 18:30:00', 'GT Road', 'Management', 'MUM3213', 'MU56', 9600, '', NULL, 6, 'Do not have the requested items', '', 'INR', '01010101026', 2),
-(6, 'yes', 'We need it', 'Deliver', 126422, 'project', 'Tata Consultancy Services', 'KC Road', 104657, '2020-12-25 18:30:00', 'KC Road', 'IT', 'MUM2', 'MUM89', 86000, '', NULL, 8, 'Approve it', '', 'INR', '01010101003', 5),
-(7, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 121565, '2020-12-30 18:30:00', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 'Management', 'MUM232', 'MUM466', 68000, 'https://sample.com', '2020-12-28 18:30:00', 9, 'Order is getting processed', '', 'INR', '01010101013', 2),
-(8, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 121565, '2021-01-05 18:30:00', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 'Management', 'MUM89', 'MUM21', 35200, '', NULL, 6, 'Do not have the requested items', '', 'INR', '01010101012', 2),
-(9, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 121565, '2021-01-12 18:30:00', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 'Management', 'MUM566', 'MUM988', 23000, '', NULL, 1, '', '', 'INR', '01010101002', 3),
-(10, 'no', 'We need it', 'Deliver it on time', 121565, 'semi_finished_Product', 'Tata Consultancy Services', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 121565, '2020-12-30 18:30:00', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 'Testing', 'MUM32', 'MUM89', 32000, '', NULL, 6, 'Do not have the requested laptop', '', 'INR', '01010101004', 2),
-(11, 'no', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 121565, '2020-12-30 18:30:00', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 'Management', 'MUM56', 'MUM78', 32000, '', NULL, 8, 'Laptop is available', '', 'INR', '01010101021', 2),
-(12, 'yes', 'We need it', 'Deliver it on time', 104657, 'finished_product', 'Tata Consultancy Services', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 104657, '2020-12-30 18:30:00', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 'Testing', 'MUM08', 'MUM121', 96000, 'http://sample.com', '2020-12-28 18:30:00', 9, 'Order is getting Processed', '', 'INR', '01010101022', 2),
-(13, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 121565, '2021-01-19 18:30:00', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 'Management', 'MUM5', 'MUM4', 20000, '', NULL, 1, '', '', 'INR', '01010101025', 2);
+(3, 'no', 'We need it', 'Deliver it on time', 126422, 'goods', 'Tata Consultancy Services', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 126422, '2021-01-13 18:30:00', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 'Technical', 'MUM5788', 'MUM1345', 3200, 'http://sample.com', '2020-12-29 18:30:00', 9, 'Order is getting Processed', 0, 'INR', '01010101005', 2),
+(4, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'GT Road', 121565, '2020-12-30 18:30:00', 'GT Road', 'Management', 'MUM3213', 'MU56', 9600, '', NULL, 6, 'Do not have the requested items', 0, 'INR', '01010101026', 2),
+(6, 'yes', 'We need it', 'Deliver', 126422, 'project', 'Tata Consultancy Services', 'KC Road', 104657, '2020-12-25 18:30:00', 'KC Road', 'IT', 'MUM2', 'MUM89', 86000, '', NULL, 8, 'Approve it', 0, 'INR', '01010101003', 5),
+(7, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 121565, '2020-12-30 18:30:00', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 'Management', 'MUM232', 'MUM466', 68000, 'https://sample.com', '2020-12-28 18:30:00', 9, 'Order is getting processed', 0, 'INR', '01010101013', 2),
+(8, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 121565, '2021-01-05 18:30:00', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 'Management', 'MUM89', 'MUM21', 35200, '', NULL, 6, 'Do not have the requested items', 0, 'INR', '01010101012', 2),
+(9, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 121565, '2021-01-12 18:30:00', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 'Management', 'MUM566', 'MUM988', 23000, '', NULL, 1, '', 0, 'INR', '01010101002', 3),
+(10, 'no', 'We need it', 'Deliver it on time', 121565, 'semi_finished_Product', 'Tata Consultancy Services', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 121565, '2020-12-30 18:30:00', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 'Testing', 'MUM32', 'MUM89', 32000, '', NULL, 6, 'Do not have the requested laptop', 0, 'INR', '01010101004', 2),
+(11, 'no', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 121565, '2020-12-30 18:30:00', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 'Management', 'MUM56', 'MUM78', 32000, 'http://sample.com', '2020-12-30 18:30:00', 9, 'Order is under process', 0, 'INR', '01010101021', 2),
+(12, 'yes', 'We need it', 'Deliver it on time', 104657, 'finished_product', 'Tata Consultancy Services', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 104657, '2020-12-30 18:30:00', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 'Testing', 'MUM08', 'MUM121', 96000, 'http://sample.com', '2020-12-27 13:00:00', 10, 'Order went under quality check', 0, 'INR', '01010101022', 2),
+(13, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 121565, '2021-01-19 18:30:00', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 'Management', 'MUM5', 'MUM4', 16800, 'http://sample.com', '2020-12-30 18:30:00', 7, 'It is delivered now', 0, 'INR', '01010101025', 2),
+(14, 'yes', 'We need it', 'Deliver it on time', 123, 'finished_product', 'Tata Consultancy Services', 'GT Road Mumbai', 123, '2020-12-30 18:30:00', 'GT Road Mumbai', 'Testing', 'J444', 'Jm33', 207000, 'http://sample.com', '2020-12-28 15:00:00', 7, 'Quality Check', 12, 'INR', '01010101018', 0);
 
 -- --------------------------------------------------------
 
@@ -1310,7 +1364,49 @@ INSERT INTO `po_items` (`id`, `billNo`, `order_id`, `item_id`) VALUES
 (33, 12, 8383, 63),
 (34, 13, 7428, 69),
 (35, 13, 7428, 68),
-(36, 13, 7428, 67);
+(36, 13, 7428, 67),
+(37, 14, 5225, 71),
+(38, 14, 5225, 72),
+(39, 14, 5225, 73);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplierregisterationdata`
+--
+
+CREATE TABLE `supplierregisterationdata` (
+  `id` int(11) NOT NULL,
+  `company_name` varchar(50) NOT NULL,
+  `country` varchar(50) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `postalCode` varchar(60) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `website` varchar(40) NOT NULL,
+  `tax` varchar(40) NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `ques` varchar(30) NOT NULL,
+  `ans` varchar(30) NOT NULL,
+  `mobile` int(30) DEFAULT NULL,
+  `fax` varchar(30) DEFAULT NULL,
+  `acceptTerms` bit(1) DEFAULT NULL,
+  `token` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELATIONSHIPS FOR TABLE `supplierregisterationdata`:
+--
+
+--
+-- Dumping data for table `supplierregisterationdata`
+--
+
+INSERT INTO `supplierregisterationdata` (`id`, `company_name`, `country`, `address`, `state`, `city`, `postalCode`, `name`, `email`, `password`, `website`, `tax`, `lang`, `ques`, `ans`, `mobile`, `fax`, `acceptTerms`, `token`) VALUES
+(2, 'AMC Ltd', 'India', '', 'UP', 'Lucknow', '226004', 'Nupur Gupta', 'angel.cute1234@gmail.com', '$2b$10$xsPaZeZB9tJmEI.h06bLD.m', 'http://nupur.com', 'dsadsad', 'English', 'Which is your favourite fruit?', 'Mango', 2147483647, 'dsadds', b'1', '');
 
 --
 -- Indexes for dumped tables
@@ -1379,7 +1475,16 @@ ALTER TABLE `departments`
 -- Indexes for table `invoices`
 --
 ALTER TABLE `invoices`
-  ADD PRIMARY KEY (`invoice_no`);
+  ADD PRIMARY KEY (`invoice_no`),
+  ADD KEY `fk6` (`billNo`);
+
+--
+-- Indexes for table `invoice_item`
+--
+ALTER TABLE `invoice_item`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kj3` (`item_id`),
+  ADD KEY `fg3` (`invoice_no`);
 
 --
 -- Indexes for table `items`
@@ -1448,6 +1553,12 @@ ALTER TABLE `po_items`
   ADD KEY `po_fk6` (`order_id`);
 
 --
+-- Indexes for table `supplierregisterationdata`
+--
+ALTER TABLE `supplierregisterationdata`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1455,7 +1566,7 @@ ALTER TABLE `po_items`
 -- AUTO_INCREMENT for table `adminaccess`
 --
 ALTER TABLE `adminaccess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `admintype`
@@ -1485,7 +1596,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `invoice_no` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `invoice_no` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `invoice_item`
+--
+ALTER TABLE `invoice_item`
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -1497,7 +1614,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=258;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1509,19 +1626,19 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `orderstatus`
 --
 ALTER TABLE `orderstatus`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `pos`
 --
 ALTER TABLE `pos`
-  MODIFY `billNo` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `billNo` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `po_attachments`
@@ -1533,7 +1650,13 @@ ALTER TABLE `po_attachments`
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `supplierregisterationdata`
+--
+ALTER TABLE `supplierregisterationdata`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -1551,6 +1674,19 @@ ALTER TABLE `adminaccess`
 --
 ALTER TABLE `budgets`
   ADD CONSTRAINT `departments_fk` FOREIGN KEY (`department`) REFERENCES `departments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD CONSTRAINT `fk6` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`);
+
+--
+-- Constraints for table `invoice_item`
+--
+ALTER TABLE `invoice_item`
+  ADD CONSTRAINT `fg3` FOREIGN KEY (`invoice_no`) REFERENCES `invoices` (`invoice_no`),
+  ADD CONSTRAINT `kj3` FOREIGN KEY (`item_id`) REFERENCES `order_items` (`id`);
 
 --
 -- Constraints for table `items`

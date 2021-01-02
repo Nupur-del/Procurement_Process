@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../../../../src/app/data.service';
+import { MessageService } from '../message.service';
 import { Router } from '@angular/router';
 
 
@@ -10,18 +10,14 @@ import { Router } from '@angular/router';
 })
 export class TrackDashboardComponent implements OnInit {
 
-  sub: any;
-  orderId: any;
-  constructor(private data: DataService,
+  billNo: any;
+  constructor(private message: MessageService,
               private router: Router) {}
 
-  ngOnInit() {
-    this.data.currentMessage.subscribe(message => this.sub = message);
-  }
+  ngOnInit() {}
 
   track() {
-    this.sub = this.orderId;
-    this.data.changeMessage(this.sub);
+    this.message.changeBillNo(this.billNo);
     this.router.navigate(['/track-order']);
   }
 }

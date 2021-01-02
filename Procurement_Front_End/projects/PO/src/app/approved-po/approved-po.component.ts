@@ -41,10 +41,10 @@ export class ApprovedPOComponent implements OnInit {
 
     if(this.type === 'Requestor') {
      this.displayedColumns = ['billNo', 'reqName', 'org_billed', 'Urgent', 'Location', 'total', 'required_by',
-     'supplier', 'status','details'];
+     'supplier', 'tracking_link' ,'status','details'];
     } else {
      this.displayedColumns = ['billNo', 'reqName', 'org_billed', 'Urgent', 'Location', 'total', 'required_by',
-  'status','details', 'view'];
+  'tracking_link','status','details', 'view'];
     }
 
     this.http.get(environment.BASE_URL + 'order/getStatus')

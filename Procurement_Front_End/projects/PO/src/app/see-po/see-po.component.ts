@@ -25,7 +25,7 @@ export class SeePOComponent implements OnInit {
   deptDetails = [];
   poStatus: any;
   dataSource: any;
-  displayedColumns = ['order_id','Name', 'Specification', 'Quantity', 'Price', 'location',
+  displayedColumns = ['order_id','Name', 'Specification', 'Quantity', 'Price', 'Total Price','location',
   'department', 'status'];
   constructor(private message: MessageService,
               private po: POService,

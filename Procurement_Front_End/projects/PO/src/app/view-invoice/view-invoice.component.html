@@ -1,87 +1,112 @@
-<div id="pdfTable" #pdfTable style="text-align: center;">
+<div style="text-align: center;">
 <h2 style="text-align:center; color: white; background-color: #4aa4d9;">Invoice</h2>
-    <table  style="text-align: center; border: 1px solid black; margin-left: auto;
+<table *ngIf="invoice.length !== 0" id="mytable" #mytable
+style="text-align: center; border: 1px solid black; margin-left: auto;
     margin-right: auto;">
     <tr>
      <td><h5>Invoice Number&nbsp;</h5></td>
      <td>
-      {{ invoice.invoice_no }}
+      {{ invoice[0].invoice_no}}
      </td>
     </tr>
+    <tr>
+      <td><h5>Requestor Name&nbsp;</h5></td>
+      <td>
+       {{ invoice[0].creator}}
+      </td>
+     </tr>
       <tr>
         <td><h5>Invoice Date&nbsp;</h5></td>
         <td>
-        {{ invoice.invoice_date }}
+        {{ invoice[0].invoice_date}}
         </td>
       </tr>
       <tr>
         <td><h5>Invoice Due Date&nbsp;</h5></td>
         <td>
-          {{ invoice.invoice_due_date }}
+          {{ invoice[0].invoice_due_date }}
         </td>
       </tr>
       <tr>
        <td><h5>Credit Days</h5></td>
        <td>
-        {{ invoice.credit_days }}
+        {{ invoice[0].credit_days }}
        </td>
       </tr>
       <tr>
        <td><h5>Invoice to Address</h5></td>
        <td>
-        {{ invoice.invoice_address }}
+        {{ invoice[0].invoice_address }}
        </td>
       </tr>
       <tr>
        <td><h5>Description</h5></td>
        <td>
-       {{ invoice.description }}
+       {{ invoice[0].description }}
        </td>
       </tr>
       <tr>
-        <td><h5>Item Number&nbsp;</h5></td>
+        <td><h5>Tax</h5></td>
         <td>
-        {{ invoice.item_id }}
+        {{ invoice[0].tax}}
         </td>
-      </tr>
-      <tr>
-        <td><h5>Item Name&nbsp;</h5></td>
-        <td>
-      {{ invoice.item_name }}
-     </td>
-      </tr>
-     <tr>
-       <td><h5>Market Price</h5></td>
-       <td>
-       {{ invoice.market_price }}
-       </td>
-      </tr>
-       <tr>
-       <td><h5>Unit Price</h5></td>
-       <td>
-       {{ invoice.unit_price }}
-       </td>
-      </tr>
-       <tr>
-       <td><h5>Ordered Quantity</h5></td>
-       <td>
-       {{ invoice.ordered_quantity }}
-       </td>
-      </tr>
-       <tr>
-       <td><h5>Invoiced Quantity</h5></td>
-       <td>
-       {{ invoice.invoiced_quantity }}
-       </td>
-      </tr>
-       <tr>
-       <td><h5>Taxes</h5></td>
-       <td>
-       {{ invoice.tax }}
-       </td>
-      </tr>
-     </table>
-</div>
+       </tr>
+      </table>
+    <br>
+    <hr>
+    <br>
+    <h4>Item Details</h4>
+      <div *ngIf="invoice.length !== 0" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" id="myTable" #myTable>
+
+         <ng-container matColumnDef = "name">
+          <th mat-header-cell *matHeaderCellDef>Item Name</th>
+          <td mat-cell *matCellDef = "let element"> {{element.name}} </td>
+          <td mat-footer-cell *matFooterCellDef><b>Total Cost</b></td>
+       </ng-container>
+
+     <ng-container matColumnDef = "Quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef = "let element"> {{element.quantity}}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+   </ng-container>
+
+   <ng-container matColumnDef = "Invoiced_Quantity">
+    <th mat-header-cell *matHeaderCellDef>Invoice Quantity</th>
+    <td mat-cell *matCellDef = "let element"> {{element.invoiced_quantity}}</td>
+    <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
+
+   <ng-container matColumnDef = "Price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef = "let element"> {{element.price}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef = "Market_Price">
+      <th mat-header-cell *matHeaderCellDef>Market Price</th>
+      <td mat-cell *matCellDef = "let element"> {{element.market_price}} </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+  <ng-container matColumnDef = "Total_Price">
+    <th mat-header-cell *matHeaderCellDef>Total Price</th>
+    <td mat-cell *matCellDef = "let element"> {{element.price * element.quantity}}</td>
+    <td mat-footer-cell *matFooterCellDef><b>{{invoice[0].total}}</b></td>
+</ng-container>
+
+<ng-container matColumnDef = "Brand">
+  <th mat-header-cell *matHeaderCellDef>Brand</th>
+  <td mat-cell *matCellDef = "let element"> {{element.brandName}} </td>
+  <td mat-footer-cell *matFooterCellDef></td>
+</ng-container>
+
+        <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+        <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+  </div>
 <br>
 <div style="text-align: center;">
     <button mat-button color="primary" style="margin: 0 auto;" (click)="downloadAsPDF()">Download Invoice</button>

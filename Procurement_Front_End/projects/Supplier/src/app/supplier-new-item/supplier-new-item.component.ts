@@ -17,6 +17,7 @@ export class SupplierNewItemComponent implements OnInit {
   supplierID: any;
   isRemovable = true;
   change = true;
+  brandDetails =  [];
   optional = false;
   requireChange= true;
   fName: any;
@@ -27,6 +28,9 @@ export class SupplierNewItemComponent implements OnInit {
 
   ngOnInit() {
     this.supplierID = localStorage.getItem('userId');
+    this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+      this.brandDetails = brandDetails;
+    });
   }
 
   onFileChange(event) {
@@ -117,6 +121,9 @@ export class SupplierNewItemComponent implements OnInit {
   addItem() {
     this.item.imageName = this.uploadedImages;
     this.item.supplier = this.supplierID;
+    console.log(this.item.brand);
+    console.log(this.brandDetails);
+    this.item.brand = this.brandDetails.find(id => id.brandName === this.item.brand).brandpk;
     console.log(this.item);
     this.http.post(environment.BASE_URL + 'item/items', this.item).subscribe(data => {
     console.log(data);

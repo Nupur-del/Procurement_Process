@@ -12,7 +12,7 @@
         <td>
         <div class="form-group">
         <input type="text" class="form-control"
-         [(ngModel)]="po[0].tracking_link" name="tracking_link" placeholder="Tracking Link" required>
+         [(ngModel)]="po[0].track" name="tracking_link" placeholder="Tracking Link" required>
         </div>
         </td>
       </tr>
@@ -25,7 +25,7 @@
         </div> -->
         <mat-form-field  style="width: 100%;">
           <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
-           [(ngModel)]="po[0].estimated_arrival"
+           [(ngModel)]="po[0].arrival_date"
           name="estimated_arrival" ngModel required>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
            <mat-datepicker #picker></mat-datepicker>
@@ -36,11 +36,9 @@
         <td><h5>Update Status&nbsp;</h5></td>
         <td>
         <div class="form-group">
-          <select  [(ngModel)]="po[0].po_status" class="form-control" name="status" placeholder="Status" required>
-            <option value="Order Processing">Order Processing</option>
-            <option value="Item Quality Check">Item Quality Check</option>
-            <option value="Item Dispatched">Item Dispatched</option>
-            <option value="Item Delivered">Item Delivered</option>
+          <select  [(ngModel)]="po[0].po_status" class="form-control" name="status"
+          placeholder="Status" required>
+            <option *ngFor="let i of poStatus" [value]="i">{{i}}</option>
         </select>
         </div>
         </td>

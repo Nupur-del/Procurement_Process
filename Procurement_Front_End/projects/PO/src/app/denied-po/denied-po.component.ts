@@ -53,8 +53,6 @@ export class DeniedPOComponent implements OnInit {
         this.login.getSupplier().subscribe(supp => {
      this.poService.getPOByStatus(status, this.type, this.userID).subscribe((data: any) =>{
       const tableData = [];
-      console.log(data);
-      console.log(this.requestorDetails);
       for (let i of data) {
        tableData.push({
          ...i,
