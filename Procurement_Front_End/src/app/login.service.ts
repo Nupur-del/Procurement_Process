@@ -40,6 +40,9 @@ export class LoginService {
     isVerified = new Subject<boolean>();
     userEmail = new BehaviorSubject<string>('');
     userPassword = new BehaviorSubject<string>('');
+    RegistrationCount = new BehaviorSubject<number>(0);
+    notification = new BehaviorSubject<string>('');
+    tempregCount = 0;
 
     private saveToken(token: string): void {
       localStorage.setItem('userToken', token);
@@ -170,6 +173,13 @@ export class LoginService {
         this.auth.setLoggedIn(false);
   }
 
+  verifyEmail(token: any) {
+      let sendToken = {
+        token: token
+      };
+      return this.http.post<any>(environment.BASE_URL + 'supplier/verify-email', sendToken);
+  }
+
   getUser(type: string) {
         let userParams = new HttpParams().set('type', type);
         return this.http.get<any[]>(environment.BASE_URL + 'users/getUser', {params: userParams});
@@ -180,6 +190,7 @@ export class LoginService {
   }
 
   register(user: any): Observable<any> {
+    console.log(user);
     const base = this.http.post(environment.BASE_URL + 'supplier/supplierRegistration', user);
     const request = base.pipe(
       map((data: TokenResponse) => {
@@ -190,6 +201,37 @@ export class LoginService {
       })
     );
     return request;
+  }
+
+  getNotified() {
+    return this.http.get(environment.BASE_URL + 'supplier/getPending');
+  }
+
+  getCount() {
+    this.http.get(environment.BASE_URL + 'supplier/getCountofPending').subscribe(
+      (data: any) => {
+              this.RegistrationCount.next(data.count);
+      }
+    )
+    return this.RegistrationCount;
+  }
+
+  getrows() {
+    return this.http.get(environment.BASE_URL + 'supplier/getCountofPending')
+  }
+
+  updateSupplierDetails(id: any, status: any) {
+    let data = {
+      id: id,
+      isapproved: status
+    };
+    console.log(data);
+    return this.http.put(environment.BASE_URL + 'supplier/updateSupp', data);
+  }
+
+  getdetails_byID(id: any) {
+    let sparam = new HttpParams().set('id', id);
+    return this.http.get(environment.BASE_URL + 'supplier/getsuppbyid', {params: sparam});
   }
 
 }

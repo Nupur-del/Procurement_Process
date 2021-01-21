@@ -2,7 +2,8 @@
 <button mat-button *ngIf="type === 'Requestor'"><a [routerLink]="'/admin'">+Create Request</a></button>
 </div>
 <div class="mat-elevation-z8">
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortOrder($event)">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort
+(matSortChange)="sortOrder($event)">
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 

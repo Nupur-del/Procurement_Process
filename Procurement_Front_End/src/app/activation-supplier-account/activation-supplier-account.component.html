@@ -1,0 +1,103 @@
+<div class="container">
+<h2 style="text-align: center;">Supplier Details</h2>
+<br>
+<br>
+  <div class="row">
+    <div class="col-lg-6">
+      <label class="form-group">Name</label>
+      <span class="form-control">{{details.name}}</span>
+    </div>
+    <br>
+    <div class="col-lg-6">
+      <label class="form-group">Company Name</label>
+      <span class="form-control">{{details.company_name}}</span>
+    </div>
+    <br>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6">
+      <label class="form-group">Email Id</label>
+      <span class="form-control">{{details.email}}</span>
+    </div>
+    <br>
+    <div class="col-lg-6">
+      <label class="form-group">Country</label>
+      <span class="form-control">{{details.country}}</span>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6">
+      <label class="form-group">Mobile Number</label>
+      <span class="form-control">{{details.mobile}}</span>
+    </div>
+    <br>
+    <div class="col-lg-6">
+      <label class="form-group">Address</label>
+      <span class="form-control">{{details.address}}</span>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-4">
+      <label class="form-group">City</label>
+      <span class="form-control">{{details.city}}</span>
+    </div>
+    <br>
+    <div class="col-lg-4">
+      <label class="form-group">State</label>
+      <span class="form-control">{{details.state}}</span>
+    </div>
+    <br>
+    <div class="col-lg-4">
+      <label class="form-group">Postal Code</label>
+      <span class="form-control">{{details.postalCode}}</span>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6" *ngIf="details.website !== ''">
+      <label class="form-group">Website</label>
+      <span class="form-control">{{details.website}}</span>
+    </div>
+    <br>
+    <div class="col-lg-6">
+      <label class="form-group">Tax ID</label>
+      <span class="form-control">{{details.tax}}</span>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6">
+      <label class="form-group">Fax</label>
+      <span class="form-control">{{details.fax}}</span>
+    </div>
+    <div class="col-lg-6">
+      <label class="form-group">Accepted Terms?</label>
+      <span class="form-control">{{details.acceptTerms}}</span>
+    </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-lg-12">
+      <mat-card style="background-color: rgb(238, 232, 232);">
+        <mat-card-header>
+          <mat-card-title>Available Categories</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul *ngFor="let c of catergories;let i = index">
+            <li>{{c}}</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+</div>
+</div>
+<br>
+<div style="justify-content: center; text-align: center;">
+    <button style="width: 90px; margin-right: 40px;" mat-icon-button color="primary" mat-raised-button matSuffix (click)="decision('Approved')">
+      <mat-icon>check_circle</mat-icon>Approve</button>
+    <button style="width: 90px;"  mat-icon-button color="accent" mat-raised-button matSuffix (click)="decision('Denied')">
+      <mat-icon>cancel</mat-icon>Denied</button>
+ </div>
+</div>

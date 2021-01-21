@@ -18,6 +18,8 @@ import { SupplierRegistrationComponent } from './supplier-registration/supplier-
 import { HomePageComponent} from './home-page/home-page.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { AuthGuard } from './auth.guard';
+import { SupplierApprovalComponent } from './supplier-approval/supplier-approval.component';
+import {ActivationSupplierAccountComponent} from './activation-supplier-account/activation-supplier-account.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/homePage', pathMatch: 'full'},
@@ -35,6 +37,8 @@ const routes: Routes = [
   {path: 'requisitionHome', component: RequisitionHomeComponent,  canActivate: [AuthGuard]},
   {path: 'supplierRegistration', component: SupplierRegistrationComponent},
   {path: 'verify-email', component: VerifyEmailComponent},
+  {path: 'activateAccount', component:  ActivationSupplierAccountComponent, canActivate:[AuthGuard]},
+  {path: 'SupplierApproval', component: SupplierApprovalComponent, canActivate:[AuthGuard]},
   {path: 'supplierItems', loadChildren: '../../projects/Supplier/src/app/app.module#SupplierModule',  canActivate: [AuthGuard]},
   {path: 'supplierHome', loadChildren: '../../projects/Supplier/src/app/app.module#SupplierModule',  canActivate: [AuthGuard]},
   {path: 'PO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
@@ -48,7 +52,7 @@ const routes: Routes = [
   { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   {path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
-  {path: '**', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', redirectTo: '/homePage', pathMatch: 'full'},
 ];
 
 @NgModule({

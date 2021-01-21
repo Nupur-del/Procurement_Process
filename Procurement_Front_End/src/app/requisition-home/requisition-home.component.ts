@@ -1,29 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderService } from '../order.service';
+import { Router} from '@angular/router';
 import {POService} from '../../../projects/PO/src/app/po.service';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {LoginService} from '../login.service';
+import { Subscription, timer } from 'rxjs';
+import {
+  MatSnackBar,
+  MatDialog,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-requisition-home',
   templateUrl: './requisition-home.component.html',
   styleUrls: ['./requisition-home.component.scss']
 })
-export class RequisitionHomeComponent implements OnInit {
+export class RequisitionHomeComponent implements OnInit, OnDestroy {
   type: any;
   order: any = {};
   userID: number;
   po: any = {};
   statusDetatils = [];
+  notifiedCount: any;
+  notifySub: Subscription;
+  autoHide = 2000;
+  suppDetails = [];
+  id : any;
+  pending = 0;
+  com_name: string = '';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(private orderService: OrderService,
               private http: HttpClient,
+              private router: Router,
+              private login: LoginService,
+              public snackBar: MatSnackBar,
               private poService: POService) { }
 
   ngOnInit() {
 
     this.type = localStorage.getItem('type');
     this.userID = +localStorage.getItem('userId');
+
+    // this.login.getCount().subscribe((count: any) => this.notifiedCount = count);
+    this.notifySub = timer(0, 300000).pipe(
+      switchMap(() => this.login.getCount())
+    ).subscribe(result => this.notifiedCount = result);
+
+    this.login.getNotified().subscribe(
+      (i: any) => this.pending = i.count
+    )
+
+    this.login.getrows().subscribe((supp: any) => {
+      if(supp.count > 0) {
+        for(let i of supp.rows) {
+          this.suppDetails.push(i.id);
+        }
+        console.log(this.suppDetails);
+      }
+    });
 
     this.orderService.getAllOrderCount(this.userID, this.type).subscribe((data: any) => {
       this.order.all = data;
@@ -66,4 +106,30 @@ export class RequisitionHomeComponent implements OnInit {
     });
   }
 
+  view() {
+    let viewData = {
+      isviewed: true,
+      id: this.suppDetails
+    }
+    this.http.put(environment.BASE_URL + 'supplier/updateView', viewData).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.pending = this.notifiedCount;
+        this.notifiedCount = 0;
+        this.router.navigate(['/SupplierApproval']);
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+
+  ngOnDestroy() {
+    if(this.notifySub) {
+      this.notifySub.unsubscribe();
+    }
+    if (this.id) {
+      clearInterval(this.id);
+    }
+  }
 }

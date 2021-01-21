@@ -51,6 +51,19 @@
         </mat-card-content>
         </mat-card>
     </div>
+    <br *ngIf="poStatus === 'Item Delivered'">
+    <hr *ngIf="poStatus === 'Item Delivered'">
+    <br *ngIf="poStatus === 'Item Delivered'">
+    <div *ngIf="poStatus === 'Item Delivered'">
+    <mat-card  style="background-color:lavender;">
+      <mat-card-header>
+        <mat-card-title><b>Invoice Status</b></mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="margin-left: 20px;">
+        <span class="form-control">{{invoiceStatus}}</span>
+      </mat-card-content>
+      </mat-card>
+      </div>
     <br *ngIf="poDetails[0].message_client.length !== 0">
     <hr *ngIf="poDetails[0].message_client.length !== 0">
     <br *ngIf="poDetails[0].message_client.length !== 0">

@@ -22,6 +22,7 @@ export class SeePOComponent implements OnInit {
   totalAmount: any;
   statusDetails = [];
   poDetails = [];
+  invoiceStatus: any;
   deptDetails = [];
   poStatus: any;
   dataSource: any;
@@ -63,6 +64,7 @@ export class SeePOComponent implements OnInit {
               this.Urgent = this.poDetails[0].urg_msg;
               this.poStatus = this.statusDetails.find(j => j.id === this.poDetails[0].po_status).orderStatus;
               this.totalAmount = this.poDetails[0].total;
+              this.invoiceStatus = this.statusDetails.find( s => s.id === this.poDetails[0].invoice_status).orderStatus;
               this.dataSource = new MatTableDataSource(this.poDetails);
             }, error => {
               console.log(error);});

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import {Router} from '@angular/router';
 import {ConfirmPassword} from './confirm_password.validators';
-import { first } from 'rxjs/operators';
 import {LoginService} from '../login.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-supplier-registration',
@@ -20,14 +23,27 @@ export class SupplierRegistrationComponent implements OnInit {
 
   languages = ['English', 'Hindi', 'Spanish', 'French', 'Japanese', 'Chinese'];
   register: FormGroup;
+  filteredOptions: Observable<string[]>;
+  itemCategories: string[] = [];
+  category = [];
+  categories = new FormControl('', Validators.required);
 
   checked = false;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
-              private login: LoginService) { }
+              private login: LoginService,
+              private http: HttpClient) { }
 
   ngOnInit() {
+
+    this.http.get(environment.BASE_URL + 'category/categories').subscribe(
+      (items: any) => {
+        this.itemCategories = items;
+        console.log(this.itemCategories);
+      }
+    )
+
+    this.autocomplete();
     this.register = this.formBuilder.group({
       company_name: ['', Validators.required],
       country: ['', Validators.required],
@@ -40,6 +56,8 @@ export class SupplierRegistrationComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       website: [''],
+      yearofest:[null, Validators.required],
+      licenseno: ['', Validators.required],
       tax: ['', Validators.required],
       lang: ['', Validators.required],
       ques: ['', Validators.required],
@@ -55,8 +73,12 @@ export class SupplierRegistrationComponent implements OnInit {
 get r() { return this.register.controls; }
 
   signUp() {
-    console.log(this.register);
-    this.login.register(this.register.value)
+    const registrationData = {
+      ...this.register.value,
+      categories: this.category
+    }
+    console.log(registrationData);
+    this.login.register(registrationData)
     .subscribe({
         next: () => {
             alert('Registration successful, please check your email for verification instructions');
@@ -72,4 +94,32 @@ get r() { return this.register.controls; }
   goBack() {
     this.router.navigate(['/homePage']);
   }
+
+  autocomplete() {
+    this.filteredOptions = this.categories.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(this.itemCategories, value))
+    );
+  }
+
+  private _filter(feature: string[], value: string): string[] {
+    if (value) {
+      const filterValue = value.toLowerCase();
+      return feature.filter(option => option.toLowerCase().includes(filterValue));
+    }
+  }
+
+  addNewProject(control) {
+    console.log(this.r.categories);
+    this.category.push(control);
+    console.log(this.category);
+    this.categories.reset();
+  }
+
+  deleteProject(index) {
+    this.category.splice(index,1);
+    console.log(this.category);
+  }
+
 }

@@ -155,12 +155,12 @@
   </mat-card>
   </div>
 
-<div class="col-lg-6">
+<div class="col-lg-6" *ngIf="type === 'Requestor'">
 <mat-card class="mat-position">
 <div style="background-color: #e9f50f;" class="position-image">
 <mat-icon class="icon-second">local_shipping</mat-icon>
 </div>
-    <mat-card-title class="mat-content-2" style=" left: 75%;">Track Order</mat-card-title>
+    <mat-card-title class="mat-content-2" style="left: 75%;">Track Order</mat-card-title>
     <br>
     <hr>
   <mat-card-actions align="end">
@@ -168,5 +168,19 @@
     mat-button [routerLink]="'/track-dashboard'"> Track </button>
   </mat-card-actions>
 </mat-card>
+</div>
+<div class="col-lg-6" *ngIf="type === 'Approver'">
+  <mat-card class="mat-position">
+    <div style="background-color: #27c43c;" class="position-image">
+    <mat-icon [matBadgeHidden]="notifiedCount === 0" [matBadge]="notifiedCount" matBadgePosition="before" matBadgeColor="accent" class="icon">check_circle_outline</mat-icon>
+    </div>
+        <mat-card-title class="mat-content">Approval for Supplier</mat-card-title>
+        <mat-card-content style="color:green;" style="left: 81%;">
+          {{notifiedCount !== 0 ? notifiedCount : pending}}</mat-card-content>
+        <hr>
+      <mat-card-actions align="end">
+        <button style="color: blue;" mat-button (click)="view()">View</button>
+      </mat-card-actions>
+    </mat-card>
 </div>
 </div>

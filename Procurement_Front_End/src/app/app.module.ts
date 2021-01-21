@@ -49,10 +49,13 @@ import { POModule } from '../../projects/PO/src/app/app.module';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 import { DeliveredPoComponent } from './projects/PO/delivered-po/delivered-po.component';
 import { DeniedComponent } from './denied/denied.component';
+import {MatBadgeModule} from '@angular/material/badge';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { SupplierApprovalComponent } from './supplier-approval/supplier-approval.component';
+import { ActivationSupplierAccountComponent } from './activation-supplier-account/activation-supplier-account.component';
 
 @NgModule({
   declarations: [
@@ -74,12 +77,15 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     DeniedComponent,
     SupplierRegistrationComponent,
     HomePageComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    SupplierApprovalComponent,
+    ActivationSupplierAccountComponent
   ],
   imports: [
     BrowserModule,
     NgbModule,
     AppRoutingModule,
+    MatBadgeModule,
     MatSortModule,
     MatRadioModule,
     MatAutocompleteModule,

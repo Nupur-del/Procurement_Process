@@ -28,6 +28,7 @@ router.post('/po', (req,res) => {
         bill_to_address:  req.body.bill_to_address,
         delivery_to:  req.body.delivery_to,
         required_by:  req.body.required_by,
+        invoice_status: 13,
         delivery_address:  req.body.delivery_address,
         cost_center:  req.body.cost_center,
         project_code:  req.body.project_code,

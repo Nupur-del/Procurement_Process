@@ -225,44 +225,6 @@ export class RequestComponent implements OnInit {
       i.comment = item.comment;
       this.finalItem.push(i);
     }
-
-    // for (let location of this.locations) {
-    //   let l: any = {};
-      // const i = this.budgetAfterApproving.findIndex(exist =>
-      //           exist.location === location.location && exist.department === location.department);
-      // if (location.total_price > +this.budgetAfterApproving[i].budget) {
-      //         this.lowBudgetDept = location.department;
-      //         this.lowBudget = this.budgetAfterApproving[i].budget - location.total_price;
-      // } else {
-      //         const filteredItem = this.items.filter(product => product.location === location.location &&
-      //                                       product.department === location.department);
-      //         for (let item of filteredItem) {
-      //           let i: any = {};
-      //           i.name = item.name;
-      //           i.specification = item.specification;
-      //           i.prefered_vendor = item.prefered_vendor;
-      //           i.quantity = item.quantity;
-      //           i.location = item.location;
-      //           i.department = item.department;
-      //           i.unit_type = item.unit_type;
-      //           i.price = item.price;
-      //           i.currency = item.currency;
-      //           i.comment = item.comment;
-      //           this.finalItem.push(i);
-      //       }
-    //   l.location = location.location;
-    //   l.total_price = location.total_price;
-    //   l.department = location.department;
-    //   this.multiLocs.push(l);
-    //   // }
-    // }
-
-    // if (this.finalItem.length === 0 && this.multiLocs.length === 0 && this.lowBudgetDept !== '') {
-    //    this.openDialog();
-    // } else if ( this.finalItem.length > 0 && this.multiLocs.length > 0) {
-    //     if (this.lowBudgetDept !== '') {
-    //         this.openMessageDialog();
-    //     }
     this.order.finalItem = this.finalItem;
     this.orderService.replicateOrder(this.order);
     this.message = 'Replicated Sucessfully';
@@ -273,31 +235,12 @@ export class RequestComponent implements OnInit {
   }
 
   onDelete(id, refresher) {
-    // const locExist  = this.locationList.filter(e => e.order_id === id);
-    // const temarray = [];
-    // for (let a of locExist) {
-    //    const locIndex = this.budgetAfterApproving.findIndex(loc => loc.location === a.location &&
-    //     loc.department === a.department);
-    //    temarray.push({
-    //      location: a.location,
-    //      department: a.department,
-    //      budget: this.budgetAfterApproving[locIndex].budget + a.total_price
-    //    });
-    // }
-    // console.log('UpdateBudgetAfterDelete', temarray);
     console.log('Order Id', id);
     let deleteParams = new HttpParams().set('order_id', id);
     this.orderSub =  this.http.delete(environment.BASE_URL + 'order/removeOrder', {params: deleteParams})
                     .subscribe(
                     data => {
                       this.message = 'Deleted Sucessfully';
-                      // console.log(this.orderList);
-                      // const i  = this.orderList.filter(e => e.order_id === id);
-                      // console.log(i);
-                      // for ( let j of temarray) {
-                      //   this.budgetService.updateBudget(j.department, j.location, j.budget);
-                      // }
-                      // this.checkBuget();
                       this.insert();
                       this.doRefresh(refresher);
                     },

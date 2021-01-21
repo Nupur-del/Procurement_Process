@@ -1,0 +1,55 @@
+<div class="containrer">
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortOrder($event)">
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="name">Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="company">Company Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="email">Email</th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="mobile">Mobile No</th>
+        <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Country">Country Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="emailVerified">
+        <th mat-header-cell *matHeaderCellDef>Is Email Verified?</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.isVerified === true" color="primary">verified_user</mat-icon>
+          <mat-icon *ngIf="element.isVerified === false" color="accent" disabled >verified_user</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="action">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button type="button" (click)="activate(element.id)" color="primary">
+            <mat-icon>pending_actions</mat-icon></button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

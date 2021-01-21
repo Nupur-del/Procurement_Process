@@ -61,6 +61,7 @@ const supplier = require("./routes/supplier_login.route");
 const brand = require("./routes/brand.route");
 const invoice_update = require('./routes/invoice_up.route');
 const budgetUpdate = require("./routes/budget_update.route");
+const category = require("./routes/datacategory.route");
 
 app.get('/', function(req,res){
     res.send('Hello from server');
@@ -77,6 +78,7 @@ app.use('/invoice_up', invoice_update);
 app.use('/budget',budget);
 app.use('/invoice', invoice);
 app.use('/Purchase', Po);
+app.use('/category', category);
 app.use('/cities', Cities);
 app.use('/department', Department);
 app.use('/Purchase_order', Purchase_order);

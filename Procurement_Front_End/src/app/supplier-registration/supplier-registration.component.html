@@ -135,11 +135,49 @@
   <div class="row">
     <div class="col-lg-12">
       <label>Mobile No</label>
-      <input type="tel" placeholder="Enter the mobile no"
+      <input type="text" placeholder="Enter the mobile no"
        formControlName="mobile" matInput required>
       <mat-error *ngIf="r.mobile.errors?.required && r.mobile.touched">
         Please mention the mobile No</mat-error>
      </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <label>Available Product and service categories</label>
+      <input type="text" placeholder="Enter the items categories"
+      [formControl]="categories"
+       [matAutocomplete]="prod" matInput required>
+       <mat-autocomplete #prod="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="categories.errors?.required && categories.touched">
+        Please mention the categories</mat-error>
+        <br>
+        <button mat-raised-button color="primary" style="width: 100px; margin-left: 10px"
+        type="button" mat-icon-button matSuffix [disabled]="categories.invalid"
+        (click)="addNewProject(categories.value)">
+        <mat-icon>library_add</mat-icon>ADD</button>
+      </div>
+  </div>
+  <br *ngIf="category.length !== 0">
+  <div class="row" *ngIf="category.length !== 0">
+    <div class="col-lg-12">
+    <mat-card style="background-color: rgb(238, 232, 232);">
+      <mat-card-header>
+        <mat-card-title>Entered Categories</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul *ngFor="let c of category;let i = index">
+          <li>{{c}} <button mat-icon-button color="primary" style="width: 100px; margin-left: 10px"
+            type="button" matSuffix (click)="deleteProject(i)">
+              <mat-icon>delete</mat-icon></button></li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+    </div>
   </div>
   <br>
   <div class="row">
@@ -184,6 +222,28 @@
      </div>
   </div>
   <br>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <label>Year of Establishment</label>
+      <input type="text" placeholder="Enter the year of Establishment"
+       formControlName="yearofest" matInput required>
+      <mat-error *ngIf="r.yearofest.errors?.required && r.yearofest.touched">
+        Please select the year of establishment</mat-error>
+     </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <label>License No</label>
+      <input type="text" placeholder="Enter the year of Establishment"
+       formControlName="licenseno" matInput required>
+      <mat-error *ngIf="r.licenseno.errors?.required && r.licenseno.touched">
+        Please select the license number</mat-error>
+     </div>
+  </div>
+  <br>
   <div class="row">
   <div class="col-lg-6">
     <mat-checkbox class="example-margin" formControlName="acceptTerms">
@@ -194,7 +254,7 @@
   </div>
   <br>
   <div style="justify-content: center;" >
-  <button type="submit" [disabled]="register.invalid" mat-raised-button class="btn btn-success">SignUp</button>
+  <button type="submit" [disabled]="register.invalid || category.length === 0" mat-raised-button class="btn btn-success">SignUp</button>
   <button style="margin-left: 30px;" type="button" mat-raised-button class="btn btn-danger"
   (click)="goBack()">Cancel</button>
   </div>

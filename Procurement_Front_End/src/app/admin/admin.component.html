@@ -233,18 +233,6 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label>Preferred Brand</label>
-                        <!-- <input type="text" class="form-control"
-                        ngModel name="vendor"
-                        placeholder="Preferred Brand"
-                        [matAutocomplete]="brandAuto"
-                        required
-                        matInput
-                        [formControl]="BrandControl"/>
-                        <mat-autocomplete #brandAuto="matAutocomplete">
-                          <mat-option *ngFor="let option of filteredOptionBrand | async" [value]="option">
-                            {{option}}
-                          </mat-option>
-                        </mat-autocomplete> -->
                         <mat-select required class="form-control" [formControl]="BrandControl"
                         placeholder="Preferred Brand"
                         ngModel name="brand">
@@ -318,17 +306,6 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label>Supplier Name</label>
-                    <!-- <input matInput [formControl]="supplierControl"
-                    ngModel name="supplier"
-                    [matAutocomplete]="auto"
-                    required
-                    class="form-control"/>
-                    <mat-autocomplete #auto="matAutocomplete">
-                      <mat-option *ngFor="let option of filteredOptionSupplier | async" [value]="option">
-                        {{option}}
-
-                      </mat-option>
-                    </mat-autocomplete> -->
                     <mat-select required class="form-control" [formControl]="supplierControl"
                     placeholder="Prefered Supplier"
                     ngModel name="supplier">

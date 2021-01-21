@@ -36,6 +36,7 @@ const routes: Routes = [
   {path: "invoiceView", component: ViewInvoiceComponent, resolve: { view: ViewResolverService }},
 ];
 
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
