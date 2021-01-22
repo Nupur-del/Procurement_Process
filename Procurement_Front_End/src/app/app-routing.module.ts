@@ -48,10 +48,10 @@ const routes: Routes = [
   {path: 'invoice', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   {path: 'createPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
-  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
-  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
-  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
-  {path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  { path: 'pendingPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  { path: 'deniedPO', loadChildren:'../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  { path: 'approvedPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
+  {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   {path: '**', redirectTo: '/homePage', pathMatch: 'full'},
 ];
 
