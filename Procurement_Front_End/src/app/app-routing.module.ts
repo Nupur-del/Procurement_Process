@@ -15,15 +15,13 @@ import { EditResolverService } from './edit-resolver.service';
 import { RequisitionHomeComponent } from './requisition-home/requisition-home.component';
 import { DeniedComponent } from './denied/denied.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
-import { HomePageComponent} from './home-page/home-page.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { AuthGuard } from './auth.guard';
 import { SupplierApprovalComponent } from './supplier-approval/supplier-approval.component';
 import {ActivationSupplierAccountComponent} from './activation-supplier-account/activation-supplier-account.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/homePage', pathMatch: 'full'},
-  {path: 'homePage', component: HomePageComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent,  canActivate: [AuthGuard]},
@@ -52,7 +50,7 @@ const routes: Routes = [
   { path: 'deniedPO', loadChildren:'../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   { path: 'approvedPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
   {path: 'deliveredPO', loadChildren: '../../projects/PO/src/app/app.module#POModule',  canActivate: [AuthGuard]},
-  {path: '**', redirectTo: '/homePage', pathMatch: 'full'},
+  {path: '**', redirectTo: '/login', pathMatch: 'full'},
 ];
 
 @NgModule({

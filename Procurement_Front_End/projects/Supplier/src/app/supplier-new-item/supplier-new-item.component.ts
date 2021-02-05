@@ -2,11 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {environment} from '../../../../../src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import {Observable} from 'rxjs';
+import {FormControl, Validators} from '@angular/forms';
+import {startWith, map} from 'rxjs/operators';
+
 @Component({
   selector: 'app-supplier-new-item',
   templateUrl: './supplier-new-item.component.html',
   styleUrls: ['./supplier-new-item.component.scss']
 })
+
 export class SupplierNewItemComponent implements OnInit {
 
   item: any = {};
@@ -16,8 +21,11 @@ export class SupplierNewItemComponent implements OnInit {
   image: any;
   supplierID: any;
   isRemovable = true;
+  brandNames = [];
+  brandControl = new FormControl('', [Validators.pattern('[a-zA-Z]*')]);
   change = true;
   brandDetails =  [];
+  filteredOptions: Observable<string[]>;
   optional = false;
   requireChange= true;
   fName: any;
@@ -27,10 +35,30 @@ export class SupplierNewItemComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+
     this.supplierID = localStorage.getItem('userId');
     this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
       this.brandDetails = brandDetails;
+      for (let i of this.brandDetails) {
+           this.brandNames.push(i.brandName);
+      }
     });
+    this.autocomplete();
+  }
+
+  autocomplete() {
+    this.filteredOptions = this.brandControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(this.brandNames, value))
+    );
+  }
+
+  private _filter(feature: string[], value: string): string[] {
+    if (value) {
+      const filterValue = value.toLowerCase();
+      return feature.filter(option => option.toLowerCase().includes(filterValue));
+    }
   }
 
   onFileChange(event) {
@@ -39,16 +67,15 @@ export class SupplierNewItemComponent implements OnInit {
       let sample = String(name);
       this.myFiles.push(event.target.files[i]);
       this.imageNames.push(sample);
-      // }
-    }
+  }
     console.log(this.myFiles);
     console.log(this.imageNames);
     this.imageNames = this.removeDuplicates(this.imageNames);
     this.change = false;
   }
 
-
   onUpload() {
+
     let formData = new FormData();
     for (var i = 0; i < this.myFiles.length; i++) {
       let image = this.uploadedImages[i] != null ? this.uploadedImages[i] : 'dummy';
@@ -75,6 +102,7 @@ export class SupplierNewItemComponent implements OnInit {
 }
 
   removeImage(i: number) {
+
     console.log(this.uploadedImages[i]);
     let params = new HttpParams().set('fileName', this.uploadedImages[i]);
     this.http.delete(environment.BASE_URL + 'api/deleteFile', { params: params }).subscribe( data => {
@@ -123,13 +151,35 @@ export class SupplierNewItemComponent implements OnInit {
     this.item.supplier = this.supplierID;
     console.log(this.item.brand);
     console.log(this.brandDetails);
-    this.item.brand = this.brandDetails.find(id => id.brandName === this.item.brand).brandpk;
-    console.log(this.item);
-    this.http.post(environment.BASE_URL + 'item/items', this.item).subscribe(data => {
-    console.log(data);
-    this.router.navigate(['/supplierItems']);
-    }, err => {
-    console.log(err);
-    });
+   const itemBrand = this.brandDetails.find(id => id.brandName.toLowerCase() === this.item.brand.toLowerCase());
+    if (!itemBrand) {
+      let brandaddition = {
+        brand: this.item.brand
+      }
+      this.http.post(environment.BASE_URL + 'brand/addbrand', brandaddition)
+      .subscribe((details: any) => {
+        console.log(details);
+        this.item.brand = details.brandpk;
+        console.log(this.item);
+        this.http.post(environment.BASE_URL + 'item/items', this.item).subscribe(data => {
+        console.log(data);
+        this.router.navigate(['/supplierItems']);
+        }, err => {
+        console.log(err);
+        });
+      }, error => {
+        console.log(error);
+      }
+      )
+    } else {
+      this.item.brand = itemBrand.brandpk;
+      console.log(this.item);
+      this.http.post(environment.BASE_URL + 'item/items', this.item).subscribe(data => {
+        console.log(data);
+        this.router.navigate(['/supplierItems']);
+        }, err => {
+        console.log(err);
+        });
+    }
   }
 }

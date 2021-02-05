@@ -19,7 +19,7 @@ router.post('/login', (req,res)=>  {
   console.log(req.body);
   User.findOne({
     where: {
-      admEmail: req.body.email
+      admAdminPK: req.body.userId
     }
   })
   .then(user => {
@@ -50,7 +50,8 @@ router.post('/login', (req,res)=>  {
                     res.json({
                       type: userDetails.admintype,
                       name: response.data.admName,
-                      id: found.adminid
+                      id: found.adminid,
+                      email: response.data.admEmail
                     });
                   } else {
                     res.status(400).send({
@@ -86,7 +87,7 @@ router.post('/login', (req,res)=>  {
         res.status(404).send(response);
       }
     } else {
-      return res.status(404).send({ message: 'User does not exist'});
+      return res.status(404).send({ message: 'Invalid UserID'});
     }
   }).catch(err => {
     console.log('err = ',err);

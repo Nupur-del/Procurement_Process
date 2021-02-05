@@ -65,13 +65,13 @@
   <div class="col-md-4">
     <mat-card class="mat-position">
     <div style="background-color: #4287f5;" class="position-image">
-    <mat-icon class="icon-second">description</mat-icon>
+    <mat-icon class="icon">description</mat-icon>
     </div>
-        <mat-card-title class="mat-content-2">Delivered PO</mat-card-title>
-        <br>
+        <mat-card-title class="mat-content">Delivered PO</mat-card-title>
+      <mat-card-content style="color: blue;">{{ po.delivered }}</mat-card-content>
         <hr>
       <mat-card-actions align="end">
-        <button class="button-size" style="color: blue;" mat-button [routerLink]="'/deliveredPO'">View PO</button>
+        <button style="color: blue;" mat-button [routerLink]="'/deliveredPO'">View PO</button>
       </mat-card-actions>
     </mat-card>
     </div>

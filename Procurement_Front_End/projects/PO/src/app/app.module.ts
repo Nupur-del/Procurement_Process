@@ -37,6 +37,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule} from '@angular/material';
 import { SeeOrderComponent } from './see-order/see-order.component';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { PendingPOComponent } from './pending-po/pending-po.component';
 import { ApprovedPOComponent } from './approved-po/approved-po.component';
 import { ViewPOComponent } from './view-po/view-po.component';
@@ -73,6 +74,7 @@ import { SeePOComponent } from './see-po/see-po.component';
   ],
   imports: [
     BrowserModule,
+    MatProgressSpinnerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

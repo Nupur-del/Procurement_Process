@@ -25,10 +25,6 @@ module.exports = db.sequelize.define(
         type: sequelize.DATE,
         allowNull: true
     },
-    venRegistrationNo: {
-      type: sequelize.STRING,
-      allowNull: false
-    },
     venLicenceNo: {
       type: sequelize.STRING,
       allowNull: false

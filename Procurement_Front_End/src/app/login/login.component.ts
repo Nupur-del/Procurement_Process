@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild,  } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material';
 import {NgForm} from '@angular/forms';
 import { LoginService, LoginCreds } from '../login.service';
 
@@ -12,8 +13,9 @@ import { LoginService, LoginCreds } from '../login.service';
 
 export class LoginComponent implements OnInit {
 
-  email: any;
+  email = '';
   password: any;
+  userid = null;
   @ViewChild('log', {static: false}) loginForm: NgForm;
   type: any;
   selected: string;
@@ -23,10 +25,15 @@ export class LoginComponent implements OnInit {
     'Approver'
   ];
 
-  constructor(private Auth: AuthService, private router: Router,
-              private loginService: LoginService) { }
+  constructor(private Auth: AuthService,
+              private router: Router,
+              private loginService: LoginService,
+              private snack: MatSnackBar) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loginService.userType.subscribe(u => this.type = u);
+    this.type = localStorage.getItem('type');
+  }
 
   loginUser(event) {
     event.preventDefault();
@@ -38,20 +45,31 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['admin']);
         this.Auth.setLoggedIn(true);
       } else {
-        window.alert(data.message);
+        this.snack.open(data.message, '', {duration: 3000});
       }
     });
   }
-
 
   login() {
     const authCred: LoginCreds = {
       email: this.email,
       password: this.password,
-      user_type: this.selected
+      user_type: this.selected,
+      userId: this.userid
     };
     console.log(authCred);
     this.loginService.login(authCred);
+  }
+
+  resendEmail(email) {
+    if (email !== '') {
+      this.loginService.resendEmail(email).subscribe((data: any) => {
+        console.log(data);
+        this.snack.open(data.message, '', {duration: 3000});
+      })
+    } else {
+      this.snack.open('Please enter the email', '', {duration: 3000});
+    }
   }
 
 }

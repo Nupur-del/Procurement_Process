@@ -52,12 +52,12 @@
           </mat-form-field></td>
           <td><mat-form-field class="example-full-width">
             <label>Postal Code</label>
-            <input matInput required  type="number"
+            <input matInput required  type="text"
             formControlName="postalCode">
             <mat-hint align="end">{{r.postalCode.value?.length}} / 6</mat-hint>
             <mat-error *ngIf="r.postalCode.errors?.required && r.postalCode.touched">
               Please mention the Postal Code</mat-error>
-              <mat-error *ngIf="r.postalCode.errors?.maxlength && r.postalCodetouched">
+              <mat-error *ngIf="r.postalCode.errors?.maxlength && r.postalCode.touched">
                 Code should not exceed length of 6</mat-error>
           </mat-form-field>
         </td>
@@ -139,7 +139,9 @@
        formControlName="mobile" matInput required>
       <mat-error *ngIf="r.mobile.errors?.required && r.mobile.touched">
         Please mention the mobile No</mat-error>
-     </div>
+      <mat-error *ngIf="r.mobile.errors?.maxlength && r.mobile.touched">Mobile should be of 10 digits</mat-error>
+      <mat-error *ngIf="r.mobile.errors?.minlength && r.mobile.touched">Mobile should not less than 10 digits</mat-error>
+    </div>
   </div>
   <br>
   <div class="row">
@@ -254,9 +256,11 @@
   </div>
   <br>
   <div style="justify-content: center;" >
-  <button type="submit" [disabled]="register.invalid || category.length === 0" mat-raised-button class="btn btn-success">SignUp</button>
-  <button style="margin-left: 30px;" type="button" mat-raised-button class="btn btn-danger"
+  <button  *ngIf="isSending === false" type="submit" [disabled]="register.invalid || category.length === 0"
+  mat-raised-button class="btn btn-success">SignUp</button>
+  <button  *ngIf="isSending === false" style="margin-left: 30px;" type="button" mat-raised-button class="btn btn-danger"
   (click)="goBack()">Cancel</button>
+  <span *ngIf="isSending === true"><h5>Sending Mail to Supplier for Verification....</h5></span>
   </div>
     </form>
     </div>

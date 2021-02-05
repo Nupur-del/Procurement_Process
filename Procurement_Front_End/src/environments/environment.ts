@@ -6,6 +6,7 @@ import 'zone.js/dist/zone-error';
 export const environment = {
   production: false,
   BASE_URL: 'http://localhost:3000/',
+  IMAGE_URL: 'http://localhost:3000/images/',
 };
 
 /*

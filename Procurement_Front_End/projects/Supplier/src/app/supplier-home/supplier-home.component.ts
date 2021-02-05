@@ -30,10 +30,14 @@ export class SupplierHomeComponent implements OnInit {
       this.statusDetatils = data;
       const status = this.statusDetatils.find(a => a.orderStatus === 'Pending').id;
       const denied = this.statusDetatils.find(b => b.orderStatus === 'PO Denied').id;
+      const delivered = this.statusDetatils.find(b => b.orderStatus === 'Item Delivered').id;
       this.poService.getStatusPOCount(status, this.type, this.userID).subscribe((data: any) => {
         this.po.pending = data.data;
       this.poService.getStatusPOCount(denied, this.type,this.userID).subscribe((data: any) => {
           this.po.denied = data.data;
+          this.poService.getStatusPOCount(delivered, this.type,this.userID).subscribe((data: any) => {
+            this.po.delivered = data.data;
+          });
         });
       });
     }, err => {

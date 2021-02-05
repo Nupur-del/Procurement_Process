@@ -13,14 +13,6 @@ module.exports = db.sequelize.define(
         type: sequelize.STRING,
         allowNull: false
       },
-      yearofest: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
-      licenseno: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
       country: {
         type: sequelize.STRING,
         allowNull: false
@@ -29,31 +21,7 @@ module.exports = db.sequelize.define(
         type: sequelize.STRING,
         allowNull: false
       },
-      email: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
-      password: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
-      mobile: {
-        type: sequelize.INTEGER,
-        allowNull: false
-      },
-      fax: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
       tax: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
-      ques: {
-        type: sequelize.STRING,
-        allowNull: false
-      },
-      ans: {
         type: sequelize.STRING,
         allowNull: false
       },

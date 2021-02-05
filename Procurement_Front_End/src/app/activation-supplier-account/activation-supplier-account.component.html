@@ -1,16 +1,16 @@
-<div class="container">
+<div class="container" *ngIf="details">
 <h2 style="text-align: center;">Supplier Details</h2>
 <br>
 <br>
   <div class="row">
     <div class="col-lg-6">
       <label class="form-group">Name</label>
-      <span class="form-control">{{details.name}}</span>
+      <span class="form-control">{{details.venperson}}</span>
     </div>
     <br>
     <div class="col-lg-6">
       <label class="form-group">Company Name</label>
-      <span class="form-control">{{details.company_name}}</span>
+      <span class="form-control">{{details.venName}}</span>
     </div>
     <br>
   </div>
@@ -18,64 +18,64 @@
   <div class="row">
     <div class="col-lg-6">
       <label class="form-group">Email Id</label>
-      <span class="form-control">{{details.email}}</span>
+      <span class="form-control">{{details.vendorEmail}}</span>
     </div>
     <br>
     <div class="col-lg-6">
       <label class="form-group">Country</label>
-      <span class="form-control">{{details.country}}</span>
+      <span class="form-control">{{details.vencountry}}</span>
     </div>
   </div>
   <br>
   <div class="row">
     <div class="col-lg-6">
       <label class="form-group">Mobile Number</label>
-      <span class="form-control">{{details.mobile}}</span>
+      <span class="form-control">{{details.vendorMobileNo}}</span>
     </div>
     <br>
     <div class="col-lg-6">
       <label class="form-group">Address</label>
-      <span class="form-control">{{details.address}}</span>
+      <span class="form-control">{{details.venaddress}}</span>
     </div>
   </div>
   <br>
   <div class="row">
     <div class="col-lg-4">
       <label class="form-group">City</label>
-      <span class="form-control">{{details.city}}</span>
+      <span class="form-control">{{details.vencity}}</span>
     </div>
     <br>
     <div class="col-lg-4">
       <label class="form-group">State</label>
-      <span class="form-control">{{details.state}}</span>
+      <span class="form-control">{{details.venstate}}</span>
     </div>
     <br>
     <div class="col-lg-4">
       <label class="form-group">Postal Code</label>
-      <span class="form-control">{{details.postalCode}}</span>
+      <span class="form-control">{{details.venpostalCode}}</span>
     </div>
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-6" *ngIf="details.website !== ''">
+    <div class="col-lg-6" *ngIf="details.venwebsite !== ''">
       <label class="form-group">Website</label>
-      <span class="form-control">{{details.website}}</span>
+      <span class="form-control">{{details.venwebsite}}</span>
     </div>
     <br>
     <div class="col-lg-6">
       <label class="form-group">Tax ID</label>
-      <span class="form-control">{{details.tax}}</span>
+      <span class="form-control">{{details.ventax}}</span>
     </div>
   </div>
   <br>
   <div class="row">
     <div class="col-lg-6">
       <label class="form-group">Fax</label>
-      <span class="form-control">{{details.fax}}</span>
+      <span class="form-control">{{details.vendorFaxNo}}</span>
     </div>
     <div class="col-lg-6">
       <label class="form-group">Accepted Terms?</label>
-      <span class="form-control">{{details.acceptTerms}}</span>
+      <span class="form-control">{{details.venacceptTerms}}</span>
     </div>
 </div>
 <br>
@@ -95,9 +95,10 @@
 </div>
 <br>
 <div style="justify-content: center; text-align: center;">
-    <button style="width: 90px; margin-right: 40px;" mat-icon-button color="primary" mat-raised-button matSuffix (click)="decision('Approved')">
+    <button *ngIf="isSending === false" style="width: 90px; margin-right: 40px;" mat-icon-button color="primary" mat-raised-button matSuffix (click)="decision('Approved')">
       <mat-icon>check_circle</mat-icon>Approve</button>
-    <button style="width: 90px;"  mat-icon-button color="accent" mat-raised-button matSuffix (click)="decision('Denied')">
+    <button *ngIf="isSending === false" style="width: 90px;"  mat-icon-button color="accent" mat-raised-button matSuffix (click)="decision('Denied')">
       <mat-icon>cancel</mat-icon>Denied</button>
+      <span *ngIf="isSending === true"><h5>Sending Notification to Supplier....</h5></span>
  </div>
 </div>

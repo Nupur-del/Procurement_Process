@@ -23,7 +23,7 @@ module.exports = db.sequelize.define(
     },
     vendorOffLandLineNo: {
         type: sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     vendorMobileNo: {
         type: sequelize.STRING,
@@ -40,6 +40,66 @@ module.exports = db.sequelize.define(
     vendorVoIP: {
         type: sequelize.STRING,
         allowNull: true
+    },
+    venVendorFK: {
+      type: sequelize.INTEGER,
+      allowNull: false
+    },
+    venaddress:{
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    vencity: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venstate: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venisapproved: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venisViewed: {
+      type: sequelize.BOOLEAN,
+      allowNull: false
+    },
+    venpostalCode: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venperson: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    ventax: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    ventoken: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venisVerified: {
+      type: sequelize.BOOLEAN,
+      allowNull: false
+    },
+    vencountry: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venwebsite: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venlang: {
+      type: sequelize.STRING,
+      allowNull: false
+    },
+    venacceptTerms: {
+      type: sequelize.BOOLEAN,
+      allowNull: false
     }
   },
   {

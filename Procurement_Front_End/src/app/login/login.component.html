@@ -3,29 +3,16 @@
         <div class="wrapper wrapper--w780">
             <div class="card card-4">
                 <div class="card-body">
+                  <div style="text-align: end;" *ngIf="selected === 'Supplier'">
+                    <h6>Not Registered ? :
+                      <button
+                     mat-raised-button color="primary" [routerLink]="'/supplierRegistration'"
+                      [routerLinkActive]="['is-active']">Sign Up</button>
+                    </h6>
+                  </div>
 <h2 class="title" style="text-align: center;">LOGIN</h2>
 <br>
 <form style="text-align: center;" #log="ngForm">
-  <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>Email</mat-label>
-    <input required matInput
-    placeholder="Enter your email"  email name="email" type="email"
-    [(ngModel)]="email"
-    #emailControl="ngModel">
-    <mat-error *ngIf="emailControl.errors?.required && emailControl.touched">Please enter the email</mat-error>
-    <mat-error *ngIf="emailControl.errors?.email && emailControl.touched">Email is not in proper format</mat-error>
-  </mat-form-field>
-  <br>
-  <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>Password</mat-label>
-    <input required matInput
-    placeholder="Enter your password" name="password"
-    type="password" [(ngModel)]="password"
-    #pwdControl="ngModel">
-    <mat-error *ngIf="emailControl.errors?.required && emailControl.touched">Please enter the password</mat-error>
-  </mat-form-field>
-  <br>
-  <div style="justify-content: center;">
   <mat-form-field style="margin-right: 30px;" appearance="outline">
     <mat-label>Login as</mat-label>
     <mat-select required name="usertype" [(ngModel)]="selected" #selectControl="ngModel">
@@ -35,7 +22,40 @@
     </mat-select>
     <mat-error *ngIf="selectControl.errors?.required && selectControl.touched">Please select the usertype</mat-error>
   </mat-form-field>
-  <button align="end" [disabled]="log.invalid" mat-raised-button color="primary" type="submit" (click)="login()">Submit</button>
+  <mat-form-field *ngIf="selected === 'Supplier'" class="example-full-width" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input required matInput
+    placeholder="Enter your email"  email name="email" type="email"
+    [(ngModel)]="email"
+    #emailControl="ngModel">
+    <mat-error *ngIf="emailControl.errors?.required && emailControl.touched">Please enter the email</mat-error>
+    <mat-error *ngIf="emailControl.errors?.email && emailControl.touched">Email is not in proper format</mat-error>
+  </mat-form-field>
+  <br *ngIf="selected !== 'Supplier'">
+  <mat-form-field *ngIf="selected !== 'Supplier'" class="example-full-width" appearance="outline">
+    <mat-label>UserID</mat-label>
+    <input required matInput
+    placeholder="Enter your userid" name="userid"
+    [(ngModel)]="userid"
+    #usernameControl="ngModel">
+    <mat-error *ngIf="usernameControl.errors?.required && usernameControl.touched">Please enter the UserID</mat-error>
+ </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Password</mat-label>
+    <input required matInput
+    placeholder="Enter your password" name="password"
+    type="password" [(ngModel)]="password"
+    #pwdControl="ngModel">
+    <mat-error *ngIf="pwdControl.errors?.required && pwdControl.touched">Please enter the password</mat-error>
+  </mat-form-field>
+  <br>
+  <div style="justify-content: center;">
+  <button align="end" [disabled]="log.invalid" mat-raised-button color="primary"
+   type="submit" (click)="login()">Submit</button>
+
+   <button *ngIf="type === 'Supplier'" align="end" style="margin-left: 10px" [disabled]="emailControl.invalid" mat-raised-button color="primary"
+   type="submit" (click)="resendEmail(emailControl.value)">Resend verification email</button>
 </div>
 </form>
                 </div>

@@ -48,9 +48,11 @@ export class RequisitionHomeComponent implements OnInit, OnDestroy {
     this.userID = +localStorage.getItem('userId');
 
     // this.login.getCount().subscribe((count: any) => this.notifiedCount = count);
-    this.notifySub = timer(0, 300000).pipe(
-      switchMap(() => this.login.getCount())
-    ).subscribe(result => this.notifiedCount = result);
+    if (this.type === 'Approver') {
+      this.notifySub = timer(0, 300000).pipe(
+        switchMap(() => this.login.getCount())
+      ).subscribe(result => this.notifiedCount = result);
+    }
 
     this.login.getNotified().subscribe(
       (i: any) => this.pending = i.count
@@ -59,7 +61,7 @@ export class RequisitionHomeComponent implements OnInit, OnDestroy {
     this.login.getrows().subscribe((supp: any) => {
       if(supp.count > 0) {
         for(let i of supp.rows) {
-          this.suppDetails.push(i.id);
+          this.suppDetails.push(i.venVendorFK);
         }
         console.log(this.suppDetails);
       }

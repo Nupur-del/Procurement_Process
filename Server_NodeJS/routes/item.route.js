@@ -11,9 +11,11 @@ const Item_images = require('../models/item_image.model');
 
 router.post('/items', (req, res) => {
     let item_id;
-    if (!req.body.item_id || (req.body.action = "replicate")) {
+    console.log(req.body);
+    if ((req.body.action !== "edit") || (req.body.action === "replicate")) {
      item_id = Math.floor(Math.random() * 10000) + 1;
     } else {
+        console.log(req.body.item_id);
         item_id = req.body.item_id;
     }
     const ItemData =  {
@@ -43,24 +45,24 @@ router.post('/items', (req, res) => {
         if(!item || item.length == 0) {
             Items.create(ItemData).then(item => {
               if(req.body.imageName) {
-                let ItemImages = {};
+                let ItemImages = [];
                 for (let i of req.body.imageName) {
-                    ItemImages = {
+                    ItemImages.push({
                         item_id: item_id,
                         imageName: i
-                    };
-                    Item_images.create(ItemImages).then(image => {
+                    });
+                }
+                    Item_images.bulkCreate(ItemImages).then(image => {
                         res.json({
                             data: image,
                             message: 'Item added successfully with images'
                         })
                     })
-                    .catch(err => {res.send(err)})
-                }
-              } else { res.json({message: 'Item added successfully without Images'}) }
-            }).catch(err => {res.json({message : err.message})})
+                    .catch(err => {res.statu(400).send(err)})
+              } else { res.status(400).json({message: 'Item added successfully without Images'}) }
+            }).catch(err => {res.status(400).json({message : err.message})})
         } else {
-            res.json({message: 'Item with the provided Id is already present'});
+            res.status(400).json({message: 'Item with the provided Id is already present'});
         }
     }).catch(err => {res.send(err)})
 })
@@ -85,7 +87,10 @@ router.get('/allItems', (req,res) => {
     Items.findAll({
         where: {
             supplier: req.query.user
-        }
+        },
+        order: [
+            ['createdAt', 'DESC'],
+          ]
     }).then(data => {
         res.send(data)
     }).catch(err => {

@@ -13,7 +13,6 @@ import { LocationService } from '../location.service';
 import { environment } from '../../environments/environment';
 import { ItemService } from '../item.service';
 import { ItemService as supplierItemService } from '../../../projects/Supplier/src/app/item.service';
-// import { BudgetService } from '../budget.service';
 import { MyDialogComponent } from '../my-dialog/my-dialog.component';
 import {
   MatSnackBar,
@@ -169,12 +168,10 @@ export class EditComponent implements OnInit, OnDestroy {
               private imageService: ImageService,
               private orderService: OrderService,
               private sItem: supplierItemService,
-              private route: ActivatedRoute,
               private login: LoginService,
               private locationService: LocationService,
               private itemService: ItemService,
               private back: Location,
-              // private budgetService: BudgetService,
               public dialog: MatDialog) { }
 
 
@@ -379,8 +376,8 @@ export class EditComponent implements OnInit, OnDestroy {
   checkImages(item_id: number) {
     this.isLoading = true;
     this.itemImages = [{
-      image: 'http://localhost:3000/images/dummy_image.jpg',
-      thumbImage: 'http://localhost:3000/images/dummy_image.jpg',
+      image: environment.IMAGE_URL +'dummy_image.jpg',
+      thumbImage: environment.IMAGE_URL +'dummy_image.jpg',
       alt: 'dummy'
     }];
     this.imageSub = this.imageService.getImageById(item_id).subscribe((data: Array<any>) => {
@@ -389,8 +386,8 @@ export class EditComponent implements OnInit, OnDestroy {
       this.isImages = false;
       for (let i of data) {
       this.itemImages.push({
-        image: 'http://localhost:3000/images/' + i.imageName,
-        thumbImage: 'http://localhost:3000/images/' + i.imageName,
+        image: environment.IMAGE_URL + i.imageName,
+        thumbImage: environment.IMAGE_URL + i.imageName,
         alt: 'alt of image'
       });
       this.isLoading = false;

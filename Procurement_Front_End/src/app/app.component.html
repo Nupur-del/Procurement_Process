@@ -1,26 +1,112 @@
-<mat-sidenav-container fullscreen *ngIf="loginStatus === 'true' || loginStatus === true; else notLogined">
-  <mat-sidenav class="list-background-image" mode="side" #sidenav opened position="start" style="width: 270px; padding:15px;">
-  <div class="container" style="font-size: 24px; text-align: center;">
-  <span>PROCUREMENT</span>
-  </div>
+<div *ngIf="toggle === true">
+  <button mat-icon-button mat-raised-button type="button" (click)="toggle = !toggle"><mat-icon>view_headline</mat-icon></button>
+</div>
+<mat-sidenav-container fullscreen *ngIf="(loginStatus === 'true' || loginStatus === true) && toggle === false;
+else notLogined">
+  <mat-sidenav class="list-background-image" mode="side" #sidenav opened position="start"
+  style="width: 270px; padding:15px;">
+    <button mat-icon-button style="font-size: 24px; margin-left: 0px" matSuffix (click)="toggle = !toggle">
+      <mat-icon  style="margin-left: 0px; margin-right: 10px;">view_headline</mat-icon>PROCUREMENT</button>
   <hr>
     <mat-nav-list class="mat-list">
       <mat-list-item class="list-item" [routerLink]="'/home'" [routerLinkActive]="['is-active']">
         <span class="material-icons icon-padding">dashboard</span>Dashboard</mat-list-item>
-      <mat-divider></mat-divider>
+        <mat-divider></mat-divider>
       <mat-list-item *ngIf="type=='Requestor' || type=='Approver'" class="list-item"
+       (click)="onmarked = !onmarked" [routerLinkActive]="['is-active']">
+      <span [matBadgeHidden]="notifiedCount === 0" [matBadge]="notifiedCount"
+      matBadgePosition="before" matBadgeColor="accent"
+      class="material-icons icon-padding">publish</span> Requisition</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver') && onmarked === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver')
+      && onmarked === true" class="list-item"
       [routerLink]="'/requisitionHome'" [routerLinkActive]="['is-active']">
-      <span class="material-icons icon-padding">publish</span> Requisition</mat-list-item>
+      <span class="material-icons icon-padding">home</span>Home Page</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver')
+      && onmarked === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver')
+      && onmarked === true" class="list-item"
+      (click)="onrequest = !onrequest" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">request_page</span>Purchase Request</mat-list-item>
+      <mat-divider *ngIf="type === 'Requestor' && onrequest === true"></mat-divider>
+      <mat-list-item  *ngIf="type === 'Requestor' && onrequest === true" class="list-item"
+      [routerLink]="'/admin'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">create</span>Create Request</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest=== true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest === true" class="list-item"
+       [routerLink]="'/pending'" [routerLinkActive]="['is-active']">
+        <span class="material-icons icon-padding">warning</span>Pending Request</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest === true" class="list-item"
+      [routerLink]="'/approved'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">check_circle_outline</span>Approved Request</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest=== true" class="list-item"
+      [routerLink]="'/denied'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">cancel</span>Denied Request</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver') && onrequest === true" class="list-item"
+      [routerLink]="'/request'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">select_all</span>All Request</mat-list-item>
+      <mat-divider *ngIf="type === 'Approver' && onmarked === true"></mat-divider>
+      <mat-list-item  *ngIf="type === 'Approver' && onmarked === true" class="list-item"
+      (click)="view()" [routerLinkActive]="['is-active']">
+      <span  [matBadgeHidden]="notifiedCount === 0" [matBadge]="notifiedCount"
+      matBadgePosition="before" matBadgeColor="accent"
+      class="material-icons icon-padding">check_circle_outline</span>Approval for Supplier</mat-list-item>
       <mat-divider *ngIf="type=='Requestor' || type=='Approver'"></mat-divider>
-      <mat-list-item *ngIf="type=='Supplier'" class="list-item" [routerLink]="'/supplierHome'"
+      <mat-list-item *ngIf="type=='Supplier'" class="list-item" (click)="onmarked = !onmarked"
       [routerLinkActive]="['is-active']"><span class="material-icons icon-padding">storefront</span>
       Supplier</mat-list-item>
-      <mat-divider *ngIf="type=='Supplier'"></mat-divider>
-      <mat-list-item class="list-item" [routerLink]="'/track-dashboard'" [routerLinkActive]="['is-active']">
+      <mat-divider *ngIf=" type === 'Supplier' && onmarked === true"></mat-divider>
+      <mat-list-item  *ngIf=" type === 'Supplier'
+      && onmarked === true" class="list-item"
+      [routerLink]="'/supplierHome'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">home</span>Home Page</mat-list-item>
+      <mat-divider *ngIf=" type === 'Supplier' && onmarked === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Supplier') && onmarked === true"
+      class="list-item" (click)="po = !po" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">shop</span>Purchase Order</mat-list-item>
+      <mat-divider *ngIf="type === 'Requestor' && po === true"></mat-divider>
+      <mat-list-item  *ngIf="type === 'Requestor' && po === true" class="list-item"
+      [routerLink]="'/createPO'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">create</span>Create PO</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true" class="list-item"
+      [routerLink]="'/pendingPO'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">warning</span>Pending PO</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true" class="list-item"
+      [routerLink]="'/approvedPO'"  [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">check_circle_outline</span>Approved PO</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Supplier') && po  === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true" class="list-item"
+      [routerLink]="'/deniedPO'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">cancel</span>Denied PO</mat-list-item>
+      <mat-divider *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true"></mat-divider>
+      <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Supplier') && po === true" class="list-item"
+      [routerLink]="'/deliveredPO'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">house</span>Delivered PO</mat-list-item>
+      <mat-divider *ngIf=" type === 'Supplier' && onmarked === true"></mat-divider>
+      <mat-list-item  *ngIf="type === 'Supplier' && onmarked === true"
+      class="list-item" (click)="item = !item" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">local_grocery_store</span>Items</mat-list-item>
+      <mat-divider *ngIf=" type === 'Supplier' && item === true"></mat-divider>
+      <mat-list-item  *ngIf="type === 'Supplier' && item === true"
+      class="list-item" [routerLink]="'/supplier/newItem'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">add_circle</span>Add Items</mat-list-item>
+      <mat-divider *ngIf=" type === 'Supplier' && item === true"></mat-divider>
+      <mat-list-item  *ngIf="type === 'Supplier' && item === true"
+      class="list-item" [routerLink]="'/supplierItems'" [routerLinkActive]="['is-active']">
+      <span class="material-icons icon-padding">select_all</span>All Items</mat-list-item>
+      <mat-divider *ngIf="type === 'Supplier'" ></mat-divider>
+      <mat-divider *ngIf="type === 'Requestor' && onmarked === true" ></mat-divider>
+      <mat-list-item *ngIf="type === 'Requestor' || type === 'Supplier'" class="list-item" [routerLink]="'/track-dashboard'" [routerLinkActive]="['is-active']">
         <span class="material-icons icon-padding">local_shipping</span> Track Order</mat-list-item>
-    </mat-nav-list>
-    <mat-nav-list class="list-position sign-out">
-    <mat-list-item class="list-item" (click)="logout()" [routerLinkActive]="['is-active']">
+    <!-- </mat-nav-list>
+    <mat-nav-list class="list-position sign-out"> -->
+      <mat-divider></mat-divider>
+    <mat-list-item class="list-item list-position sign-out" (click)="logout()" [routerLinkActive]="['is-active']">
       <span class="material-icons icon-padding">reply</span>Sign Out</mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
@@ -32,6 +118,7 @@
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
 <ng-template #notLogined>
     <router-outlet></router-outlet>
 </ng-template>

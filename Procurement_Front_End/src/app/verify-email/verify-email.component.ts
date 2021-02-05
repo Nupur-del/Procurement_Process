@@ -34,7 +34,7 @@ export class VerifyEmailComponent implements OnInit {
           .pipe(first())
           .subscribe({
               next: () => {
-                  alert('Verification successful, you can login');
+                  alert('Verification successful, you will receive the approval mail within 48 hours');
                   this.router.navigate(['/login'], { relativeTo: this.route });
               },
               error: () => {

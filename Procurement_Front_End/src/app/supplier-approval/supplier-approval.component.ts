@@ -56,6 +56,5 @@ export class SupplierApprovalComponent implements OnInit {
   activate(id) {
     this.data.fetchId(id);
     this.router.navigate(['/activateAccount']);
-
   }
 }

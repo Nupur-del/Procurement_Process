@@ -25,7 +25,7 @@
     <div class="row" *ngIf="imageNames.length > 0">
       <div class="col-lg-12">
        <label class="form-group"><b>Attachments</b></label>
-       <span class="form-control"><a *ngFor="let i of imageNames" href="'http://localhost:3000/images/' + i.attachments">{{i.attachments}}</a></span>
+       <span class="form-control"><a *ngFor="let i of imageNames" [href]="Image_url + i.attachments">{{i.attachments}}</a></span>
      </div>
      </div>
      <br>

@@ -34,6 +34,7 @@ export class InvoiceComponent implements OnInit {
 
   msg: string;
   actionButtonLabel = ':)';
+  todayDate = new Date();
   action = true;
   setAutoHide = true;
   autoHide = 2000;
@@ -90,14 +91,16 @@ export class InvoiceComponent implements OnInit {
   this.poService.getPoByBillNo(this.sub).subscribe((data: any) => {
     const tableData = [];
     for (let i of data) {
-     tableData.push({
-       ...i,
-       creator: this.requestorDetails.find(a => a.id === i.created_by).name,
-       locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-       supplierName: supp.find(d =>  d.id === i.supplier).name,
-       poStatus: this.statusDetails.find(s => s.id=== i.po_status).orderStatus,
-       brandName: this.brandDetails.find(v => v.brandpk === i.brand).brandName
-     })
+      if (this.statusDetails.find(s => s.id=== i.status).orderStatus === 'Item Delivered') {
+        tableData.push({
+          ...i,
+          creator: this.requestorDetails.find(a => a.id === i.created_by).name,
+          locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
+          supplierName: supp.find(d =>  d.id === i.supplier).name,
+          poStatus: this.statusDetails.find(s => s.id=== i.po_status).orderStatus,
+          brandName: this.brandDetails.find(v => v.brandpk === i.brand).brandName
+        })
+      }
     }
     this.dataSource = new MatTableDataSource(tableData);
     this.dataSource.paginator = this.paginator;
@@ -164,7 +167,6 @@ export class InvoiceComponent implements OnInit {
       this.invoice.billNo = this.sub;
       this.invoice.item = [];
       for (let i = 0; i < this.poList.length; i++) {
-        console.log(form.value[`market_price${i}`]);
         this.invoice.item.push({
           market_price: form.value[`market_price${i}`],
           invoiced_quantity: form.value[`invoiced_quantity${i}`],

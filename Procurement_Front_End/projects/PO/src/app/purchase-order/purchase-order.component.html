@@ -180,13 +180,17 @@
        <tr>
        <td><h5>Required By</h5></td>
        <td>
-      <mat-form-field  style="width: 100%;">
+          <input type="date" class="form-control"
+            [(ngModel)]="po.required_by"
+            min="{{todayDate | date:'yyyy-MM-dd'}}"
+            formControlName="required_by" required>
+      <!-- <mat-form-field  style="width: 100%;">
        <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
         [(ngModel)]="po.required_by"
        formControlName="required_by" required>
        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+      </mat-form-field> -->
        </td>
       </tr>
        <br>
@@ -304,7 +308,7 @@
 <br>
 <br>
     <div class="text-right">
-      <button class="btn btn-primary" (click)="stepper.reset()">Reset</button>&nbsp;
+      <!-- <button class="btn btn-primary" (click)="stepper.reset()">Reset</button>&nbsp; -->
       <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
       <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit</button>
     </div>

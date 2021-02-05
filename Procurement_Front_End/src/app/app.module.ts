@@ -52,7 +52,6 @@ import { DeniedComponent } from './denied/denied.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { SupplierApprovalComponent } from './supplier-approval/supplier-approval.component';
 import { ActivationSupplierAccountComponent } from './activation-supplier-account/activation-supplier-account.component';
@@ -76,7 +75,6 @@ import { ActivationSupplierAccountComponent } from './activation-supplier-accoun
     DeliveredPoComponent,
     DeniedComponent,
     SupplierRegistrationComponent,
-    HomePageComponent,
     VerifyEmailComponent,
     SupplierApprovalComponent,
     ActivationSupplierAccountComponent

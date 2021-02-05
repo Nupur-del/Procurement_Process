@@ -5,6 +5,9 @@ import { ItemService } from '../item.service';
 import { ImageService } from '../image.service';
 import { DataService } from '../data.service';
 import { MatDialogRef } from '@angular/material';
+import {Observable} from 'rxjs';
+import {FormControl, Validators} from '@angular/forms';
+import {startWith, map} from 'rxjs/operators';
 
 import {
   MatSnackBar,
@@ -32,6 +35,7 @@ export class EditItemComponent implements OnInit {
 
   request: any = {};
   serviceItem: any;
+  brandNames = [];
   serviceImage: any;
   imageLength: any = [];
   sampleMan: any = [];
@@ -40,9 +44,11 @@ export class EditItemComponent implements OnInit {
   itemImages: Array<ImageSlider>;
   isLoading = false;
   isRemovable = true;
+  brandName: string;
   item = {
     brand: '',
     currency: '',
+    brandName: '',
     desc: '',
     discount: null,
     features: '',
@@ -54,10 +60,12 @@ export class EditItemComponent implements OnInit {
     quantity: null,
     sku: '',
     threshold: null,
+    specification: '',
     warranty: '',
     imageName: []
   };
   myFiles:any [] = [];
+  brandDetails = [];
   imageNames:any[] = [];
   uploadedImages: any = [];
   image: any;
@@ -66,10 +74,13 @@ export class EditItemComponent implements OnInit {
   requireChange:boolean = true;
   fName: any;
   fType: any;
+  brandControl = new FormControl('', [Validators.pattern('[a-zA-Z]*')]);
+  filteredOptions: Observable<string[]>;
   message: string;
   actionButtonLabel = ':)';
   action = true;
   setAutoHide = true;
+  Image_url = environment.IMAGE_URL;
   autoHide = 2000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -86,8 +97,15 @@ export class EditItemComponent implements OnInit {
   ngOnInit() {
     this.data.currentMessage.subscribe(message => this.sub = message);
     this.itemService.getItemById(this.sub).subscribe((data: any) => {
-      this.item = data;
-      console.log('Item', this.item);
+      this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+        this.item = data;
+        this.brandDetails = brandDetails;
+        for (let i of this.brandDetails) {
+          this.brandNames.push(i.brandName);
+        }
+        this.item.brandName = brandDetails.find(a => a.brandpk === data.brand).brandName;
+        console.log('Item', this.item);
+      });
     });
 
     this.imageService.getImageById(this.sub).subscribe((data) => {
@@ -100,7 +118,24 @@ export class EditItemComponent implements OnInit {
         }
       }
     });
+    this.autocomplete();
   }
+
+  autocomplete() {
+    this.filteredOptions = this.brandControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(this.brandNames, value))
+    );
+  }
+
+  private _filter(feature: string[], value: string): string[] {
+    if (value) {
+      const filterValue = value.toLowerCase();
+      return feature.filter(option => option.toLowerCase().includes(filterValue));
+    }
+  }
+
 
   insert() {
     const config = new MatSnackBarConfig();
@@ -138,7 +173,8 @@ export class EditItemComponent implements OnInit {
                   this.uploadedImages.push(i.filename);
                   console.log(this.uploadedImages);
               }
-              alert('Uploaded Successfully.');
+              this.message = 'Uploaded Successfully';
+              this.insert();
               this.isRemovable = false;
        },
       (error) => {
@@ -157,7 +193,9 @@ export class EditItemComponent implements OnInit {
     }
     console.log(params);
     this.http.delete(environment.BASE_URL + 'api/deleteFile', { params: params }).subscribe( data => {
-      alert(data['message']);
+      // alert(data['message']);
+      this.message = data['message'];
+      this.insert();
       console.log(data);
       this.uploadedImages.splice(i, 1);
       this.imageNames.splice(i, 1);
@@ -201,14 +239,35 @@ export class EditItemComponent implements OnInit {
     this.item.imageName = this.uploadedImages;
     this.request.item_id = this.item.item_id;
     console.log(this.request);
-    console.log('Items', this.item);
-    // let deletionItem = this.itemService.delItem(this.request.item_id);
-    // if (!deletionItem || deletionItem.length === 0) {
-    this.message = 'Edited Sucessfully';
-    this.insert();
-    this.itemService.editItem(this.item);
-    //  if (!EditItem || EditItem.length === 0) {
-    this.dialogRef.close();
+    const itemBrand = this.brandDetails.find(id => id.brandName.toLowerCase() === this.item.brandName.toLowerCase());
+    if (!itemBrand) {
+      let brandaddition = {
+        brand: this.item.brandName
+      }
+      this.http.post(environment.BASE_URL + 'brand/addbrand', brandaddition)
+      .subscribe((details: any) => {
+        console.log('Items', this.item);
+        this.item.brand = details.brandpk;
+        console.log(this.item);
+        // let deletionItem = this.itemService.delItem(this.request.item_id);
+        // if (!deletionItem || deletionItem.length === 0) {
+        this.itemService.editItem(this.item);
+        this.message = 'Edited Sucessfully';
+        this.insert();
+        //  if (!EditItem || EditItem.length === 0) {
+        this.dialogRef.close();
+      });
+    } else {
+      this.item.brand = itemBrand.brandpk;
+      console.log(this.item);
+      // let deletionItem = this.itemService.delItem(this.request.item_id);
+      // if (!deletionItem || deletionItem.length === 0) {
+      this.itemService.editItem(this.item);
+      this.message = 'Edited Sucessfully';
+      this.insert();
+      //  if (!EditItem || EditItem.length === 0) {
+      this.dialogRef.close();
+    }
     //   }
     // }
   }

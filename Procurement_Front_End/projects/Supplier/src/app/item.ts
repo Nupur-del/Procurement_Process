@@ -3,6 +3,7 @@ export interface IItem {
   name: string;
   sku: string;
   brand: string;
+  brandName: string;
   price: number;
   currency: string;
   features: number;

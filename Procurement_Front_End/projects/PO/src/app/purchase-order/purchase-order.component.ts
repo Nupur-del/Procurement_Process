@@ -99,7 +99,11 @@ ngOnInit() {
   this.po.cmp_name = 'Tata Consultancy Services';
 
 this.poService.getallPO().subscribe((data: any) => {
-  this.po.billNo = data[data.length - 1].billNo + 1;
+  if (data.length > 0) {
+    this.po.billNo = data[data.length - 1].billNo + 1;
+  } else {
+    this.po.billNo = 1;
+  }
 });
 
 this.login.getUser('Requestor').subscribe(requestors => {
@@ -271,16 +275,19 @@ onSubmit() {
     this.thirdFormGroup.valid) {
     console.log(this.firstFormGroup);
     console.log(this.secondFormGroup);
-    console.log(this.thirdFormGroup)
+    console.log(this.thirdFormGroup);
     this.po.item = [];
     if (this.Option === 'no') {
       this.po.behalf = this.userID;
     }
     this.po.supplier = this.poDetails[0].prefered_vendor;
-    console.log(this.requestor);
     this.po.attachments = this.uploadedImages;
     this.po.total = this.totalAmount;
     this.po.status = 1;
+    let newDate = new Date(this.po.required_by).toISOString();
+    // newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
+    this.po.required_by = newDate;
+    console.log('Date', this.po.required_by);
     for (let i of this.poDetails) {
       this.po.item.push({
         order_id: i.order_id,
@@ -294,7 +301,7 @@ onSubmit() {
     console.log('PO', this.po);
     const postatus: any =  this.poService.addPO(this.po);
     if (!postatus) {
-      this.message1 = 'PO Added Sucessfully';
+      this.message1 = 'PO Created Sucessfully';
       this.insert();
     } else {
       alert(`Error with ${postatus} occurred`);

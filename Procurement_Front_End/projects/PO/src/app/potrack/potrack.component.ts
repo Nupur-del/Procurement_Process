@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import {NgForm} from '@angular/forms';
 import {environment } from '../../../../../src/environments/environment';
 import { MessageService } from '../message.service';
 import { POService } from '../po.service';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import {SeePOComponent} from '../see-po/see-po.component';
 import {LoginService} from '../../../../../src/app/login.service';
 
@@ -18,15 +19,18 @@ export class POTrackComponent implements OnInit {
   item: any = {};
   sub: any;
   po = [];
+  isSending = false;
+  @ViewChild('mainForm', {static: false}) poForm: NgForm;
   imageNames: any = [];
   poStatus = [];
   statusDetails = [];
-  todayDate:Date = new Date();
+  todayDate = new Date();
   isLinear = false;
   constructor(private router: Router,
               private message: MessageService,
               private poService: POService,
               private login: LoginService,
+              private snack: MatSnackBar,
               private http: HttpClient,
               private dialog: MatDialog) { }
 
@@ -54,7 +58,13 @@ export class POTrackComponent implements OnInit {
         default:
           this.poStatus = [];
       }
-      this.po[0].arrival_date = new Date(this.po[0].arrival_date);
+      console.log(this.po[0].arrival_date);
+      if (this.po[0].arrival_date !== '') {
+        this.po[0].arrival_date = this.formatDate(this.po[0].arrival_date );
+      } else {
+        this.po[0].arrival_date = '';
+      }
+      console.log(this.po[0].arrival_date);
       console.log('Po', this.po);
     });
   });
@@ -65,7 +75,26 @@ export class POTrackComponent implements OnInit {
     });
   }
 
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   send() {
+    console.log(this.poForm);
+    if ((this.po[0].po_status === 'Item Dispatched' || this.po[0].po_status === 'Item Delivered')
+    && this.po[0].track === '') {
+        this.snack.open('Please mention the tracking link', '', {duration: 3000});
+    } else {
     console.log('Po', this.po);
     this.item.billNo = this.sub;
     this.item.item = [];
@@ -79,10 +108,15 @@ export class POTrackComponent implements OnInit {
     }
     console.log(this.item.item);
     this.item.tracking_link = this.po[0].track;
+
     this.item.estimated_arrival = this.po[0].arrival_date as string;
     this.item.order_status = this.statusDetails.find(s => s.orderStatus === this.po[0].po_status).id;
     this.item.order_msg = this.po[0].message_client;
     console.log(this.item);
+    console.log('Date', this.item.estimated_arrival);
+     let newDate= new Date(this.item.estimated_arrival).toISOString();
+    // newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
+    this.item.estimated_arrival = newDate;
     console.log('Date', this.item.estimated_arrival);
 
     this.login.userEmail.subscribe(uEmail => {
@@ -99,17 +133,27 @@ export class POTrackComponent implements OnInit {
           order_id: this.item.billNo,
           suppemail : uDetails.find(a => a.id === this.po[0].created_by).email,
           name : uDetails.find(a => a.id === this.po[0].created_by).name,
-          user: localStorage.getItem('username')
+          user: localStorage.getItem('username'),
+          status: this.po[0].po_status
       }
+
       if (this.po[0].po_status === 'Item Dispatched' || this.po[0].po_status === 'Item Delivered') {
+        this.isSending = true;
         this.http.put(environment.BASE_URL + 'Purchase/poTrack', this.item).
         subscribe((data: any) => {
           console.log(data);
           this.http.post(environment.BASE_URL + 'sendmail', user).subscribe(
            (result: any) => {
              console.log(result);
-             this.router.navigate(['/approvedPO']);
+             this.isSending = false;
+             this.snack.open('Notification has send to the Customer', '', {duration: 2000});
+             if ( this.po[0].po_status === 'Item Delivered') {
+              this.router.navigate(['/deliveredPO']);
+             } else {
+              this.router.navigate(['/approvedPO']);
+             }
            },err => {
+            this.isSending = false;
              console.log(err);
            });
         }, err => {
@@ -119,6 +163,7 @@ export class POTrackComponent implements OnInit {
         this.http.put(environment.BASE_URL + 'Purchase/poTrack', this.item).
         subscribe((data: any) => {
           console.log(data);
+          this.snack.open('Status got updated', '', {duration: 2000});
              this.router.navigate(['/approvedPO']);
         }, err => {
         console.log(err);
@@ -127,6 +172,7 @@ export class POTrackComponent implements OnInit {
       });
     });
     })
+   }
   }
 
   seePO() {

@@ -8,10 +8,9 @@
         <td>
         <div class="form-group">
         <input type="text" class="form-control"  [(ngModel)]="item.name" id="name"
-        name="name" #name="ngModel" pattern="[a-zA-Z ]*" required>
+        name="name" #name="ngModel" required>
         <div class ="alert alert-danger" *ngIf="name.touched && !name.valid">
         <div *ngIf="name.errors.required">Name is Required</div>
-        <div *ngIf="name.errors.pattern">Name Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
         </div>
         </div>
         </td>
@@ -22,11 +21,10 @@
         <td>
         <div class="form-group">
         <input type="text" class="form-control" [(ngModel)]="item.sku" id="sku"
-        name="sku" #sku="ngModel" minlength="8" pattern="[a-zA-Z0-9]*" required>
+        name="sku" #sku="ngModel" minlength="8" required>
         <div class ="alert alert-danger" *ngIf="sku.touched && !sku.valid">
         <div *ngIf="sku.errors.required">SKU is Required</div>
         <div *ngIf="sku.errors.minlength">Minimum Length of SKU is 8</div>
-        <div *ngIf="sku.errors.pattern">SKU Pattern is Incorrect Use Character Like (A-Z,a-z,0-9)</div>
         </div>
         </div>
         </td>
@@ -36,11 +34,19 @@
         <td><h5>Brand &nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" [(ngModel)]="item.brand" id="brand"
-        name="brand" #brand="ngModel"  pattern="[a-zA-Z]*" required>
-        <div class ="alert alert-danger" *ngIf="brand.touched && !brand.valid">
-        <div *ngIf="brand.errors.required">Brand is Required</div>
-        <div *ngIf="brand.errors.pattern">Brand Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
+        <input type="text" class="form-control" [(ngModel)]="item.brandName" id="brand"
+        name="brand" required
+        [matAutocomplete]="prod"
+        [formControl]="brandControl"
+        >
+        <mat-autocomplete #prod="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <div class ="alert alert-danger" *ngIf="brandControl.touched && !brandControl.valid">
+        <div *ngIf="brandControl.errors.required">Brand is Required</div>
+        <div *ngIf="brandControl.errors?.pattern">Brand Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
         </div>
         </div>
         </td>
@@ -85,6 +91,19 @@
          id="feature" name="feature" #feature="ngModel" required>
         <div class ="alert alert-danger" *ngIf="feature.touched && !feature.valid">
         <div *ngIf="feature.errors.required">Feature is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td><h5>Specification</h5></td>
+        <td>
+        <div class="form-group">
+        <input type="text" class="form-control" id="specification" [(ngModel)]="item.specification"
+        ngModel name="specification" #specification="ngModel"  required>
+        <div class ="alert alert-danger" *ngIf="specification.touched && !specification.valid">
+        <div *ngIf="specification.errors.required">Specification is Required</div>
         </div>
         </div>
         </td>
@@ -169,7 +188,7 @@
           </mat-card-header>
         <div class="row">
           <div class="col-sm-4"  *ngFor="let image of imageNames; let i=index;">
-            <a style="margin-right: 10px;" [href]="'http://localhost:3000/images/' + image">{{ image }}
+            <a style="margin-right: 10px;" [href]="Image_url + image">{{ image }}
             <button mat-icon-button (click)="removeImage(i)"><mat-icon>delete</mat-icon></button>
             </a>
           </div>
@@ -225,7 +244,7 @@
       <br>
     </table>
      <div class="text-right">
-      <button type="submit" class="btn btn-success" (click)="editItem()">Edit Item</button>
+      <button type="submit" class="btn btn-success" [disabled]="item === null" (click)="editItem()">Edit Item</button>
       </div>
     </form>
     </section>

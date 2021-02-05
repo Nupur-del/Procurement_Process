@@ -137,6 +137,7 @@ router.put('/update_po_status', (req, res) => {
 
 
 router.put('/poTrack', (req, res) => {
+    console.log(req.body);
     PO.update({
         message_client: req.body.order_msg,
         po_status: req.body.order_status,

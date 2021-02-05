@@ -37,6 +37,7 @@ app.post("/sendmail", (req, res) => {
       subject: `Tracking Link for Purchase Order ${user.order_id}`, // Subject line
       html: `<h1>Hi ${user.name}</h1><br>
       <h4>Thanks for placing  order</h4>
+      <h4>Order Status: ${user.status}</h4>
       <h4>You can track your order with following link:</h4>
       <a [href]='${user.tracking_link}'>${user.tracking_link}</a>`
     };

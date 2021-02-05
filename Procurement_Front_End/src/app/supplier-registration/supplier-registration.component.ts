@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import {Router} from '@angular/router';
 import {ConfirmPassword} from './confirm_password.validators';
+import {MatSnackBar} from '@angular/material';
 import {LoginService} from '../login.service';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -26,11 +27,13 @@ export class SupplierRegistrationComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   itemCategories: string[] = [];
   category = [];
+  isSending = false;
   categories = new FormControl('', Validators.required);
 
   checked = false;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
+              private snack: MatSnackBar,
               private login: LoginService,
               private http: HttpClient) { }
 
@@ -62,7 +65,7 @@ export class SupplierRegistrationComponent implements OnInit {
       lang: ['', Validators.required],
       ques: ['', Validators.required],
       ans: ['', Validators.required],
-      mobile: [null, [Validators.required, Validators.maxLength(10)]],
+      mobile: [null, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
       fax: [null, Validators.required],
       acceptTerms: [false, Validators.requiredTrue]
   }, {
@@ -73,22 +76,26 @@ export class SupplierRegistrationComponent implements OnInit {
 get r() { return this.register.controls; }
 
   signUp() {
+    console.log(this.register.controls);
     const registrationData = {
       ...this.register.value,
       categories: this.category
     }
     console.log(registrationData);
+    this.isSending = true;
     this.login.register(registrationData)
-    .subscribe({
-        next: () => {
-            alert('Registration successful, please check your email for verification instructions');
+    .subscribe(response => {
+      console.log(response);
+      this.isSending = false;
+          this.snack.open('Registration successful, please check your email for verification instructions', '', {duration: 3000});
             // this.router.navigate(['../login'], { relativeTo: this.route });
             this.router.navigate(['/login']);
         },
-        error: error => {
+        error => {
+          this.isSending = false;
+          this.snack.open(error.error.message, '', {duration: 3000});
           console.log(error);
-        }
-    });
+        });
   }
 
   goBack() {

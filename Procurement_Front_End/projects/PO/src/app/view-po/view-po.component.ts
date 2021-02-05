@@ -35,6 +35,7 @@ export class ViewPOComponent implements OnInit {
   loc: any;
   poStatus: any;
   statusDetails = [];
+  Image_url = environment.IMAGE_URL;
   isLinear = false;
 
   constructor(private _formBuilder: FormBuilder,

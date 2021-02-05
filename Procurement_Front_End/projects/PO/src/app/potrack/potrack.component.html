@@ -10,36 +10,59 @@
       <tr>
         <td><h5>Tracking Link&nbsp;</h5></td>
         <td>
+          <div class="form-group">
+            <input type="text" class="form-control"
+             [(ngModel)]="po[0].track" name="tracking_link" placeholder="Tracking Link"
+             >
+            </div>
+        <!-- <ng-template #elseBlock>
         <div class="form-group">
         <input type="text" class="form-control"
-         [(ngModel)]="po[0].track" name="tracking_link" placeholder="Tracking Link" required>
+        #link="ngModel"
+        required
+        ngModel
+         [(ngModel)]="po[0].track" name="tracking_link" placeholder="Tracking Link">
+         <mat-error *ngIf="link.errors?.required && link.touched">Mention the tracking link</mat-error>
         </div>
+        </ng-template> -->
         </td>
       </tr>
       <br>
       <tr>
         <td><h5>Estimated Arrival&nbsp;</h5></td>
         <td>
-        <!-- <div class="form-group">
-        <input type="date" class="form-control"  [(ngModel)]="po.estimated_arrival" name="estimated_arrival" required>
-        </div> -->
-        <mat-form-field  style="width: 100%;">
+        <div class="form-group">
+        <input type="date" class="form-control"
+        #date="ngModel"
+        required
+        ngModel
+          [(ngModel)]="po[0].arrival_date"
+          min="{{todayDate | date:'yyyy-MM-dd'}}"
+          name="estimated_arrival">
+        </div>
+        <mat-error *ngIf="date.errors?.required && date.touched">select the date</mat-error>
+        <!-- <mat-form-field  style="width: 100%;">
           <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
            [(ngModel)]="po[0].arrival_date"
           name="estimated_arrival" ngModel required>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
            <mat-datepicker #picker></mat-datepicker>
-         </mat-form-field>
+         </mat-form-field> -->
         </td>
       </tr>
        <tr>
         <td><h5>Update Status&nbsp;</h5></td>
         <td>
         <div class="form-group">
-          <select  [(ngModel)]="po[0].po_status" class="form-control" name="status"
-          placeholder="Status" required>
+          <select  [(ngModel)]="po[0].po_status"
+          ngModel
+          required
+          #status="ngModel"
+           class="form-control" name="status"
+          placeholder="Status">
             <option *ngFor="let i of poStatus" [value]="i">{{i}}</option>
         </select>
+        <mat-error *ngIf="status.errors?.required && status.touched">Please select the status</mat-error>
         </div>
         </td>
       </tr>
@@ -47,15 +70,20 @@
         <td><h5>Message for Client&nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control"  [(ngModel)]="po[0].message_client" name="message"
-        placeholder="Message"required>
+        <input type="text" class="form-control" #msg="ngModel"
+        required
+         [(ngModel)]="po[0].message_client" ngModel name="message"
+        placeholder="Message">
+        <mat-error *ngIf="msg.errors?.required && msg.touched">Write the message</mat-error>
         </div>
         </td>
       </tr>
       <br>
     </table>
      <div class="text-right">
-      <button type="submit" class="btn btn-success" (click)="send()">Send</button>
+      <button *ngIf="isSending === false" type="submit" class="btn btn-success" mat-button [disabled]="po[0].arrival_date === 'NaN-NaN-NaN'"
+       (click)="send()">Send</button>
+       <span *ngIf="isSending === true"><h5>Sending Notification to Customer.....</h5></span>
       </div>
     </form>
     </section>

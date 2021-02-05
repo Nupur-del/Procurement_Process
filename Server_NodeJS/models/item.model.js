@@ -72,9 +72,15 @@ module.exports = db.sequelize.define(
     supplier: {
       type: sequelize.STRING,
       allowNull: true
+    },
+    createdAt: {
+      type: sequelize.DATE
+    },
+    updatedAt: {
+      type: sequelize.DATE
     }
   },
   {
-    timestamps: false
+    timestamps: true
   }
 )

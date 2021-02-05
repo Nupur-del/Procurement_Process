@@ -8,6 +8,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material';
 import {ImageService} from '../image.service';
+import { environment } from 'src/environments/environment';
 
 interface ItemsModel {
   item_id: number;
@@ -22,7 +23,6 @@ interface ImageSlider {
   image: string;
   thumbImage: string;
   alt: string;
-  title: string;
 }
 
 @Component({
@@ -52,10 +52,9 @@ export class SeeItemComponent implements OnInit {
     this.dataService.currentMessage.subscribe(message => this.itemId = message);
     this.isLoading = true;
     this.itemImages = [{
-      image: 'http://localhost:3000/images/dummy_image.jpg',
-      thumbImage: 'http://localhost:3000/images/dummy_image.jpg',
-      alt: 'dummy',
-      title: 'Appliances'
+      image: environment.IMAGE_URL +'dummy_image.jpg',
+      thumbImage: environment.IMAGE_URL +'dummy_image.jpg',
+      alt: 'dummy'
     }];
     this.itemService.getItemById(this.itemId).subscribe((data: any) => {
       console.log(data);
@@ -66,10 +65,9 @@ export class SeeItemComponent implements OnInit {
         if (data.length > 0) {
         for (const i of data) {
         this.itemImages.push({
-          image: 'http://localhost:3000/images/' + i.imageName,
-          thumbImage: 'http://localhost:3000/images/' + i.imageName,
-          alt: 'alt of image',
-          title: 'USB CABLE'
+          image: environment.IMAGE_URL + i.imageName,
+          thumbImage: environment.IMAGE_URL + i.imageName,
+          alt: 'alt of image'
         });
         this.isLoading = false;
         }

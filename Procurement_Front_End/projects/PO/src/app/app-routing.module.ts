@@ -17,23 +17,24 @@ import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
 import { DeniedPOComponent } from './denied-po/denied-po.component';
+import { AuthGuard } from '../../../../src/app/auth.guard';
 
 const routes: Routes = [
-  {path: "purchase-order", component: PurchaseOrderComponent, resolve: { po: POResolverService }},
-  {path: "invoice", component: InvoiceComponent},
-  {path: "track-dashboard", component: TrackDashboardComponent},
-  {path: "track-order", component: TrackOrderComponent},
-  {path: "PO", component: AppComponent},
-  {path: "createPO", component: CreatePOComponent},
-  {path: "pendingPO", component: PendingPOComponent},
-  {path: "deniedPO", component: DeniedPOComponent},
-  {path: "approvedPO", component: ApprovedPOComponent},
-  {path: "poTrack", component: POTrackComponent},
-  {path: "checkPO", component: CheckPOComponent},
-  {path: "viewPO", component: ViewPOComponent, resolve: { view: ViewResolverService }},
-  {path: "deliveredPO", component: DeliveredPoComponent},
-  {path: "viewInvoice", component: EditInvoiceComponent, resolve: { view: ViewResolverService }},
-  {path: "invoiceView", component: ViewInvoiceComponent, resolve: { view: ViewResolverService }},
+  {path: "purchase-order", component: PurchaseOrderComponent, resolve: { po: POResolverService }, canActivate: [AuthGuard]},
+  {path: "invoice", component: InvoiceComponent , canActivate: [AuthGuard]},
+  {path: "track-dashboard", component: TrackDashboardComponent , canActivate: [AuthGuard]},
+  {path: "track-order", component: TrackOrderComponent , canActivate: [AuthGuard]},
+  {path: "PO", component: AppComponent , canActivate: [AuthGuard]},
+  {path: "createPO", component: CreatePOComponent , canActivate: [AuthGuard]},
+  {path: "pendingPO", component: PendingPOComponent , canActivate: [AuthGuard]},
+  {path: "deniedPO", component: DeniedPOComponent , canActivate: [AuthGuard]},
+  {path: "approvedPO", component: ApprovedPOComponent, canActivate: [AuthGuard]},
+  {path: "poTrack", component: POTrackComponent , canActivate: [AuthGuard]},
+  {path: "checkPO", component: CheckPOComponent , canActivate: [AuthGuard]},
+  {path: "viewPO", component: ViewPOComponent, resolve: { view: ViewResolverService }, canActivate: [AuthGuard]},
+  {path: "deliveredPO", component: DeliveredPoComponent , canActivate: [AuthGuard]},
+  {path: "viewInvoice", component: EditInvoiceComponent, resolve: { view: ViewResolverService }, canActivate: [AuthGuard]},
+  {path: "invoiceView", component: ViewInvoiceComponent, resolve: { view: ViewResolverService }, canActivate: [AuthGuard]},
 ];
 
 

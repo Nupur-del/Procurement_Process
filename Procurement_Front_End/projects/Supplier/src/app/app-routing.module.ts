@@ -7,21 +7,22 @@ import { EditItemComponent } from './edit-item/edit-item.component';
 import { EditResolverService } from './edit-resolver.service';
 import { ItemResolverService } from './item-resolver.service';
 import { POModule } from '../../../PO/src/app/app.module';
+import {AuthGuard} from '../../../../src/app/auth.guard';
 
 
 const routes: Routes = [
-  { path: 'supplierHome', component: SupplierHomeComponent },
-  { path: 'supplierItems', component: SupplierItemsComponent, resolve: { items: ItemResolverService } },
-  { path: 'supplier/newItem', component: SupplierNewItemComponent },
+  { path: 'supplierHome', component: SupplierHomeComponent,canActivate: [AuthGuard] },
+  { path: 'supplierItems', component: SupplierItemsComponent, resolve: { items: ItemResolverService }, canActivate: [AuthGuard] },
+  { path: 'supplier/newItem', component: SupplierNewItemComponent, canActivate: [AuthGuard] },
   { path: 'editItem', component: EditItemComponent, resolve: { editItem: EditResolverService }},
-  { path: 'invoice', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'track-order', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'track-dashboard', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule'},
-  { path: 'viewPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
-  { path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule'},
+  { path: 'invoice', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'track-order', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'track-dashboard', loadChildren: '../../../PO/src/app/app.module#POModule',canActivate: [AuthGuard]},
+  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'viewPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
 ];
 
 @NgModule({

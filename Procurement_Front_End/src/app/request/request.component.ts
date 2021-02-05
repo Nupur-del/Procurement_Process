@@ -109,7 +109,7 @@ export class RequestComponent implements OnInit {
     this.userID = +localStorage.getItem('userId');
     if (this.type === 'Requestor') {
       this.displayedColumns = ['order_id', 'created_by', 'date', 'order_desc',
-                     'status', 'edit', 'total_cost', 'Details', 'delete', 'replicate', 'mark_complete'];
+                     'status', 'edit', 'total_cost', 'Details', 'delete', 'replicate'];
      } else {
        this.displayedColumns = ['order_id', 'created_by', 'approved_by', 'date', 'order_desc',
                      'status', 'total_cost', 'Details'];

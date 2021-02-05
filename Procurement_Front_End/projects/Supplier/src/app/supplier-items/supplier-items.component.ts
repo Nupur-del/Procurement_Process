@@ -4,6 +4,8 @@ import { ItemService } from '../item.service';
 import { ImageService } from '../image.service';
 import { DataService } from '../data.service';
 import { Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../../src/environments/environment';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { CSVComponent } from '../csv/csv.component';
@@ -50,22 +52,35 @@ export class SupplierItemsComponent implements OnInit {
               private imageService: ImageService,
               private data: DataService,
               private router: Router,
+              private http: HttpClient,
               private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.imageList = [];
+    this.itemList = [];
     this.type = localStorage.getItem('type');
     this.userID = +localStorage.getItem('userId');
 
     this.itemService.getItems(this.userID).subscribe(item => {
-      this.dataSource = new MatTableDataSource(item);
-      this.dataSource.paginator = this.paginator;
-      this.itemList = item;
-      for (let i of item) {
-        this.imageService.getImageById(i.item_id).subscribe(imag => {
-          this.imageList.push(imag);
-        });
-      }
-      console.log(this.imageList);
+      this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+        for (let i of item) {
+          this.itemList.push({
+            ...i,
+            discountRate: +i.discount,
+            brandName: brandDetails.find(a => a.brandpk === i.brand).brandName
+          })
+        }
+        this.dataSource = new MatTableDataSource(this.itemList);
+        this.dataSource.paginator = this.paginator;
+        console.log(this.itemList);
+        console.log(this.item);
+        for (let i of item) {
+          this.imageService.getImageById(i.item_id).subscribe(imag => {
+            this.imageList.push(imag);
+          });
+        }
+        console.log(this.imageList);
+      });
     });
 
     this.data.currentMessage.subscribe(message => this.sub = message);
@@ -109,22 +124,30 @@ export class SupplierItemsComponent implements OnInit {
     console.log(this.item);
     console.log(this.imageList);
     // this.imageList = this.imageList["0"];
-    console.log(this.imageList);
 
-    this.images = this.imageList.filter(item => item.item_id === item_id);
-    console.log(this.images);
-    if (this.images.length) {
-    for (let image of this.images) {
-      this.uploadedImages.push(image.imageName);
+    if (this.imageList.length > 0) {
+      for (let image of this.imageList) {
+        console.log(image);
+        if ( image.length > 0) {
+          let k = image.filter(a => a.item_id === item_id);
+          if (k.length > 0) {
+            for (let j of k) {
+              this.uploadedImages.push(j.imageName);
+            }
+          }
+        }
     }
+    console.log('UploadImage3', this.uploadedImages);
     this.item.imageName = this.uploadedImages;
     } else {
      this.item.imageName = [];
    }
-    console.log(this.item);
+   console.log('UploadImage', this.uploadedImages);
+
+    console.log('Replicated Item ',this.item);
     this.itemService.replicateItem(this.item).subscribe(data => {
       console.log('Replicated Items', data);
-      this.message = 'Replicated Sucessfully';
+      this.message = 'Replication of item Succeeded';
       this.insert();
       this.doRefresh(refresher);
       }, err => {

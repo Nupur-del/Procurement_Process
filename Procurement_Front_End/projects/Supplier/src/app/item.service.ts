@@ -40,6 +40,7 @@ export class ItemService {
   }
 
   editItem(item: any) {
+    item.action = "edit";
     console.log(item);
     this.delItem(item.item_id).subscribe(data => {
       console.log(data);

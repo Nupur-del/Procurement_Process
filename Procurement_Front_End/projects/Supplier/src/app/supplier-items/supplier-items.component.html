@@ -19,7 +19,7 @@
         </ng-container>
         <ng-container matColumnDef = "Brand">
            <th mat-header-cell *matHeaderCellDef>Brand</th>
-           <td mat-cell *matCellDef = "let element"> {{element.brand}} </td>
+           <td mat-cell *matCellDef = "let element"> {{element.brandName}} </td>
         </ng-container>
         <ng-container matColumnDef = "Price">
            <th mat-header-cell *matHeaderCellDef>Price</th>
@@ -35,7 +35,7 @@
          </ng-container>
          <ng-container matColumnDef = "DiscountRate">
             <th mat-header-cell *matHeaderCellDef>Discount Rate</th>
-            <td mat-cell *matCellDef = "let element"> {{element.discount}} </td>
+            <td mat-cell *matCellDef = "let element"> {{element.discountRate + "%"}} </td>
          </ng-container>
          <ng-container matColumnDef = "Warranty">
             <th mat-header-cell *matHeaderCellDef>Warranty</th>
@@ -56,13 +56,13 @@
           </td>
         </ng-container>
          <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <th mat-header-cell *matHeaderCellDef> Edit </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button color='primary' (click)="onEdit(element.item_id, $event)"><mat-icon>edit</mat-icon></button>
       </td>
     </ng-container>
   <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <th mat-header-cell *matHeaderCellDef> Deletion </th>
       <td mat-cell *matCellDef="let element" class="action-link">
         <button mat-icon-button color='warn' (click)="onDelete(element.item_id,$event)"><mat-icon>delete</mat-icon></button>
       </td>

@@ -7,10 +7,10 @@
         <td><h5>Name&nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control"  [(ngModel)]="item.name" id="name" ngModel name="name" #name="ngModel" pattern="[a-zA-Z ]*" required>
+        <input type="text" class="form-control"  [(ngModel)]="item.name" id="name"
+        ngModel name="name" #name="ngModel" required>
         <div class ="alert alert-danger" *ngIf="name.touched && !name.valid">
         <div *ngIf="name.errors.required">Name is Required</div>
-        <div *ngIf="name.errors.pattern">Name Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
         </div>
         </div>
         </td>
@@ -20,11 +20,11 @@
         <td><h5>SKU&nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" [(ngModel)]="item.sku" id="sku"  ngModel name="sku" #sku="ngModel" minlength="8" pattern="[a-zA-Z0-9]*" required>
+        <input type="text" class="form-control" [(ngModel)]="item.sku" id="sku"
+         ngModel name="sku" #sku="ngModel" minlength="8" required>
         <div class ="alert alert-danger" *ngIf="sku.touched && !sku.valid">
         <div *ngIf="sku.errors.required">SKU is Required</div>
         <div *ngIf="sku.errors.minlength">Minimum Length of SKU is 8</div>
-        <div *ngIf="sku.errors.pattern">SKU Pattern is Incorrect Use Character Like (A-Z,a-z,0-9)</div>
         </div>
         </div>
         </td>
@@ -34,10 +34,19 @@
         <td><h5>Brand &nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" [(ngModel)]="item.brand" id="brand" ngModel name="brand" #brand="ngModel"  pattern="[a-zA-Z]*" required>
-        <div class ="alert alert-danger" *ngIf="brand.touched && !brand.valid">
-        <div *ngIf="brand.errors.required">Brand is Required</div>
-        <div *ngIf="brand.errors.pattern">Brand Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
+        <input type="text" class="form-control" [(ngModel)]="item.brand" id="brand" ngModel
+        name="brand" matInput pattern="[a-zA-Z]*"
+        [matAutocomplete]="prod"
+        [formControl]="brandControl"
+        required>
+        <mat-autocomplete #prod="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <div class ="alert alert-danger" *ngIf="brandControl.touched && !brandControl.valid">
+        <div *ngIf="brandControl.errors?.required">Brand is Required</div>
+        <div *ngIf="brandControl.errors?.pattern">Brand Pattern is Incorrect Use Character Like (A-Z,a-z)</div>
         </div>
         </div>
         </td>
@@ -47,8 +56,9 @@
         <td><h5>Price &nbsp;</h5></td>
         <td>
         <div class="form-group">
-        <input type="number" class="form-control" [(ngModel)]="item.price" id="price" ngModel name="price" #price="ngModel"  pattern="[0-9.]*" required>
-        <div class ="alert alert-danger" *ngIf="price.touched && !price.valid">
+        <input type="number" class="form-control" [(ngModel)]="item.price" id="price" ngModel
+        name="price" #price="ngModel"  pattern="[0-9.]*" required>
+        <div class ="alert alert-danger"  *ngIf="price.touched && !price.valid">
         <div *ngIf="price.errors.required">Price is Required</div>
         <div *ngIf="price.errors.pattern">Price Pattern is Incorrect Use Character Like (0-9,.)</div>
         </div>
@@ -100,7 +110,8 @@
         <td><h5>Discount Rate</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" id="discount" [(ngModel)]="item.discount" ngModel name="discount" #discount="ngModel" pattern="[0-9.]*" required>
+        <input type="text" class="form-control" id="discount" [(ngModel)]="item.discount"
+        ngModel name="discount" #discount="ngModel" pattern="[0-9.]*" required>
         <div class ="alert alert-danger" *ngIf="discount.touched && !discount.valid">
         <div *ngIf="discount.errors.required">Discount is Required</div>
         <div *ngIf="discount.errors.pattern">Discount Pattern is Incorrect Use Character Like (0-9,.)</div>
@@ -109,19 +120,35 @@
         </td>
       </tr>
       <br>
-       <tr>
-        <td><label></label><h5>In Stock</h5></td>
+      <tr>
+        <td><h5>Specification</h5></td>
         <td>
         <div class="form-group">
-        Quantity&nbsp;<input type="number" class="form-control" [(ngModel)]="item.quantity" id="quantity" ngModel name="quantity" #quantity="ngModel" required>
+        <input type="text" class="form-control" id="specification" [(ngModel)]="item.specification"
+        ngModel name="specification" #specification="ngModel"  required>
+        <div class ="alert alert-danger" *ngIf="specification.touched && !specification.valid">
+        <div *ngIf="specification.errors.required">Specification is Required</div>
+        </div>
+        </div>
+        </td>
+      </tr>
+      <br>
+       <tr>
+        <td><h5>In Stock</h5></td>
+        <td>
+        <div class="form-group">
+        Quantity&nbsp;<input type="number" class="form-control" [min]="1"
+        [(ngModel)]="item.quantity" id="quantity" ngModel name="quantity" #quantity="ngModel" required>
         <div class ="alert alert-danger" *ngIf="quantity.touched && !quantity.valid">
         <div *ngIf="quantity.errors.required">Quantity is Required</div>
+        <div *ngIf="quantity.errors.min && quantity.touched"></div>
         </div>
         </div>
         </td>
         <td>
         <div class="form-group">
-        Threshold&nbsp;<input type="number" class="form-control" [(ngModel)]="item.threshold" id="threshold" ngModel name="threshold" #threshold="ngModel" required>
+        Threshold&nbsp;<input type="number" class="form-control" [(ngModel)]="item.threshold"
+        id="threshold" ngModel name="threshold" #threshold="ngModel" required>
         <div class ="alert alert-danger" *ngIf="threshold.touched && !threshold.valid">
         <div *ngIf="threshold.errors.required">Threshold is Required</div>
         </div>
@@ -211,7 +238,7 @@
       <br>
     </table>
      <div class="text-right">
-      <button type="submit" class="btn btn-success" (click)="addItem()">Submit Item</button>
+      <button type="submit" class="btn btn-success" [disabled]="mainForm.invalid" (click)="addItem()">Submit Item</button>
       </div>
     </form>
     </section>

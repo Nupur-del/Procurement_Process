@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2021 at 03:23 PM
+-- Generation Time: Feb 05, 2021 at 02:05 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -105,7 +105,9 @@ INSERT INTO `brands` (`brandpk`, `brandName`) VALUES
 (2, 'IBALL'),
 (3, 'HP'),
 (4, 'DELL'),
-(5, 'ASUS');
+(5, 'ASUS'),
+(8, 'JBL'),
+(9, 'SanDisk');
 
 -- --------------------------------------------------------
 
@@ -159,11 +161,11 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (25, 1, '01010101008', 100000, 100000),
 (26, 1, '01010101019', 100000, 100000),
 (27, 3, '01010101005', 90000, 90000),
-(28, 3, '01010101003', 30000, 90000),
+(28, 3, '01010101003', 90000, 90000),
 (29, 3, '01010101006', 90000, 90000),
 (30, 3, '01010101024', 90000, 90000),
 (31, 3, '01010101025', 90000, 90000),
-(32, 3, '01010101018', 21000, 90000),
+(32, 3, '01010101018', 90000, 90000),
 (33, 3, '01010101002', 90000, 90000),
 (34, 3, '01010101007', 90000, 90000),
 (35, 3, '01010101016', 90000, 90000),
@@ -180,20 +182,20 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (46, 3, '01010101026', 90000, 90000),
 (47, 3, '01010101009', 90000, 90000),
 (48, 3, '01010101001', 90000, 90000),
-(49, 3, '01010101004', 50000, 90000),
+(49, 3, '01010101004', 90000, 90000),
 (50, 3, '01010101022', 90000, 90000),
 (51, 3, '01010101008', 90000, 90000),
 (52, 3, '01010101019', 90000, 90000),
-(53, 4, '01010101005', 150000, 150000),
+(53, 4, '01010101005', 118000, 150000),
 (54, 4, '01010101003', 150000, 150000),
 (55, 4, '01010101006', 150000, 150000),
-(56, 4, '01010101024', 127000, 150000),
+(56, 4, '01010101024', 86000, 150000),
 (57, 4, '01010101025', 150000, 150000),
-(58, 4, '01010101018', 81000, 150000),
-(59, 4, '01010101002', 127000, 150000),
-(60, 4, '01010101007', 116000, 150000),
+(58, 4, '01010101018', 150000, 150000),
+(59, 4, '01010101002', 150000, 150000),
+(60, 4, '01010101007', 150000, 150000),
 (61, 4, '01010101016', 150000, 150000),
-(62, 4, '01010101021', 150000, 150000),
+(62, 4, '01010101021', 128000, 150000),
 (63, 4, '01010101023', 150000, 150000),
 (64, 4, '01010101015', 150000, 150000),
 (65, 4, '01010101017', 150000, 150000),
@@ -207,32 +209,32 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (73, 4, '01010101009', 150000, 150000),
 (74, 4, '01010101001', 150000, 150000),
 (75, 4, '01010101004', 150000, 150000),
-(76, 4, '01010101022', 82800, 150000),
+(76, 4, '01010101022', 150000, 150000),
 (77, 4, '01010101008', 150000, 150000),
 (78, 4, '01010101019', 150000, 150000),
-(79, 5, '01010101005', 126800, 130000),
-(80, 5, '01010101003', 12000, 130000),
+(79, 5, '01010101005', 130000, 130000),
+(80, 5, '01010101003', 98000, 130000),
 (81, 5, '01010101006', 130000, 130000),
 (82, 5, '01010101024', 130000, 130000),
-(83, 5, '01010101025', 118400, 130000),
-(84, 5, '01010101018', 61000, 130000),
+(83, 5, '01010101025', 130000, 130000),
+(84, 5, '01010101018', 130000, 130000),
 (85, 5, '01010101002', 130000, 130000),
-(86, 5, '01010101007', 50000, 130000),
+(86, 5, '01010101007', 130000, 130000),
 (87, 5, '01010101016', 130000, 130000),
-(88, 5, '01010101021', 91600, 130000),
+(88, 5, '01010101021', 130000, 130000),
 (89, 5, '01010101023', 130000, 130000),
 (90, 5, '01010101015', 130000, 130000),
 (91, 5, '01010101017', 130000, 130000),
 (92, 5, '01010101014', 130000, 130000),
 (93, 5, '01010101020', 130000, 130000),
-(94, 5, '01010101013', 28000, 130000),
-(95, 5, '01010101012', 94800, 130000),
+(94, 5, '01010101013', 130000, 130000),
+(95, 5, '01010101012', 130000, 130000),
 (96, 5, '01010101011', 130000, 130000),
 (97, 5, '01010101010', 130000, 130000),
-(98, 5, '01010101026', 114000, 130000),
+(98, 5, '01010101026', 130000, 130000),
 (99, 5, '01010101009', 130000, 130000),
 (100, 5, '01010101001', 130000, 130000),
-(101, 5, '01010101004', 98000, 130000),
+(101, 5, '01010101004', 130000, 130000),
 (102, 5, '01010101022', 130000, 130000),
 (103, 5, '01010101008', 130000, 130000),
 (104, 5, '01010101019', 130000, 130000),
@@ -240,12 +242,12 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (106, 6, '01010101003', 140000, 140000),
 (107, 6, '01010101006', 140000, 140000),
 (108, 6, '01010101024', 140000, 140000),
-(109, 6, '01010101025', 131600, 140000),
+(109, 6, '01010101025', 140000, 140000),
 (110, 6, '01010101018', 140000, 140000),
 (111, 6, '01010101002', 140000, 140000),
 (112, 6, '01010101007', 140000, 140000),
 (113, 6, '01010101016', 140000, 140000),
-(114, 6, '01010101021', 140000, 140000),
+(114, 6, '01010101021', 120000, 140000),
 (115, 6, '01010101023', 140000, 140000),
 (116, 6, '01010101015', 140000, 140000),
 (117, 6, '01010101017', 140000, 140000),
@@ -255,15 +257,15 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (121, 6, '01010101012', 140000, 140000),
 (122, 6, '01010101011', 140000, 140000),
 (123, 6, '01010101010', 140000, 140000),
-(124, 6, '01010101026', 140000, 140000),
+(124, 6, '01010101026', 72000, 140000),
 (125, 6, '01010101009', 140000, 140000),
 (126, 6, '01010101001', 140000, 140000),
 (127, 6, '01010101004', 140000, 140000),
-(128, 6, '01010101022', 108000, 140000),
+(128, 6, '01010101022', 140000, 140000),
 (129, 6, '01010101008', 140000, 140000),
 (130, 6, '01010101019', 140000, 140000),
 (131, 7, '01010101005', 120000, 120000),
-(132, 7, '01010101003', 120000, 120000),
+(132, 7, '01010101003', 56000, 120000),
 (133, 7, '01010101006', 120000, 120000),
 (134, 7, '01010101024', 120000, 120000),
 (135, 7, '01010101025', 120000, 120000),
@@ -340,7 +342,7 @@ INSERT INTO `dataadmin` (`admAdminPK`, `admName`, `admDOJ`, `admIsActive`, `admp
 (120224, 'Lekha Raghu', '1900-01-01', b'1', '12345678', '', '$2a$12$NdjkeLLlb3alKF4rMNt6BuuZ/VdwcxHeZzFLLrPaWh3sX/bcs66VS', '', '', '', 'lekha.raghu@tcs.com', '', NULL),
 (121565, 'Thulasi Sunil', '2000-08-01', b'1', '12345678', 'Mother Maiden Name', '$2a$12$vh4loJgJj6Ur2NdFDwHAUupFSd8To7y20AHBA//3LzP0XajZKJFH2', '61327774', '', '', 'thulasi.chandran@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\121565.jpg'),
 (123521, 'Sangameshwaran Iyer', '2000-11-20', b'1', '12345678', '', '', '', '', '', '', '', NULL),
-(126422, 'Sandip Divekar', '2001-04-20', b'1', '12345678', 'My birth place', '$2a$12$pMnYj6px8XA2JpiGLUAk.exkZ.7gU6FzKOoXGxiqg714GORSUKkAO', '022-67798655', '9223357825', '', ' sandip.divekar@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\126422.jpg'),
+(126422, 'Sandip Divekar', '2001-04-20', b'1', '12345678', 'My birth place', '$2a$12$pMnYj6px8XA2JpiGLUAk.exkZ.7gU6FzKOoXGxiqg714GORSUKkAO', '022-67798655', '9223357825', '', 'sandip.divekar@tcs.com ', '', 'C:\\CommonFolderMirror\\UserImages\\126422.jpg'),
 (126477, 'Joshy Joseph', '2001-04-26', b'1', '12345678', 'mothers name', '$2a$12$qEdJTa9HEVGj32jfSOG10.TKfGp2U2cggoSDLPPosIPHbtkEzrp/m', '67782672', '8097001082', '67782190', 'joshy.joseph@tcs.com', '4222672', 'C:\\CommonFolderMirror\\UserImages\\126477.PNG'),
 (126904, 'Vijay Kamath', '2000-01-01', b'1', '12345678', 'Name of country', '$2a$12$TgRpCl8cYvL9siTbwK5MdOcvcUkN9rMgdVHuyPLPOo5UqLAw/XcMO', '67785151', '9892169944', '67785151', ' vijay.kamath@tcs.com ', '85151', 'C:\\CommonFolderMirror\\UserImages\\126904.jpg'),
 (126913, 'Deepa Kelshikar', '2001-06-11', b'1', '12345678', 'what is mother name', '$2a$12$H84uPjALtgvoKF5p9hNY3OOft0yGIXclNplJodJsoZLJg5zJ8M1ha', '67782090', '9819775364', '0', 'deepa.kelshikar@tcs.com', '4222090', 'C:\\CommonFolderMirror\\UserImages\\126913.jpg'),
@@ -544,7 +546,6 @@ CREATE TABLE `datavendor` (
   `venAbbrName` varchar(10) NOT NULL,
   `venYearOfEst` int(4) NOT NULL,
   `venAffliationWithTcs` date DEFAULT NULL,
-  `venRegistrationNo` varchar(50) NOT NULL,
   `venLicenceNo` varchar(50) NOT NULL,
   `venBussinessLogo` blob DEFAULT NULL,
   `venIsActive` bit(1) NOT NULL
@@ -558,159 +559,9 @@ CREATE TABLE `datavendor` (
 -- Dumping data for table `datavendor`
 --
 
-INSERT INTO `datavendor` (`venVendorPK`, `venName`, `venAbbrName`, `venYearOfEst`, `venAffliationWithTcs`, `venRegistrationNo`, `venLicenceNo`, `venBussinessLogo`, `venIsActive`) VALUES
-(0, 'angel.cute1234', 'angel', 2019, '2020-12-16', '321321321', '2131321', NULL, b'1'),
-(1, 'Voltas Ltd', 'Voltas', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(2, 'STULZ CHSPL (India) Pvt Ltd', 'STULZ', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(3, 'Emerson Networking Power Ltd', 'Emerson', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(4, 'Rai Industrial Power', 'Rai Ind', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(5, 'Sterling & Wilson PowerGen Pvt Ltd', 'Ster. Gen.', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(6, 'Sterling & Wilson Ltd', 'Ster & Wil', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(7, 'ECIL Rapiscan Ltd', 'ECIL', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(8, 'Twincity Sunlife Pvt Ltd', 'Twincity', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(9, 'Global Power Source PTE Ltd', 'Global PS', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(10, 'Voltamp Transformers Ltd', 'Voltamp', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(11, 'Zicom Saas Pvt Ltd', 'Zicom', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(12, 'Madhuban Nursery', 'Madhuban', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(13, 'Sodexo Facilities Mngmt Services Ind Pvt Ltd', 'Sodexo', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(14, 'Vivitor Backup', 'Vivitor', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(15, 'Hydrotech Engineers', 'Hydrotech', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(16, 'Automotive Industries', 'Automotive', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(17, 'Groupcom Systems', 'Groupcom', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(18, 'Sun Dynamics', 'Sun Dynmcs', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(19, 'Workstore Limited', 'WorkstoreL', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(20, 'Pest Control India Pvt Ltd.', 'Pest Cntrl', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(21, 'Fitrite', 'Fitrite', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(22, 'Vaishali Fire System Pvt Ltd.', 'Vaishali', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(23, 'Oustfire Safety Engineers', 'Oustfire', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(24, 'Siemens', 'Siemens', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(25, 'Jai Engineering Works', 'Jai Engg', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(26, 'Nautilus Aqua System', 'Nautilus', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(27, 'Fitness Force', 'FitnessFrc', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(28, 'Oneworld Impex Pvt Ltd. Division of R.P.S.P.L', 'Oneworld', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(29, 'Carrier Airconditioning & Refrigeration Ltd', 'CarrierAir', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(30, 'Ease and Comfort Chairs Pvt Ltd', 'EaseComfrt', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(31, 'Kone Elevators', 'Kone', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(32, 'OTIS Elevators', 'OTIS', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(33, 'Accutech Service', 'Accutech', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(34, 'Douse Fire', 'Douse', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(35, 'Schneider Electric IT Business India Pvt Ltd', 'Schneider', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(36, 'Power Matrix Solutions Private Limited', 'PowerMatrx', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(37, 'Prime Kitchen Facility Solutions Pvt. Ltd', 'PrimeFaSol', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(38, 'Honeywell Automation India Limited', 'Honeywell', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(39, 'Fairair Engineers Pvt Ltd', 'FairairEng', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(40, 'Arya Omni talk', 'Arya Omni', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(41, 'Ashalini Enterprise', 'Ashalini', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(42, 'CBRE', 'CBRE', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(43, 'CISCO', 'CISCO', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(44, 'Eureka Forbes', 'Eureka', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(45, 'General Travels', 'GeneralTrv', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(46, 'Grade Electricals', 'Grade Elec', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(47, 'Gunnebo Fire Extinguishers', 'Gunnebo', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(48, 'Kanaka Food Management', 'KanakaFood', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(49, 'Megatech power Equipment Pvt.Ltd', 'Megatech', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(50, 'Netlogic System', 'Netlogic', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(51, 'Nitin Fire Protection Industries Ltd', 'Nitin Fire', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(52, 'PCI', 'PCI', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(53, 'R K Cool', 'R K Cool', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(55, 'Rite Equipment', 'Rite Equip', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(56, 'Samarth Security Systems Ltd', 'Samarth', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(57, 'Shushco Marketing', 'Shushco', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(58, 'Status Business Machines', 'StatusBusi', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(59, 'Tata Sky (Fair Deal)', 'Tata Sky', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(60, 'Taylormade Outsourcing Solutions', 'Taylormade', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(61, 'Wellness Associates', 'Wellness', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(62, 'Wings Travels Management India', 'WingsTrvls', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(63, 'TSR Darashaw Pvt. Limited', 'TSCDarashw', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(64, 'Rumark Consultants & Merchants Pvt.Ltd.', 'RumarkCons', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(65, 'Guru Om Caterers', 'GuruOmCat', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(66, 'Ferntastica Gardens Ltd.', 'Ferntastic', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(67, 'Cannon Hygeine (India) Private Limited', 'CannonHyg', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(68, 'ICS Solutions', 'ICSSolutns', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(69, 'Blue Star', 'Blue Star', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(70, 'Equinox Solutions', 'EquinoxSol', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(71, 'Netel India Ltd.', 'NetelIndia', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(72, 'Schweitzer Systemtek India Pvt. Ltd.', 'Schweitzer', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(73, 'Sourab Aircon Corporation', 'SourabAirc', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(74, 'DG Power Engineers', 'DGPowerEng', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(75, 'CMC Ltd.', 'CMC Ltd', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(76, 'Pitney Bowes', 'PitneyBowe', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(77, 'City Lift India', 'CityLift', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(78, 'GE India Industrial (Private) Limited', 'GE Ind', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(79, 'American Power Corporation (India) Pvt Ltd', 'AmerPowCor', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(80, 'Cannon Copier', 'CannonCopi', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(81, 'Datar Power Management Pvt. Ltd.', 'DatarPower', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(82, 'Vivitar Backups', 'Vivitar', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(83, 'Sampur(E)arth Environment Solutions Pvt Ltd', 'Sampur', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(84, 'GMMCO', 'GMMCO', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(85, 'Ackruti Safety Innovations LLP', 'AckrutiSaf', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(86, 'Universal Airconditioning', 'UnivAirCon', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(87, 'TATA Power Solar System Ltd', 'TataPower', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(88, 'Thyssenkrupp Elevators (India) Pvt Ltd', 'Thyssen', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(89, 'Ground Water Exploration Services', 'GroundWatr', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(90, 'Ozone Research and  Application India Pvt Ltd', 'OzoneRsrch', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(91, 'S and W water treatment', 'SandWWater', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(92, 'Schneider Electric India Pvt Ltd', 'SchneiderE', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(93, 'BGI Engitech Pvt Ltd', 'BGIEngitec', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(94, 'Cravatex Limited', 'Cravatex', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(95, 'Kritikal Securescan Pvt Ltd', 'Kritikal', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(96, 'Vendiman Snacking Solution Pvt Ltd', 'Vendiman', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(97, 'Startech Engineers', 'Startech', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(98, 'Konkan Electric Corporation', 'Konkan', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(99, 'Hicare Services Pvt Ltd', 'Hicare', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(100, 'ISS Catering Services (west) Pvt Ltd', 'ISSCater', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(101, 'Skylab Analytical Laboratory', 'Skylab', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(102, 'Cummins India Limited', 'Cummins', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(103, 'Earth Water Technology', 'EarthWater', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(104, 'Easy Building Automation & Security', 'EasyBuildA', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(105, 'Emerson Network Power (India) Private Limited', 'EmersonNet', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(106, 'Consul Neowatt Solutions Private Limited', 'ConsulNeo', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(107, 'Dorma India Pvt. Ltd.', 'Dorma', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(108, 'Powerica', 'Powerica', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(109, 'Eaton', 'Eaton', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(110, 'HIR', 'HIR', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(111, 'Apollo Power Systems Pvt Ltd', 'ApolloPowr', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(112, 'Vertiv Energy Private Limited', 'VertivEner', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(113, 'Eviska Infotech Private Limited', 'EviskaInfo', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(114, 'Digicon Engineers (I) Private Limited', 'DigiconEng', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(115, 'Thakral Services India Limited', 'ThakralSer', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(116, 'ACE Technologies', 'AceTechno', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(117, 'Kalpaka Power Control', 'KalpakaPwr', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(118, 'Schindler Electric', 'SchindlerE', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(119, 'Vartak Pumps & projects consultants', 'VartakPump', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(120, 'Ion Exchange', 'IonExchang', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(121, 'Speedways Electric', 'SpeedwaysE', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(122, 'Praval India', 'PravalIndi', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(123, 'Maco Corporation', 'MacoCorpor', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(124, 'Skyrise', 'Skyrise', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(125, 'Swati Safesecure', 'SwatiSafes', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(126, 'Natech Solutions', 'NatechSols', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(127, 'Sigmax Technologies', 'SigmaxTech', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(128, 'Vehant Technologies Pvt. Ltd', 'VehantTech', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(129, 'Namrata Electricals', 'NamrataEle', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(130, 'Daikin', 'Daikin', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(131, 'Acme', 'Acme', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(132, 'Infres Methodex Private Limited', 'InfresMePL', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(133, 'Comac India Pvt Ltd', 'ComacIndPL', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(134, 'FEURMANN SCHWEITZER SYSTEMTECK LLP', 'FEURMANNSS', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(135, 'F K Refrigeration', 'FKRefriger', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(136, 'Godrej and Boyce Mfg. Co. Ltd.', 'GodrejBoyc', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(137, 'Abt  Securities Systems', 'AbtSecSyst', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(138, 'Tyco Fire & Safety', 'TycoFireSa', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(139, 'Deepak Electricals', 'DeepakElec', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(140, 'S M Engineering', 'SMEngineer', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(141, 'Johnson Control ( India) Pvt. Ltd.', 'JohnsonCon', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(142, 'Variety Kitchen Solutions', 'VarietyKit', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(143, 'Royal Elevators', 'RoyalElevr', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(144, 'Hestia Electronic Surveillance System', 'HestiaElec', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(145, 'Socomec Innovative Power Soln.', 'SocomecInn', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(146, 'FITECH SYSTEMS PRIVATE LIMITED', 'FitechSyst', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(147, 'Rinac', 'Rinac', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(148, 'Allied Engineering', 'AlliedEngg', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(149, 'Russell Airflow', 'RusselAirF', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(150, 'Lithura Electrical Technology Pvt Ltd', 'LithuraEle', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(151, 'Concept Business Products', 'ConceptBuP', 1900, NULL, 'NA', 'NA', NULL, b'1'),
-(3035, 'PLDASd', 'PLDASd', 2001, '2021-01-21', '21', 'dsdasd', NULL, b'1');
+INSERT INTO `datavendor` (`venVendorPK`, `venName`, `venAbbrName`, `venYearOfEst`, `venAffliationWithTcs`, `venLicenceNo`, `venBussinessLogo`, `venIsActive`) VALUES
+(8, 'PMD Ltd', 'PMD Ltd', 2001, NULL, '23123', NULL, b'0'),
+(9, 'LKJ Ltd', 'LKJ Ltd', 2003, NULL, '4556', NULL, b'0');
 
 -- --------------------------------------------------------
 
@@ -727,170 +578,37 @@ CREATE TABLE `datavendorinfo` (
   `vendorMobileNo` varchar(20) DEFAULT NULL,
   `vendorFaxNo` varchar(20) DEFAULT NULL,
   `vendorEmail` varchar(30) NOT NULL,
-  `vendorVoIP` varchar(20) DEFAULT NULL
+  `vendorVoIP` varchar(20) DEFAULT NULL,
+  `venVendorFK` int(6) NOT NULL,
+  `vencountry` varchar(50) NOT NULL,
+  `venaddress` varchar(200) NOT NULL,
+  `venstate` varchar(50) NOT NULL,
+  `vencity` varchar(50) NOT NULL,
+  `venpostalCode` varchar(60) NOT NULL,
+  `venperson` varchar(50) NOT NULL,
+  `ventax` varchar(50) NOT NULL,
+  `venwebsite` varchar(50) NOT NULL,
+  `venlang` varchar(50) NOT NULL,
+  `venisapproved` varchar(50) NOT NULL,
+  `venisViewed` bit(1) NOT NULL,
+  `venisVerified` bit(1) NOT NULL,
+  `venacceptTerms` bit(1) NOT NULL,
+  `ventoken` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- RELATIONSHIPS FOR TABLE `datavendorinfo`:
+--   `venVendorFK`
+--       `datavendor` -> `venVendorPK`
 --
 
 --
 -- Dumping data for table `datavendorinfo`
 --
 
-INSERT INTO `datavendorinfo` (`vendorPK`, `vendorpwd`, `vendorSecretQn`, `vendorSecretAns`, `vendorOffLandLineNo`, `vendorMobileNo`, `vendorFaxNo`, `vendorEmail`, `vendorVoIP`) VALUES
-(0, 'shardadevi', 'which is your favourite city', 'lucknow', '05222692873', '9532054401', '2323', 'angel.cute1234@gmail.com', 'dasds'),
-(1, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test1@test.com', NULL),
-(2, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test2@test.com', NULL),
-(3, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test3@test.com', NULL),
-(4, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test4@test.com', NULL),
-(5, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test5@test.com', NULL),
-(6, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test6@test.com', NULL),
-(7, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test7@test.com', NULL),
-(8, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test8@test.com', NULL),
-(9, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test9@test.com', NULL),
-(10, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test10@test.com', NULL),
-(11, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test11@test.com', NULL),
-(12, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test12@test.com', NULL),
-(13, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test13@test.com', NULL),
-(14, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test14@test.com', NULL),
-(15, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test15@test.com', NULL),
-(16, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test16@test.com', NULL),
-(17, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test17@test.com', NULL),
-(18, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test18@test.com', NULL),
-(19, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test19@test.com', NULL),
-(20, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test20@test.com', NULL),
-(21, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test21@test.com', NULL),
-(22, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test22@test.com', NULL),
-(23, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test23@test.com', NULL),
-(24, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test24@test.com', NULL),
-(25, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test25@test.com', NULL),
-(26, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test26@test.com', NULL),
-(27, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test27@test.com', NULL),
-(28, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test28@test.com', NULL),
-(29, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test29@test.com', NULL),
-(30, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test30@test.com', NULL),
-(31, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test31@test.com', NULL),
-(32, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test32@test.com', NULL),
-(33, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test33@test.com', NULL),
-(34, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test34@test.com', NULL),
-(35, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test35@test.com', NULL),
-(36, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test36@test.com', NULL),
-(37, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test37@test.com', NULL),
-(38, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test38@test.com', NULL),
-(39, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test39@test.com', NULL),
-(40, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test40@test.com', NULL),
-(41, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test41@test.com', NULL),
-(42, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test42@test.com', NULL),
-(43, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test43@test.com', NULL),
-(44, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test44@test.com', NULL),
-(45, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test45@test.com', NULL),
-(46, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test46@test.com', NULL),
-(47, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test47@test.com', NULL),
-(48, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test48@test.com', NULL),
-(49, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test49@test.com', NULL),
-(50, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test50@test.com', NULL),
-(51, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test51@test.com', NULL),
-(52, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test52@test.com', NULL),
-(53, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test53@test.com', NULL),
-(55, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test55@test.com', NULL),
-(56, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test56@test.com', NULL),
-(57, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test57@test.com', NULL),
-(58, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test58@test.com', NULL),
-(59, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test59@test.com', NULL),
-(60, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test60@test.com', NULL),
-(61, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test61@test.com', NULL),
-(62, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test62@test.com', NULL),
-(63, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test63@test.com', NULL),
-(64, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test64@test.com', NULL),
-(65, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test65@test.com', NULL),
-(66, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test66@test.com', NULL),
-(67, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test67@test.com', NULL),
-(68, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test68@test.com', NULL),
-(69, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test69@test.com', NULL),
-(70, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test70@test.com', NULL),
-(71, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test71@test.com', NULL),
-(72, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test72@test.com', NULL),
-(73, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test73@test.com', NULL),
-(74, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test74@test.com', NULL),
-(75, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test75@test.com', NULL),
-(76, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test76@test.com', NULL),
-(77, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test77@test.com', NULL),
-(78, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test78@test.com', NULL),
-(79, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test79@test.com', NULL),
-(80, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test80@test.com', NULL),
-(81, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test81@test.com', NULL),
-(82, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test82@test.com', NULL),
-(83, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test83@test.com', NULL),
-(84, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test84@test.com', NULL),
-(85, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test85@test.com', NULL),
-(86, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test86@test.com', NULL),
-(87, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test87@test.com', NULL),
-(88, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test88@test.com', NULL),
-(89, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test89@test.com', NULL),
-(90, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test90@test.com', NULL),
-(91, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test91@test.com', NULL),
-(92, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test92@test.com', NULL),
-(93, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test93@test.com', NULL),
-(94, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test94@test.com', NULL),
-(95, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test95@test.com', NULL),
-(96, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test96@test.com', NULL),
-(97, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test97@test.com', NULL),
-(98, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test98@test.com', NULL),
-(99, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test99@test.com', NULL),
-(100, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test100@test.com', NULL),
-(101, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test101@test.com', NULL),
-(102, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test102@test.com', NULL),
-(103, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test103@test.com', NULL),
-(104, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test104@test.com', NULL),
-(105, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test105@test.com', NULL),
-(106, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test106@test.com', NULL),
-(107, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test107@test.com', NULL),
-(108, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test108@test.com', NULL),
-(109, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test109@test.com', NULL),
-(110, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test110@test.com', NULL),
-(111, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test111@test.com', NULL),
-(112, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test112@test.com', NULL),
-(113, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test113@test.com', NULL),
-(114, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test114@test.com', NULL),
-(115, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test115@test.com', NULL),
-(116, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test116@test.com', NULL),
-(117, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test117@test.com', NULL),
-(118, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test118@test.com', NULL),
-(119, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test119@test.com', NULL),
-(120, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test120@test.com', NULL),
-(121, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test121@test.com', NULL),
-(122, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test122@test.com', NULL),
-(123, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test123@test.com', NULL),
-(124, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test124@test.com', NULL),
-(125, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test125@test.com', NULL),
-(126, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test126@test.com', NULL),
-(127, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test127@test.com', NULL),
-(128, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test128@test.com', NULL),
-(129, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test129@test.com', NULL),
-(130, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test130@test.com', NULL),
-(131, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test131@test.com', NULL),
-(132, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test132@test.com', NULL),
-(133, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test133@test.com', NULL),
-(134, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test134@test.com', NULL),
-(135, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test135@test.com', NULL),
-(136, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test136@test.com', NULL),
-(137, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test137@test.com', NULL),
-(138, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test138@test.com', NULL),
-(139, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test139@test.com', NULL),
-(140, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test140@test.com', NULL),
-(141, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test141@test.com', NULL),
-(142, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test142@test.com', NULL),
-(143, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test143@test.com', NULL),
-(144, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test144@test.com', NULL),
-(145, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test145@test.com', NULL),
-(146, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test146@test.com', NULL),
-(147, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test147@test.com', NULL),
-(148, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test148@test.com', NULL),
-(149, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test149@test.com', NULL),
-(150, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test150@test.com', NULL),
-(151, '12345678', 'dummy', 'dummy', '00', NULL, NULL, 'test151@test.com', NULL),
-(298, '$2b$10$K5oRxk9934qk70a2oxXrneQ2LB9Ofc99nC8SkBeAbTOmqIqdnKuHS', 'Which is your favourite fruit?', 'dsdas', '9532064401', '9532064401', 'dsdsd', 'xyz07496@gmail.com', NULL);
+INSERT INTO `datavendorinfo` (`vendorPK`, `vendorpwd`, `vendorSecretQn`, `vendorSecretAns`, `vendorOffLandLineNo`, `vendorMobileNo`, `vendorFaxNo`, `vendorEmail`, `vendorVoIP`, `venVendorFK`, `vencountry`, `venaddress`, `venstate`, `vencity`, `venpostalCode`, `venperson`, `ventax`, `venwebsite`, `venlang`, `venisapproved`, `venisViewed`, `venisVerified`, `venacceptTerms`, `ventoken`) VALUES
+(3, '$2b$10$ByX5WkWNyjqCoAcZKNZLf.CtWYMgRPfnvNRVC2thaRxsBc5GSvfXi', 'Which is your favourite fruit?', 'Mango', NULL, '9532064401', '3242353', 'opljhg82@gmail.com', NULL, 8, 'India', '90 moti nagar', 'Uttar pradesh', 'Lucknow', '226005', 'Nupur', '3232', 'http://sample.com', 'English', 'Approved', b'1', b'1', b'1', ''),
+(4, '$2b$10$zZYVYznoEXokdcaEK.pyJu5f/Ls3E9UENmj03yAe3UQ7qp2se687K', 'Which is your favourite fruit?', 'Grapes', NULL, '9543024627', '656576', 'lkmnmk63@gmail.com', NULL, 9, 'India', '78 GT Road', 'Rajasthan', 'Ajmer', '231345', 'Priya', '32455656', 'http://sample.com', 'English', 'Approved', b'1', b'1', b'1', '');
 
 -- --------------------------------------------------------
 
@@ -948,8 +666,8 @@ CREATE TABLE `invoices` (
 --
 
 INSERT INTO `invoices` (`invoice_no`, `billNo`, `invoice_date`, `invoice_due_date`, `credit_days`, `invoice_address`, `tax`, `description`, `total`) VALUES
-(9, 14, '2020-12-30 00:00:00', '2020-12-31 00:00:00', 2, 'GT Road Mumbai', 300, 'It is delivered', 207300),
-(10, 15, '2021-01-29 00:00:00', '2021-01-30 00:00:00', 1, '61, Kulupwadi Rd, Raheja Estate, Kulupwadi, Borivali East, Mumbai, Maharashtra 400066', 100, 'invoice', 114100);
+(11, 1, '2021-02-14 00:00:00', '2021-02-15 00:00:00', 1, 'TCS AIR INDIA', 200, 'It is delivered', 64200),
+(13, 3, '2021-02-12 00:00:00', '2021-02-13 00:00:00', 1, 'La Sheva House', 100, 'Delivered', 22100);
 
 -- --------------------------------------------------------
 
@@ -979,11 +697,9 @@ CREATE TABLE `invoice_item` (
 --
 
 INSERT INTO `invoice_item` (`id`, `item_id`, `market_price`, `invoiced_quantity`, `Total_Price`, `invoice_no`) VALUES
-(1, 71, 70000, 3, NULL, 9),
-(2, 72, 70000, 3, NULL, 9),
-(3, 73, 70000, 3, NULL, 9),
-(4, 94, 0, 0, NULL, 10),
-(5, 93, 0, 0, NULL, 10);
+(1, 126, 64000, 2, NULL, 11),
+(4, 132, 20000, 1, NULL, 13),
+(5, 131, 2000, 1, NULL, 13);
 
 -- --------------------------------------------------------
 
@@ -1008,7 +724,9 @@ CREATE TABLE `items` (
   `policy` varchar(200) NOT NULL,
   `location` varchar(200) NOT NULL,
   `features` varchar(200) DEFAULT NULL,
-  `supplier` int(11) NOT NULL
+  `supplier` int(6) NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -1016,22 +734,18 @@ CREATE TABLE `items` (
 --   `brand`
 --       `brands` -> `brandpk`
 --   `supplier`
---       `datavendorinfo` -> `vendorPK`
+--       `datavendor` -> `venVendorPK`
 --
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`item_id`, `name`, `sku`, `brand`, `price`, `currency`, `desc`, `discount`, `quantity`, `specification`, `unit_type`, `threshold`, `warranty`, `policy`, `location`, `features`, `supplier`) VALUES
-(4240, 'Laptop', 'LKSD12112', 4, 34000, 'INR', 'Touch Screen Laptop', 0.3, 5, NULL, NULL, 3, '3 years', '2 years', 'Lucknow', '34 inch screen', 298),
-(4695, 'Router', 'dsads211', 1, 40000, 'INR', 'Router', 0.2, 10, NULL, NULL, 9, '8 years', '7 years', 'Delhi', 'Good network connection', 298),
-(4721, 'Router', 'CIS232132', 1, 34000, 'INR', 'It is useful for encrypted data', 0.3, 8, 'Good encryption', NULL, 2, '4 years', '2 years', 'Hyderabad', 'Secure Sockets Layer', 2),
-(4800, 'UsbCable', 'SK21323212', 2, 3200, 'INR', 'Usb Cable with long wire', 3.4, 3, '1 TB', 'I-2323', 1, '4 years', '2 months', 'Bangalore', 'Portable', 2),
-(5472, 'Laptop', 'SK2133232', 3, 43000, 'INR', 'Laptop with good graphics', 4.3, 3, '30 inch', 'HP-2343', 4, '4 years', '3 months', 'Mumbai', 'TouchPad', 5),
-(6993, 'Laptop', 'HM213123', 4, 23000, 'INR', 'Good for gaming', 0.23, 3, NULL, NULL, 1, '3 years', '2 years', 'Lucknow', '23 inch', 0),
-(7734, 'Laptop', 'PK21323212', 4, 32000, 'INR', 'Laptop with 1 TB RAM', 0, 9, '15 inch', 'DX-2323', 3, '1 year', '2 months', 'Delhi', 'Touch', 2),
-(9317, 'Router', 'ASUS21332', 5, 4200, 'INR', 'It is good for AiProtection', 0.3, 6, 'AiProtection', NULL, 4, '4 years', '2 years', 'Lucknow', 'Adaptive QoS', 2);
+INSERT INTO `items` (`item_id`, `name`, `sku`, `brand`, `price`, `currency`, `desc`, `discount`, `quantity`, `specification`, `unit_type`, `threshold`, `warranty`, `policy`, `location`, `features`, `supplier`, `createdAt`, `updatedAt`) VALUES
+(1305, 'Laptop', 'H_121321321', 3, 34000, 'INR', 'Gaming Laptop', 20, 20, '35 inch', NULL, 10, '6 years', '6 years', 'Kolkata', 'Intel Processor', 8, '2021-02-04 19:39:40', '2021-02-04 19:39:40'),
+(6509, 'Laptop', 'D_1234567', 4, 32000, 'INR', 'Laptop for Gaming', 20, 10, '14 inch monitor', NULL, 8, '3 years', '2 years', 'Lucknow', 'Graphics Card', 9, '2021-02-04 15:22:23', '2021-02-04 15:22:23'),
+(6857, 'USB', 'U_21223321321', 8, 2000, 'INR', 'Portable', 20, 20, '32 GB', NULL, 10, '2 years', '3 years', 'Delhi', '32 GB', 9, '2021-02-04 12:38:35', '2021-02-04 12:38:35'),
+(8524, 'USB', 'U_21223321321', 2, 20000, 'INR', 'Portable', 20, 20, '32 GB', NULL, 10, '2 years', '3 years', 'Delhi', '32 GB', 9, '2021-02-04 12:37:22', '2021-02-04 12:37:22');
 
 -- --------------------------------------------------------
 
@@ -1056,31 +770,10 @@ CREATE TABLE `item_images` (
 --
 
 INSERT INTO `item_images` (`id`, `item_id`, `imageName`) VALUES
-(233, 7734, '1605277248233-upload-Dell_laptop_1.jpg'),
-(234, 7734, '1605277258535-upload-Dell_laptop_2.jpg'),
-(235, 7734, '1605277268227-upload-Dell_laptop_3.jpg'),
-(236, 5472, '1605277660836-upload-HP_laptop_1.png'),
-(237, 5472, '1605277672387-upload-HP_laptop_7.jpg'),
-(238, 5472, '1605277685150-upload-HP_laptop_5.jpg'),
-(242, 9317, '1606829607075-upload-asus_router_1.jpg'),
-(243, 9317, '1606829633719-upload-asus_router_4.jpg'),
-(244, 9317, '1606829618181-upload-asus_router_2.jpg'),
-(245, 9317, '1606829625680-upload-asus_router_3.jpg'),
-(249, 4800, '1606850353295-upload-usb_cable_pic5.jpg'),
-(250, 4800, '1605277898204-upload-multi_colored_usb_cables.jpg'),
-(251, 4800, '1606850884814-upload-usb_cable_pic2.jpg'),
-(252, 4721, '1606887927304-upload-cisco_router_1.png'),
-(253, 4721, '1606887935087-upload-cisco_router_2.jpg'),
-(254, 4721, '1606887944068-upload-cisco_router_3.jpg'),
-(255, 4721, '1606887951976-upload-cisco_router_4.jpg'),
-(256, 6993, '1609073152915-upload-Dell_laptop_4.jpg'),
-(257, 6993, '1609073165738-upload-Dell_laptop_2.jpg'),
-(258, 4240, '1611230978079-upload-Dell_laptop_1.jpg'),
-(259, 4240, '1611231001826-upload-Dell_laptop_3.jpg'),
-(260, 4240, '1611231015470-upload-Dell_laptop_4.jpg'),
-(261, 4695, '1611231122116-upload-cisco_router_1.png'),
-(262, 4695, '1611231131250-upload-cisco_router_2.jpg'),
-(263, 4695, '1611231140493-upload-cisco_router_3.jpg');
+(286, 8524, '1612442226981-upload-usb_cable_pic5.jpg'),
+(289, 6857, '1612442226981-upload-usb_cable_pic5.jpg'),
+(290, 6509, '1612452123236-upload-Dell_laptop_4.jpg'),
+(291, 1305, '1612467552202-upload-HP_laptop_1.png');
 
 -- --------------------------------------------------------
 
@@ -1113,29 +806,11 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`, `message`, `status`, `approved_by`) VALUES
-(107, 121565, '2020-12-11 13:55:07', 'Order', 'Approved', 4, 71455),
-(258, 121565, '2020-12-11 09:59:30', 'Order', 'Approving it', 4, 346755),
-(454, 121565, '2020-12-11 13:54:50', 'Order', 'Denied it as AIR INDIA do not have required budget', 2, 346755),
-(2047, 121565, '2020-12-11 10:36:02', 'Order', 'Approved', 4, 71455),
-(2097, 121565, '2020-12-23 08:46:47', 'Order for Usbcable', 'approving', 4, 346755),
-(2925, 104657, '2020-12-11 09:53:09', 'Sample', 'Approving it', 4, 71455),
-(3402, 121565, '2020-12-15 10:02:52', 'Order', 'denied', 2, 346755),
-(3452, 121565, '2020-12-15 10:06:25', 'Order', 'Approve', 4, 346755),
-(3911, 121565, '2021-01-21 12:15:10', 'Order for Router and Laptop', 'Pending for approval', 1, NULL),
-(4696, 121565, '2020-12-11 09:56:27', 'Order', 'Approving it', 4, 71455),
-(5206, 123, '2020-12-27 12:52:54', 'Order for Laptop', 'Pending for approval', 1, NULL),
-(5225, 123, '2020-12-27 12:51:35', 'Order for Laptop', 'approved', 4, 71455),
-(6517, 121565, '2020-12-11 10:36:16', 'Order', 'Approving it', 4, 346755),
-(7084, 121565, '2021-01-21 12:25:36', 'Order for Router and Laptop', 'Approved it', 4, 346755),
-(7428, 121565, '2020-12-24 04:09:31', 'Sample Order ', 'Approving it', 4, 71455),
-(7464, 121565, '2020-12-11 09:56:35', 'Order', 'Approving it', 4, 71455),
-(7554, 104657, '2020-12-11 09:53:50', 'Sample', 'Required budget is not available for AIR INDIA', 2, 346755),
-(8232, 104657, '2020-12-23 08:43:35', 'Order for Laptop', 'required budget is not available', 2, 346755),
-(8383, 104657, '2020-12-23 11:40:25', 'Order ', 'Approving it', 4, 346755),
-(8540, 104657, '2020-12-11 09:53:39', 'Sample', 'AIR INDIA Do not have required budget', 2, 346755),
-(8845, 121565, '2020-12-11 09:57:09', 'Order', 'Denied', 2, 346755),
-(8855, 123, '2020-12-27 12:52:58', 'Order for Laptop', 'Pending for approval', 1, NULL),
-(9324, 121565, '2020-12-24 04:09:25', 'Sample Order ', 'Pending for approval', 1, NULL);
+(1149, 123, '2021-02-05 05:41:13', 'USB', 'approved', 4, 346755),
+(1760, 123, '2021-02-04 15:56:37', 'Laptop', 'Approved', 4, 71455),
+(3239, 123, '2021-02-05 07:46:25', 'Laptop', 'Approved', 4, 346755),
+(3476, 123, '2021-02-04 15:59:20', 'Laptop', 'Pending for approval', 1, NULL),
+(8029, 123, '2021-02-04 15:50:14', 'Laptop', 'Pending for approval', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1202,10 +877,10 @@ CREATE TABLE `order_items` (
 --       `departments` -> `id`
 --   `order_id`
 --       `orders` -> `order_id`
+--   `prefered_vendor`
+--       `datavendor` -> `venVendorPK`
 --   `status`
 --       `orderstatus` -> `id`
---   `prefered_vendor`
---       `datavendorinfo` -> `vendorPK`
 --
 
 --
@@ -1213,70 +888,19 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_vendor`, `quantity`, `unit_type`, `price`, `currency`, `comment`, `status`, `estimated_arrival`, `tracking_link`, `department`, `location`, `brand`) VALUES
-(4, 2925, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 4, NULL, NULL, 3, '01010101003', 4),
-(5, 2925, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 9, NULL, NULL, 5, '01010101005', 2),
-(8, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101005', 2),
-(9, 8540, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101003', 4),
-(10, 8540, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 4, '01010101018', 2),
-(11, 7554, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 4, '01010101018', 2),
-(12, 7554, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101005', 2),
-(13, 7554, 'Router', '39 inch', 2, 3, 'Hn-232', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101003', 4),
-(14, 4696, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
-(15, 7464, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 5, NULL, NULL, 5, '01010101026', 2),
-(17, 8845, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101026', 2),
-(18, 8845, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101013', 1),
-(21, 258, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
-(22, 258, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 9, NULL, NULL, 5, '01010101013', 1),
-(23, 2047, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101026', 2),
-(24, 2047, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 9, NULL, NULL, 5, '01010101013', 1),
-(25, 6517, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 4, NULL, NULL, 5, '01010101026', 2),
-(26, 6517, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101013', 1),
-(33, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 4),
-(34, 454, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 2, NULL, NULL, 5, '01010101012', 2),
-(35, 454, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101012', 4),
-(36, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 4, NULL, NULL, 5, '01010101003', 4),
-(37, 107, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101012', 2),
-(38, 107, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 6, NULL, NULL, 5, '01010101012', 4),
-(44, 3402, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 3),
-(45, 3402, 'Router', 'Good encryption', 2, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 1),
-(46, 3402, 'Laptop', '12 inch', 3, 1, '323', 23000, 'INR', 'none', 2, NULL, NULL, 4, '01010101002', 4),
-(47, 3402, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101004', 4),
-(52, 3452, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 8, NULL, NULL, 5, '01010101003', 3),
-(53, 3452, 'Laptop', '12 inch', 3, 1, '323', 23000, 'INR', 'none', 5, NULL, NULL, 4, '01010101002', 4),
-(54, 3452, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 6, NULL, NULL, 5, '01010101004', 4),
-(55, 8232, 'Laptop', '15 inch', 2, 3, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 4, '01010101014', 4),
-(56, 8232, 'Laptop', '30 inch', 5, 3, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 4, '01010101014', 3),
-(57, 8232, 'Laptop', '30 inch', 5, 2, 'HP-2343', 43000, 'INR', NULL, 2, NULL, NULL, 3, '01010101016', 3),
-(58, 8232, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 2, NULL, NULL, 3, '01010101016', 4),
-(59, 2097, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 9, '2020-12-30 18:30:00', 'http://sample.com', 5, '01010101021', 4),
-(60, 2097, 'UsbCable', '1 TB', 2, 2, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101021', 2),
-(61, 8383, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 4, '01010101022', 2),
-(62, 8383, 'Laptop', '15 inch', 2, 2, 'DX-2323', 32000, 'INR', NULL, 10, NULL, NULL, 4, '01010101022', 4),
-(63, 8383, 'Laptop', '15 inch', 2, 1, 'DX-2323', 32000, 'INR', NULL, 10, NULL, NULL, 6, '01010101022', 4),
-(64, 9324, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 2),
-(65, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 5, '01010101025', 5),
-(66, 9324, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 1, NULL, NULL, 6, '01010101025', 5),
-(67, 7428, 'UsbCable', '1 TB', 2, 1, 'I-2323', 3200, 'INR', NULL, 6, NULL, NULL, 5, '01010101025', 2),
-(68, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 7, '2020-12-30 18:30:00', 'http://sample.com', 5, '01010101025', 5),
-(69, 7428, 'Router', 'AiProtection', 2, 2, NULL, 4200, 'INR', NULL, 7, '2020-12-30 18:30:00', 'http://sample.com', 6, '01010101025', 5),
-(70, 5225, 'Laptop', NULL, 0, 1, NULL, 23000, 'INR', NULL, 4, NULL, NULL, 4, '01010101024', 4),
-(71, 5225, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 7, '2020-12-29 02:00:00', 'http://sample.com', 5, '01010101018', 4),
-(72, 5225, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 7, '2020-12-29 02:00:00', 'http://sample.com', 3, '01010101018', 4),
-(73, 5225, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 7, '2020-12-29 02:00:00', 'http://sample.com', 4, '01010101018', 4),
-(74, 5206, 'Laptop', NULL, 0, 1, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101024', 4),
-(75, 5206, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 5, '01010101018', 4),
-(76, 5206, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 3, '01010101018', 4),
-(77, 5206, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101018', 4),
-(78, 8855, 'Laptop', NULL, 0, 1, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101024', 4),
-(79, 8855, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 5, '01010101018', 4),
-(80, 8855, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 3, '01010101018', 4),
-(81, 8855, 'Laptop', NULL, 0, 3, NULL, 23000, 'INR', NULL, 1, NULL, NULL, 4, '01010101018', 4),
-(86, 3911, 'Router', NULL, 298, 1, NULL, 40000, 'INR', NULL, 1, NULL, NULL, 3, '01010101004', 1),
-(87, 3911, 'Laptop', NULL, 298, 5, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 5, '01010101007', 4),
-(88, 3911, 'Router', NULL, 298, 2, NULL, 40000, 'INR', NULL, 1, NULL, NULL, 5, '01010101007', 1),
-(92, 7084, 'Router', NULL, 298, 1, NULL, 40000, 'INR', NULL, 5, NULL, NULL, 3, '01010101004', 1),
-(93, 7084, 'Router', NULL, 298, 2, NULL, 40000, 'INR', NULL, 7, '2021-01-27 08:00:00', 'http://sample.com', 5, '01010101007', 1),
-(94, 7084, 'Laptop', NULL, 298, 1, NULL, 34000, 'INR', NULL, 6, NULL, NULL, 4, '01010101007', 4);
+(121, 8029, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101003', 4),
+(122, 8029, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 7, '01010101003', 4),
+(125, 1760, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 6, NULL, NULL, 4, '01010101005', 4),
+(126, 1760, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 7, '2021-02-15 00:00:00', 'http://sample.com', 7, '01010101003', 4),
+(127, 1760, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 6, NULL, NULL, 5, '01010101003', 4),
+(128, 3476, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 7, '01010101003', 4),
+(129, 3476, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101003', 4),
+(130, 3476, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 4, '01010101005', 4),
+(131, 1149, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 7, '2021-02-21 00:00:00', 'http://sample.com', 4, '01010101021', 8),
+(132, 1149, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 7, '2021-02-21 00:00:00', 'http://sample.com', 4, '01010101021', 2),
+(133, 1149, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 6, NULL, NULL, 6, '01010101021', 2),
+(134, 3239, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 11, '2021-02-28 00:00:00', 'http://sample.com', 4, '01010101024', 4),
+(135, 3239, 'Laptop', '35 inch', 8, 2, NULL, 34000, 'INR', NULL, 9, '2021-02-20 00:00:00', '', 6, '01010101026', 3);
 
 -- --------------------------------------------------------
 
@@ -1301,7 +925,7 @@ CREATE TABLE `pos` (
   `budget_code` varchar(40) DEFAULT NULL,
   `total` int(40) NOT NULL,
   `tracking_link` varchar(200) NOT NULL,
-  `estimated_arrival` varchar(200) DEFAULT NULL,
+  `estimated_arrival` datetime NOT NULL,
   `po_status` tinyint(4) DEFAULT NULL,
   `message_client` varchar(200) NOT NULL,
   `invoice_status` tinyint(4) DEFAULT NULL,
@@ -1312,14 +936,14 @@ CREATE TABLE `pos` (
 
 --
 -- RELATIONSHIPS FOR TABLE `pos`:
---   `supplier`
---       `datavendorinfo` -> `vendorPK`
 --   `behalf`
 --       `dataadmin` -> `admAdminPK`
 --   `delivery_to`
 --       `dataadmin` -> `admAdminPK`
 --   `po_status`
 --       `orderstatus` -> `id`
+--   `supplier`
+--       `datavendor` -> `venVendorPK`
 --
 
 --
@@ -1327,19 +951,11 @@ CREATE TABLE `pos` (
 --
 
 INSERT INTO `pos` (`billNo`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase_type`, `cmp_name`, `bill_to_address`, `delivery_to`, `required_by`, `delivery_address`, `cost_center`, `project_code`, `budget_code`, `total`, `tracking_link`, `estimated_arrival`, `po_status`, `message_client`, `invoice_status`, `currency`, `location`, `supplier`) VALUES
-(3, 'no', 'We need it', 'Deliver it on time', 126422, 'goods', 'Tata Consultancy Services', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 126422, '2021-01-13 18:30:00', 'Office number 7 siddhivinayak compound near akruti trade centre, 4000 69, Rd Number 7, M.I.D.C, Andheri East, Mumbai, Maharashtra 400069', 'Technical', 'MUM5788', 'MUM1345', 3200, 'http://sample.com', '2020-12-29 18:30:00', 9, 'Order is getting Processed', 13, 'INR', '01010101005', 2),
-(4, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'GT Road', 121565, '2020-12-30 18:30:00', 'GT Road', 'Management', 'MUM3213', 'MU56', 9600, '', NULL, 6, 'Do not have the requested items', 13, 'INR', '01010101026', 2),
-(6, 'yes', 'We need it', 'Deliver', 126422, 'project', 'Tata Consultancy Services', 'KC Road', 104657, '2020-12-25 18:30:00', 'KC Road', 'IT', 'MUM2', 'MUM89', 86000, '', NULL, 8, 'Approve it', 13, 'INR', '01010101003', 5),
-(7, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 121565, '2020-12-30 18:30:00', 'Plot No. F3 & F3-1, Road Number 22, Wagle Industrial Estate, Kisan Nagar, Thane West, Mumbai, Maharashtra 400604', 'Management', 'MUM232', 'MUM466', 68000, 'https://sample.com', '2020-12-28 18:30:00', 9, 'Order is getting processed', 13, 'INR', '01010101013', 2),
-(8, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 121565, '2021-01-05 18:30:00', 'Barrister Rajni Patel Marg, Nariman Point, Mumbai, Maharashtra 400021', 'Management', 'MUM89', 'MUM21', 35200, '', NULL, 6, 'Do not have the requested items', 13, 'INR', '01010101012', 2),
-(9, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 121565, '2021-01-12 18:30:00', '78, Marol MIDC Industry Estate, Andheri East, Mumbai, Maharashtra 400069', 'Management', 'MUM566', 'MUM988', 23000, '', NULL, 1, '', 13, 'INR', '01010101002', 3),
-(10, 'no', 'We need it', 'Deliver it on time', 121565, 'semi_finished_Product', 'Tata Consultancy Services', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 121565, '2020-12-30 18:30:00', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 'Testing', 'MUM32', 'MUM89', 32000, '', NULL, 6, 'Do not have the requested laptop', 13, 'INR', '01010101004', 2),
-(11, 'no', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 121565, '2020-12-30 18:30:00', 'Maker Arcade Shopping Centre, GD Somani Rd, Chamundeshwari Nagar, Cuffe Parade, Mumbai, Maharashtra 400005', 'Management', 'MUM56', 'MUM78', 32000, 'http://sample.com', '2020-12-30 18:30:00', 9, 'Order is under process', 13, 'INR', '01010101021', 2),
-(12, 'yes', 'We need it', 'Deliver it on time', 104657, 'finished_product', 'Tata Consultancy Services', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 104657, '2020-12-30 18:30:00', 'Tiffany Building, Ground floor, 1st to 4th floor, Hiranandani Estate, Near ICICI bank, Off Patlipada, Ghodbunder Road, Thane West, Thane, Maharashtra 400607', 'Testing', 'MUM08', 'MUM121', 96000, 'http://sample.com', '2020-12-27 13:00:00', 10, 'Order went under quality check', 13, 'INR', '01010101022', 2),
-(13, 'yes', 'We need it', 'Deliver it on time', 121565, 'finished_product', 'Tata Consultancy Services', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 121565, '2021-01-19 18:30:00', '8, Vaishali Enclave, 3rd Floor, Main Metro Road,, Opp. Metro Pillar No. 351, Near Gulab Sweets,, Pitampura, New Delhi, Delhi 110034', 'Management', 'MUM5', 'MUM4', 16800, 'http://sample.com', '2020-12-30 18:30:00', 7, 'It is delivered now', 13, 'INR', '01010101025', 2),
-(14, 'yes', 'We need it', 'Deliver it on time', 123, 'finished_product', 'Tata Consultancy Services', 'GT Road Mumbai', 123, '2020-12-30 18:30:00', 'GT Road Mumbai', 'Testing', 'J444', 'Jm33', 207000, 'http://sample.com', '2020-12-28 15:00:00', 7, 'Quality Check', 12, 'INR', '01010101018', 0),
-(15, 'yes', 'We need it', 'Deliver it on time', 121565, 'dangerous_goods', 'Tata Consultancy Services', '61, Kulupwadi Rd, Raheja Estate, Kulupwadi, Borivali East, Mumbai, Maharashtra 400066', 121565, '2021-01-28 16:00:00', '61, Kulupwadi Rd, Raheja Estate, Kulupwadi, Borivali East, Mumbai, Maharashtra 400066', 'Management', 'MU21', 'MUM23', 80000, 'http://sample.com', '2021-01-27 08:00:00', 7, 'Item is delivered', 12, 'INR', '01010101007', 298),
-(16, 'no', 'We need it', 'Deliver it on time', 121565, 'project', 'Tata Consultancy Services', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 121565, '2021-01-25 16:00:00', 'B 3 , Nirlon Knowledge Park, St Yadav Rd, Cama Industrial Estate, Goregaon, Mumbai, Maharashtra 400063', 'Testing', 'MUM21321', 'MUM32', 40000, '', NULL, 1, '', 13, 'INR', '01010101004', 298);
+(1, 'yes', 'We need it', 'Deliver it on time', 123, 'finished_product', 'Tata Consultancy Services', 'TCS AIR INDIA', 123, '2021-02-18 16:00:00', 'TCS AIR INDIA', '123', '456', '678', 64000, 'http://sample.com', '2021-02-15 00:00:00', 7, 'Delivered', 12, 'INR', '01010101003', 9),
+(2, 'no', 'asdas', 'sdadsad', 123, 'dangerous_goods', 'Tata Consultancy Services', 'dsada', 126422, '2021-02-28 00:00:00', 'dsada', 'sad', 'dsada', 'dasda', 32000, '', '0000-00-00 00:00:00', 6, 'Denied', 13, 'INR', '01010101005', 9),
+(3, 'yes', 'We need it', 'Deliver it on time', 123, 'dangerous_goods', 'Tata Consultancy Services', 'La Sheva House', 123, '2021-02-28 00:00:00', 'La Sheva House', '123', '567', '894', 22000, 'http://sample.com', '2021-02-21 00:00:00', 7, 'delivered', 12, 'INR', '01010101021', 9),
+(4, 'no', 'We need it', 'Deliver it', 123, 'customer', 'Tata Consultancy Services', 'CMC BKC', 123, '2021-02-28 00:00:00', 'CMC BKC', '123', '456', '789', 64000, 'http://sample.com', '2021-02-28 00:00:00', 11, 'dispatched', 13, 'INR', '01010101024', 9),
+(5, 'no', 'Need', 'Deliver', 123, 'finished_product', 'Tata Consultancy Services', 'OlympusA', 123, '2021-02-27 00:00:00', 'OlympusA', '456', '789', '345', 68000, '', '2021-02-20 00:00:00', 9, 'processing', 13, 'INR', '01010101026', 8);
 
 -- --------------------------------------------------------
 
@@ -1364,8 +980,7 @@ CREATE TABLE `po_attachments` (
 --
 
 INSERT INTO `po_attachments` (`id`, `billNo`, `attachments`) VALUES
-(3, 3, '1608304918672-upload-download.jpg'),
-(6, 8, '1608665065871-upload-download.jpg');
+(3, 1, '1612454385310-upload-1605277898204-upload-multi_colored_usb_cables.jpg');
 
 -- --------------------------------------------------------
 
@@ -1395,76 +1010,14 @@ CREATE TABLE `po_items` (
 --
 
 INSERT INTO `po_items` (`id`, `billNo`, `order_id`, `item_id`) VALUES
-(7, 3, 2925, 5),
-(17, 4, 258, 21),
-(18, 4, 2047, 23),
-(19, 4, 4696, 14),
-(22, 6, 3452, 52),
-(23, 7, 2047, 24),
-(24, 7, 258, 22),
-(25, 8, 107, 38),
-(26, 8, 107, 37),
-(27, 9, 3452, 53),
-(28, 10, 3452, 54),
-(29, 11, 2097, 59),
-(30, 11, 2097, 60),
-(31, 12, 8383, 61),
-(32, 12, 8383, 62),
-(33, 12, 8383, 63),
-(34, 13, 7428, 69),
-(35, 13, 7428, 68),
-(36, 13, 7428, 67),
-(37, 14, 5225, 71),
-(38, 14, 5225, 72),
-(39, 14, 5225, 73),
-(40, 15, 7084, 94),
-(41, 15, 7084, 93),
-(42, 16, 7084, 92);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `supplierregisterationdata`
---
-
-CREATE TABLE `supplierregisterationdata` (
-  `id` int(11) NOT NULL,
-  `company_name` varchar(50) NOT NULL,
-  `country` varchar(50) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  `state` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `postalCode` varchar(60) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` mediumtext NOT NULL,
-  `website` varchar(40) NOT NULL,
-  `tax` varchar(40) NOT NULL,
-  `lang` varchar(10) NOT NULL,
-  `ques` varchar(30) NOT NULL,
-  `ans` varchar(30) NOT NULL,
-  `mobile` varchar(20) NOT NULL,
-  `fax` varchar(30) DEFAULT NULL,
-  `acceptTerms` bit(1) DEFAULT NULL,
-  `token` mediumtext DEFAULT NULL,
-  `isVerified` bit(1) NOT NULL,
-  `isapproved` varchar(30) NOT NULL,
-  `licenseno` varchar(30) NOT NULL,
-  `yearofest` varchar(30) NOT NULL,
-  `isviewed` bit(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- RELATIONSHIPS FOR TABLE `supplierregisterationdata`:
---
-
---
--- Dumping data for table `supplierregisterationdata`
---
-
-INSERT INTO `supplierregisterationdata` (`id`, `company_name`, `country`, `address`, `state`, `city`, `postalCode`, `name`, `email`, `password`, `website`, `tax`, `lang`, `ques`, `ans`, `mobile`, `fax`, `acceptTerms`, `token`, `isVerified`, `isapproved`, `licenseno`, `yearofest`, `isviewed`) VALUES
-(19, 'LMD Ltd', 'India', '80 moti nagar near balika vidyalaya', 'Uttar Pradesh', 'Lucknow', '260034', 'Nupur pathak', 'abc091xyz1234@gmail.com', '$2b$10$CIfOEHF9JiOLAXH4llVnkODMOm661acDo2j6TwLopvIb0gOGL8Tra', 'http://sample.com', 'dsads', 'English', 'Which is your favourite fruit?', 'Mango', '2147483647', 'ddasd', b'1', '', b'1', 'Pending', 'dassda', '2008', b'1'),
-(21, 'PLDASd', 'dsadasdasasda', 'dsdadasds', 'dasdsa', 'dsad', '232332', 'dsadsa', 'xyz07496@gmail.com', '$2b$10$K5oRxk9934qk70a2oxXrneQ2LB9Ofc99nC8SkBeAbTOmqIqdnKuHS', 'http://sample.com', 'dadas', 'English', 'Which is your favourite fruit?', 'dsdas', '9532064401', 'dsdsd', b'1', '', b'1', 'Approved', 'dsdasd', '2001', b'1');
+(5, 1, 1760, 126),
+(6, 1, 1760, 127),
+(9, 2, 1760, 125),
+(10, 3, 1149, 132),
+(11, 3, 1149, 131),
+(12, 3, 1149, 133),
+(13, 4, 3239, 134),
+(14, 5, 3239, 135);
 
 -- --------------------------------------------------------
 
@@ -1481,7 +1034,7 @@ CREATE TABLE `vencategory` (
 --
 -- RELATIONSHIPS FOR TABLE `vencategory`:
 --   `suppRegNo`
---       `supplierregisterationdata` -> `id`
+--       `datavendorinfo` -> `vendorPK`
 --
 
 --
@@ -1489,10 +1042,8 @@ CREATE TABLE `vencategory` (
 --
 
 INSERT INTO `vencategory` (`id`, `category`, `suppRegNo`) VALUES
-(1, 'Electrical', 19),
-(2, 'BMS', 19),
-(4, 'Electrical', 21),
-(5, 'Office Equipments', 21);
+(16, 'Electrical', 3),
+(17, 'Office Equipments', 4);
 
 --
 -- Indexes for dumped tables
@@ -1555,7 +1106,8 @@ ALTER TABLE `datavendor`
 -- Indexes for table `datavendorinfo`
 --
 ALTER TABLE `datavendorinfo`
-  ADD PRIMARY KEY (`vendorPK`);
+  ADD PRIMARY KEY (`vendorPK`),
+  ADD KEY `venVendorFK` (`venVendorFK`);
 
 --
 -- Indexes for table `departments`
@@ -1626,7 +1178,7 @@ ALTER TABLE `pos`
   ADD KEY `po_f1` (`behalf`),
   ADD KEY `po_f2` (`delivery_to`),
   ADD KEY `po_fk3` (`po_status`),
-  ADD KEY `fsd` (`supplier`);
+  ADD KEY `supplier` (`supplier`);
 
 --
 -- Indexes for table `po_attachments`
@@ -1645,17 +1197,11 @@ ALTER TABLE `po_items`
   ADD KEY `po_fk6` (`order_id`);
 
 --
--- Indexes for table `supplierregisterationdata`
---
-ALTER TABLE `supplierregisterationdata`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `vencategory`
 --
 ALTER TABLE `vencategory`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `kj2` (`suppRegNo`);
+  ADD KEY `suppRegNo` (`suppRegNo`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1677,13 +1223,25 @@ ALTER TABLE `admintype`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `brandpk` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `brandpk` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `budgets`
 --
 ALTER TABLE `budgets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+
+--
+-- AUTO_INCREMENT for table `datavendor`
+--
+ALTER TABLE `datavendor`
+  MODIFY `venVendorPK` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `datavendorinfo`
+--
+ALTER TABLE `datavendorinfo`
+  MODIFY `vendorPK` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -1695,7 +1253,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `invoice_no` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `invoice_no` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
@@ -1713,7 +1271,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1731,37 +1289,31 @@ ALTER TABLE `orderstatus`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `pos`
 --
 ALTER TABLE `pos`
-  MODIFY `billNo` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `billNo` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `po_attachments`
 --
 ALTER TABLE `po_attachments`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `supplierregisterationdata`
---
-ALTER TABLE `supplierregisterationdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `vencategory`
 --
 ALTER TABLE `vencategory`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
@@ -1781,6 +1333,12 @@ ALTER TABLE `budgets`
   ADD CONSTRAINT `departments_fk` FOREIGN KEY (`department`) REFERENCES `departments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `datavendorinfo`
+--
+ALTER TABLE `datavendorinfo`
+  ADD CONSTRAINT `datavendorinfo_ibfk_1` FOREIGN KEY (`venVendorFK`) REFERENCES `datavendor` (`venVendorPK`);
+
+--
 -- Constraints for table `invoices`
 --
 ALTER TABLE `invoices`
@@ -1798,7 +1356,7 @@ ALTER TABLE `invoice_item`
 --
 ALTER TABLE `items`
   ADD CONSTRAINT `brand_fk` FOREIGN KEY (`brand`) REFERENCES `brands` (`brandpk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk2` FOREIGN KEY (`supplier`) REFERENCES `datavendorinfo` (`vendorPK`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`supplier`) REFERENCES `datavendor` (`venVendorPK`);
 
 --
 -- Constraints for table `item_images`
@@ -1820,17 +1378,17 @@ ALTER TABLE `orders`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `departments_ibfk1` FOREIGN KEY (`department`) REFERENCES `departments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
-  ADD CONSTRAINT `staus_ibfk1` FOREIGN KEY (`status`) REFERENCES `orderstatus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `vendor_ibfk1` FOREIGN KEY (`prefered_vendor`) REFERENCES `datavendorinfo` (`vendorPK`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`prefered_vendor`) REFERENCES `datavendor` (`venVendorPK`),
+  ADD CONSTRAINT `staus_ibfk1` FOREIGN KEY (`status`) REFERENCES `orderstatus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `pos`
 --
 ALTER TABLE `pos`
-  ADD CONSTRAINT `fsd` FOREIGN KEY (`supplier`) REFERENCES `datavendorinfo` (`vendorPK`),
   ADD CONSTRAINT `po_f1` FOREIGN KEY (`behalf`) REFERENCES `dataadmin` (`admAdminPK`),
   ADD CONSTRAINT `po_f2` FOREIGN KEY (`delivery_to`) REFERENCES `dataadmin` (`admAdminPK`),
-  ADD CONSTRAINT `po_fk3` FOREIGN KEY (`po_status`) REFERENCES `orderstatus` (`id`);
+  ADD CONSTRAINT `po_fk3` FOREIGN KEY (`po_status`) REFERENCES `orderstatus` (`id`),
+  ADD CONSTRAINT `pos_ibfk_1` FOREIGN KEY (`supplier`) REFERENCES `datavendor` (`venVendorPK`);
 
 --
 -- Constraints for table `po_attachments`
@@ -1850,7 +1408,7 @@ ALTER TABLE `po_items`
 -- Constraints for table `vencategory`
 --
 ALTER TABLE `vencategory`
-  ADD CONSTRAINT `kj2` FOREIGN KEY (`suppRegNo`) REFERENCES `supplierregisterationdata` (`id`);
+  ADD CONSTRAINT `vencategory_ibfk_1` FOREIGN KEY (`suppRegNo`) REFERENCES `datavendorinfo` (`vendorPK`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

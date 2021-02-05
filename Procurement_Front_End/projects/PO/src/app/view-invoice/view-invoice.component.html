@@ -18,13 +18,13 @@ style="text-align: center; border: 1px solid black; margin-left: auto;
       <tr>
         <td><h5>Invoice Date&nbsp;</h5></td>
         <td>
-        {{ invoice[0].invoice_date}}
+        {{ invoice[0].invoice_date | date}}
         </td>
       </tr>
       <tr>
         <td><h5>Invoice Due Date&nbsp;</h5></td>
         <td>
-          {{ invoice[0].invoice_due_date }}
+          {{ invoice[0].invoice_due_date | date }}
         </td>
       </tr>
       <tr>
