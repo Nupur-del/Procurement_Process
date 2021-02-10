@@ -91,7 +91,7 @@ module.exports = db.sequelize.define(
     },
     venwebsite: {
       type: sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
     venlang: {
       type: sequelize.STRING,

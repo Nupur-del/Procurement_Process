@@ -284,14 +284,14 @@ export class AdminComponent implements OnInit, OnDestroy {
   // For adding items from new
 
   addfinalItem(form: NgForm) {
-      const selectedSup = this.supplierDetails.find(e => e.name === this.supplierControl.value).id;
-      const selectedBrand = this.brandDetails.find(b => b.brandName === this.BrandControl.value).brandpk;
-      const selectedLoc = this.locDetails.find(e => e.locName === form.value.location).locLocationPK;
-      const selectedDept = this.deptDetails.find(b => b.department_name === form.value.dept).id;
-      console.log('Form', form);
       if (!form.value.location || !form.value.dept) {
             this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
       } else {
+        const selectedSup = this.supplierDetails.find(e => e.name === this.supplierControl.value).id;
+        const selectedBrand = this.brandDetails.find(b => b.brandName === this.BrandControl.value).brandpk;
+        const selectedLoc = this.locDetails.find(e => e.locName === form.value.location).locLocationPK;
+        const selectedDept = this.deptDetails.find(b => b.department_name === form.value.dept).id;
+        console.log('Form', form);
             this.itemValue = 0;
             // this.lowBudgetDept = '';
             const itemAdd = {
@@ -501,13 +501,13 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
   // For adding item from catalog
 
   orderItem(product: any, loc: string, dept: string) {
-    const selectedLoc = this.locDetails.find(e => e.locName === loc).locLocationPK;
-    const selectedDept = this.deptDetails.find(b => b.department_name === dept).id;
     console.log(product);
     console.log(this.finalItem);
     if (!loc || !dept) {
           this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
     } else {
+      const selectedLoc = this.locDetails.find(e => e.locName === loc).locLocationPK;
+      const selectedDept = this.deptDetails.find(b => b.department_name === dept).id;
         // this.lowBudgetDept = '';
         this.itemValue = 0;
         const itemAdd = {

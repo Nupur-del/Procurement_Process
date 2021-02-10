@@ -490,13 +490,13 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
    addfinalItem(form: NgForm) {
-    const selectedSup = this.supplierDetails.find(e => e.name === this.supplierControl.value).id;
-    const selectedBrand = this.brandDetails.find(b => b.brandName === this.BrandControl.value).brandpk;
-    const selectedLoc = this.locDetails.find(e => e.locName === form.value.location).locLocationPK;
-    const selectedDept = this.deptDetails.find(b => b.department_name === form.value.dept).id;
     if (!form.value.location || !form.value.dept) {
           this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
     } else {
+      const selectedSup = this.supplierDetails.find(e => e.name === this.supplierControl.value).id;
+      const selectedBrand = this.brandDetails.find(b => b.brandName === this.BrandControl.value).brandpk;
+      const selectedLoc = this.locDetails.find(e => e.locName === form.value.location).locLocationPK;
+      const selectedDept = this.deptDetails.find(b => b.department_name === form.value.dept).id;
           this.itemValue = 0;
           // this.lowBudgetDept = '';
           const itemAdd = {
@@ -657,11 +657,13 @@ this.toggleSelected = !true;
 }
 
 orderItem(product: any, loc: string, dept: string) {
-  const selectedLoc = this.locDetails.find(e => e.locName === loc).locLocationPK;
-  const selectedDept = this.deptDetails.find(b => b.department_name === dept).id;
+  console.log('Location',loc);
+  console.log('Department', dept);
   if (!loc || !dept) {
         this.snackBar.open('Please select the Location and Department', '', {duration: this.autoHide});
   } else {
+    const selectedLoc = this.locDetails.find(e => e.locName === loc).locLocationPK;
+    const selectedDept = this.deptDetails.find(b => b.department_name === dept).id;
       // this.lowBudgetDept = '';
       this.itemValue = 0;
       const itemAdd = {

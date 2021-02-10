@@ -58,7 +58,12 @@
             <mat-error *ngIf="r.postalCode.errors?.required && r.postalCode.touched">
               Please mention the Postal Code</mat-error>
               <mat-error *ngIf="r.postalCode.errors?.maxlength && r.postalCode.touched">
-                Code should not exceed length of 6</mat-error>
+                Code cannot of greater than 6 digits</mat-error>
+                <mat-error *ngIf="r.postalCode.errors?.minlength && r.postalCode.touched">
+                  Code cannot of less than 6 digits</mat-error>
+                  <mat-error *ngIf="r.postalCode.errors?.pattern && r.postalCode.touched">
+                    only number and alphabets are allowed
+                  </mat-error>
           </mat-form-field>
         </td>
         </tr></table>
@@ -113,7 +118,6 @@
      </div>
   </div>
   <br>
-  <br>
   <div class="row">
     <div class="col-lg-12">
       <label>Website</label>
@@ -139,13 +143,14 @@
        formControlName="mobile" matInput required>
       <mat-error *ngIf="r.mobile.errors?.required && r.mobile.touched">
         Please mention the mobile No</mat-error>
-      <mat-error *ngIf="r.mobile.errors?.maxlength && r.mobile.touched">Mobile should be of 10 digits</mat-error>
-      <mat-error *ngIf="r.mobile.errors?.minlength && r.mobile.touched">Mobile should not less than 10 digits</mat-error>
+      <mat-error *ngIf="r.mobile.errors?.maxlength && r.mobile.touched">Mobile No. should be of 10 digits</mat-error>
+      <mat-error *ngIf="r.mobile.errors?.minlength && r.mobile.touched">Mobile No. should not less than 10 digits</mat-error>
+      <mat-error *ngIf="r.mobile.errors?.pattern && r.mobile.touched">Only numbers are allowed</mat-error>
     </div>
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
       <label>Available Product and service categories</label>
       <input type="text" placeholder="Enter the items categories"
       [formControl]="categories"
@@ -156,12 +161,14 @@
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="categories.errors?.required && categories.touched">
-        Please mention the categories</mat-error>
-        <br>
-        <button mat-raised-button color="primary" style="width: 100px; margin-left: 10px"
+        Please mention categories</mat-error>
+        </div>
+        <div class="col-lg-6">
+          <br>
+        <button color="primary" style="margin-top: 10px"
         type="button" mat-icon-button matSuffix [disabled]="categories.invalid"
         (click)="addNewProject(categories.value)">
-        <mat-icon>library_add</mat-icon>ADD</button>
+        <mat-icon style="margin-right: 10px">library_add</mat-icon>ADD</button>
       </div>
   </div>
   <br *ngIf="category.length !== 0">
@@ -169,7 +176,7 @@
     <div class="col-lg-12">
     <mat-card style="background-color: rgb(238, 232, 232);">
       <mat-card-header>
-        <mat-card-title>Entered Categories</mat-card-title>
+        <mat-card-title>Categories</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <ul *ngFor="let c of category;let i = index">
@@ -232,6 +239,9 @@
        formControlName="yearofest" matInput required>
       <mat-error *ngIf="r.yearofest.errors?.required && r.yearofest.touched">
         Please select the year of establishment</mat-error>
+        <mat-error *ngIf="r.yearofest.errors?.pattern && r.yearofest.touched">
+        Enter only numbers
+        </mat-error>
      </div>
   </div>
   <br>
