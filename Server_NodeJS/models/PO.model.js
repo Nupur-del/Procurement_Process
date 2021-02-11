@@ -46,7 +46,7 @@ module.exports = db.sequelize.define(
         allowNull: false
     },
     required_by: {
-        type: sequelize.STRING,
+        type: sequelize.DATE,
         allowNull: false
     },
     delivery_address: {
