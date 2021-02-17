@@ -14,6 +14,7 @@ interface myData {
 export class AuthService {
 
   loggedInStatus = false;
+  verified = false;
   constructor(private http: HttpClient) { }
 
   setLoggedIn(value: boolean) {
@@ -24,6 +25,16 @@ export class AuthService {
   get isLoggedIn() {
     console.log(this.loggedInStatus);
     return this.loggedInStatus;
+  }
+
+  setVerified(value: boolean) {
+     this.verified = value;
+     console.log('verified', this.verified);
+  }
+
+  get isVerified() {
+    console.log(this.verified);
+    return this.verified;
   }
 
   getUserDetails(username, password) {

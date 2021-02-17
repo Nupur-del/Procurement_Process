@@ -151,8 +151,7 @@ export class ViewComponent implements OnInit {
     this.login.getUser('Requestor').subscribe(user => {
       this.requestorDetails = user;
       this.orderService.getOrderById(this.sub).subscribe((data: any) => {
-        this.order = data[0];
-        this.order.creator = this.requestorDetails.find(a => a.id === this.order.created_by).name;
+        this.order = data;
       });
     }, err => {
       console.log(err);

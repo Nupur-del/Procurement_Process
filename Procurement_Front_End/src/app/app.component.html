@@ -13,10 +13,15 @@ else notLogined">
         <span class="material-icons icon-padding">dashboard</span>Dashboard</mat-list-item>
         <mat-divider></mat-divider>
       <mat-list-item *ngIf="type=='Requestor' || type=='Approver'" class="list-item"
-       (click)="onmarked = !onmarked" [routerLinkActive]="['is-active']">
+       (click)="onmarked = !onmarked" [routerLinkActive]="['is-active']"
+       [ngStyle]="{'background-color' : onmarked === true ? 'rgb(204, 202, 202)' : null}"
+       >
       <span [matBadgeHidden]="notifiedCount === 0" [matBadge]="notifiedCount"
       matBadgePosition="before" matBadgeColor="accent"
-      class="material-icons icon-padding">publish</span> Requisition</mat-list-item>
+      class="material-icons icon-padding">publish</span> Requisition
+      <span class="material-icons icon-padding"
+      style="margin-left: 5px;">{{onmarked === true ? 'arrow_drop_up' : 'arrow_drop_down'}}</span>
+    </mat-list-item>
       <mat-divider *ngIf="(type === 'Requestor' || type === 'Approver') && onmarked === true"></mat-divider>
       <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver')
       && onmarked === true" class="list-item"
@@ -26,8 +31,12 @@ else notLogined">
       && onmarked === true"></mat-divider>
       <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Approver')
       && onmarked === true" class="list-item"
-      (click)="onrequest = !onrequest" [routerLinkActive]="['is-active']">
-      <span class="material-icons icon-padding">request_page</span>Purchase Request</mat-list-item>
+      (click)="onrequest = !onrequest" [routerLinkActive]="['is-active']"
+      [ngStyle]="{'background-color' : onrequest === true ? 'rgb(204, 202, 202)' : null}">
+      <span class="material-icons icon-padding">request_page</span>Request
+      <span class="material-icons icon-padding" style="margin-left: 2px;"
+      >{{onrequest === true ? 'arrow_drop_up' : 'arrow_drop_down'}}</span>
+    </mat-list-item>
       <mat-divider *ngIf="type === 'Requestor' && onrequest === true"></mat-divider>
       <mat-list-item  *ngIf="type === 'Requestor' && onrequest === true" class="list-item"
       [routerLink]="'/admin'" [routerLinkActive]="['is-active']">
@@ -56,8 +65,13 @@ else notLogined">
       class="material-icons icon-padding">check_circle_outline</span>Approval for Supplier</mat-list-item>
       <mat-divider *ngIf="type=='Requestor' || type=='Approver'"></mat-divider>
       <mat-list-item *ngIf="type=='Supplier'" class="list-item" (click)="onmarked = !onmarked"
-      [routerLinkActive]="['is-active']"><span class="material-icons icon-padding">storefront</span>
-      Supplier</mat-list-item>
+      [routerLinkActive]="['is-active']"
+      [ngStyle]="{'background-color' : onmarked === true ? 'rgb(204, 202, 202)' : null}"
+      ><span class="material-icons icon-padding">storefront</span>
+      Supplier
+      <span class="material-icons icon-padding" style="margin-left: 2px;">
+        {{onmarked === true ? 'arrow_drop_up' : 'arrow_drop_down'}}</span>
+    </mat-list-item>
       <mat-divider *ngIf=" type === 'Supplier' && onmarked === true"></mat-divider>
       <mat-list-item  *ngIf=" type === 'Supplier'
       && onmarked === true" class="list-item"
@@ -65,8 +79,11 @@ else notLogined">
       <span class="material-icons icon-padding">home</span>Home Page</mat-list-item>
       <mat-divider *ngIf=" type === 'Supplier' && onmarked === true"></mat-divider>
       <mat-list-item  *ngIf="(type === 'Requestor' || type === 'Supplier') && onmarked === true"
-      class="list-item" (click)="po = !po" [routerLinkActive]="['is-active']">
-      <span class="material-icons icon-padding">shop</span>Purchase Order</mat-list-item>
+      class="list-item" (click)="po = !po" [routerLinkActive]="['is-active']"
+      [ngStyle]="{'background-color' : po === true ? 'rgb(204, 202, 202)' : null}">
+      <span class="material-icons icon-padding">shop</span>Purchase Order
+      <span class="material-icons icon-padding" style="margin-left: 2px;">{{po === true ? 'arrow_drop_up' : 'arrow_drop_down'}}</span>
+    </mat-list-item>
       <mat-divider *ngIf="type === 'Requestor' && po === true"></mat-divider>
       <mat-list-item  *ngIf="type === 'Requestor' && po === true" class="list-item"
       [routerLink]="'/createPO'" [routerLinkActive]="['is-active']">
@@ -89,8 +106,13 @@ else notLogined">
       <span class="material-icons icon-padding">house</span>Delivered PO</mat-list-item>
       <mat-divider *ngIf=" type === 'Supplier' && onmarked === true"></mat-divider>
       <mat-list-item  *ngIf="type === 'Supplier' && onmarked === true"
-      class="list-item" (click)="item = !item" [routerLinkActive]="['is-active']">
-      <span class="material-icons icon-padding">local_grocery_store</span>Items</mat-list-item>
+      class="list-item" (click)="item = !item" [routerLinkActive]="['is-active']"
+      [ngStyle]="{'background-color' : item === true ? 'rgb(204, 202, 202)' : null}"
+      >
+      <span class="material-icons icon-padding">local_grocery_store</span>
+      Items
+      <span class="material-icons icon-padding" style="margin-left: 2px;">{{item === true ? 'arrow_drop_up' : 'arrow_drop_down'}}</span>
+    </mat-list-item>
       <mat-divider *ngIf=" type === 'Supplier' && item === true"></mat-divider>
       <mat-list-item  *ngIf="type === 'Supplier' && item === true"
       class="list-item" [routerLink]="'/supplier/newItem'" [routerLinkActive]="['is-active']">
@@ -101,7 +123,8 @@ else notLogined">
       <span class="material-icons icon-padding">select_all</span>All Items</mat-list-item>
       <mat-divider *ngIf="type === 'Supplier'" ></mat-divider>
       <mat-divider *ngIf="type === 'Requestor' && onmarked === true" ></mat-divider>
-      <mat-list-item *ngIf="type === 'Requestor' || type === 'Supplier'" class="list-item" [routerLink]="'/track-dashboard'" [routerLinkActive]="['is-active']">
+      <mat-list-item *ngIf="type === 'Requestor' || type === 'Supplier'" class="list-item"
+      [routerLink]="'/track-dashboard'" [routerLinkActive]="['is-active']">
         <span class="material-icons icon-padding">local_shipping</span> Track Order</mat-list-item>
     <!-- </mat-nav-list>
     <mat-nav-list class="list-position sign-out"> -->

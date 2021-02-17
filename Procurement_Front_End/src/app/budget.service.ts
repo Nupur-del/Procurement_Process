@@ -25,4 +25,17 @@ export class BudgetService {
     };
     return this.http.post(environment.BASE_URL + 'budgets/updateBudget', updateBud);
   }
+
+  getallbudget() {
+    return this.http.get(environment.BASE_URL + 'budget/allbudget');
+  }
+
+  updationofBudget(dept: number, loc: string, cost: number) {
+    const updateBud = {
+      location: loc,
+      department: dept,
+      budget: cost
+    };
+    return this.http.put(environment.BASE_URL + 'budget/budgetupdate', updateBud);
+  }
 }

@@ -49,46 +49,45 @@ export class CreatePOComponent implements OnInit {
               private router: Router,
               private http: HttpClient,
               private login: LoginService,
-              private message: MessageService,
-              private dataService: DataService) { }
+              private message: MessageService) { }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
     this.userID = +localStorage.getItem('userId');
 
-    this.http.get(environment.BASE_URL + 'cities/locationDetails')
-    .subscribe((data: any) => {
-      this.locDetails = data;
-    }, err => {
-      console.log(err);
-    });
+    // this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    // .subscribe((data: any) => {
+    //   this.locDetails = data;
+    // }, err => {
+    //   console.log(err);
+    // });
 
-    this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
-       this.brandDetails = brandDetails;
-    }, err => {
-      console.log(err);
-    });
+    // this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+    //    this.brandDetails = brandDetails;
+    // }, err => {
+    //   console.log(err);
+    // });
 
-    this.http.get(environment.BASE_URL + 'department/deptDetails')
-    .subscribe((data: any) => {
-      this.deptDetails = data;
-    }, err => {
-      console.log(err);
-    });
+    // this.http.get(environment.BASE_URL + 'department/deptDetails')
+    // .subscribe((data: any) => {
+    //   this.deptDetails = data;
+    // }, err => {
+    //   console.log(err);
+    // });
 
     const status = 'Approved';
 
-    this.login.getSupplier().subscribe(supp => {
-      this.supplierDetails = supp;
+    // this.login.getSupplier().subscribe(supp => {
+    //   this.supplierDetails = supp;
       this.itemService.getItemByStatus(status, this.userID).subscribe((item: any) => {
         console.log(item);
         const tableData = [];
         for (let i of item) {
           tableData.push({
-            supplier: this.supplierDetails.find(w => w.id === i.prefered_vendor).name,
-            locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-            departmentName: this.deptDetails.find(b => b.id === i.department).department_name,
-            brandName: this.brandDetails.find(v => v.brandpk === i.brand).brandName,
+            supplier: i.supplierName,
+            locationName: i.locationName,
+            departmentName: i.departmentName,
+            brandName: i.brandName,
             ...i
           });
         }
@@ -97,7 +96,7 @@ export class CreatePOComponent implements OnInit {
         // this.selection = new SelectionModel<any>(true, []);
         this.itemList.push(tableData);
       });
-  });
+  // });
 
     // this.message.currentMessage.subscribe(message => this.sub = message);
     // this.dataService.currentMessage.subscribe(message => this.sub2 = message);

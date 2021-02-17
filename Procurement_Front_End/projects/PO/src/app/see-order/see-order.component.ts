@@ -44,7 +44,7 @@ export class SeeOrderComponent implements OnInit {
   toggleSelected = true;
   option: string;
   interval: any;
-  order: any = {};
+  order: any;
   public multiLocs: any = [ ];
   public finalItem: any = [ ];
   displayedColumns: string[] = ['Item ID', 'Name', 'Specification', 'Vendor', 'Quantity', 'Price', 'location', 'department', 'status'];
@@ -58,16 +58,19 @@ export class SeeOrderComponent implements OnInit {
               private dataService: DataService) { }
 
   ngOnInit() {
-    this.http.get(environment.BASE_URL + 'cities/locationDetails')
-    .subscribe((loc: any) => {
-      this.locDetails = loc;
-      this.http.get(environment.BASE_URL + 'department/deptDetails')
-      .subscribe((dept: any) => {
-        this.deptDetails = dept;
-        this.login.getSupplier().subscribe(supp => {
-          this.supplierDetails = supp;
-          this.http.get(environment.BASE_URL + 'order/getStatus')
-          .subscribe((status: any) => {
+    this.dataService.currentMessage.subscribe(message => this.sub2 = message);
+    this.message.currentMessage.subscribe(message => this.sub = message);
+    console.log(this.sub);
+    // this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    // .subscribe((loc: any) => {
+    //   this.locDetails = loc;
+    //   this.http.get(environment.BASE_URL + 'department/deptDetails')
+    //   .subscribe((dept: any) => {
+    //     this.deptDetails = dept;
+    //     this.login.getSupplier().subscribe(supp => {
+    //       this.supplierDetails = supp;
+    //       this.http.get(environment.BASE_URL + 'order/getStatus')
+    //       .subscribe((status: any) => {
           this.itemService.getItemById(this.sub).subscribe((pro) => {
             this.itemList = pro;
             console.log('item data-', pro);
@@ -79,10 +82,10 @@ export class SeeOrderComponent implements OnInit {
                 prefered_vendor: item.prefered_vendor,
                 quantity: item.quantity,
                 unit_type: item.unit_type,
-                status: status.find(d => d.id === item.status).orderStatus,
-                locationName: this.locDetails.find(e => e.locLocationPK === item.location).locName,
-                departmentName: this.deptDetails.find(s => s.id === item.department).department_name,
-                supplierName: this.supplierDetails.find(a => a.id === item.prefered_vendor).name,
+                status: item.orderStatus,
+                locationName: item.locationName,
+                departmentName: item.departmentName,
+                supplierName: item.supplierName,
                 location: item.location,
                 department: item.department,
                 price: item.price,
@@ -100,27 +103,22 @@ export class SeeOrderComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.item);
             }
           });
-         });
-        });
-      }, err => {
-        console.log(err);
-      });
-    }, err => {
-      console.log(err);
-    });
+    //      });
+    //     });
+    //   }, err => {
+    //     console.log(err);
+    //   });
+    // }, err => {
+    //   console.log(err);
+    // });
     this.login.getUser('Requestor').subscribe(user => {
       this.requestorDetails = user;
       this.orderService.getOrderById(this.sub).subscribe((data: any) => {
-        this.order = data[0];
-        this.order.creator = this.requestorDetails.find(a => a.id === this.order.created_by).name;
+        this.order = data;
         console.log(data);
       });
     }, err => {
       console.log(err);
     });
-
-    this.dataService.currentMessage.subscribe(message => this.sub2 = message);
-    this.message.currentMessage.subscribe(message => this.sub = message);
-    console.log(this.sub);
   }
 }

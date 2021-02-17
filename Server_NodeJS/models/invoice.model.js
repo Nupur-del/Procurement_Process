@@ -15,11 +15,11 @@ module.exports = db.sequelize.define(
     },
     invoice_date: {
         type: sequelize.DATE,
-        allowNull: false
+        allowNull: true
      },
      invoice_due_date: {
         type: sequelize.DATE,
-        allowNull: false
+        allowNull: true
      },
      credit_days: {
         type: sequelize.INTEGER,

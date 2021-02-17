@@ -29,7 +29,6 @@ import { ItemService } from '../item.service';
 export class ApprovedComponent implements OnInit {
 
   closeResult: string;
-
   isShow = true;
   userID: number;
   itemId: any;

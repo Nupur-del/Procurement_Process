@@ -1,59 +1,66 @@
-<div style="background-color: rgb(190, 189, 189); background-size: cover;">
-<h2 style="text-align: center; color: white; margin-top: 20px;">Supplier Registration</h2>
+<div class="bg-gra-02 p-t-130 p-b-100 font-poppins">
 <br>
 <mat-card class="container">
-  <mat-card-header>
-    <mat-card-title>Please fill the following details to signUp</mat-card-title>
+  <mat-card-header class="title">
+    <mat-card-title style="margin-top: 20px;">SignUp Form</mat-card-title>
   </mat-card-header>
   <br>
 <mat-card-content>
   <div class="container">
     <form [formGroup]="register" (ngSubmit)="signUp()">
       <div class="row">
-          <div class="col-lg-6">
-           <label>Company Name</label>
-           <input type="text" required placeholder="Enter company's Name" formControlName="company_name" matInput>
-           <mat-error *ngIf="r.company_name.errors?.required && r.company_name.touched">Please enter the name of the company</mat-error>
-          </div>
-          <div class="col-lg-6">
-            <label>Country</label>
-            <input type="text" required placeholder="Country from where company is operating"
-            formControlName="country" matInput>
-            <mat-error *ngIf="r.country.errors?.required && r.country.touched">
-              Please enter the country</mat-error>
-           </div>
+          <!-- <div class="col-lg-6"> -->
+           <mat-form-field  class="col-lg-6">
+            <input type="text" required placeholder="Company Name"
+             formControlName="company_name" matInput>
+            <mat-error *ngIf="r.company_name.errors?.required && r.company_name.touched">Please enter the name of the company</mat-error>
+           </mat-form-field>
+          <!-- </div> -->
+          <!-- <div class="col-lg-6"> -->
+            <!-- <label>Country</label> -->
+            <mat-form-field class="col-lg-6">
+              <input type="text" required placeholder="Country Name"
+              formControlName="country" matInput>
+              <mat-error *ngIf="r.country.errors?.required && r.country.touched">
+                Please enter the country</mat-error>
+                <mat-hint>From where company is operating</mat-hint>
+            </mat-form-field>
+           <!-- </div> -->
       </div>
       <br>
       <div class="row">
-        <div class="col-lg-12">
-          <label>Address</label>
-          <textarea type="text" required placeholder="Building, Shop no., Road etc"
-          formControlName="address" matInput></textarea>
-          <mat-error *ngIf="r.address.errors?.required && r.address.touched">
-            Please mention the address</mat-error>
-         </div>
+        <!-- <div class="col-lg-12"> -->
+          <mat-form-field class="col-lg-12">
+            <textarea type="text" required placeholder="Address"
+            formControlName="address" matInput></textarea>
+            <mat-error *ngIf="r.address.errors?.required && r.address.touched">
+              Please mention the address</mat-error>
+            <mat-hint>Building, Shop no., Road etc</mat-hint>
+          </mat-form-field>
+          <!-- <label>Address</label>
+         </div> -->
       </div>
       <br>
       <div class="row">
-      <div class="col-lg-6">
+      <!-- <div class="col-lg-6"> -->
         <table class="example-full-width" cellspacing="0"><tr>
           <td>
             <mat-form-field class="example-full-width">
-            <label>City</label>
-            <input matInput type="text" formControlName="city">
+            <!-- <label>City</label> -->
+            <input matInput type="text" formControlName="city" placeholder="City">
             <mat-error *ngIf="r.city.errors?.required && r.city.touched">
               Please mention the city</mat-error>
           </mat-form-field></td>
           <td><mat-form-field class="example-full-width">
-            <label>State</label>
-            <input matInput type="text" formControlName="state" required>
+            <!-- <label>State</label> -->
+            <input matInput type="text" formControlName="state" required placeholder="State">
             <mat-error *ngIf="r.state.errors?.required && r.state.touched">
               Please mention the state</mat-error>
           </mat-form-field></td>
           <td><mat-form-field class="example-full-width">
-            <label>Postal Code</label>
+            <!-- <label>Postal Code</label> -->
             <input matInput required  type="text"
-            formControlName="postalCode">
+            formControlName="postalCode" placeholder="Postal Code">
             <mat-hint align="end">{{r.postalCode.value?.length}} / 6</mat-hint>
             <mat-error *ngIf="r.postalCode.errors?.required && r.postalCode.touched">
               Please mention the Postal Code</mat-error>
@@ -67,104 +74,121 @@
           </mat-form-field>
         </td>
         </tr></table>
-        </div>
+        <!-- </div> -->
        </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Name</label>
-      <input type="text" required placeholder="Enter the name"
-      formControlName="name" matInput>
-      <mat-error *ngIf="r.name.errors?.required && r.name.touched" required>
-        Please mention the name</mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Name</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" required placeholder="Spokeperson's Name"
+        formControlName="name" matInput>
+        <mat-error *ngIf="r.name.errors?.required && r.name.touched" required>
+          Please mention the name</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Email</label>
-      <input type="email" placeholder="Enter the email"
-      formControlName="email" matInput required>
-      <mat-error *ngIf="r.email.errors?.required && r.email.touched">
-        Please mention the Email</mat-error>
-        <mat-error *ngIf="r.email.errors?.email && r.email.touched">
-          Please mention the Email in proper format</mat-error>
-     </div>
+    <!-- <div class="col-lg-12"> -->
+      <mat-form-field class="col-lg-12">
+        <input type="email" placeholder="Email Address"
+        formControlName="email" matInput required>
+        <mat-error *ngIf="r.email.errors?.required && r.email.touched">
+          Please mention the Email</mat-error>
+          <mat-error *ngIf="r.email.errors?.email && r.email.touched">
+            Please mention the Email in proper format</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Password</label>
-      <input type="password" placeholder="Enter the password"
-      formControlName="password" matInput required>
-      <mat-error *ngIf="r.password.errors?.required && r.password.touched">
-        Please mention the Password</mat-error>
-      <mat-error *ngIf="r.password.errors?.minlength && r.password.touched">
-        Password should be atleast of 6 characters long
-      </mat-error>
-     </div>
+    <!-- <div class="col-lg-12"> -->
+      <!-- <label>Password</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="password" placeholder="Password"
+        formControlName="password" matInput required>
+        <mat-error *ngIf="r.password.errors?.required && r.password.touched">
+          Please mention the Password</mat-error>
+        <mat-error *ngIf="r.password.errors?.minlength && r.password.touched">
+          Password should be atleast of 6 characters long
+        </mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Confirm Password</label>
-      <input type="password" placeholder="Enter the password"
+    <!-- <div class="col-lg-12"> -->
+      <!-- <label>Confirm Password</label> -->
+      <mat-form-field class="col-lg-12">
+      <input type="password" placeholder="Confirm Password"
       formControlName="confirmPassword" matInput required>
       <mat-error *ngIf="r.confirmPassword.errors?.required && r.confirmPassword.touched">
         Please mention the Password</mat-error>
       <mat-error *ngIf="r.confirmPassword.errors?.mustMatch && r.confirmPassword.touched">
         Password is not matching
       </mat-error>
-     </div>
+      <mat-error *ngIf="r.confirmPassword.errors?.minlength && r.confirmPassword.touched">
+        Password should not be less than 6 characters
+      </mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Website</label>
-      <input type="text" placeholder="Website"
-       formControlName="website" matInput>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Website</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" placeholder="Website"
+        formControlName="website" matInput>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Tax ID</label>
-      <input type="text" placeholder="Enter the tax Id"
+    <!-- <div class="col-lg-12">
+      <label>Tax ID</label> -->
+      <mat-form-field class="col-lg-12">
+      <input type="text" placeholder="Tax ID"
        formControlName="tax" matInput required>
       <mat-error *ngIf="r.tax.errors?.required && r.tax.touched">
         Please mention the tax ID</mat-error>
-     </div>
+        </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Mobile No</label>
-      <input type="text" placeholder="Enter the mobile no"
-       formControlName="mobile" matInput required>
-      <mat-error *ngIf="r.mobile.errors?.required && r.mobile.touched">
-        Please mention the mobile No</mat-error>
-      <mat-error *ngIf="r.mobile.errors?.maxlength && r.mobile.touched">Mobile No. should be of 10 digits</mat-error>
-      <mat-error *ngIf="r.mobile.errors?.minlength && r.mobile.touched">Mobile No. should not less than 10 digits</mat-error>
-      <mat-error *ngIf="r.mobile.errors?.pattern && r.mobile.touched">Only numbers are allowed</mat-error>
-    </div>
+    <!-- <div class="col-lg-12">
+      <label>Mobile No</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" placeholder="Mobile Number"
+        formControlName="mobile" matInput required>
+       <mat-error *ngIf="r.mobile.errors?.required && r.mobile.touched">
+         Please mention the mobile No</mat-error>
+       <mat-error *ngIf="r.mobile.errors?.maxlength && r.mobile.touched">Mobile No. should be of 10 digits</mat-error>
+       <mat-error *ngIf="r.mobile.errors?.minlength && r.mobile.touched">Mobile No. should not less than 10 digits</mat-error>
+       <mat-error *ngIf="r.mobile.errors?.pattern && r.mobile.touched">Only numbers are allowed</mat-error>
+      </mat-form-field>
+      <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-6">
-      <label>Available Product and service categories</label>
-      <input type="text" placeholder="Enter the items categories"
-      [formControl]="categories"
-       [matAutocomplete]="prod" matInput required>
-       <mat-autocomplete #prod="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-      <mat-error *ngIf="categories.errors?.required && categories.touched">
-        Please mention categories</mat-error>
-        </div>
+    <!-- <div class="col-lg-6">
+      <label>Available Product and service categories</label> -->
+      <mat-form-field class="col-lg-6">
+        <input type="text" placeholder="Available Product and Services Categories"
+        [formControl]="categories"
+         [matAutocomplete]="prod" matInput required>
+         <mat-autocomplete #prod="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="categories.errors?.required && categories.touched">
+          Please mention categories</mat-error>
+      </mat-form-field>
+        <!-- </div> -->
         <div class="col-lg-6">
-          <br>
         <button color="primary" style="margin-top: 10px"
         type="button" mat-icon-button matSuffix [disabled]="categories.invalid"
         (click)="addNewProject(categories.value)">
@@ -190,70 +214,83 @@
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Fax No</label>
-      <input type="text" placeholder="Enter the Fax no"
-       formControlName="fax" matInput required>
-      <mat-error *ngIf="r.fax.errors?.required && r.fax.touched">
-        Please mention the Fax No</mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Fax No</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" placeholder="Fax Number"
+        formControlName="fax" matInput required>
+       <mat-error *ngIf="r.fax.errors?.required && r.fax.touched">
+         Please mention the Fax No</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Secret Question</label>
-      <mat-select formControlName="ques" required>
-        <mat-option *ngFor="let q of questions" [value]="q">{{q}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="r.ques.errors?.required && r.ques.touched">
-        Please select the question</mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Secret Question</label> -->
+      <mat-form-field class="col-lg-12">
+        <mat-select formControlName="ques" required placeholder="Secret Question">
+          <mat-option *ngFor="let q of questions" [value]="q">{{q}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="r.ques.errors?.required && r.ques.touched">
+          Please select the question</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
-  <br>
+  <br *ngIf="r.ques.valid">
   <div class="row" *ngIf="r.ques.valid">
-    <div class="col-lg-12">
-      <label>Answer</label>
-      <input type="text" placeholder="type the answer of the selected question"
-       formControlName="ans" matInput required>
-      <mat-error *ngIf="r.ans.errors?.required && r.ans.touched">
-        Please mention the answer of above question</mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Answer</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" placeholder="Secret Answer"
+        formControlName="ans" matInput required>
+       <mat-error *ngIf="r.ans.errors?.required && r.ans.touched">
+         Please mention the answer of above question</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Language</label>
-      <mat-select formControlName="lang" required>
-        <mat-option *ngFor="let l of languages" [value]="l">{{l}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="r.lang.errors?.required && r.lang.touched">
-        Please select the language</mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Language</label> -->
+      <mat-form-field class="col-lg-12">
+        <mat-select formControlName="lang" required placeholder="Preferred Language">
+          <mat-option *ngFor="let l of languages" [value]="l">{{l}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="r.lang.errors?.required && r.lang.touched">
+          Please select the language</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
-  <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>Year of Establishment</label>
-      <input type="text" placeholder="Enter the year of Establishment"
-       formControlName="yearofest" matInput required>
-      <mat-error *ngIf="r.yearofest.errors?.required && r.yearofest.touched">
-        Please select the year of establishment</mat-error>
-        <mat-error *ngIf="r.yearofest.errors?.pattern && r.yearofest.touched">
-        Enter only numbers
-        </mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>Year of Establishment</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" placeholder="Year of Establishment"
+        formControlName="yearofest" matInput required>
+       <mat-error *ngIf="r.yearofest.errors?.required && r.yearofest.touched">
+         Please select the year of establishment</mat-error>
+         <mat-error *ngIf="r.yearofest.errors?.pattern && r.yearofest.touched">
+         Enter only numeric characters
+         </mat-error>
+         <mat-error *ngIf="r.yearofest.errors?.maxlength && r.yearofest.touched">
+           You are exceeding the max numeric characters
+         </mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
-  <br>
   <div class="row">
-    <div class="col-lg-12">
-      <label>License No</label>
-      <input type="text" placeholder="Enter the year of Establishment"
-       formControlName="licenseno" matInput required>
-      <mat-error *ngIf="r.licenseno.errors?.required && r.licenseno.touched">
-        Please select the license number</mat-error>
-     </div>
+    <!-- <div class="col-lg-12">
+      <label>License No</label> -->
+      <mat-form-field class="col-lg-12">
+        <input type="text" placeholder="License Number"
+        formControlName="licenseno" matInput required>
+       <mat-error *ngIf="r.licenseno.errors?.required && r.licenseno.touched">
+         Please select the license number</mat-error>
+      </mat-form-field>
+     <!-- </div> -->
   </div>
   <br>
   <div class="row">
@@ -266,11 +303,13 @@
   </div>
   <br>
   <div style="justify-content: center;" >
-  <button  *ngIf="isSending === false" type="submit" [disabled]="register.invalid || category.length === 0"
-  mat-raised-button class="btn btn-success">SignUp</button>
-  <button  *ngIf="isSending === false" style="margin-left: 30px;" type="button" mat-raised-button class="btn btn-danger"
+  <button  *ngIf="isSending === false" type="submit" style="width: 80px; height: 30px;"
+  [disabled]="register.invalid || category.length === 0"
+  mat-raised-button color="primary">SignUp</button>
+  <button  *ngIf="isSending === false" style="margin-left: 30px; width: 80px; height: 30px;" type="button"
+   mat-raised-button color="accent"
   (click)="goBack()">Cancel</button>
-  <span *ngIf="isSending === true"><h5>Sending Mail to Supplier for Verification....</h5></span>
+  <span *ngIf="isSending === true"><h5>Please wait sending mail.....</h5></span>
   </div>
     </form>
     </div>

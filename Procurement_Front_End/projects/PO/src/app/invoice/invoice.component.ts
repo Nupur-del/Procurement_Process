@@ -77,28 +77,27 @@ export class InvoiceComponent implements OnInit {
     this.message.poBillNo.subscribe(message => this.sub = message);
     console.log(this.sub);
 
-  this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
-    this.brandDetails = brandDetails;
+  // this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+  //   this.brandDetails = brandDetails;
   this.http.get(environment.BASE_URL + 'order/getStatus')
   .subscribe((statusfromAPI: any) => {
     this.statusDetails = statusfromAPI;
-    this.login.getUser('Requestor').subscribe(user => {
-      this.requestorDetails = user;
-    this.http.get(environment.BASE_URL + 'cities/locationDetails')
-      .subscribe((loc: any) => {
-      this.locDetails = loc;
-      this.login.getSupplier().subscribe(supp => {
+    // this.login.getUser('Requestor').subscribe(user => {
+    //   this.requestorDetails = user;
+    // this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    //   .subscribe((loc: any) => {
+    //   this.locDetails = loc;
+    //   this.login.getSupplier().subscribe(supp => {
   this.poService.getPoByBillNo(this.sub).subscribe((data: any) => {
     const tableData = [];
     for (let i of data) {
-      if (this.statusDetails.find(s => s.id=== i.status).orderStatus === 'Item Delivered') {
+      if (i.itemStatus === 'Item Delivered') {
         tableData.push({
           ...i,
-          creator: this.requestorDetails.find(a => a.id === i.created_by).name,
-          locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-          supplierName: supp.find(d =>  d.id === i.supplier).name,
-          poStatus: this.statusDetails.find(s => s.id=== i.po_status).orderStatus,
-          brandName: this.brandDetails.find(v => v.brandpk === i.brand).brandName
+          locationName: i.locationName,
+          supplierName: i.supplierName,
+          poStatus: i.poStatus,
+          brandName: i.brandName
         })
       }
     }
@@ -108,10 +107,10 @@ export class InvoiceComponent implements OnInit {
     console.log(this.poList);
    });
   });
- });
-});
-    });
-  });
+//  });
+// });
+//     });
+//   });
   this.firstFormGroup = this.formBuilder.group({
     credit_days: ['', Validators.required],
     invoice_address: ['', Validators.required],

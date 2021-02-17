@@ -161,7 +161,7 @@ export class OrderComponent implements OnInit {
   ngOnInit() {
     this.data.currentMessage.subscribe(message => this.sub = message);
     this.orderService.getOrderById(this.sub).subscribe((data: any) =>{
-      this.order = data[0];
+      this.order = data;
     });
 
     this.orderService.getStatusById(this.sub).subscribe((data: any) =>{

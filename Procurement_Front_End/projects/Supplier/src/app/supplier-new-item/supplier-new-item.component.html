@@ -168,9 +168,6 @@
         </div>
         </div>
         </td>
-        <td>
-        <button type="button" (click)="onReset()">Reset</button>
-        </td>
       </tr>
       <tr>
       <td>
@@ -199,28 +196,33 @@
       </div>
       </td>
       </tr>
+      <br>
       <tr>
         <td><h5>Warranty</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" id="warranty" [(ngModel)]="item.warranty"  ngModel name="warranty" #warranty="ngModel" required>
+        <input type="text" class="form-control" id="warranty" [(ngModel)]="item.warranty"
+         ngModel name="warranty" #warranty="ngModel" placeholder="Warranty Period In Years" required>
         <div class ="alert alert-danger" *ngIf="warranty.touched && !warranty.valid">
         <div *ngIf="warranty.errors.required">Warranty is Required</div>
         </div>
         </div>
         </td>
+        <td style="width: 10px; padding: 0;">Years</td>
       </tr>
       <br>
        <tr>
         <td><h5>Replacement Policy</h5></td>
         <td>
         <div class="form-group">
-        <input type="text" class="form-control" id="policy" [(ngModel)]="item.policy" ngModel name="policy" #policy="ngModel" required>
+        <input type="text" class="form-control" id="policy" [(ngModel)]="item.policy"
+        ngModel name="policy" #policy="ngModel" placeholder="Replacement Period In Years" required>
         <div class ="alert alert-danger" *ngIf="policy.touched && !policy.valid">
         <div *ngIf="policy.errors.required">Policy is Required</div>
         </div>
         </div>
         </td>
+        <td style="width: 10px; padding: 0;">Years</td>
       </tr>
       <br>
        <tr>

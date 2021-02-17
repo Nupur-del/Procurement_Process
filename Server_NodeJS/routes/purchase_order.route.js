@@ -12,9 +12,13 @@ router.get('/po_by_status', (req,res) => {
     const user = req.query.user;
     const type = req.query.type;
     if (type === 'Supplier') {
-        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
-        orders s where i.order_id = s.order_id and p.po_status = ${status} and \
-        p.billNo = i.billNo and p.supplier = ${user}`, (err,response) => {
+        sql.query(`select  distinct(a.admName) , p.* , l.locName,  s.venName, o.orderStatus, os.orderStatus as invoiceStatus\
+        from datalocation l,  dataadmin a, datavendor s, orderStatus o, orderStatus os, pos p, po_items i, \
+        orders ord where ord.created_by = a.admAdminPK and p.supplier = s.venVendorPK \
+        and p.po_status = (select id from orderstatus where orderstatus = o.orderstatus) \
+        and p.location = l.locLocationPK and p.invoice_status = os.id \
+         and i.order_id = ord.order_id and o.orderStatus = '${status}' and   p.billNo = i.billNo \
+         and p.supplier = ${user} order by p.billNo desc`, (err,response) => {
             if(err) {
                 res.send(err);
             } else {
@@ -22,9 +26,14 @@ router.get('/po_by_status', (req,res) => {
             }
          });
     } else {
-        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
-        orders s where i.order_id = s.order_id and p.po_status = ${status} and \
-        p.billNo = i.billNo and s.created_by = ${user}`, 
+        sql.query(`select  distinct(a.admName) , p.* , l.locName,  s.venName,o.orderStatus, \
+        os.orderStatus as invoiceStatus from datalocation l,  dataadmin a, datavendor s, orderStatus o, \
+        orderStatus os, pos p, po_items i, orders ord where ord.created_by = a.admAdminPK \
+        and p.supplier = s.venVendorPK and p.po_status = (select id from orderstatus \
+        where orderstatus = o.orderstatus) and p.invoice_status = os.id \
+        and p.location = l.locLocationPK and  i.order_id = ord.order_id \
+        and o.orderStatus =  '${status}' and  p.billNo = i.billNo and ord.created_by = ${user}
+         order by p.billNo desc`, 
         (err,response) => {
             if(err) {
                 res.send(err);
@@ -41,9 +50,9 @@ router.get('/inProgress_PO', (req,res) => {
     const user = req.query.user;
     const type = req.query.type;
     if (type === 'Supplier') {
-        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
-        orders s where i.order_id = s.order_id and p.po_status not in (1,7,6) and \
-        p.billNo = i.billNo and p.supplier = ${user}`, (err,response) => {
+        sql.query(`select  distinct(a.admName) , p.* , l.locName,  s.venName,o.orderStatus from datalocation l,  dataadmin a, datavendor s, orderStatus o, pos p, po_items i, orders ord where
+        ord.created_by = a.admAdminPK and p.supplier = s.venVendorPK and p.po_status = o.id and p.location = l.locLocationPK and  i.order_id = ord.order_id and p.po_status not in (1,7,6) and \
+                p.billNo = i.billNo and p.supplier = ${user} order by p.billNo desc`, (err,response) => {
             if(err) {
                 res.send(err);
             } else {
@@ -51,9 +60,9 @@ router.get('/inProgress_PO', (req,res) => {
             }
          });
     } else {
-        sql.query(`select distinct(s.created_by), p.* from pos p, po_items i, \
-        orders s where i.order_id = s.order_id and p.po_status not in (1,7,6) and \
-        p.billNo = i.billNo and s.created_by = ${user}`, 
+        sql.query(`select distinct(a.admName) , p.* , l.locName,  s.venName,o.orderStatus from datalocation l,  dataadmin a, datavendor s, orderStatus o, pos p, po_items i, orders ord where
+        ord.created_by = a.admAdminPK and p.supplier = s.venVendorPK and p.po_status = o.id and p.location = l.locLocationPK and  i.order_id = ord.order_id and p.po_status not in (1,7,6) and \
+                p.billNo = i.billNo and ord.created_by = ${user} order by p.billNo desc`, 
         (err,response) => {
             if(err) {
                 res.send(err);
@@ -204,10 +213,47 @@ router.put('/updateItem_Status', (req, res) => {
 
 router.get('/po_by_billNo', (req, res) => {
     const bill = req.query.billNo;
-    sql.query(`select p.*, s.created_by, i.* , p.comment as commentSupplier, \
-    p.tracking_link as track, p.estimated_arrival as arrival_date from pos p, orders s, order_items i, \
-    po_items t where p.billNo = t.billNo and s.order_id = t.order_id and i.id = t.item_id \
-    and p.billNo = ${bill};`, (err,response) => {
+    sql.query(`select p.*,
+    i.* ,
+    p.comment as commentSupplier, 
+   l.locName as  locationName,
+   d.department_name as departmentName, 
+   a.admName as creator, 
+   s.created_by,
+   v.venName as supplierName,
+   ord.orderStatus as itemStatus , 
+   ord1.orderStatus as poStatus ,
+   ord2.orderStatus as invoiceStatus,
+   p.tracking_link as track,
+   a1.admName as deliverPerson,
+   b.brandName as brandName,
+    p.estimated_arrival as arrival_date 
+   from pos p, 
+   orders s,
+    order_items i, 
+   po_items t,
+   datavendor v,
+   brands b,
+    datalocation l, 
+   departments d,
+    dataadmin a,
+    dataadmin a1,
+    orderStatus ord,
+    orderStatus ord1,
+   orderStatus ord2
+    where p.billNo = t.billNo
+   and i.brand = b.brandpk
+   and p.supplier = v.venVendorPK
+    and s.order_id = t.order_id
+    and i.id = t.item_id 
+   and i.location = l.locLocationPK
+    and i.department = d.id 
+    and p.delivery_to = a1.admAdminPK
+   and s.created_by = a.admAdminPK 
+   and i.status = ord.id
+    and p.po_status = ord1.id
+   and p.invoice_status = ord2.id 
+   and p.billNo = ${bill};`, (err,response) => {
         if(err) {
             res.send(err);
         } else {

@@ -63,25 +63,26 @@ export class PendingPOComponent implements OnInit {
   ngOnInit() {
     this.type = localStorage.getItem('type');
     this.userID = +localStorage.getItem('userId');
-    this.http.get(environment.BASE_URL + 'order/getStatus')
-    .subscribe((statusfromAPI: any) => {
-      this.statusDetails = statusfromAPI;
-      const status = this.statusDetails.find(s => s.orderStatus === 'Pending').id;
-      this.login.getUser('Requestor').subscribe(user => {
-        this.requestorDetails = user;
-      this.http.get(environment.BASE_URL + 'cities/locationDetails')
-        .subscribe((loc: any) => {
-        this.locDetails = loc;
-        this.login.getSupplier().subscribe(supp => {
+    // this.http.get(environment.BASE_URL + 'order/getStatus')
+    // .subscribe((statusfromAPI: any) => {
+    //   this.statusDetails = statusfromAPI;
+    //   const status = this.statusDetails.find(s => s.orderStatus === 'Pending').id;
+    //   this.login.getUser('Requestor').subscribe(user => {
+    //     this.requestorDetails = user;
+    //   this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    //     .subscribe((loc: any) => {
+    //     this.locDetails = loc;
+    //     this.login.getSupplier().subscribe(supp => {
+      const status = 'Pending';
      this.poService.getPOByStatus(status, this.type, this.userID).subscribe((data: any) =>{
       const tableData = [];
       for (let i of data) {
        tableData.push({
          ...i,
-         creator: this.requestorDetails.find(a => a.id === i.created_by).name,
-         locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-         supplierName: supp.find(d =>  d.id === i.supplier).name,
-         poStatus: this.statusDetails.find(s => s.id=== i.po_status).orderStatus
+         creator: i.admName,
+         locationName: i.locName,
+         supplierName: i.venName,
+         poStatus: i.orderStatus
         })
       }
       // this.filterEntity = new SpaceCraft();
@@ -90,10 +91,10 @@ export class PendingPOComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.poList = tableData;
      });
-    });
-   });
-  });
-  });
+  //   });
+  //  });
+  // });
+  // });
     this.message.currentMessage.subscribe(message => this.sub = message);
   }
 

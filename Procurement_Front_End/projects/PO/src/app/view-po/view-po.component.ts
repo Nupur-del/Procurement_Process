@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import { POService } from '../po.service';
+import {BudgetService} from '../../../../../src/app/budget.service';
 import { HttpClient} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material';
 import { environment } from 'src/environments/environment';
@@ -24,6 +25,7 @@ export class ViewPOComponent implements OnInit {
   deptDetails = [];
   totalAmount: any;
   creator: any;
+  budgetDetails = [];
   displayedColumns = ['select','order_id', 'item_id', 'name', 'Specification', 'Quantity', 'Price','Brand'];
   poDetails = [];
   selection  = new SelectionModel<any>(true, []);
@@ -42,6 +44,7 @@ export class ViewPOComponent implements OnInit {
               private router: Router,
               private snackBar: MatSnackBar,
               private login: LoginService,
+              private budgetService: BudgetService,
               private message: MessageService,
               private poService: POService,
               private http: HttpClient) { }
@@ -50,15 +53,15 @@ export class ViewPOComponent implements OnInit {
     this.message.poBillNo.subscribe(data => {
       this.billNo = data;
       console.log(data);
-      this.login.getUser('Requestor').subscribe(req => {
-        this.requestorDetails = req;
-        this.http.get(environment.BASE_URL + 'department/deptDetails').subscribe((dept: any) => {
-          this.deptDetails = dept;
-         this.http.get(environment.BASE_URL + 'cities/locationDetails')
-          .subscribe((loc: any) => {
-          this.locDetails = loc;
-          this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
-            this.brandDetails = brandDetails;
+      // this.login.getUser('Requestor').subscribe(req => {
+      //   this.requestorDetails = req;
+      //   this.http.get(environment.BASE_URL + 'department/deptDetails').subscribe((dept: any) => {
+      //     this.deptDetails = dept;
+      //    this.http.get(environment.BASE_URL + 'cities/locationDetails')
+      //     .subscribe((loc: any) => {
+      //     this.locDetails = loc;
+      //     this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+      //       this.brandDetails = brandDetails;
           this.http.get(environment.BASE_URL + 'order/getStatus').subscribe((sta: any) => {
             this.statusDetails = sta;
             this.poService.getPoByBillNo(this.billNo).subscribe(poData => {
@@ -67,20 +70,18 @@ export class ViewPOComponent implements OnInit {
              for (let i of poData) {
                actual.push({
                  ...i,
-                 creator: this.requestorDetails.find(a => a.id === i.created_by).name,
-                 locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-                 departmentName: this.deptDetails.find(s => s.id === i.department).department_name,
-                 status: this.statusDetails.find(s => s.id === i.status).orderStatus,
-                 brandName: this.brandDetails.find(v => v.brandpk === i.brand).brandName,
-                 deliverPerson: this.requestorDetails.find(v => v.id === i.delivery_to).name
+                 locationName: i.locationName,
+                 departmentName: i.departmentName,
+                 status: i.itemStatus,
+                 brandName: i.brandName
                })
              }
              this.poDetails = actual;
              this.creator = this.poDetails[0].creator;
              this.Urgent = this.poDetails[0].urg_msg;
              this.totalAmount = this.poDetails[0].total;
-             this.loc = this.locDetails.find(c => c.locLocationPK === this.poDetails[0].location).locName,
-             this.poStatus = this.statusDetails.find(j => j.id === this.poDetails[0].po_status).orderStatus;
+             this.loc = this.poDetails[0].locationName,
+             this.poStatus = this.poDetails[0].poStatus;
              console.log(this.poDetails);
              this.dataSource = new MatTableDataSource(this.poDetails);
            }, error => {
@@ -89,20 +90,24 @@ export class ViewPOComponent implements OnInit {
               console.log(error9);});
           }, error1 => {
            console.log(error1);});
-        }, error2 => {
-         console.log(error2);});
-      }, error3 => {
-       console.log(error3);});
-    }, error4 => {
-     console.log(error4);});
-   }, error5 => {
-     console.log(error5);});
+  //       }, error2 => {
+  //        console.log(error2);});
+  //     }, error3 => {
+  //      console.log(error3);});
+  //   }, error4 => {
+  //    console.log(error4);});
+  //  }, error5 => {
+  //    console.log(error5);});
 
     this.poService.getAttachmentsByBillNo(this.billNo).subscribe((data: any) => {
       console.log(data);
       this.imageNames = data;
       console.log(this.imageNames);
     });
+
+    this.budgetService.getallbudget().subscribe((info: any) => {
+       this.budgetDetails = info;
+    })
   }
 
   isAllSelected() {
@@ -128,7 +133,9 @@ export class ViewPOComponent implements OnInit {
 
   onDecision(decision, message, item?: any) {
    console.log(item);
-      if(message.length > 0) {
+      if(message) {
+        let flag = 0;
+        let budget: any[] = [];
         let po: any = {};
         po.po_status = this.statusDetails.find(j => j.orderStatus === decision).id;
         po.action = 'update';
@@ -146,13 +153,27 @@ export class ViewPOComponent implements OnInit {
                     status: this.statusDetails.find(j => j.orderStatus === decision).id
                 });
                 } else {
+                  let detail = this.poDetails.find(a => a.id === i.id);
+                  let currentbudget = this.budgetDetails.findIndex(a => a.location === i.location && a.department === i.department);
+                  console.log('CurrentBudget', currentbudget);
+                  po.total = po.total - (detail.price * detail.quantity);
                   po.item.push({
                     id : i.id,
                     order_id : i.order_id,
-                    status: this.statusDetails.find(j => j.orderStatus === 'PO Denied').id
+                    status: this.statusDetails.find(j => j.orderStatus === 'PO Denied').id,
                   });
-                  let detail = this.poDetails.find(a => a.id === i.id);
-                  po.total = po.total - (detail.price * detail.quantity);
+                  let index = budget.findIndex(b => b.location === i.location && b.department === i.department)
+                  if (index >= 0) {
+                    budget[index].budget = +budget[index].budget + (+i.price * +i.quantity);
+                  } else {
+                    budget.push({
+                      location: i.location,
+                      department: i.department,
+                      budget: +this.budgetDetails[currentbudget].budget + (+i.price * +i.quantity)
+                    })
+                  }
+                  console.log('Total Cost', po.total);
+                  console.log('Budget', budget);
                }
             }
         } else {
@@ -162,18 +183,41 @@ export class ViewPOComponent implements OnInit {
               order_id: i.order_id,
               status: this.statusDetails.find(j => j.orderStatus === 'PO Denied').id
             })
+            let currentbudget = this.budgetDetails.findIndex(a => a.location === i.location && a.department === i.department);
+            console.log('CurrentBudget', currentbudget);
+            let index = budget.findIndex(b => b.location === i.location && b.department === i.department)
+            if (index >= 0) {
+              budget[index].budget = +budget[index].budget + (+i.price * +i.quantity);
+            } else {
+              budget.push({
+                location: i.location,
+                department: i.department,
+                budget: +this.budgetDetails[currentbudget].budget + (+i.price * +i.quantity)
+              })
+            }
+            console.log('Budget', budget);
           }
         }
           po.billNo = this.billNo;
           po.message = message;
           console.log(po);
+
           this.http.put(environment.BASE_URL + 'Purchase/update_po_status' , po).subscribe((data: any) =>{
           console.log(data);
-              if (decision === 'PO Approved') {
-                this.router.navigate(['/approvedPO']);
-              } else {
-                this.router.navigate(['/deniedPO']);
-              }
+          if (budget.length > 0) {
+            for (let i of budget) {
+              this.budgetService.updationofBudget(i.department, i.location, i.budget).subscribe(result => {
+                console.log(result);
+              }, err => {
+                console.log(err);
+              });
+            }
+          }
+          if (decision === 'PO Approved') {
+            this.router.navigate(['/approvedPO']);
+          } else {
+            this.router.navigate(['/deniedPO']);
+          }
         }, err => {
         console.log(err);
         });

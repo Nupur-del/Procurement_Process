@@ -18,23 +18,24 @@ import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
 import { DeniedPOComponent } from './denied-po/denied-po.component';
 import { AuthGuard } from '../../../../src/app/auth.guard';
+import { VerifiedGuard } from 'src/app/verified.guard';
 
 const routes: Routes = [
-  {path: "purchase-order", component: PurchaseOrderComponent, resolve: { po: POResolverService }, canActivate: [AuthGuard]},
-  {path: "invoice", component: InvoiceComponent , canActivate: [AuthGuard]},
-  {path: "track-dashboard", component: TrackDashboardComponent , canActivate: [AuthGuard]},
-  {path: "track-order", component: TrackOrderComponent , canActivate: [AuthGuard]},
-  {path: "PO", component: AppComponent , canActivate: [AuthGuard]},
-  {path: "createPO", component: CreatePOComponent , canActivate: [AuthGuard]},
-  {path: "pendingPO", component: PendingPOComponent , canActivate: [AuthGuard]},
-  {path: "deniedPO", component: DeniedPOComponent , canActivate: [AuthGuard]},
-  {path: "approvedPO", component: ApprovedPOComponent, canActivate: [AuthGuard]},
-  {path: "poTrack", component: POTrackComponent , canActivate: [AuthGuard]},
-  {path: "checkPO", component: CheckPOComponent , canActivate: [AuthGuard]},
-  {path: "viewPO", component: ViewPOComponent, resolve: { view: ViewResolverService }, canActivate: [AuthGuard]},
-  {path: "deliveredPO", component: DeliveredPoComponent , canActivate: [AuthGuard]},
-  {path: "viewInvoice", component: EditInvoiceComponent, resolve: { view: ViewResolverService }, canActivate: [AuthGuard]},
-  {path: "invoiceView", component: ViewInvoiceComponent, resolve: { view: ViewResolverService }, canActivate: [AuthGuard]},
+  {path: "purchase-order", component: PurchaseOrderComponent, resolve: { po: POResolverService }, canActivate: [VerifiedGuard]},
+  {path: "invoice", component: InvoiceComponent , canActivate: [VerifiedGuard]},
+  {path: "track-dashboard", component: TrackDashboardComponent , canActivate: [VerifiedGuard]},
+  {path: "track-order", component: TrackOrderComponent , canActivate: [VerifiedGuard]},
+  {path: "PO", component: AppComponent , canActivate: [VerifiedGuard]},
+  {path: "createPO", component: CreatePOComponent , canActivate: [VerifiedGuard]},
+  {path: "pendingPO", component: PendingPOComponent , canActivate: [VerifiedGuard]},
+  {path: "deniedPO", component: DeniedPOComponent , canActivate: [VerifiedGuard]},
+  {path: "approvedPO", component: ApprovedPOComponent, canActivate: [VerifiedGuard]},
+  {path: "poTrack", component: POTrackComponent , canActivate: [VerifiedGuard]},
+  {path: "checkPO", component: CheckPOComponent , canActivate: [VerifiedGuard]},
+  {path: "viewPO", component: ViewPOComponent, resolve: { view: ViewResolverService }, canActivate: [VerifiedGuard]},
+  {path: "deliveredPO", component: DeliveredPoComponent , canActivate: [VerifiedGuard]},
+  {path: "viewInvoice", component: EditInvoiceComponent, resolve: { view: ViewResolverService }, canActivate: [VerifiedGuard]},
+  {path: "invoiceView", component: ViewInvoiceComponent, resolve: { view: ViewResolverService }, canActivate: [VerifiedGuard]},
 ];
 
 

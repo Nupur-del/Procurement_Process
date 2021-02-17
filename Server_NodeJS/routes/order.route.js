@@ -6,6 +6,7 @@ const Order = require('../models/order.model');
 const Order_status = require('../models/order_status.model');
 const Order_items = require('../models/order_item.model');
 const locations = require('../models/datalocation.model');
+const admin = require('../models/dataadmin.model');
 
 router.use(cors()); 
 
@@ -138,16 +139,28 @@ router.get('/location_by_order_id', (req,res) => {
 // Fetch Order by order id
 
 router.get('/Order_by_order_id', (req,res) => {
-  Order.findAll({
+  Order.findOne({
     where: {
       order_id: req.query.order_id
     }
   })
   .then(order => {
-    res.send(order);
+    admin.findOne({
+      where: {
+        admAdminPK: order.created_by
+      }
+    }).then(info => {
+      let result = {
+        ...order.dataValues,
+        creator: info.admName
+      }
+      res.send(result);
+    }).catch(err => {
+      res.status(400).send(err);
+    })
   })
   .catch(error => {
-    res.send(error.message);
+    res.status(400).send(error.message);
   })
 })
 
@@ -169,19 +182,20 @@ router.get('/Status_by_order_id', (req,res) => {
 
 // Fetch Item by order id
 
-router.get('/Item_by_order_id', (req,res) => {
-  Order_items.findAll({
-    where: {
-      order_id: req.query.order_id
-    }
-  })
-  .then(item => {
-    res.send(item);
-  })
-  .catch(error => {
-    res.send(error.message);
-  })
-})
+// router.get('/Item_by_order_id', (req,res) => {
+//   Order_items.findAll({
+//     where: {
+//       order_id: req.query.order_id
+//     }
+//   })
+//   .then(item => {
+//     locations.findAll({})
+//     res.send(item);
+//   })
+//   .catch(error => {
+//     res.send(error.message);
+//   })
+// })
 
 // Fetch item by item id
 

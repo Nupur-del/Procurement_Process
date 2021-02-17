@@ -5,6 +5,7 @@ select {
     margin: 5px;
     padding: 5px;
     width: max-content;
+    float: left;
 }
 
 label {
@@ -17,6 +18,7 @@ input[type='text'] {
     border: 1px solid #dce0d4;
     border-radius: 5px;
     padding: 5px;
+    float: left;
 }
 
 input[type='number'] {

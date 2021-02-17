@@ -33,18 +33,49 @@ interface ImageSlider {
 
 export class EditItemComponent implements OnInit {
 
-  request: any = {};
-  serviceItem: any;
+  // Arrays
+
   brandNames = [];
   serviceImage: any;
   imageLength: any = [];
   sampleMan: any = [];
   imageList: any = [];
+  itemImages: Array<ImageSlider> = [];
+  myFiles:any [] = [];
+  brandDetails = [];
+  imageNames:any[] = [];
+  uploadedImages: any = [];
+  filteredOptions: Observable<string[]>;
+
+  // normal variable
+
+  serviceItem: any;
   sub: any;
-  itemImages: Array<ImageSlider>;
-  isLoading = false;
-  isRemovable = true;
   brandName: string;
+  Image_url = environment.IMAGE_URL;
+  autoHide = 2000;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  message: string;
+  actionButtonLabel = ':)';
+
+  // Boolean variable
+
+  isLoading = false;
+  addExtraClass = false;
+  isRemovable = true;
+  change:boolean = false;
+  optional:boolean = false;
+  action = true;
+  setAutoHide = true;
+  requireChange:boolean = true;
+  image: any;
+  fName: any;
+  fType: any;
+
+  // Object variable
+
+  request: any = {};
   item = {
     brand: '',
     currency: '',
@@ -64,27 +95,9 @@ export class EditItemComponent implements OnInit {
     warranty: '',
     imageName: []
   };
-  myFiles:any [] = [];
-  brandDetails = [];
-  imageNames:any[] = [];
-  uploadedImages: any = [];
-  image: any;
-  change:boolean = false;
-  optional:boolean = false;
-  requireChange:boolean = true;
-  fName: any;
-  fType: any;
+
+  // Formcontrol
   brandControl = new FormControl('', [Validators.pattern('[a-zA-Z]*')]);
-  filteredOptions: Observable<string[]>;
-  message: string;
-  actionButtonLabel = ':)';
-  action = true;
-  setAutoHide = true;
-  Image_url = environment.IMAGE_URL;
-  autoHide = 2000;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  addExtraClass = false;
 
   constructor(private http: HttpClient,
               public snackBar: MatSnackBar,
@@ -95,11 +108,15 @@ export class EditItemComponent implements OnInit {
                }
 
   ngOnInit() {
+
     this.data.currentMessage.subscribe(message => this.sub = message);
+
     this.itemService.getItemById(this.sub).subscribe((data: any) => {
+
       this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
         this.item = data;
         this.brandDetails = brandDetails;
+
         for (let i of this.brandDetails) {
           this.brandNames.push(i.brandName);
         }
@@ -118,6 +135,7 @@ export class EditItemComponent implements OnInit {
         }
       }
     });
+
     this.autocomplete();
   }
 
@@ -135,7 +153,6 @@ export class EditItemComponent implements OnInit {
       return feature.filter(option => option.toLowerCase().includes(filterValue));
     }
   }
-
 
   insert() {
     const config = new MatSnackBarConfig();
@@ -158,7 +175,6 @@ export class EditItemComponent implements OnInit {
     console.log(this.imageNames);
     this.change = false;
   }
-
 
   onUpload() {
     let formData = new FormData();
@@ -191,9 +207,7 @@ export class EditItemComponent implements OnInit {
     } else {
       params = new HttpParams().set('fileName', this.imageNames[i]);
     }
-    console.log(params);
     this.http.delete(environment.BASE_URL + 'api/deleteFile', { params: params }).subscribe( data => {
-      // alert(data['message']);
       this.message = data['message'];
       this.insert();
       console.log(data);
@@ -249,26 +263,18 @@ export class EditItemComponent implements OnInit {
         console.log('Items', this.item);
         this.item.brand = details.brandpk;
         console.log(this.item);
-        // let deletionItem = this.itemService.delItem(this.request.item_id);
-        // if (!deletionItem || deletionItem.length === 0) {
         this.itemService.editItem(this.item);
         this.message = 'Edited Sucessfully';
         this.insert();
-        //  if (!EditItem || EditItem.length === 0) {
         this.dialogRef.close();
       });
     } else {
       this.item.brand = itemBrand.brandpk;
       console.log(this.item);
-      // let deletionItem = this.itemService.delItem(this.request.item_id);
-      // if (!deletionItem || deletionItem.length === 0) {
       this.itemService.editItem(this.item);
       this.message = 'Edited Sucessfully';
       this.insert();
-      //  if (!EditItem || EditItem.length === 0) {
       this.dialogRef.close();
     }
-    //   }
-    // }
   }
 }

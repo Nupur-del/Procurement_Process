@@ -1,17 +1,9 @@
-<body>
-    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="bg-gra-02 p-t-130 p-b-100 font-poppins">
         <div class="wrapper wrapper--w780">
             <div class="card card-4">
                 <div class="card-body">
-                  <div style="text-align: end;" *ngIf="selected === 'Supplier'">
-                    <h6>Not Registered ? :
-                      <button
-                     mat-raised-button color="primary" [routerLink]="'/supplierRegistration'"
-                      [routerLinkActive]="['is-active']">Sign Up</button>
-                    </h6>
-                  </div>
-<h2 class="title" style="text-align: center;">LOGIN</h2>
 <br>
+<h1 class="title" style="text-align: center;">LOGIN</h1>
 <form style="text-align: center;" #log="ngForm">
   <mat-form-field style="margin-right: 30px;" appearance="outline">
     <mat-label>Login as</mat-label>
@@ -51,15 +43,18 @@
   </mat-form-field>
   <br>
   <div style="justify-content: center;">
-  <button align="end" [disabled]="log.invalid" mat-raised-button color="primary"
+  <button [disabled]="log.invalid" mat-raised-button color="primary"
    type="submit" (click)="login()">Submit</button>
-
-   <button *ngIf="type === 'Supplier'" align="end" style="margin-left: 10px" [disabled]="emailControl.invalid" mat-raised-button color="primary"
-   type="submit" (click)="resendEmail(emailControl.value)">Resend verification email</button>
-</div>
+  </div>
 </form>
+<br>
+<div style="text-align: center;">
+  <h6>Register as a Supplier :
+    <a [routerLink]="'/supplierRegistration'"
+    [routerLinkActive]="['is-active']">Sign Up</a>
+  </h6>
+</div>
                 </div>
             </div>
         </div>
     </div>
-</body>

@@ -27,11 +27,11 @@ module.exports = db.sequelize.define(
     },
     location: {
       type: sequelize.STRING,
-      allowNull: true
+      allowNull: false
     },
     department: {
       type: sequelize.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     unit_type: {
         type: sequelize.STRING,
@@ -58,8 +58,8 @@ module.exports = db.sequelize.define(
         allowNull: false
      },
      status: {
-        type: sequelize.STRING,
-        allowNull: true
+        type: sequelize.TINYINT,
+        allowNull: false
     },
     estimated_arrival: {
         type: sequelize.DATE,

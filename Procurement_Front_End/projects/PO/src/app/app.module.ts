@@ -50,6 +50,8 @@ import { ViewInvoiceComponent } from './view-invoice/view-invoice.component';
 import { TrackDashboardComponent } from './track-dashboard/track-dashboard.component';
 import { DeniedPOComponent } from './denied-po/denied-po.component';
 import { SeePOComponent } from './see-po/see-po.component';
+import { AuthGuard } from 'src/app/auth.guard';
+import { VerifiedGuard } from 'src/app/verified.guard';
 
 @NgModule({
   declarations: [
@@ -111,7 +113,7 @@ import { SeePOComponent } from './see-po/see-po.component';
     MatStepperModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [AuthGuard, VerifiedGuard],
   bootstrap: [AppComponent],
   entryComponents: [SeeOrderComponent, SeePOComponent]
 })

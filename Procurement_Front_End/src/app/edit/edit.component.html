@@ -352,7 +352,7 @@
 <mat-card-header>
 <mat-card-title>Selected Items</mat-card-title>
 </mat-card-header>
-<div class="row">
+<div class="row" *ngIf="finalItem">
 <div class="col-sm-6"  *ngFor="let entity of finalItem; let i=index;">
   <span>
     <b>Product Name-</b>{{ entity.name }}
@@ -362,7 +362,8 @@
       <li><b>Location -</b> {{ entity.locationName }}</li>
       <li><b>Department-</b> {{ entity.departmentName }}</li>
       <li><b>Specification -</b> {{entity.specification}}</li>
-      <li><b>Price-</b> {{entity.price}}</li>
+      <li><b>Brand-</b> {{entity.brandName}} </li>
+      <li><b>Price-</b> {{entity.currency}} {{entity.price}}</li>
     </ul>
   <button mat-button-raised (click)="removeOrderItem(i,entity)" mat-icon-button><mat-icon>delete</mat-icon>Remove Item</button>
   </span>

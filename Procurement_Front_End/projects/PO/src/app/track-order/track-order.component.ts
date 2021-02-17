@@ -3,11 +3,11 @@ import {POService} from '../po.service';
 import { LoginService} from '../../../../../src/app/login.service';
 import {environment} from '../../../../../src/environments/environment';
 import {HttpClient} from '@angular/common/http';
-import { MatProgressBar } from '@angular/material/progress-bar';
 import { MessageService } from '../message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-track-order',
@@ -32,40 +32,44 @@ export class TrackOrderComponent implements OnInit {
               private messageService: MessageService,
               private http: HttpClient,
               private login: LoginService,
-              private activate: ActivatedRoute,
+              private location: Location,
               private router: Router) { }
 
   ngOnInit() {
     this.messageService.poBillNo.subscribe(message => this.sub = message);
 
 
-    this.login.getUser('Requestor').subscribe(req => {
-      this.requestorDetails = req;
-      this.http.get(environment.BASE_URL + 'department/deptDetails').subscribe((dept: any) => {
-        this.deptDetails = dept;
-       this.http.get(environment.BASE_URL + 'cities/locationDetails')
-        .subscribe((loc: any) => {
-        this.locDetails = loc;
-        this.http.get(environment.BASE_URL + 'order/getStatus').subscribe((sta: any) => {
-          this.statusDetails = sta;
-          this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
+    // this.login.getUser('Requestor').subscribe(req => {
+    //   this.requestorDetails = req;
+    //   this.http.get(environment.BASE_URL + 'department/deptDetails').subscribe((dept: any) => {
+    //     this.deptDetails = dept;
+    //    this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    //     .subscribe((loc: any) => {
+    //     this.locDetails = loc;
+    //     this.http.get(environment.BASE_URL + 'order/getStatus').subscribe((sta: any) => {
+    //       this.statusDetails = sta;
+    //       this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
     this.poService.getPoByBillNo(this.sub).subscribe((POdata: any) => {
       console.log(POdata);
       if (!POdata || POdata.length === 0) {
         this.error = true;
         this.message = 'Please check the order id, Purchase Order has not received';
+      } else if (POdata[0].poStatus === 'PO Denied') {
+          this.error = true;
+          this.message = 'Order is cancelled by the Supplier'
       } else {
       const trackeData = [];
       for (let i of POdata) {
+        if (i.itemStatus !== 'PO Denied') {
         trackeData.push({
           ...i,
-          creator: this.requestorDetails.find(v => v.id === i.created_by).name,
-          locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-          departmentName: this.deptDetails.find(s => s.id === i.department).department_name,
-          status: this.statusDetails.find(s => s.id === i.status).orderStatus,
-          brandName: brandDetails.find(v => v.brandpk === i.brand).brandName,
-          poStatus: this.statusDetails.find(a => a.id === i.po_status).orderStatus
+          locationName: i.locationName,
+          departmentName: i.departmentName,
+          status: i.itemStatus,
+          brandName: i.brandName,
+          poStatus: i.poStatus
         })
+       }
       }
       this.dataSource = new MatTableDataSource(trackeData);
       this.dataSource.paginator = this.paginator;
@@ -73,12 +77,11 @@ export class TrackOrderComponent implements OnInit {
       console.log(this.items);
     }
     });
-  });
-        });
-      });
-      });
-    });
-
+  // });
+  //       });
+  //     });
+  //     });
+  //   });
   }
 
   getInvoice (billNo) {
@@ -87,7 +90,7 @@ export class TrackOrderComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['../'], {relativeTo: this.activate});
+    this.location.back();
   }
 
 }

@@ -52,17 +52,17 @@ export class DeliveredPoComponent implements OnInit {
       'supplier', 'tracking_link' ,'status','details', 'viewInvoice'];
     }
 
-    this.http.get(environment.BASE_URL + 'order/getStatus')
-    .subscribe((statusfromAPI: any) => {
-      this.statusDetails = statusfromAPI;
-      this.login.getUser('Requestor').subscribe(user => {
-        this.requestorDetails = user;
-        console.log(this.requestorDetails);
-      this.http.get(environment.BASE_URL + 'cities/locationDetails')
-        .subscribe((loc: any) => {
-        this.locDetails = loc;
-        this.login.getSupplier().subscribe(supp => {
-    let status = this.statusDetails.find(s => s.orderStatus === 'Item Delivered').id;
+    // this.http.get(environment.BASE_URL + 'order/getStatus')
+    // .subscribe((statusfromAPI: any) => {
+    //   this.statusDetails = statusfromAPI;
+    //   this.login.getUser('Requestor').subscribe(user => {
+    //     this.requestorDetails = user;
+    //     console.log(this.requestorDetails);
+    //   this.http.get(environment.BASE_URL + 'cities/locationDetails')
+    //     .subscribe((loc: any) => {
+    //     this.locDetails = loc;
+    //     this.login.getSupplier().subscribe(supp => {
+    let status = 'Item Delivered';
     this.poService.getPOByStatus(status, this.type, this.userID).subscribe((data: any) => {
       console.log(data);
       const tableData = [];
@@ -72,11 +72,11 @@ export class DeliveredPoComponent implements OnInit {
         }
        tableData.push({
          ...i,
-         creator: this.requestorDetails.find(a => a.id === i.created_by).name,
-         locationName: this.locDetails.find(c => c.locLocationPK === i.location).locName,
-         supplierName: supp.find(d =>  d.id === i.supplier).name,
-         poStatus: this.statusDetails.find(s => s.id=== i.po_status).orderStatus,
-         invoice_status: this.statusDetails.find(a => a.id === i.invoice_status).orderStatus
+         creator: i.admName,
+         locationName: i.locName,
+         supplierName: i.venName,
+         poStatus: i.orderStatus,
+         invoice_status: i.invoiceStatus
        })
       }
       this.dataSource = new MatTableDataSource(tableData);
@@ -84,10 +84,10 @@ export class DeliveredPoComponent implements OnInit {
       this.poList = data;
       console.log(this.poList);
      });
-   });
- });
-      });
-    });
+//    });
+//  });
+//       });
+//     });
     this.message.currentMessage.subscribe(message => this.sub = message);
   }
 

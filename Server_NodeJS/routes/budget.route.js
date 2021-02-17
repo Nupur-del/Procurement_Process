@@ -42,4 +42,26 @@ router.get('/budget_by_deptID', (req,res) => {
                 })
 })
 
+router.get('/allbudget', (req, res) => {
+    Budget.findAll().then(data => {
+        res.send(data);
+    }).catch(error => {
+        res.status(404).send(error);
+     })
+})
+
+router.put('/budgetupdate', (req, res) => {
+    Budget.update(
+        {
+            budget : req.body.budget
+        }, 
+        {
+            returning: true, 
+            where: {
+              location: req.body.location,
+              department: req.body.department
+            }
+        })
+})
+
 module.exports = router;

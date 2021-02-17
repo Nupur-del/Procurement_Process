@@ -21,6 +21,8 @@
         <td>
       	<input type="radio" formControlName="urg_msg" [(ngModel)]="po.urg_msg" value="yes">Yes
         <input type="radio" formControlName="urg_msg"  [(ngModel)]="po.urg_msg" value="no">No
+        <mat-error *ngIf="firstFormGroup.get('urg_msg').errors?.required
+        && firstFormGroup.get('urg_msg').touched">Select the option</mat-error>
         </td>
       </tr>
       <br>
@@ -31,9 +33,9 @@
         name="file" multiple (change)="onFileChange($event)"
         [(ngModel)]="image">
        </td>
-       <td>
+       <!-- <td>
         <button type="button" (click)="onReset()">Reset</button>
-        </td>
+        </td> -->
       </tr>
       <br>
        <tr>
@@ -69,6 +71,8 @@
        <td>
        <input  type="text" class="form-control" [(ngModel)]="po.reason"
        formControlName="reason" required>
+       <mat-error *ngIf="firstFormGroup.get('reason').errors?.required
+       && firstFormGroup.get('reason').touched">Mention the reason</mat-error>
        </td>
       </tr>
             <br>
@@ -85,13 +89,15 @@
         <td>
       	<input type="radio"  formControlName="option" [(ngModel)]="Option" value="yes">Yes
         <input type="radio"  formControlName="option" [(ngModel)]="Option" value="no">No
+        <mat-error *ngIf="firstFormGroup.get('option').errors?.required
+        && firstFormGroup.get('option').touched">Choose one option</mat-error>
         </td>
       </tr>
       <br>
       <tr *ngIf="Option === 'yes'">
        <td><h5>Mention the name of the person</h5></td>
        <td>
-       <mat-select formControlName="behalf" [(ngModel)]="po.behalf" class="form-control">
+       <mat-select formControlName="behalf" [(ngModel)]="po.behalf" class="form-control custom_position">
          <mat-option *ngFor="let i of requestor" [value]="i.id">{{i.name}}</mat-option>
        </mat-select>
        </td>
@@ -100,7 +106,7 @@
       <tr>
        <td><h5>Purchase Type</h5></td>
        <td>
-      <mat-select  [(ngModel)]="po.purchase_type" class="form-control"
+      <mat-select  [(ngModel)]="po.purchase_type" class="form-control custom_position"
       formControlName="purchase_type" required>
             <mat-option value="expense">Expense</mat-option>
             <mat-option value="capital">Capital</mat-option>
@@ -113,13 +119,15 @@
             <mat-option value="repair">Maintenace repair and operating items</mat-option>
             <mat-option value="transportation">Transportation and 3rd party purchasing</mat-option>
         </mat-select>
+        <mat-error *ngIf="firstFormGroup.get('purchase_type').errors?.required
+        && firstFormGroup.get('purchase_type').touched">Select the purchase type</mat-error>
         </td>
       </tr>
       <br>
       </table>
       <br>
       <div class="text-right">
-        <button class="btn btn-primary" matStepperNext>Next</button>
+        <button class="btn btn-primary" [disabled]="firstFormGroup.invalid" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
@@ -156,14 +164,19 @@
        <td>
        <input type="text" class="form-control"
        [(ngModel)]="po.locationName" disabled formControlName="location" required>
+       <mat-error *ngIf="secondFormGroup.get('location').errors?.required
+       && secondFormGroup.get('location').touched">Mention location</mat-error>
        </td>
       </tr>
        <br>
        <tr>
        <td><h5>Billing Address</h5></td>
        <td>
-       <textarea class="form-control" [(ngModel)]="po.bill_to_address" placeholder="Enter the address for the bill"
+       <textarea class="form-control" [(ngModel)]="po.bill_to_address"
+        placeholder="Enter the address for the bill"
        formControlName="bill_to_address" required></textarea>
+       <mat-error *ngIf="secondFormGroup.get('bill_to_address').errors?.required
+       && secondFormGroup.get('bill_to_address').touched">Mention the billing address</mat-error>
        </td>
       </tr>
        <br>
@@ -171,9 +184,11 @@
        <td><h5>Deliver To</h5></td>
        <td>
        <mat-select formControlName="delivery_to" required [(ngModel)]="po.delivery_to"
-       class="form-control">
+       class="form-control custom_position" disableOptionCentering>
         <mat-option *ngFor="let i of requestor" [value]="i.id">{{i.name}}</mat-option>
       </mat-select>
+      <mat-error *ngIf="secondFormGroup.get('delivery_to').errors?.required
+      && secondFormGroup.get('delivery_to').touched">Mention the person name</mat-error>
        </td>
       </tr>
        <br>
@@ -184,6 +199,8 @@
             [(ngModel)]="po.required_by"
             min="{{todayDate | date:'yyyy-MM-dd'}}"
             formControlName="required_by" required>
+            <mat-error *ngIf="secondFormGroup.get('required_by').errors?.required
+            && secondFormGroup.get('required_by').touched">Mention the required date</mat-error>
       <!-- <mat-form-field  style="width: 100%;">
        <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
         [(ngModel)]="po.required_by"
@@ -200,21 +217,27 @@
         <tr>
           <td><h5>Same as billing address?&nbsp;</h5></td>
           <td>
-          <input type="radio"  formControlName="shipTobill" [(ngModel)]="shipTobill" value="yes">Yes
-          <input type="radio" formControlName="shipTobill" [(ngModel)]="shipTobill" value="no">No
+          <input type="radio"  formControlName="shipTobill" [(ngModel)]="ShipTobill" value="yes">Yes
+          <input type="radio" formControlName="shipTobill" [(ngModel)]="ShipTobill" value="no">No
+          <!-- <mat-error *ngIf="secondFormGroup.get('shipTobill').errors?.required
+          && secondFormGroup.get('shipTobill').touched">select one option</mat-error> -->
           </td>
         </tr>
-       <textarea *ngIf="shipTobill === 'no'" class="form-control" [(ngModel)]="po.delivery_address"
+       <textarea *ngIf="secondFormGroup.get('shipTobill').value === 'no'" class="form-control"
+        [(ngModel)]="po.delivery_address"
        formControlName="delivery_address" required></textarea>
-       <textarea *ngIf="shipTobill === 'yes'" disabled class="form-control" [(ngModel)]="po.bill_to_address" placeholder="enter the address for the bill"
+       <textarea *ngIf="secondFormGroup.get('shipTobill').value === 'yes'" disabled class="form-control"
+        [(ngModel)]="po.bill_to_address" placeholder="enter the address for the bill"
        formControlName="delivery_address" required></textarea>
+       <!-- <mat-error *ngIf="secondFormGroup.get('delivery_address').errors?.required
+       && secondFormGroup.get('delivery_address').touched">Mention the shipping address</mat-error> -->
        </td>
       </tr>
        <br>
      </table>
       <div class="text-right">
         <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
-        <button class="btn btn-primary" matStepperNext>Next</button>
+        <button class="btn btn-primary" [disabled]="secondFormGroup.invalid" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
@@ -229,6 +252,8 @@
         <td>
         <input type="text" class="form-control" placeholder="Name the department"
         [(ngModel)]="po.cost_center" formControlName="cost_center" required>
+        <mat-error *ngIf="thirdFormGroup.get('cost_center').errors?.required
+        && thirdFormGroup.get('cost_center').touched">Mention the cost center</mat-error>
         </td>
       </tr>
      <br>
@@ -237,21 +262,25 @@
         <td>
         <input type="text" class="form-control" placeholder="Enter your Project Code"
          [(ngModel)]="po.project_code" formControlName="project_code" required>
+         <mat-error *ngIf="thirdFormGroup.get('project_code').errors?.required
+         && thirdFormGroup.get('project_code').touched">Mention the project code</mat-error>
         </td>
       </tr>
      <br>
      <tr>
         <td><h5>Budget Code&nbsp;</h5></td>
         <td>
-        <input type="text" class="form-control"  placeholder="Enter the assigned budget No"
+        <input type="text" class="form-control" placeholder="Enter the assigned budget No"
          [(ngModel)]="po.budget_code" formControlName="budget_code" required>
+         <mat-error *ngIf="thirdFormGroup.get('budget_code').errors?.required
+         && thirdFormGroup.get('budget_code').touched">Mention the budget Code</mat-error>
         </td>
       </tr>
      <br>
      </table>
     <div class="text-right">
       <button class="btn btn-primary" matStepperPrevious>Back</button>&nbsp;
-      <button class="btn btn-primary" matStepperNext>Next</button>
+      <button class="btn btn-primary" [disabled]="thirdFormGroup.invalid" matStepperNext>Next</button>
     </div>
     </form>
   </mat-step>

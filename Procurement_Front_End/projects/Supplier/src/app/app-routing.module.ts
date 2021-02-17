@@ -8,21 +8,22 @@ import { EditResolverService } from './edit-resolver.service';
 import { ItemResolverService } from './item-resolver.service';
 import { POModule } from '../../../PO/src/app/app.module';
 import {AuthGuard} from '../../../../src/app/auth.guard';
+import { VerifiedGuard } from 'src/app/verified.guard';
 
 
 const routes: Routes = [
-  { path: 'supplierHome', component: SupplierHomeComponent,canActivate: [AuthGuard] },
-  { path: 'supplierItems', component: SupplierItemsComponent, resolve: { items: ItemResolverService }, canActivate: [AuthGuard] },
-  { path: 'supplier/newItem', component: SupplierNewItemComponent, canActivate: [AuthGuard] },
-  { path: 'editItem', component: EditItemComponent, resolve: { editItem: EditResolverService }},
-  { path: 'invoice', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
-  { path: 'track-order', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
-  { path: 'track-dashboard', loadChildren: '../../../PO/src/app/app.module#POModule',canActivate: [AuthGuard]},
-  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
-  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
-  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
-  { path: 'viewPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
-  { path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule', canActivate: [AuthGuard]},
+  { path: 'supplierHome', component: SupplierHomeComponent,canActivate: [VerifiedGuard] },
+  { path: 'supplierItems', component: SupplierItemsComponent, resolve: { items: ItemResolverService }, canActivate: [VerifiedGuard] },
+  { path: 'supplier/newItem', component: SupplierNewItemComponent, canActivate: [VerifiedGuard] },
+  { path: 'editItem', component: EditItemComponent, resolve: { editItem: EditResolverService }, canActivate:[VerifiedGuard]},
+  { path: 'invoice', loadChildren: '../../../PO/src/app/app.module#POModule', canLoad: [VerifiedGuard]},
+  { path: 'track-order', loadChildren: '../../../PO/src/app/app.module#POModule', canLoad: [VerifiedGuard]},
+  { path: 'track-dashboard', loadChildren: '../../../PO/src/app/app.module#POModule',canLoad: [VerifiedGuard]},
+  { path: 'pendingPO', loadChildren: '../../../PO/src/app/app.module#POModule',canLoad: [VerifiedGuard]},
+  { path: 'approvedPO', loadChildren: '../../../PO/src/app/app.module#POModule', canLoad: [VerifiedGuard]},
+  { path: 'deniedPO', loadChildren:'../../../PO/src/app/app.module#POModule', canLoad: [VerifiedGuard]},
+  { path: 'viewPO', loadChildren: '../../../PO/src/app/app.module#POModule', canLoad: [VerifiedGuard]},
+  { path: 'deliveredPO', loadChildren: '../../../PO/src/app/app.module#POModule',canLoad: [VerifiedGuard]},
 ];
 
 @NgModule({

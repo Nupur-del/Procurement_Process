@@ -39,7 +39,6 @@ router.post('/invoice', (req,res) => {
                         market_price: i.market_price,
                         invoiced_quantity: i.invoiced_quantity,
                         item_id: i.item_id,
-                        Total_price: i.total_price,
                         invoice_no: invoices.invoice_no
                     })
                 }

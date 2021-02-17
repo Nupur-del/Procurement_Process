@@ -36,6 +36,8 @@ import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { SeeItemComponent } from './see-item/see-item.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AuthGuard } from 'src/app/auth.guard';
+import { VerifiedGuard } from 'src/app/verified.guard';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatListModule,
     MatSelectModule,
   ],
-  providers: [],
+  providers: [AuthGuard, VerifiedGuard],
   bootstrap: [AppComponent],
   entryComponents: [CSVComponent, SeeItemComponent]
 })

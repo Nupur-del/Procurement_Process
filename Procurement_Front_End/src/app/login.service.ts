@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {AuthService} from './auth.service';
 import {MatSnackBar} from '@angular/material';
-import {BehaviorSubject, Subject,Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -37,9 +37,9 @@ export class LoginService {
     loginstatus = false;
     private token: string;
     type = '';
-    isLoggedIn = new Subject<boolean>();
-    userType = new Subject<string>();
-    isVerified = new Subject<boolean>();
+    isLoggedIn = new BehaviorSubject<boolean>(false);
+    userType = new BehaviorSubject<string>('');
+    isVerified = new BehaviorSubject<boolean>(false);
     userEmail = new BehaviorSubject<string>('');
     userPassword = new BehaviorSubject<string>('');
     RegistrationCount = new BehaviorSubject<number>(0);
@@ -89,37 +89,11 @@ export class LoginService {
     })
 
       if (cred.user_type !== 'Supplier' ) {
-        this.http.post(environment.BASE_URL + 'users/login', cred).
-        subscribe((data: any) => {
-            console.log(data);
-            if (data) {
-                this.type = data.type;
-                this.userType.next(data.type);
-                this.userId.next(data.id);
-                this.loginstatus = true;
-                this.isLoggedIn.next(true);
-                this.auth.setLoggedIn(true);
-            }
-            // tslint:disable-next-line: no-string-literal
-            localStorage.setItem('type', data.type);
-            const status = 'true';
-            localStorage.setItem('loginStatus', status);
-            localStorage.setItem('username', data.name);
-            localStorage.setItem('email', data.email);
-            localStorage.setItem('userId', data.id);
-            // tslint:disable-next-line: no-string-literal
-            this.router.navigate(['/home']);
-      }, error => {
-            console.log(error);
-            alert(error.error.message);
-            this.loginstatus = false;
-            this.userType.next('');
-            this.type = '';
-            this.isLoggedIn.next(false);
-            this.auth.setLoggedIn(false);
-          });
+        console.log('I am inside it');
+        return this.http.post(environment.BASE_URL + 'users/login', cred);
         } else {
-           this.http.post(environment.BASE_URL + 'supplier/supplierlogin', cred)
+          console.log('I am here');
+          return this.http.post(environment.BASE_URL + 'supplier/supplierlogin', cred);
           //  .pipe(
           //   map((data: TokenResponse) => {
           //       if ( data.token) {
@@ -127,42 +101,6 @@ export class LoginService {
           //       }
           //     })
           //   )
-           .subscribe(
-             (data: any) => {
-              console.log(data);
-              if (!data.message) {
-                    this.type = data.type;
-                    this.userType.next(data.type);
-                    this.loginstatus = true;
-                    this.isLoggedIn.next(true);
-                    this.auth.setLoggedIn(true);
-                    // tslint:disable-next-line: no-string-literal
-                    localStorage.setItem('type', data.type);
-                    const status = 'true';
-                    localStorage.setItem('loginStatus', status);
-                    localStorage.setItem('username', data.name);
-                    localStorage.setItem('email', cred.email);
-                    localStorage.setItem('password', cred.password);
-                    localStorage.setItem('userId', data.id);
-                    this.snack.open('Logined Successfully', '', {duration: 3000});
-                    // tslint:disable-next-line: no-string-literal
-                    this.router.navigate(['/home']);
-              } else {
-                this.snack.open(data.message, '', {duration: 3000});
-               }
-             }, error => {
-                console.log(error);
-                if(error.error.message) {
-                  alert(error.error.message);
-                } else {
-                  alert(error.error);
-                }
-                this.loginstatus = false;
-                this.userType.next('');
-                this.type = '';
-                this.auth.setLoggedIn(false);
-                this.isLoggedIn.next(false);
-             });
         }
   }
 
@@ -171,6 +109,7 @@ export class LoginService {
         this.isLoggedIn.next(false);
         this.userType.next('');
         this.type = '';
+        this.token = '';
         localStorage.removeItem('loginStatus');
         localStorage.removeItem('type');
         localStorage.removeItem('username');
@@ -178,9 +117,11 @@ export class LoginService {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
         localStorage.removeItem('userId');
-        this.router.navigate(['/login']);
-        this.token = '';
+        localStorage.removeItem('Verified');
+        localStorage.removeItem('Approved');
         this.auth.setLoggedIn(false);
+        this.auth.setVerified(false);
+        this.router.navigate(['/login']);
   }
 
   verifyEmail(token: any) {

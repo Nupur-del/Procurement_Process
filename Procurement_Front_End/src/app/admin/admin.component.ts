@@ -98,7 +98,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     brandpk: null
   }];
   departments: string[];
-  itemImages: Array<ImageSlider>;
+  itemImages: Array<ImageSlider> = [];
   public multiLocs: any = [ ];
   public budget: any = [ ];
   public finalItem: any[] = [];
@@ -472,11 +472,7 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
 
   checkImages(item_id: number) {
     this.isLoading = true;
-    this.itemImages = [{
-      image:  environment.IMAGE_URL + 'dummy_image.jpg',
-      thumbImage:  environment.IMAGE_URL + 'dummy_image.jpg',
-      alt: 'dummy'
-    }];
+    this.itemImages = [];
     this.imageSub = this.imageService.getImageById(item_id).subscribe((data: Array<any>) => {
       console.log(data);
       if (data.length > 0) {
@@ -485,7 +481,7 @@ additionItem(item, multiLocsIndex, itemIndex, cost) {
       this.itemImages.push({
         image:  environment.IMAGE_URL + i.imageName,
         thumbImage:  environment.IMAGE_URL + i.imageName,
-        alt: 'alt of image'
+        alt: i.imageName
       });
       this.isLoading = false;
       }

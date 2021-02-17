@@ -1,9 +1,9 @@
-<div class="col">
+<div class="col" *ngIf="dataSource">
   <mat-form-field>
   <input (keyup)="applySearch($event.target.value)" matInput placeholder="Search">
   </mat-form-field>
   </div>
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" *ngIf="dataSource">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortOrder($event)">
 
     <!--- Note that these columns can be defined in any order.

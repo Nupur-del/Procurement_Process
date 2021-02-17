@@ -39,7 +39,7 @@ export class SeeItemComponent implements OnInit {
   items: Array<ItemsModel> = [];
   dataSource: any;
   isLoading = false;
-  itemImages: Array<ImageSlider>;
+  itemImages: Array<ImageSlider> = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -51,11 +51,7 @@ export class SeeItemComponent implements OnInit {
   ngOnInit() {
     this.dataService.currentMessage.subscribe(message => this.itemId = message);
     this.isLoading = true;
-    this.itemImages = [{
-      image: environment.IMAGE_URL +'dummy_image.jpg',
-      thumbImage: environment.IMAGE_URL +'dummy_image.jpg',
-      alt: 'dummy'
-    }];
+    this.itemImages = [];
     this.itemService.getItemById(this.itemId).subscribe((data: any) => {
       console.log(data);
       this.items.push(data);
@@ -67,7 +63,7 @@ export class SeeItemComponent implements OnInit {
         this.itemImages.push({
           image: environment.IMAGE_URL + i.imageName,
           thumbImage: environment.IMAGE_URL + i.imageName,
-          alt: 'alt of image'
+          alt: i.imageName
         });
         this.isLoading = false;
         }

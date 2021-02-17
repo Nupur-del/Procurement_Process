@@ -27,11 +27,11 @@ label {
     padding-left: 10px;
 }
 
-input[type='text'] {
-    border: 1px solid #dce0d4;
-    border-radius: 5px;
-    padding: 5px;
-}
+// input[type='text'] {
+//     border: 1px solid #dce0d4;
+//     border-radius: 5px;
+//     padding: 5px;
+// }
 
 input[type='tel'] {
   border: 1px solid #dce0d4;
@@ -39,23 +39,23 @@ input[type='tel'] {
   padding: 5px;
 }
 
-input[type='password'] {
-  border: 1px solid #dce0d4;
-  border-radius: 5px;
-  padding: 5px;
-}
+// input[type='password'] {
+//   border: 1px solid #dce0d4;
+//   border-radius: 5px;
+//   padding: 5px;
+// }
 
-input[type='email'] {
-  border: 1px solid #dce0d4;
-  border-radius: 5px;
-  padding: 5px;
-}
+// input[type='email'] {
+//   border: 1px solid #dce0d4;
+//   border-radius: 5px;
+//   padding: 5px;
+// }
 
-textarea {
-  border: 1px solid #dce0d4;
-  border-radius: 5px;
-  padding: 5px;
-}
+// textarea {
+//   border: 1px solid #dce0d4;
+//   border-radius: 5px;
+//   padding: 5px;
+// }
 
 input[type='number'] {
     border: 1px solid #dce0d4;
@@ -116,11 +116,11 @@ input[type='button']:hover {
     background: "white";
 }
 
-mat-select  {
-  border: 1px solid #dce0d4;
-  border-radius: 5px;
-  padding: 5px;
-}
+// mat-select  {
+//   border: 1px solid #dce0d4;
+//   border-radius: 5px;
+//   padding: 5px;
+// }
 
 table {
     width: 100%;
@@ -498,7 +498,7 @@ h6 {
 .p-b-100 {
   padding-bottom: 100px;
   padding-top: 70px;
-  height: 1200px;
+  height: 100%;
 }
 
 .m-r-45 {
@@ -974,12 +974,14 @@ input {
 ========================================================================== */
 
 .title {
-  font-size: 24px;
   color: #525252;
   font-weight: 400;
-  margin-bottom: 40px;
+  justify-content: center !important;
 }
 
+mat-card-title {
+  font-size: 30px;
+}
 
 /* ==========================================================================
 #CARD

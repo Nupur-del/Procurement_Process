@@ -37,7 +37,7 @@ export class PurchaseOrderComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   requireChange = true;
   userName: string;
-  shipTobill: any;
+  ShipTobill = 'no';
   fName: any;
   displayedColumns: string[] = ['Order ID', 'Name', 'Specification', 'Quantity', 'Price', 'Brand'];
   fType: any;
@@ -131,7 +131,7 @@ this.firstFormGroup = this._formBuilder.group({
   attachments: [''],
   reason: ['', Validators.required],
   comment: [''],
-  option: [''],
+  option: ['', Validators.required],
   behalf: [''],
   purchase_type: ['', Validators.required]
 });
@@ -294,7 +294,7 @@ onSubmit() {
         item_id: i.id
       })
     }
-    if (this.shipTobill === 'yes') {
+    if (this.ShipTobill === 'yes') {
       this.po.delivery_address = this.po.bill_to_address;
     }
     console.log(this.po.item);

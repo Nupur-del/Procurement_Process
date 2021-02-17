@@ -39,11 +39,11 @@
          </ng-container>
          <ng-container matColumnDef = "Warranty">
             <th mat-header-cell *matHeaderCellDef>Warranty</th>
-            <td mat-cell *matCellDef = "let element"> {{element.warranty}} </td>
+            <td mat-cell *matCellDef = "let element"> {{element.warranty + "years"}} </td>
          </ng-container>
          <ng-container matColumnDef = "ReplacementPolicy">
             <th mat-header-cell *matHeaderCellDef>ReplacementPolicy</th>
-            <td mat-cell *matCellDef = "let element"> {{element.policy}} </td>
+            <td mat-cell *matCellDef = "let element"> {{element.policy + "years"}} </td>
          </ng-container>
          <ng-container matColumnDef = "Location">
             <th mat-header-cell *matHeaderCellDef>Location</th>

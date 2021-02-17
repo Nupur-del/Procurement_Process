@@ -1,0 +1,25 @@
+<div class="bg-gra-02 p-t-130 p-b-100 font-poppins">
+  <div class="wrapper wrapper--w780">
+      <div class="card card-4">
+          <div class="card-body">
+<br>
+<div style="justify-content: center;">
+  <h1 class="title" style="text-align: center;">Message Alert !!!</h1>
+  <h5 style="text-align: center;">Your Email is not yet verified. Please check your mail or
+  click below to resend verification mail</h5>
+</div>
+<br>
+<br>
+  <div *ngIf="isSending === false" style="justify-content: center; text-align: center">
+     <button style="width: 110px; text-align: center;"
+      mat-raised-button color="primary"
+     (click)="resendEmail()">Resend mail</button>
+     <button style="width: 110px; text-align: center; margin-left: 20px;"
+     mat-raised-button color="accent"
+    (click)="signOut()">SignOut</button>
+    </div>
+    <h3 *ngIf="isSending === true">Please wait Sending Mail.....</h3>
+        </div>
+      </div>
+  </div>
+</div>

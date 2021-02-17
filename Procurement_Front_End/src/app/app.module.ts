@@ -25,6 +25,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule, MatNativeDateModule  } from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {NotApprovedComponent} from './not-approved/not-approved.component';
+import {ResendMailComponent} from './resend-mail/resend-mail.component';
+import {VerifiedGuard} from './verified.guard';
 import { AuthGuard } from './auth.guard';
 import { MatMenuModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -69,6 +72,8 @@ import { ActivationSupplierAccountComponent } from './activation-supplier-accoun
     ViewComponent,
     ApprovedComponent,
     OrderComponent,
+    NotApprovedComponent,
+    ResendMailComponent,
     MyDialogComponent,
     MessageDialogComponent,
     RequisitionHomeComponent,
@@ -118,7 +123,7 @@ import { ActivationSupplierAccountComponent } from './activation-supplier-accoun
     POModule.forRoot()
   ],
   entryComponents: [MyDialogComponent, MessageDialogComponent],
-  providers: [AuthService, AuthGuard, MatDatepickerModule],
+  providers: [AuthService, AuthGuard, MatDatepickerModule, VerifiedGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

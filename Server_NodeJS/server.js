@@ -38,8 +38,8 @@ app.post("/sendmail", (req, res) => {
       html: `<h1>Hi ${user.name}</h1><br>
       <h4>Thanks for placing  order</h4>
       <h4>Order Status: ${user.status}</h4>
-      <h4>You can track your order with following link:</h4>
-      <a [href]='${user.tracking_link}'>${user.tracking_link}</a>`
+      <h4>You can track your order by click on below button:</h4>
+      <a [href]='${user.tracking_link}'><button style="background-color: orange">Track your order</button></a>`
     };
 
     // send mail with defined transport object

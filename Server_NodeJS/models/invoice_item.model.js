@@ -11,24 +11,20 @@ module.exports = db.sequelize.define(
     },
     item_id: {
       type: sequelize.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     invoice_no: {
       type: sequelize.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     market_price: {
       type: sequelize.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     invoiced_quantity: {
      type: sequelize.INTEGER,
-     allowNull: false
-    },
-     Total_Price: {
-        type: sequelize.INTEGER,
-        allowNull: false
-     }
+     allowNull: true
+    }
   },
   {
     timestamps: false,

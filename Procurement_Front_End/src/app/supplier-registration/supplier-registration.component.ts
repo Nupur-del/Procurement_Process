@@ -59,7 +59,7 @@ export class SupplierRegistrationComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       website: [''],
-      yearofest:[null, [Validators.required, Validators.pattern('[0-9]*')]],
+      yearofest:[null, [Validators.required, Validators.pattern('[0-9]*'), Validators.maxLength(4)]],
       licenseno: ['', Validators.required],
       tax: ['', Validators.required],
       lang: ['', Validators.required],

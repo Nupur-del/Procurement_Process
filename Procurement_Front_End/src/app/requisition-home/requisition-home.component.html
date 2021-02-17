@@ -1,8 +1,8 @@
 
 <!-- Header with image -->
-<div class="center">
+<!-- <div class="center">
 <br>
-</div>
+</div> -->
   <button mat-button
   style="background-color: #1d87cf;
   top: 13%;
@@ -10,74 +10,101 @@
   right: 1rem;"
   [routerLink]="'/admin'"
   *ngIf="type=='Requestor'">+Create Request</button>
-<br>
-<hr>
-<div class=row>
-<div class="col-md-4">
-<mat-card class="mat-position">
-<div style="background-color: #ee6060;" class="position-image">
-<mat-icon class="icon">warning</mat-icon>
-</div>
-    <mat-card-title class="mat-content">Pending Requests</mat-card-title>
-    <mat-card-content style="color: blue;">{{ order.pending }}</mat-card-content>
-    <hr>
-  <mat-card-actions align="end">
-    <button style="color: blue;"
-    mat-button [routerLink]="'/pending'"> View Requests </button>
-  </mat-card-actions>
-</mat-card>
-</div>
-
-<div class="col-md-4">
-<mat-card class="mat-position">
-<div style="background-color: #27c43c;" class="position-image">
-<mat-icon class="icon">check_circle_outline</mat-icon>
-</div>
-    <mat-card-title class="mat-content">Approved Requests</mat-card-title>
-    <mat-card-content style="color: green;">{{ order.approved }}</mat-card-content>
-    <hr>
-  <mat-card-actions align="end">
-    <button style="color: blue;" mat-button [routerLink]="'/approved'">View Requests</button>
-  </mat-card-actions>
-</mat-card>
-</div>
-
-<div class="col-md-4">
-  <mat-card class="mat-position">
-  <div style="background-color:red;" class="position-image">
-  <mat-icon class="icon">cancel</mat-icon>
+<br *ngIf="type=='Requestor'">
+<div class="container bg-gra-02 custom_height">
+  <div class="title">
+    <h2>Purchase Request</h2>
   </div>
-      <mat-card-title class="mat-content">Denied Requests</mat-card-title>
-      <mat-card-content style="color: red;">{{ order.denied }}</mat-card-content>
+ <br>
+ <div class="row">
+  <div class="col-lg-4">
+  <mat-card class="mat-position">
+  <div style="background-color: #ee6060;" class="position-image">
+  <mat-icon class="icon">warning</mat-icon>
+  </div>
+      <mat-card-title class="mat-content">Pending Requests</mat-card-title>
+      <mat-card-content style="color: blue;">{{ order.pending }}</mat-card-content>
       <hr>
     <mat-card-actions align="end">
-      <button style="color: blue;" mat-button [routerLink]="'/denied'">View Requests</button>
+      <button style="color: blue;"
+      mat-button [routerLink]="'/pending'"> View Requests </button>
     </mat-card-actions>
   </mat-card>
   </div>
+
+  <div class="col-lg-4">
+  <mat-card class="mat-position">
+  <div style="background-color: #27c43c;" class="position-image">
+  <mat-icon class="icon">check_circle_outline</mat-icon>
+  </div>
+      <mat-card-title class="mat-content">Approved Requests</mat-card-title>
+      <mat-card-content style="color: green;">{{ order.approved }}</mat-card-content>
+      <hr>
+    <mat-card-actions align="end">
+      <button style="color: blue;" mat-button [routerLink]="'/approved'">View Requests</button>
+    </mat-card-actions>
+  </mat-card>
+  </div>
+
+  <div class="col-lg-4">
+    <mat-card class="mat-position">
+    <div style="background-color:red;" class="position-image">
+    <mat-icon class="icon">cancel</mat-icon>
+    </div>
+        <mat-card-title class="mat-content">Denied Requests</mat-card-title>
+        <mat-card-content style="color: red;">{{ order.denied }}</mat-card-content>
+        <hr>
+      <mat-card-actions align="end">
+        <button style="color: blue;" mat-button [routerLink]="'/denied'">View Requests</button>
+      </mat-card-actions>
+    </mat-card>
+    </div>
+  </div>
+  <br>
+  <div class="row custom_align">
+    <div class="col-md-4">
+      <mat-card class="mat-position">
+      <div style="background-color: #f75a0c;" class="position-image">
+      <mat-icon class="icon">select_all</mat-icon>
+      </div>
+          <mat-card-title class="mat-content" style="left: 65%;">All Requests</mat-card-title>
+          <mat-card-content style="color: red;" style="left: 81%;">{{ order.all }}</mat-card-content>
+          <hr>
+        <mat-card-actions align="end">
+          <button style="color: blue;" mat-button [routerLink]="'/request'"> View Requests </button>
+        </mat-card-actions>
+      </mat-card>
+      </div>
+  </div>
 </div>
+
 <br  *ngIf="type === 'Requestor'">
-<hr  *ngIf="type === 'Requestor'">
 <br  *ngIf="type === 'Requestor'">
-<div class="row"  *ngIf="type === 'Requestor'">
-  <div class="col-lg-6">
+
+<div class="container bg-gra-02 custom_height" *ngIf="type === 'Requestor'">
+  <div class="title">
+    <h2>Purchase Order</h2>
+  </div>
+ <br>
+ <div class="row">
+  <div class="col-lg-4">
       <mat-card class="mat-position">
       <div style="background-color: #4287f5;" class="position-image">
       <mat-icon class="icon-second">description</mat-icon>
       </div>
-          <mat-card-title class="mat-content-2">Create PO</mat-card-title>
+          <mat-card-title class="mat-content">Create PO</mat-card-title>
           <br>
           <hr>
         <mat-card-actions align="end">
-          <button class="button-size" style="color: blue;" mat-button
+          <button style="color: blue;" mat-button
           [routerLink]="'/createPO'" *ngIf="type=='Requestor'; else Approver3"> Create </button>
           <ng-template #Approver3>
-          <button class="button-size" mat-button [routerLink]="'/createPO'" disabled> Create </button>
+          <button mat-button [routerLink]="'/createPO'" disabled> Create </button>
           </ng-template>
         </mat-card-actions>
       </mat-card>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-4">
     <mat-card class="mat-position">
     <div style="background-color: #ee6060;" class="position-image">
     <mat-icon class="icon">warning</mat-icon>
@@ -91,110 +118,88 @@
       </mat-card-actions>
     </mat-card>
     </div>
-</div>
-<br *ngIf="type === 'Requestor'">
-<hr *ngIf="type === 'Requestor'">
-<br *ngIf="type === 'Requestor'">
-<div class="row" *ngIf="type === 'Requestor'">
-    <div class="col-md-4">
-    <mat-card class="mat-position">
-    <div style="background-color: #27c43c;" class="position-image">
-    <mat-icon class="icon">check_circle_outline</mat-icon>
-    </div>
-        <mat-card-title class="mat-content">Approved PO</mat-card-title>
-        <mat-card-content style="color: green;">{{ po.approved }}</mat-card-content>
-        <hr>
-      <mat-card-actions align="end">
-        <button style="color: blue;" mat-button [routerLink]="'/approvedPO'">View PO</button>
-      </mat-card-actions>
-    </mat-card>
-    </div>
-
-    <div class="col-md-4">
+    <div class="col-lg-4" *ngIf="type === 'Requestor'">
       <mat-card class="mat-position">
-      <div style="background-color:red;" class="position-image">
-      <mat-icon class="icon">cancel</mat-icon>
+      <div style="background-color: #e9f50f;" class="position-image">
+      <mat-icon class="icon-second">local_shipping</mat-icon>
       </div>
-          <mat-card-title class="mat-content">Denied PO</mat-card-title>
-          <mat-card-content style="color: red;">{{ po.denied }}</mat-card-content>
+          <mat-card-title class="mat-content">Track Order</mat-card-title>
+          <br>
           <hr>
         <mat-card-actions align="end">
-          <button style="color: blue;" mat-button [routerLink]="'/deniedPO'">View PO</button>
+          <button style="color: blue;"
+          mat-button [routerLink]="'/track-dashboard'"> Track </button>
         </mat-card-actions>
       </mat-card>
       </div>
-      <div class="col-md-4">
-        <mat-card class="mat-position">
-        <div style="background-color:green;" class="position-image">
-        <mat-icon class="icon">local_shipping</mat-icon>
-        </div>
-            <mat-card-title class="mat-content">Delivered PO</mat-card-title>
-            <mat-card-content style="color: green;">{{ po.delivered }}</mat-card-content>
-            <hr>
-          <mat-card-actions align="end">
-            <button style="color: blue;" mat-button [routerLink]="'/deliveredPO'">View PO</button>
-          </mat-card-actions>
-        </mat-card>
-        </div>
-  </div>
+</div>
 <br>
-<hr>
-<br>
-<div class=row>
-<div class="col-lg-6">
+<div class="row">
+  <div class="col-lg-4">
   <mat-card class="mat-position">
-  <div style="background-color: #f75a0c;" class="position-image">
-  <mat-icon class="icon">select_all</mat-icon>
+  <div style="background-color: #27c43c;" class="position-image">
+  <mat-icon class="icon">check_circle_outline</mat-icon>
   </div>
-      <mat-card-title class="mat-content" style="left: 65%;">All Requests</mat-card-title>
-      <mat-card-content style="color: red;" style="left: 81%;">{{ order.all }}</mat-card-content>
+      <mat-card-title class="mat-content">Approved PO</mat-card-title>
+      <mat-card-content style="color: green;">{{ po.approved }}</mat-card-content>
       <hr>
     <mat-card-actions align="end">
-      <button style="color: blue;" mat-button [routerLink]="'/request'"> View Requests </button>
+      <button style="color: blue;" mat-button [routerLink]="'/approvedPO'">View PO</button>
     </mat-card-actions>
   </mat-card>
   </div>
 
-<div class="col-lg-6" *ngIf="type === 'Requestor'">
-<mat-card class="mat-position">
-<div style="background-color: #e9f50f;" class="position-image">
-<mat-icon class="icon-second">local_shipping</mat-icon>
-</div>
-    <mat-card-title class="mat-content-2" style="left: 75%;">Track Order</mat-card-title>
-    <br>
-    <hr>
-  <mat-card-actions align="end">
-    <button class="button-size" style="color: blue;"
-    mat-button [routerLink]="'/track-dashboard'"> Track </button>
-  </mat-card-actions>
-</mat-card>
-</div>
-<div class="col-lg-6" *ngIf="type === 'Approver'">
-  <mat-card class="mat-position">
-    <div style="background-color: #27c43c;" class="position-image">
-    <mat-icon [matBadgeHidden]="notifiedCount === 0" [matBadge]="notifiedCount" matBadgePosition="before" matBadgeColor="accent" class="icon">check_circle_outline</mat-icon>
-    </div>
-        <mat-card-title class="mat-content">Approval for Supplier</mat-card-title>
-        <mat-card-content style="color:green;" style="left: 81%;">
-          {{notifiedCount !== 0 ? notifiedCount : pending}}</mat-card-content>
-        <hr>
-      <mat-card-actions align="end">
-        <button style="color: blue;" mat-button (click)="view()">View</button>
-      </mat-card-actions>
-    </mat-card>
-</div>
-<!-- <div class="col-md-4" *ngIf="type === 'Approver'">
-  <mat-card class="mat-position">
-    <div style="background-color: #27c43c;" class="position-image">
+  <div class="col-lg-4">
+    <mat-card class="mat-position">
+    <div style="background-color:red;" class="position-image">
     <mat-icon class="icon">cancel</mat-icon>
     </div>
-        <mat-card-title class="mat-content">Deactivation of Active</mat-card-title>
-        <mat-card-title class="mat-content">Suppliers</mat-card-title>
-        <mat-card-content style="color: red;" style="left: 81%;"></mat-card-content>
+        <mat-card-title class="mat-content">Denied PO</mat-card-title>
+        <mat-card-content style="color: red;">{{ po.denied }}</mat-card-content>
         <hr>
       <mat-card-actions align="end">
-        <button style="color: blue;" mat-button>View</button>
+        <button style="color: blue;" mat-button [routerLink]="'/deniedPO'">View PO</button>
       </mat-card-actions>
     </mat-card>
-</div> -->
+    </div>
+    <div class="col-lg-4">
+      <mat-card class="mat-position">
+      <div style="background-color:green;" class="position-image">
+      <mat-icon class="icon">local_shipping</mat-icon>
+      </div>
+          <mat-card-title class="mat-content">Delivered PO</mat-card-title>
+          <mat-card-content style="color: green;">{{ po.delivered }}</mat-card-content>
+          <hr>
+        <mat-card-actions align="end">
+          <button style="color: blue;" mat-button [routerLink]="'/deliveredPO'">View PO</button>
+        </mat-card-actions>
+      </mat-card>
+      </div>
+</div>
+</div>
+
+<br *ngIf="type === 'Approver'">
+<br *ngIf="type === 'Approver'">
+
+<div class="container bg-gra-02 custom_height1" *ngIf="type === 'Approver'">
+  <div class="title">
+    <h2>Supplier Registration Approval</h2>
+  </div>
+ <br>
+ <div class="row custom_align">
+  <div class="col-lg-6">
+    <mat-card class="mat-position">
+      <div style="background-color: #27c43c;" class="position-image">
+      <mat-icon [matBadgeHidden]="notifiedCount === 0" [matBadge]="notifiedCount" matBadgePosition="before" matBadgeColor="accent" class="icon">check_circle_outline</mat-icon>
+      </div>
+          <mat-card-title class="mat-content">Approval for Supplier</mat-card-title>
+          <mat-card-content style="color:green;" style="left: 81%;">
+            {{notifiedCount !== 0 ? notifiedCount : pending}}</mat-card-content>
+          <hr>
+        <mat-card-actions align="end">
+          <button style="color: blue;" mat-button (click)="view()">View</button>
+        </mat-card-actions>
+      </mat-card>
+  </div>
+  </div>
 </div>

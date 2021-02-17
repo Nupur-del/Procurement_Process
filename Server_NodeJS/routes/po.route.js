@@ -8,8 +8,6 @@ const PO = require('../models/PO.model');
 const PO_item = require('../models/po_item.model');
 const PO_attachments = require('../models/po_attachments.model');
 const Order_item = require('../models/order_item.model');
-const Order = require('../models/order.model');
-const OrderStatus = require('../models/order_status.model');
 
 // Create PO
 
@@ -54,7 +52,7 @@ router.post('/po', (req,res) => {
             }
             PO_attachments.bulkCreate(poAttachment, {returning: true}).then(response => {
                 result.data = response
-            }).catch(err => { res.send(err.message)})
+            }).catch(err => { res.status(400).send(err.message)})
         }
         let poItem = [];
         for (let j of req.body.item) {
@@ -69,8 +67,8 @@ router.post('/po', (req,res) => {
             result.data = item;
             result.message = 'Purchase Order submitted Successfully';
             res.send(result);
-        }).catch(err => { res.send(err.message)})
-    }).catch(err => { res.send(err.message)})
+        }).catch(err => { res.status(400).send(err.message)})
+    }).catch(err => { res.status(400).send(err.message)})
 })
 
 // Fetch and Count all

@@ -86,7 +86,7 @@ router.post('/supplierRegistration' , (req,res) => {
                         password: req.body.password,
                         subject: `Sign-up Verification API - Verify Email`,
                         message: `<p>Please click the below link to verify your email address:</p>
-                        <p><a href="${verifyUrl}">${verifyUrl}</a></p>`
+                        <a href="${verifyUrl}"><button style="background-color: orange">Verify your Email</button></a>`
                       }
                         sendMail(sendUser, info => {
                             console.log(`The mail has been send 😃 and the id is ${info.messageId}`);
@@ -183,19 +183,7 @@ router.post('/supplierlogin', (req,res)=>  {
         venVendorPK: result.venVendorFK
        }
      }).then(suppData => {
-          if (result.venisVerified === false) {
-            res.send({
-              message: "Email is yet not verified. Please check your mail to verify or click on resend button"
-            })
-          } else if (result.venisapproved === 'Pending') {
-            res.send({
-              message: "Account is not yet approved. Please check your mail for the approval"
-            })
-          } else if (result.venisapproved === 'Denied') {
-              res.send({
-                message: "Approver has not accepted your registration request. Please check your mail for the more information"
-              })
-          } else {
+          // } else {
               let response = {
                   data: result,
                   status: 200,
@@ -205,17 +193,31 @@ router.post('/supplierlogin', (req,res)=>  {
               console.log('Supplier = ', result);
               if (result) {
                 if(bcrypt.compareSync(req.body.password, result.vendorpwd)) {
-                  const token = jwt.sign(suppData.dataValues, process.env.SECRET_KEY, {
-                    expiresIn: "1h"
-                  })
+                  // const token = jwt.sign(suppData.dataValues, process.env.SECRET_KEY, {
+                  //   expiresIn: "1h"
+                  // })
                   const usertype = 'Supplier';
                   if (usertype === req.body.user_type) {
-                    res.json({
-                      type: usertype,
-                      name: suppData.venName,
-                      id: suppData.venVendorPK,
-                      token: token
-                    });
+                    if (result.venisVerified === false) {
+                        res.send({
+                          message: "Email is yet not verified. Please check your mail to verify or click on resend button"
+                        })
+                      } else if (result.venisapproved === 'Pending') {
+                        res.send({
+                          message: "Account is not yet approved. Please check your mail for the approval"
+                        })
+                      } else if (result.venisapproved === 'Denied') {
+                          res.send({
+                            message: "Approver has not accepted your registration request. Please check your mail for the more information"
+                        })
+                      } else {
+                        res.json({
+                          type: usertype,
+                          name: suppData.venName,
+                          id: suppData.venVendorPK
+                          // token: token
+                        });
+                      }
                   } else {
                     res.status(404).json({
                       message : 'User do not exist'
@@ -231,7 +233,7 @@ router.post('/supplierlogin', (req,res)=>  {
                   response.message = "User doesnot exist";
                   res.status(404).send(response);
                 }
-          }     
+          // }     
      }).catch(error => {
        res.status(404).send(error);
      })
@@ -409,7 +411,6 @@ router.put('/updateView', (req, res) => {
 router.get('/getCountofPending' , (req, res) => {
   Datavendorinfo.findAndCountAll({
     where: {
-      venisVerified: true,
       venisapproved: 'Pending',
       venisViewed: false
     }
@@ -428,7 +429,6 @@ router.get('/getPending' , (req, res) => {
   
   Datavendorinfo.findAndCountAll({
     where: {
-      venisVerified: true,
       venisapproved: 'Pending',
     },
     order: [
@@ -478,36 +478,51 @@ router.post('/resendEmail', (req, res) => {
       vendorEmail: req.body.email
     }
   }).then(result => {
-    if (result.venisVerified !== true) {
-      let token = jwt.sign(result.dataValues, process.env.SECRET_KEY,{expiresIn: "1h"})
-      const verifyUrl = `${origin}/verify-email?token=${token}`;
-      let sendUser = {
-        email: result.vendorEmail,
-        subject: `Sign-up Verification API - Verify ResendEmail`,
-        message: `<p>Please click the below link to verify your email address:</p>
-        <p><a href="${verifyUrl}">${verifyUrl}</a></p>`
+    Datavendorinfo.update({
+      ventoken: ''
+    }, {
+      returning: true,
+      where: {
+        venVendorFK: result.venVendorFK
       }
-      Datavendorinfo.update({
-        ventoken: token
-      }, {
-        returning: true,
-        where: {
-          id: result.id
-        }
-      }).then(done => {
-        console.log(done);
-        sendMail(sendUser, info => {
-          console.log(`The mail has been send 😃 and the id is ${info.messageId}`);
-          res.send({
-            message: "Please check your mail"
-          });
+    }).then(data => {
+      if (result.venisVerified === false) {
+        Datavendorinfo.findOne({
+          where: {
+            vendorEmail: req.body.email
+          }
+        }).then(info => {
+          let token = jwt.sign(info.dataValues, process.env.SECRET_KEY,{expiresIn: "1h"})
+          const verifyUrl = `${origin}/verify-email?token=${token}`;
+          let sendUser = {
+            email: result.vendorEmail,
+            subject: `Sign-up Verification API - Verify ResendEmail`,
+            message: `<p>Please click the below link to verify your email address:</p>
+            <a href="${verifyUrl}"><button style="background-color: orange">Verify your Email</button></a>`
+          }
+          Datavendorinfo.update({
+            ventoken: token
+          }, {
+            returning: true,
+            where: {
+              venVendorFK: result.venVendorFK
+            }
+          }).then(done => {
+            console.log(done);
+            sendMail(sendUser, info => {
+              console.log(`The mail has been send 😃 and the id is ${info.messageId}`);
+              res.send({
+                message: "The mail has been send, Please check your email"
+              });
+            })
+          })
         })
-      })
-    } else {
-      res.send({
-        message: "Your email is already verified"
-      })
-    }
+      } else {
+        res.send({
+          message: "Your email is already verified"
+        })
+      }
+    })
   })
 })
 

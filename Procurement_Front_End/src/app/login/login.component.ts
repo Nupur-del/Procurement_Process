@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     const password = target.querySelector('#password').value;
     this.Auth.getUserDetails(username, password).subscribe(data => {
       if (data.success) {
-        this.router.navigate(['admin']);
+        this.router.navigate(['/home']);
         this.Auth.setLoggedIn(true);
       } else {
         this.snack.open(data.message, '', {duration: 3000});
@@ -58,17 +58,88 @@ export class LoginComponent implements OnInit {
       userId: this.userid
     };
     console.log(authCred);
-    this.loginService.login(authCred);
-  }
-
-  resendEmail(email) {
-    if (email !== '') {
-      this.loginService.resendEmail(email).subscribe((data: any) => {
-        console.log(data);
-        this.snack.open(data.message, '', {duration: 3000});
-      })
+    if (this.selected !== 'Supplier') {
+            this.loginService.login(authCred).subscribe((data: any) => {
+              console.log(data);
+              if (data) {
+                  this.type = data.type;
+                  this.loginService.userType.next(data.type);
+                  this.loginService.userId.next(data.id);
+                  // this.loginstatus = true;
+                  this.loginService.isLoggedIn.next(true);
+                  // this.auth.setLoggedIn(true);
+                  this.Auth.setVerified(true);
+              }
+              // tslint:disable-next-line: no-string-literal
+              localStorage.setItem('type', data.type);
+              const status = 'true';
+              localStorage.setItem('loginStatus', status);
+              localStorage.setItem('username', data.name);
+              localStorage.setItem('email', data.email);
+              localStorage.setItem('userId', data.id);
+              // tslint:disable-next-line: no-string-literal
+              this.router.navigate(['/home']);
+        }, error => {
+              console.log(error);
+              alert(error.error.message);
+              // this.loginstatus = false;
+              this.loginService.userType.next('');
+              this.type = '';
+              this.loginService.isLoggedIn.next(false);
+              // this.auth.setLoggedIn(false);
+              this.Auth.setVerified(false);
+            });
     } else {
-      this.snack.open('Please enter the email', '', {duration: 3000});
+
+      this.loginService.login(authCred).subscribe(
+        (data: any) => {
+         console.log(data);
+         if (!data.message) {
+
+               this.type = data.type;
+               this.loginService.userType.next(data.type);
+              //  this.loginstatus = true;
+               this.loginService.isLoggedIn.next(true);
+               // this.auth.setLoggedIn(true);
+               // tslint:disable-next-line: no-string-literal
+               localStorage.setItem('type', data.type);
+               const status = 'true';
+               localStorage.setItem('loginStatus', status);
+               localStorage.setItem('username', data.name);
+               localStorage.setItem('email', this.email);
+               localStorage.setItem('password', this.password);
+               localStorage.setItem('userId', data.id);
+               this.Auth.setVerified(true);
+               this.snack.open('Logined Successfully', '', {duration: 3000});
+               // tslint:disable-next-line: no-string-literal
+               this.router.navigate(['/home']);
+
+         } else {
+
+           if (data.message.includes('Email is yet not verified')) {
+             this.Auth.setLoggedIn(true);
+             localStorage.setItem('Verified', 'No');
+             this.router.navigate(['/resendEmail']);
+           } else if (data.message.includes('Account is not yet approved')) {
+             this.Auth.setLoggedIn(true);
+             localStorage.setItem('Approved', 'No');
+             this.router.navigate(['/notApproved']);
+           }
+          }
+        }, error => {
+           console.log(error);
+           if(error.error.message) {
+             alert(error.error.message);
+           } else {
+             alert(error.error);
+           }
+          //  this.loginstatus = false;
+           this.loginService.userType.next('');
+           this.type = '';
+           // this.auth.setLoggedIn(false);
+           this.Auth.setVerified(false);
+           this.loginService.isLoggedIn.next(false);
+        });
     }
   }
 

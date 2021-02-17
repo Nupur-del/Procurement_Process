@@ -2,7 +2,6 @@ const sql = require('../database/db_connect');
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { response } = require('express');
 
 router.use(cors());
 
@@ -167,6 +166,24 @@ router.get('/spentLocDeptWise', (req,res) => {
     })
 })
 
+// Fetch order items by order_id 
+
+router.get('/Item_by_order_id' , (req, res) => {
+    const order_id = req.query.order_id;
+
+    sql.query(`select i.*, l.locName as locationName, o.orderStatus, s.venName as supplierName,\
+     d.department_name as departmentName, b.brandName from order_items i, \
+     datalocation l, datavendor s, departments d, brands b, orderStatus o where i.location = l.locLocationPK\
+      and i.prefered_vendor = s.venVendorPK and i.department = d.id and i.brand = b.brandpk \
+      and  i.status = o.id and i.order_id = ${order_id} order by id`, (error, response) => {
+          if(error) {
+              res.status(400).send(error);
+          } else {
+              res.send(response);
+          }
+      })
+})
+
 // distinct location by order_id
 
 router.get('/distinctLocation', (req,res) => {
@@ -292,8 +309,25 @@ router.get('/Order_by_statusApprover', (req,res) => {
 router.get('/Item_by_status', (req,res) => {
     const status = req.query.status;
     const user = req.query.userID;
-    sql.query(`SELECT * from order_items i, orders o where i.status = (select id from orderstatus where orderStatus = '${status}') \
-    and o.created_by = ${user} and o.order_id = i.order_id`, (err, response) => {
+    sql.query(`SELECT i.*, o.*, 
+    s.venName as supplierName,
+    l.locName as locationName,
+    d.department_name as departmentName,
+    b.brandName  
+    from 
+    order_items i,
+    orders o,
+    datavendor s,
+    brands b,
+    datalocation l,
+    departments d 
+    where i.status = (select id from orderstatus where orderStatus = '${status}') \
+    and o.created_by = ${user} 
+    and o.order_id = i.order_id
+    and b.brandpk = i.brand
+    and d.id = i.department
+    and l.locLocationPK = i.location
+    and s.venVendorPK = i.prefered_vendor`, (err, response) => {
         if (err) {
             res.send(err);
         } else {

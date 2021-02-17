@@ -12,6 +12,7 @@ export class ItemService {
 
   item: any = [];
 
+
   constructor(private http: HttpClient) { }
 
   getAllItems(): Observable<any[]> {
@@ -20,7 +21,7 @@ export class ItemService {
 
   getItemById(order_id: any): Observable<any[]> {
     let params = new HttpParams().set('order_id', order_id);
-    return this.http.get<any[]>(environment.BASE_URL + 'order/Item_by_order_id', { params: params });
+    return this.http.get<any[]>(environment.BASE_URL + 'orders/Item_by_order_id', { params: params });
   }
 
   getItemByStatus(status: any, user: any): Observable<IItem[]> {

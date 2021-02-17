@@ -64,13 +64,13 @@
       </mat-card-content>
       </mat-card>
       </div>
-    <br *ngIf="poDetails[0].message_client.length !== 0">
-    <hr *ngIf="poDetails[0].message_client.length !== 0">
-    <br *ngIf="poDetails[0].message_client.length !== 0">
-    <div *ngIf="poDetails[0].message_client.length !== 0">
+    <br *ngIf="poDetails[0].message_client">
+    <hr *ngIf="poDetails[0].message_client">
+    <br *ngIf="poDetails[0].message_client">
+    <div *ngIf="poDetails[0].message_client">
       <mat-card  style="background-color:lavender;">
         <mat-card-header>
-          <mat-card-title><b>Reason for Decision</b></mat-card-title>
+          <mat-card-title><b>Message</b></mat-card-title>
         </mat-card-header>
         <mat-card-content style="margin-left: 20px;">
           <span class="form-control">{{poDetails[0].message_client}}</span>

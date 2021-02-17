@@ -109,7 +109,7 @@ export class EditComponent implements OnInit, OnDestroy {
     brandName: '',
     brandpk: null
   }];
-  itemImages: Array<ImageSlider>;
+  itemImages: Array<ImageSlider> = [];
   cities: string[] = [];
   departments: string[] = [];
 
@@ -204,8 +204,8 @@ export class EditComponent implements OnInit, OnDestroy {
     this.login.getUser('Requestor').subscribe(user => {
         this.requestorDetails = user;
         this.orderSub = this.orderService.getOrderById(this.sub).subscribe((data: any) => {
-            this.order = data[0];
-            this.order.user = this.requestorDetails.find(a => a.id === this.order.created_by).name;
+            this.order = data;
+            this.order.user = data.creator;
         });
       }, err => {
         console.log(err);
@@ -276,15 +276,16 @@ export class EditComponent implements OnInit, OnDestroy {
           prefered_vendor: item.prefered_vendor,
           quantity: item.quantity,
           unit_type: item.unit_type,
-          locationName: this.locDetails.find(e => e.locLocationPK === item.location).locName,
-          departmentName: this.deptDetails.find(s => s.id === item.department).department_name,
-          supplierName: this.supplierDetails.find(a => a.id === item.prefered_vendor).name,
+          locationName: item.locationName,
+          departmentName: item.departmentName,
+          supplierName: item.supplierName,
           location: item.location,
           department: item.department,
           price: item.price,
           currency: item.currency,
           comment: item.comment,
-          brand: item.brand
+          brand: item.brand,
+          brandName: item.brandName
         });
         // this.itemValue = this.itemValue + ((+item.quantity) * (+item.price));
         // console.log('Item price-', this.itemValue);
@@ -375,11 +376,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   checkImages(item_id: number) {
     this.isLoading = true;
-    this.itemImages = [{
-      image: environment.IMAGE_URL +'dummy_image.jpg',
-      thumbImage: environment.IMAGE_URL +'dummy_image.jpg',
-      alt: 'dummy'
-    }];
+    this.itemImages = [];
     this.imageSub = this.imageService.getImageById(item_id).subscribe((data: Array<any>) => {
       console.log(data);
       if (data.length > 0) {
@@ -388,7 +385,7 @@ export class EditComponent implements OnInit, OnDestroy {
       this.itemImages.push({
         image: environment.IMAGE_URL + i.imageName,
         thumbImage: environment.IMAGE_URL + i.imageName,
-        alt: 'alt of image'
+        alt: i.imageName
       });
       this.isLoading = false;
       }

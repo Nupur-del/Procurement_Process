@@ -40,7 +40,7 @@
           min="{{todayDate | date:'yyyy-MM-dd'}}"
           name="estimated_arrival">
         </div>
-        <mat-error *ngIf="date.errors?.required && date.touched">select the date</mat-error>
+        <mat-error *ngIf="date.errors?.required && date.touched">Please select the date</mat-error>
         <!-- <mat-form-field  style="width: 100%;">
           <input matInput [matDatepicker]="picker" [min]="todayDate" class="form-control"
            [(ngModel)]="po[0].arrival_date"
@@ -81,7 +81,8 @@
       <br>
     </table>
      <div class="text-right">
-      <button *ngIf="isSending === false" type="submit" class="btn btn-success" mat-button [disabled]="po[0].arrival_date === 'NaN-NaN-NaN'"
+      <button *ngIf="isSending === false" type="submit" class="btn btn-success" mat-button
+      [disabled]="po[0].arrival_date === 'NaN-NaN-NaN' || mainForm.invalid"
        (click)="send()">Send</button>
        <span *ngIf="isSending === true"><h5>Sending Notification to Customer.....</h5></span>
       </div>

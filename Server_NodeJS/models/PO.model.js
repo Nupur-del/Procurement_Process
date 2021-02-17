@@ -59,11 +59,11 @@ module.exports = db.sequelize.define(
     },
     project_code: {
         type: sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     budget_code: {
         type: sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     tracking_link: {
         type: sequelize.STRING,

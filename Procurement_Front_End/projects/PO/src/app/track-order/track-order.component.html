@@ -5,7 +5,7 @@
   <h2 style="margin:30px;text-align: center;">{{message}}</h2>
   <button mat-raised-button color="accent" (click)="onBack()">Ok</button>
 </div>
-<div>
+<div *ngIf="items">
 <div>
 <div class="content">
 	<div class="content1">
@@ -22,7 +22,7 @@
 		<div class="clear"></div>
   </div>
   <br>
-  <div *ngIf="items.length !== 0" class="mat-elevation-z8">
+  <div *ngIf="items.length > 0" class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" id="myTable" #myTable>
 
      <ng-container matColumnDef = "name">

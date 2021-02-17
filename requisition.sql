@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2021 at 02:05 PM
+-- Generation Time: Feb 17, 2021 at 09:04 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `requisition`
 --
-CREATE DATABASE IF NOT EXISTS `requisition` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `requisition`;
 
 -- --------------------------------------------------------
 
@@ -174,7 +172,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (38, 3, '01010101015', 90000, 90000),
 (39, 3, '01010101017', 90000, 90000),
 (40, 3, '01010101014', 90000, 90000),
-(41, 3, '01010101020', 90000, 90000),
+(41, 3, '01010101020', 88000, 90000),
 (42, 3, '01010101013', 90000, 90000),
 (43, 3, '01010101012', 90000, 90000),
 (44, 3, '01010101011', 90000, 90000),
@@ -197,7 +195,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (61, 4, '01010101016', 150000, 150000),
 (62, 4, '01010101021', 128000, 150000),
 (63, 4, '01010101023', 150000, 150000),
-(64, 4, '01010101015', 150000, 150000),
+(64, 4, '01010101015', 96000, 150000),
 (65, 4, '01010101017', 150000, 150000),
 (66, 4, '01010101014', 150000, 150000),
 (67, 4, '01010101020', 150000, 150000),
@@ -213,7 +211,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (77, 4, '01010101008', 150000, 150000),
 (78, 4, '01010101019', 150000, 150000),
 (79, 5, '01010101005', 130000, 130000),
-(80, 5, '01010101003', 98000, 130000),
+(80, 5, '01010101003', 66000, 130000),
 (81, 5, '01010101006', 130000, 130000),
 (82, 5, '01010101024', 130000, 130000),
 (83, 5, '01010101025', 130000, 130000),
@@ -222,7 +220,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (86, 5, '01010101007', 130000, 130000),
 (87, 5, '01010101016', 130000, 130000),
 (88, 5, '01010101021', 130000, 130000),
-(89, 5, '01010101023', 130000, 130000),
+(89, 5, '01010101023', 108000, 130000),
 (90, 5, '01010101015', 130000, 130000),
 (91, 5, '01010101017', 130000, 130000),
 (92, 5, '01010101014', 130000, 130000),
@@ -235,7 +233,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (99, 5, '01010101009', 130000, 130000),
 (100, 5, '01010101001', 130000, 130000),
 (101, 5, '01010101004', 130000, 130000),
-(102, 5, '01010101022', 130000, 130000),
+(102, 5, '01010101022', 96000, 130000),
 (103, 5, '01010101008', 130000, 130000),
 (104, 5, '01010101019', 130000, 130000),
 (105, 6, '01010101005', 140000, 140000),
@@ -249,9 +247,9 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (113, 6, '01010101016', 140000, 140000),
 (114, 6, '01010101021', 120000, 140000),
 (115, 6, '01010101023', 140000, 140000),
-(116, 6, '01010101015', 140000, 140000),
+(116, 6, '01010101015', 106000, 140000),
 (117, 6, '01010101017', 140000, 140000),
-(118, 6, '01010101014', 140000, 140000),
+(118, 6, '01010101014', 106000, 140000),
 (119, 6, '01010101020', 140000, 140000),
 (120, 6, '01010101013', 140000, 140000),
 (121, 6, '01010101012', 140000, 140000),
@@ -289,7 +287,7 @@ INSERT INTO `budgets` (`id`, `department`, `location`, `budget`, `current_balanc
 (153, 7, '01010101004', 120000, 120000),
 (154, 7, '01010101022', 120000, 120000),
 (155, 7, '01010101008', 120000, 120000),
-(156, 7, '01010101019', 120000, 120000);
+(156, 7, '01010101019', 118000, 120000);
 
 -- --------------------------------------------------------
 
@@ -561,7 +559,9 @@ CREATE TABLE `datavendor` (
 
 INSERT INTO `datavendor` (`venVendorPK`, `venName`, `venAbbrName`, `venYearOfEst`, `venAffliationWithTcs`, `venLicenceNo`, `venBussinessLogo`, `venIsActive`) VALUES
 (8, 'PMD Ltd', 'PMD Ltd', 2001, NULL, '23123', NULL, b'0'),
-(9, 'LKJ Ltd', 'LKJ Ltd', 2003, NULL, '4556', NULL, b'0');
+(9, 'LKJ Ltd', 'LKJ Ltd', 2003, NULL, '4556', NULL, b'0'),
+(21, 'ALK', 'ALK', 2001, NULL, 'w123', NULL, b'0'),
+(22, 'HJK', 'HJK', 2001, NULL, '231312', NULL, b'0');
 
 -- --------------------------------------------------------
 
@@ -587,7 +587,7 @@ CREATE TABLE `datavendorinfo` (
   `venpostalCode` varchar(60) NOT NULL,
   `venperson` varchar(50) NOT NULL,
   `ventax` varchar(50) NOT NULL,
-  `venwebsite` varchar(50) NOT NULL,
+  `venwebsite` varchar(50) DEFAULT NULL,
   `venlang` varchar(50) NOT NULL,
   `venisapproved` varchar(50) NOT NULL,
   `venisViewed` bit(1) NOT NULL,
@@ -608,7 +608,9 @@ CREATE TABLE `datavendorinfo` (
 
 INSERT INTO `datavendorinfo` (`vendorPK`, `vendorpwd`, `vendorSecretQn`, `vendorSecretAns`, `vendorOffLandLineNo`, `vendorMobileNo`, `vendorFaxNo`, `vendorEmail`, `vendorVoIP`, `venVendorFK`, `vencountry`, `venaddress`, `venstate`, `vencity`, `venpostalCode`, `venperson`, `ventax`, `venwebsite`, `venlang`, `venisapproved`, `venisViewed`, `venisVerified`, `venacceptTerms`, `ventoken`) VALUES
 (3, '$2b$10$ByX5WkWNyjqCoAcZKNZLf.CtWYMgRPfnvNRVC2thaRxsBc5GSvfXi', 'Which is your favourite fruit?', 'Mango', NULL, '9532064401', '3242353', 'opljhg82@gmail.com', NULL, 8, 'India', '90 moti nagar', 'Uttar pradesh', 'Lucknow', '226005', 'Nupur', '3232', 'http://sample.com', 'English', 'Approved', b'1', b'1', b'1', ''),
-(4, '$2b$10$zZYVYznoEXokdcaEK.pyJu5f/Ls3E9UENmj03yAe3UQ7qp2se687K', 'Which is your favourite fruit?', 'Grapes', NULL, '9543024627', '656576', 'lkmnmk63@gmail.com', NULL, 9, 'India', '78 GT Road', 'Rajasthan', 'Ajmer', '231345', 'Priya', '32455656', 'http://sample.com', 'English', 'Approved', b'1', b'1', b'1', '');
+(4, '$2b$10$zZYVYznoEXokdcaEK.pyJu5f/Ls3E9UENmj03yAe3UQ7qp2se687K', 'Which is your favourite fruit?', 'Grapes', NULL, '9543024627', '656576', 'lkmnmk63@gmail.com', NULL, 9, 'India', '78 GT Road', 'Rajasthan', 'Ajmer', '231345', 'Priya', '32455656', 'http://sample.com', 'English', 'Approved', b'1', b'1', b'1', ''),
+(16, '$2b$10$Y0t2Ak6hpMRDYHL87Nl/t.DevZxtQoa15XlCO9tVL7eviChb0CgUe', 'Which is your favourite fruit?', 'Mango', NULL, '9532064401', '890', 'xyz07496@gmail.com', NULL, 21, 'India', '90 moti nagar near balika vidyalaya', 'Uttar Pradesh', 'Lucknow', '220664', 'Palak', '12345', '', 'English', 'Pending', b'1', b'1', b'1', ''),
+(17, '$2b$10$6pkR9SSk8Qh7eFqSG446h.1ZAflF2xs6QhHTKkG2hFuPZPCV/TAry', 'Which is your favourite fruit?', 'Mango', NULL, '9543245324', '4234', 'angel.cute1234@gmail.com', NULL, 22, 'India', '90 moti nagar near balika vidyalya', 'Uttar Pradesh', 'Lucknow', '226003', 'Payal', '123', '', 'English', 'Approved', b'1', b'1', b'1', '');
 
 -- --------------------------------------------------------
 
@@ -667,7 +669,9 @@ CREATE TABLE `invoices` (
 
 INSERT INTO `invoices` (`invoice_no`, `billNo`, `invoice_date`, `invoice_due_date`, `credit_days`, `invoice_address`, `tax`, `description`, `total`) VALUES
 (11, 1, '2021-02-14 00:00:00', '2021-02-15 00:00:00', 1, 'TCS AIR INDIA', 200, 'It is delivered', 64200),
-(13, 3, '2021-02-12 00:00:00', '2021-02-13 00:00:00', 1, 'La Sheva House', 100, 'Delivered', 22100);
+(13, 3, '2021-02-12 00:00:00', '2021-02-13 00:00:00', 1, 'La Sheva House', 100, 'Delivered', 22100),
+(14, 4, '2021-02-20 00:00:00', '2021-02-26 00:00:00', 6, 'CMC BKC', 100, 'dsad', 64100),
+(15, 12, '2021-02-16 00:00:00', '2021-02-18 00:00:00', 2, 'R10, Bandra E, E Block BKC, Bandra Kurla Complex, Bandra East, Mumbai, Maharashtra 400051', 200, 'Item is delivered', 2200);
 
 -- --------------------------------------------------------
 
@@ -680,7 +684,6 @@ CREATE TABLE `invoice_item` (
   `item_id` int(11) DEFAULT NULL,
   `market_price` int(40) DEFAULT NULL,
   `invoiced_quantity` int(40) DEFAULT NULL,
-  `Total_Price` int(40) DEFAULT NULL,
   `invoice_no` int(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -696,10 +699,12 @@ CREATE TABLE `invoice_item` (
 -- Dumping data for table `invoice_item`
 --
 
-INSERT INTO `invoice_item` (`id`, `item_id`, `market_price`, `invoiced_quantity`, `Total_Price`, `invoice_no`) VALUES
-(1, 126, 64000, 2, NULL, 11),
-(4, 132, 20000, 1, NULL, 13),
-(5, 131, 2000, 1, NULL, 13);
+INSERT INTO `invoice_item` (`id`, `item_id`, `market_price`, `invoiced_quantity`, `invoice_no`) VALUES
+(1, 126, 64000, 2, 11),
+(4, 132, 20000, 1, 13),
+(5, 131, 2000, 1, 13),
+(6, 134, 32000, 2, 14),
+(7, 176, 2000, 1, 15);
 
 -- --------------------------------------------------------
 
@@ -743,9 +748,10 @@ CREATE TABLE `items` (
 
 INSERT INTO `items` (`item_id`, `name`, `sku`, `brand`, `price`, `currency`, `desc`, `discount`, `quantity`, `specification`, `unit_type`, `threshold`, `warranty`, `policy`, `location`, `features`, `supplier`, `createdAt`, `updatedAt`) VALUES
 (1305, 'Laptop', 'H_121321321', 3, 34000, 'INR', 'Gaming Laptop', 20, 20, '35 inch', NULL, 10, '6 years', '6 years', 'Kolkata', 'Intel Processor', 8, '2021-02-04 19:39:40', '2021-02-04 19:39:40'),
-(6509, 'Laptop', 'D_1234567', 4, 32000, 'INR', 'Laptop for Gaming', 20, 10, '14 inch monitor', NULL, 8, '3 years', '2 years', 'Lucknow', 'Graphics Card', 9, '2021-02-04 15:22:23', '2021-02-04 15:22:23'),
+(2627, 'USB', 'U_21223321321', 8, 2000, 'INR', 'Portable', 20, 20, '32 GB', NULL, 10, '2 years', '3 years', 'Delhi', '32 GB', 9, '2021-02-16 11:38:40', '2021-02-16 11:38:40'),
 (6857, 'USB', 'U_21223321321', 8, 2000, 'INR', 'Portable', 20, 20, '32 GB', NULL, 10, '2 years', '3 years', 'Delhi', '32 GB', 9, '2021-02-04 12:38:35', '2021-02-04 12:38:35'),
-(8524, 'USB', 'U_21223321321', 2, 20000, 'INR', 'Portable', 20, 20, '32 GB', NULL, 10, '2 years', '3 years', 'Delhi', '32 GB', 9, '2021-02-04 12:37:22', '2021-02-04 12:37:22');
+(8524, 'USB', 'U_21223321321', 2, 20000, 'INR', 'Portable', 20, 20, '32 GB', NULL, 10, '2 years', '3 years', 'Delhi', '32 GB', 9, '2021-02-04 12:37:22', '2021-02-04 12:37:22'),
+(8799, 'Laptop', 'HP_12234324', 3, 20000, 'INR', 'Good for gaming', 20, 20, '35 inch', NULL, 10, '4', '5', 'Lucknow', '35 inch', 22, '2021-02-17 18:38:25', '2021-02-17 18:38:25');
 
 -- --------------------------------------------------------
 
@@ -761,8 +767,6 @@ CREATE TABLE `item_images` (
 
 --
 -- RELATIONSHIPS FOR TABLE `item_images`:
---   `item_id`
---       `items` -> `item_id`
 --
 
 --
@@ -772,8 +776,12 @@ CREATE TABLE `item_images` (
 INSERT INTO `item_images` (`id`, `item_id`, `imageName`) VALUES
 (286, 8524, '1612442226981-upload-usb_cable_pic5.jpg'),
 (289, 6857, '1612442226981-upload-usb_cable_pic5.jpg'),
-(290, 6509, '1612452123236-upload-Dell_laptop_4.jpg'),
-(291, 1305, '1612467552202-upload-HP_laptop_1.png');
+(291, 1305, '1612467552202-upload-HP_laptop_1.png'),
+(292, 2627, '1612442226981-upload-usb_cable_pic5.jpg'),
+(293, 8799, '1613587005144-upload-1612467552202-upload-HP_laptop_1.png'),
+(294, 8799, '1613587067765-upload-HP_laptop_1.jpg'),
+(295, 8799, '1613587067774-upload-HP_laptop_3.jpg'),
+(296, 8799, '1613587067778-upload-HP_laptop_4.png');
 
 -- --------------------------------------------------------
 
@@ -793,12 +801,6 @@ CREATE TABLE `orders` (
 
 --
 -- RELATIONSHIPS FOR TABLE `orders`:
---   `created_by`
---       `dataadmin` -> `admAdminPK`
---   `approved_by`
---       `dataadmin` -> `admAdminPK`
---   `status`
---       `orderstatus` -> `id`
 --
 
 --
@@ -806,11 +808,29 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `created_by`, `date`, `order_desc`, `message`, `status`, `approved_by`) VALUES
+(699, 123, '2021-02-17 16:53:25', 'USB', 'Pending for approval', 1, NULL),
+(881, 123, '2021-02-12 12:03:40', 'Laptop', 'Pending for approval', 1, NULL),
+(929, 123, '2021-02-12 13:04:01', 'Laptop', 'Pending for approval', 1, NULL),
+(1024, 112951, '2021-02-10 12:23:41', 'USB', 'Pending for approval', 1, NULL),
 (1149, 123, '2021-02-05 05:41:13', 'USB', 'approved', 4, 346755),
+(1662, 123, '2021-02-15 12:07:04', 'USB', 'Pending for approval', 1, NULL),
+(1684, 104657, '2021-02-10 11:49:56', 'Laptop', 'Pending for approval', 1, NULL),
 (1760, 123, '2021-02-04 15:56:37', 'Laptop', 'Approved', 4, 71455),
+(1917, 123, '2021-02-12 15:39:50', 'Laptop', 'approved', 4, 346755),
+(2368, 123, '2021-02-12 12:03:42', 'Laptop', 'ok', 4, 346755),
+(2403, 123, '2021-02-16 19:18:23', 'USB', 'undefined', 2, 71455),
+(2816, 112951, '2021-02-10 12:30:56', 'USB', 'Pending for approval', 1, NULL),
 (3239, 123, '2021-02-05 07:46:25', 'Laptop', 'Approved', 4, 346755),
-(3476, 123, '2021-02-04 15:59:20', 'Laptop', 'Pending for approval', 1, NULL),
-(8029, 123, '2021-02-04 15:50:14', 'Laptop', 'Pending for approval', 1, NULL);
+(3296, 123, '2021-02-17 16:53:42', 'Laptop', 'Approved', 4, 71455),
+(3348, 104657, '2021-02-10 11:51:19', 'Laptop', 'Pending for approval', 1, NULL),
+(3476, 123, '2021-02-04 15:59:20', 'Laptop', '', 2, 71455),
+(4090, 123, '2021-02-15 12:06:09', 'USB', 'approved', 4, 346755),
+(4583, 123, '2021-02-10 14:26:15', 'USB', 'ok', 4, 346755),
+(5576, 123, '2021-02-12 13:07:35', 'Laptop', 'Approved', 4, 71455),
+(5778, 123, '2021-02-17 16:50:39', 'Laptop', 'Pending for approval', 1, NULL),
+(7643, 123, '2021-02-17 04:44:32', 'Laptop', 'Pending for approval', 1, NULL),
+(8029, 123, '2021-02-12 11:33:05', 'Laptop', 'approved', 4, 346755),
+(8984, 123, '2021-02-12 15:41:47', 'Laptop', 'Pending for approval', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -873,14 +893,6 @@ CREATE TABLE `order_items` (
 
 --
 -- RELATIONSHIPS FOR TABLE `order_items`:
---   `department`
---       `departments` -> `id`
---   `order_id`
---       `orders` -> `order_id`
---   `prefered_vendor`
---       `datavendor` -> `venVendorPK`
---   `status`
---       `orderstatus` -> `id`
 --
 
 --
@@ -888,19 +900,60 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `name`, `specification`, `prefered_vendor`, `quantity`, `unit_type`, `price`, `currency`, `comment`, `status`, `estimated_arrival`, `tracking_link`, `department`, `location`, `brand`) VALUES
-(121, 8029, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101003', 4),
-(122, 8029, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 7, '01010101003', 4),
 (125, 1760, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 6, NULL, NULL, 4, '01010101005', 4),
 (126, 1760, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 7, '2021-02-15 00:00:00', 'http://sample.com', 7, '01010101003', 4),
 (127, 1760, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 6, NULL, NULL, 5, '01010101003', 4),
-(128, 3476, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 7, '01010101003', 4),
-(129, 3476, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 5, '01010101003', 4),
-(130, 3476, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 4, '01010101005', 4),
+(128, 3476, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 2, NULL, NULL, 7, '01010101003', 4),
+(129, 3476, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 2, NULL, NULL, 5, '01010101003', 4),
+(130, 3476, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 2, NULL, NULL, 4, '01010101005', 4),
 (131, 1149, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 7, '2021-02-21 00:00:00', 'http://sample.com', 4, '01010101021', 8),
 (132, 1149, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 7, '2021-02-21 00:00:00', 'http://sample.com', 4, '01010101021', 2),
 (133, 1149, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 6, NULL, NULL, 6, '01010101021', 2),
-(134, 3239, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 11, '2021-02-28 00:00:00', 'http://sample.com', 4, '01010101024', 4),
-(135, 3239, 'Laptop', '35 inch', 8, 2, NULL, 34000, 'INR', NULL, 9, '2021-02-20 00:00:00', '', 6, '01010101026', 3);
+(134, 3239, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 7, '2021-02-28 00:00:00', 'http://sample.com', 4, '01010101024', 4),
+(135, 3239, 'Laptop', '35 inch', 8, 2, NULL, 34000, 'INR', NULL, 11, '2021-02-20 00:00:00', 'http://sample.com', 6, '01010101026', 3),
+(142, 1684, 'USB', '30 inch', 9, 2, '323', 20000, 'INR', 'none', 1, NULL, NULL, 4, '01010101026', 3),
+(143, 1684, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 1, NULL, NULL, 7, '01010101025', 2),
+(144, 1684, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 1, NULL, NULL, 4, '01010101026', 8),
+(148, 3348, 'USB', '30 inch', 9, 2, '323', 20000, 'INR', 'none', 1, NULL, NULL, 4, '01010101026', 3),
+(149, 3348, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 1, NULL, NULL, 7, '01010101025', 2),
+(150, 3348, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 1, NULL, NULL, 4, '01010101026', 8),
+(153, 1024, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 3, '01010101026', 3),
+(154, 1024, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 3, '01010101026', 4),
+(155, 1024, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 4, '01010101025', 4),
+(159, 2816, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 3, '01010101026', 3),
+(160, 2816, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 3, '01010101026', 4),
+(161, 2816, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 4, '01010101025', 4),
+(162, 4583, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 7, '2021-02-26 00:00:00', 'http://sample.com', 5, '01010101023', 8),
+(163, 4583, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 6, NULL, NULL, 5, '01010101023', 2),
+(164, 8029, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 7, '2021-02-13 00:00:00', 'http://sample.com', 5, '01010101003', 4),
+(165, 881, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 5, '01010101022', 3),
+(166, 2368, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 5, '01010101022', 3),
+(167, 929, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 1, NULL, NULL, 7, '01010101007', 8),
+(168, 929, 'USB', '32 GB', 9, 2, NULL, 20000, 'INR', NULL, 1, NULL, NULL, 7, '01010101007', 2),
+(169, 5576, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 6, '2021-02-27 00:00:00', NULL, 7, '01010101019', 2),
+(170, 5576, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 10, '2021-02-26 00:00:00', 'http://sample.com', 7, '01010101019', 8),
+(171, 1917, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 6, NULL, NULL, 4, '01010101014', 3),
+(172, 1917, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 4, NULL, NULL, 6, '01010101014', 3),
+(173, 8984, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 4, '01010101014', 3),
+(174, 8984, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 6, '01010101014', 3),
+(175, 4090, 'USB', '32 gb', 9, 2, 'dfdsa', 20000, 'INR', 'none', 6, NULL, NULL, 3, '01010101020', 2),
+(176, 4090, 'USB', '32 GB', 9, 1, NULL, 2000, 'INR', NULL, 7, '2021-02-24 00:00:00', 'http://sample.com', 3, '01010101020', 8),
+(179, 1662, 'USB', '32 gb', 9, 2, 'dfdsa', 20000, 'INR', 'none', 1, NULL, NULL, 3, '01010101020', 2),
+(180, 1662, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 6, '01010101020', 3),
+(186, 2403, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 2, NULL, NULL, 6, '01010101020', 3),
+(187, 2403, 'USB', '32 gb', 9, 2, 'dfdsa', 20000, 'INR', 'none', 2, NULL, NULL, 3, '01010101020', 2),
+(188, 7643, 'Laptop', '14 inch monitor', 9, 2, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 7, '01010101003', 4),
+(189, 7643, 'Laptop', '14 inch monitor', 9, 1, NULL, 32000, 'INR', NULL, 1, NULL, NULL, 4, '01010101005', 4),
+(190, 5778, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 1, NULL, NULL, 4, '01010101015', 2),
+(191, 5778, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 6, '01010101015', 3),
+(192, 5778, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 4, '01010101015', 3),
+(193, 699, 'USB', '32 gb', 9, 2, 'dfdsa', 20000, 'INR', 'none', 1, NULL, NULL, 3, '01010101020', 2),
+(194, 699, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 6, '01010101020', 3),
+(195, 699, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 1, NULL, NULL, 5, '01010101009', 3),
+(196, 699, 'USB', '35 inch', 9, 2, 'DEF', 20000, 'INR', 'none', 1, NULL, NULL, 5, '01010101009', 2),
+(197, 3296, 'USB', '32 GB', 9, 1, NULL, 20000, 'INR', NULL, 4, NULL, NULL, 4, '01010101015', 2),
+(198, 3296, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 7, '2021-02-19 00:00:00', 'http://sample.com', 4, '01010101015', 3),
+(199, 3296, 'Laptop', '35 inch', 8, 1, NULL, 34000, 'INR', NULL, 7, '2021-02-19 00:00:00', 'http://sample.com', 6, '01010101015', 3);
 
 -- --------------------------------------------------------
 
@@ -924,10 +977,10 @@ CREATE TABLE `pos` (
   `project_code` varchar(40) DEFAULT NULL,
   `budget_code` varchar(40) DEFAULT NULL,
   `total` int(40) NOT NULL,
-  `tracking_link` varchar(200) NOT NULL,
-  `estimated_arrival` datetime NOT NULL,
+  `tracking_link` varchar(200) DEFAULT NULL,
+  `estimated_arrival` datetime DEFAULT NULL,
   `po_status` tinyint(4) DEFAULT NULL,
-  `message_client` varchar(200) NOT NULL,
+  `message_client` varchar(200) DEFAULT NULL,
   `invoice_status` tinyint(4) DEFAULT NULL,
   `currency` varchar(40) NOT NULL,
   `location` varchar(11) NOT NULL,
@@ -936,14 +989,6 @@ CREATE TABLE `pos` (
 
 --
 -- RELATIONSHIPS FOR TABLE `pos`:
---   `behalf`
---       `dataadmin` -> `admAdminPK`
---   `delivery_to`
---       `dataadmin` -> `admAdminPK`
---   `po_status`
---       `orderstatus` -> `id`
---   `supplier`
---       `datavendor` -> `venVendorPK`
 --
 
 --
@@ -954,8 +999,15 @@ INSERT INTO `pos` (`billNo`, `urg_msg`, `reason`, `comment`, `behalf`, `purchase
 (1, 'yes', 'We need it', 'Deliver it on time', 123, 'finished_product', 'Tata Consultancy Services', 'TCS AIR INDIA', 123, '2021-02-18 16:00:00', 'TCS AIR INDIA', '123', '456', '678', 64000, 'http://sample.com', '2021-02-15 00:00:00', 7, 'Delivered', 12, 'INR', '01010101003', 9),
 (2, 'no', 'asdas', 'sdadsad', 123, 'dangerous_goods', 'Tata Consultancy Services', 'dsada', 126422, '2021-02-28 00:00:00', 'dsada', 'sad', 'dsada', 'dasda', 32000, '', '0000-00-00 00:00:00', 6, 'Denied', 13, 'INR', '01010101005', 9),
 (3, 'yes', 'We need it', 'Deliver it on time', 123, 'dangerous_goods', 'Tata Consultancy Services', 'La Sheva House', 123, '2021-02-28 00:00:00', 'La Sheva House', '123', '567', '894', 22000, 'http://sample.com', '2021-02-21 00:00:00', 7, 'delivered', 12, 'INR', '01010101021', 9),
-(4, 'no', 'We need it', 'Deliver it', 123, 'customer', 'Tata Consultancy Services', 'CMC BKC', 123, '2021-02-28 00:00:00', 'CMC BKC', '123', '456', '789', 64000, 'http://sample.com', '2021-02-28 00:00:00', 11, 'dispatched', 13, 'INR', '01010101024', 9),
-(5, 'no', 'Need', 'Deliver', 123, 'finished_product', 'Tata Consultancy Services', 'OlympusA', 123, '2021-02-27 00:00:00', 'OlympusA', '456', '789', '345', 68000, '', '2021-02-20 00:00:00', 9, 'processing', 13, 'INR', '01010101026', 8);
+(4, 'no', 'We need it', 'Deliver it', 123, 'customer', 'Tata Consultancy Services', 'CMC BKC', 123, '2021-02-28 00:00:00', 'CMC BKC', '123', '456', '789', 64000, 'http://sample.com', '2021-02-28 00:00:00', 7, 'delivered', 12, 'INR', '01010101024', 9),
+(5, 'no', 'Need', 'Deliver', 123, 'finished_product', 'Tata Consultancy Services', 'OlympusA', 123, '2021-02-27 00:00:00', 'OlympusA', '456', '789', '345', 68000, 'http://sample.com', '2021-02-20 00:00:00', 11, 'dispatched', 13, 'INR', '01010101026', 8),
+(6, 'no', 'we need it', 'dasd', 123, 'customer', 'Tata Consultancy Services', 'dasd', 121565, '2021-02-20 00:00:00', 'dasd', 'sda', 'dsa', 'da', 2000, 'http://sample.com', '2021-02-26 00:00:00', 7, 'dispatched', 13, 'INR', '01010101023', 9),
+(7, 'no', 'dwad', 'dsad', 123, 'customer', 'Tata Consultancy Services', 'dasd', 112951, '2021-02-14 00:00:00', 'dasd', 'dsa', 'sada', 'dasd', 20000, NULL, NULL, 6, 'Items are not available', 13, 'INR', '01010101023', 9),
+(8, 'no', 'We need it', 'Deliver it', 123, 'customer', 'Tata Consultancy Services', 'ddsad', 121565, '2021-02-20 00:00:00', 'ddsad', 'dasda', 'dasd', 'das', 32000, 'http://sample.com', '2021-02-13 00:00:00', 7, 'delivered', 13, 'INR', '01010101003', 9),
+(10, 'no', 'dasds', 'sads', 123, 'dangerous_goods', 'Tata Consultancy Services', 'sa', 121565, '2021-02-21 00:00:00', 'sa', 'sad', 'dsad', 'dsa', 2000, 'http://sample.com', '2021-02-26 00:00:00', 10, 'dispatched', 13, 'INR', '01010101019', 9),
+(11, 'no', 'We need it', 'Deliver it', 121565, 'project', 'Tata Consultancy Services', 'Malad', 121565, '2021-02-13 00:00:00', 'Malad', '123', '567', '789', 34000, NULL, NULL, 6, 'Items are not available', 13, 'INR', '01010101014', 8),
+(12, 'no', 'We need it', 'Deliver it on time', 123, 'finished_product', 'Tata Consultancy Services', 'R10, Bandra E, E Block BKC, Bandra Kurla Complex, Bandra East, Mumbai, Maharashtra 400051', 123, '2021-02-19 00:00:00', 'R10, Bandra E, E Block BKC, Bandra Kurla Complex, Bandra East, Mumbai, Maharashtra 400051', '123', '456', '678', 2000, 'http://sample.com', '2021-02-24 00:00:00', 7, 'Delivered', 12, 'INR', '01010101020', 9),
+(13, 'no', 'We need it', 'Deliver it', 123, 'dangerous_goods', 'Tata Consultancy Services', 'MAHAPE', 121565, '2021-02-19 00:00:00', 'MAHAPE', '124', '4545', '32131', 68000, 'http://sample.com', '2021-02-19 00:00:00', 7, 'delivered', 13, 'INR', '01010101015', 8);
 
 -- --------------------------------------------------------
 
@@ -971,8 +1023,6 @@ CREATE TABLE `po_attachments` (
 
 --
 -- RELATIONSHIPS FOR TABLE `po_attachments`:
---   `billNo`
---       `pos` -> `billNo`
 --
 
 --
@@ -980,7 +1030,9 @@ CREATE TABLE `po_attachments` (
 --
 
 INSERT INTO `po_attachments` (`id`, `billNo`, `attachments`) VALUES
-(3, 1, '1612454385310-upload-1605277898204-upload-multi_colored_usb_cables.jpg');
+(3, 1, '1612454385310-upload-1605277898204-upload-multi_colored_usb_cables.jpg'),
+(4, 8, '1613129679332-upload-KGZQoR.jpg'),
+(5, 11, '1613144564730-upload-usb_cable_pic2.jpg');
 
 -- --------------------------------------------------------
 
@@ -997,12 +1049,6 @@ CREATE TABLE `po_items` (
 
 --
 -- RELATIONSHIPS FOR TABLE `po_items`:
---   `billNo`
---       `pos` -> `billNo`
---   `item_id`
---       `order_items` -> `id`
---   `order_id`
---       `orders` -> `order_id`
 --
 
 --
@@ -1017,7 +1063,17 @@ INSERT INTO `po_items` (`id`, `billNo`, `order_id`, `item_id`) VALUES
 (11, 3, 1149, 131),
 (12, 3, 1149, 133),
 (13, 4, 3239, 134),
-(14, 5, 3239, 135);
+(14, 5, 3239, 135),
+(20, 6, 4583, 162),
+(22, 7, 4583, 163),
+(23, 8, 8029, 164),
+(25, 10, 5576, 169),
+(26, 10, 5576, 170),
+(27, 11, 1917, 171),
+(28, 12, 4090, 175),
+(29, 12, 4090, 176),
+(30, 13, 3296, 199),
+(31, 13, 3296, 198);
 
 -- --------------------------------------------------------
 
@@ -1033,8 +1089,6 @@ CREATE TABLE `vencategory` (
 
 --
 -- RELATIONSHIPS FOR TABLE `vencategory`:
---   `suppRegNo`
---       `datavendorinfo` -> `vendorPK`
 --
 
 --
@@ -1043,7 +1097,11 @@ CREATE TABLE `vencategory` (
 
 INSERT INTO `vencategory` (`id`, `category`, `suppRegNo`) VALUES
 (16, 'Electrical', 3),
-(17, 'Office Equipments', 4);
+(17, 'Office Equipments', 4),
+(35, 'Electrical', 16),
+(36, 'ABC', 16),
+(37, 'Electrical', 17),
+(38, 'Electrical Wires', 17);
 
 --
 -- Indexes for dumped tables
@@ -1235,13 +1293,13 @@ ALTER TABLE `budgets`
 -- AUTO_INCREMENT for table `datavendor`
 --
 ALTER TABLE `datavendor`
-  MODIFY `venVendorPK` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `venVendorPK` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `datavendorinfo`
 --
 ALTER TABLE `datavendorinfo`
-  MODIFY `vendorPK` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `vendorPK` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -1253,13 +1311,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `invoice_no` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `invoice_no` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
 --
 ALTER TABLE `invoice_item`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -1271,7 +1329,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1289,7 +1347,7 @@ ALTER TABLE `orderstatus`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT for table `pos`
@@ -1301,19 +1359,19 @@ ALTER TABLE `pos`
 -- AUTO_INCREMENT for table `po_attachments`
 --
 ALTER TABLE `po_attachments`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `vencategory`
 --
 ALTER TABLE `vencategory`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- Constraints for dumped tables
@@ -1357,58 +1415,6 @@ ALTER TABLE `invoice_item`
 ALTER TABLE `items`
   ADD CONSTRAINT `brand_fk` FOREIGN KEY (`brand`) REFERENCES `brands` (`brandpk`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`supplier`) REFERENCES `datavendor` (`venVendorPK`);
-
---
--- Constraints for table `item_images`
---
-ALTER TABLE `item_images`
-  ADD CONSTRAINT `item_images_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
-
---
--- Constraints for table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `admin_fk` FOREIGN KEY (`created_by`) REFERENCES `dataadmin` (`admAdminPK`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `admin_fk5` FOREIGN KEY (`approved_by`) REFERENCES `dataadmin` (`admAdminPK`),
-  ADD CONSTRAINT `status_fk` FOREIGN KEY (`status`) REFERENCES `orderstatus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `order_items`
---
-ALTER TABLE `order_items`
-  ADD CONSTRAINT `departments_ibfk1` FOREIGN KEY (`department`) REFERENCES `departments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
-  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`prefered_vendor`) REFERENCES `datavendor` (`venVendorPK`),
-  ADD CONSTRAINT `staus_ibfk1` FOREIGN KEY (`status`) REFERENCES `orderstatus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `pos`
---
-ALTER TABLE `pos`
-  ADD CONSTRAINT `po_f1` FOREIGN KEY (`behalf`) REFERENCES `dataadmin` (`admAdminPK`),
-  ADD CONSTRAINT `po_f2` FOREIGN KEY (`delivery_to`) REFERENCES `dataadmin` (`admAdminPK`),
-  ADD CONSTRAINT `po_fk3` FOREIGN KEY (`po_status`) REFERENCES `orderstatus` (`id`),
-  ADD CONSTRAINT `pos_ibfk_1` FOREIGN KEY (`supplier`) REFERENCES `datavendor` (`venVendorPK`);
-
---
--- Constraints for table `po_attachments`
---
-ALTER TABLE `po_attachments`
-  ADD CONSTRAINT `po_fk9` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`);
-
---
--- Constraints for table `po_items`
---
-ALTER TABLE `po_items`
-  ADD CONSTRAINT `po_fk4` FOREIGN KEY (`billNo`) REFERENCES `pos` (`billNo`),
-  ADD CONSTRAINT `po_fk5` FOREIGN KEY (`item_id`) REFERENCES `order_items` (`id`),
-  ADD CONSTRAINT `po_fk6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
-
---
--- Constraints for table `vencategory`
---
-ALTER TABLE `vencategory`
-  ADD CONSTRAINT `vencategory_ibfk_1` FOREIGN KEY (`suppRegNo`) REFERENCES `datavendorinfo` (`vendorPK`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

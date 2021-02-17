@@ -48,23 +48,33 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.loginService.userType.subscribe(data => {
       this.type = data;
+      if (this.type === 'Approver') {
+        this.notifySub = timer(0, 300000).pipe(
+          switchMap(() => this.loginService.getCount())
+        ).subscribe(result => this.notifiedCount = result);
+       }
     });
 
-    if (this.type === 'Approver') {
-      this.notifySub = timer(0, 300000).pipe(
-        switchMap(() => this.loginService.getCount())
-      ).subscribe(result => this.notifiedCount = result);
-     }
     if (this.loginStatus === true || this.loginStatus === 'true') {
       console.log(this.loginStatus);
-      this.auth.setLoggedIn(true);
+      // this.auth.setLoggedIn(true);
+      this.auth.setVerified(true);
       this.router.navigate(['/home']);
     } else if (localStorage.getItem('loginStatus') === 'true' && localStorage.getItem('type')) {
-      this.auth.setLoggedIn(true);
+      // this.auth.setLoggedIn(true);
+      this.auth.setVerified(true);
       console.log(this.loginStatus);
        this.loginStatus = localStorage.getItem('loginStatus');
        this.type = localStorage.getItem('type');
+       if (this.type === 'Approver') {
+        this.notifySub = timer(0, 300000).pipe(
+          switchMap(() => this.loginService.getCount())
+        ).subscribe(result => this.notifiedCount = result);
+       }
        this.router.navigate(['/home']);
+    } else if (localStorage.getItem('Verified') === 'No' || localStorage.getItem('Approved') === 'No') {
+      this.auth.setLoggedIn(true);
+      // this.auth.setVerified(true);
     }
     // else {
     //   this.router.navigate(['/login']);
