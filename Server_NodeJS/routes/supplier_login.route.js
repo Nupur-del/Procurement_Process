@@ -3,7 +3,7 @@ const router = express.Router();
 const cors = require('cors');
 const { Op } = require("sequelize");
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const nodemailer = require("nodemailer");
 

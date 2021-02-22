@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import * as jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { MatTableDataSource } from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
 import { LoginService} from '../../../../../src/app/login.service';
@@ -150,8 +150,8 @@ export class ViewInvoiceComponent implements OnInit {
     })
     const doc = new jsPDF();
 
-    doc.autoTable({html: '#mytable'});
-    doc.autoTable({html: '#myTable'});
+    autoTable(doc,{html: '#mytable'});
+    autoTable(doc,{html: '#myTable'});
 
     doc.save('invoice.pdf');
     this.router.navigate(['/deliveredPO']);
