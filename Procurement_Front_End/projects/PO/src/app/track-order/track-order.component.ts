@@ -25,6 +25,8 @@ export class TrackOrderComponent implements OnInit {
   deptDetails = [];
   error = false;
   dataSource: any;
+  type: any;
+  userID: any;
   displayedColumns = ['name', 'Location', 'Department', 'Quantity', 'Price' , 'Total_Price', 'Brand'];
   message = '';
 
@@ -37,7 +39,8 @@ export class TrackOrderComponent implements OnInit {
 
   ngOnInit() {
     this.messageService.poBillNo.subscribe(message => this.sub = message);
-
+    this.userID = +localStorage.getItem('userId');
+    this.type = localStorage.getItem('type');
 
     // this.login.getUser('Requestor').subscribe(req => {
     //   this.requestorDetails = req;
@@ -51,7 +54,7 @@ export class TrackOrderComponent implements OnInit {
     //       this.http.get<any>(environment.BASE_URL + 'brand/brandName').subscribe(brandDetails => {
     this.poService.getPoByBillNo(this.sub).subscribe((POdata: any) => {
       console.log(POdata);
-      if (!POdata || POdata.length === 0) {
+      if (!POdata || POdata.length === 0 || POdata[0].supplier !== this.userID) {
         this.error = true;
         this.message = 'Please check the order id, Purchase Order has not received';
       } else if (POdata[0].poStatus === 'PO Denied') {

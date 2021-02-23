@@ -7,6 +7,59 @@
 </div>
 <div *ngIf="items">
 <div>
+  <br>
+  <div>
+    <div *ngIf="items[0].poStatus == 'PO Approved';">
+    <mat-progress-bar mode="determinate" value=8 ></mat-progress-bar>
+    </div>
+
+    <div *ngIf="items[0].poStatus == 'Order Processing';">
+    <mat-progress-bar mode="determinate" value=28 ></mat-progress-bar>
+    </div>
+
+    <div *ngIf="items[0].poStatus == 'Item Quality Check';">
+    <mat-progress-bar mode="determinate" value=46 ></mat-progress-bar>
+    </div>
+
+    <div *ngIf="items[0].poStatus == 'Item Dispatched';">
+    <mat-progress-bar mode="determinate" value=67 ></mat-progress-bar>
+    </div>
+
+    <div *ngIf="items[0].poStatus == 'Item Delivered';">
+    <mat-progress-bar mode="determinate" value=100 ></mat-progress-bar>
+    </div>
+    <div class="row" style="position:relative;">
+    <div class="col">
+      <button mat-icon-button matSuffix color="accent" [disabled]="items[0].poStatus === 'Pending'">
+        <mat-icon style="margin-right: 7px; font-size: xx-large;"
+      >check_circle</mat-icon>Confirmed Order</button></div>
+    <div class="col">
+      <button mat-icon-button mat-matSuffix color="accent"
+      [disabled]="items[0].poStatus === 'Pending' || items[0].poStatus === 'PO Approved'">
+        <mat-icon style="margin-right: 7px; font-size: xx-large;">
+      pending_actions</mat-icon>Processing Order</button></div>
+    <div class="col">
+    <button mat-icon-button matSuffix color="accent"
+    [disabled]="items[0].poStatus === 'Pending' || items[0].poStatus === 'PO Approved' ||
+    items[0].poStatus === 'Order Processing'">
+    <mat-icon style="margin-right: 7px; font-size: xx-large;">
+      high_quality</mat-icon>Quality Check</button></div>
+    <div class="col">
+      <button mat-icon-button matSuffix color="accent"
+      [disabled]="items[0].poStatus === 'Pending' || items[0].poStatus === 'PO Approved' ||
+      items[0].poStatus === 'Order Processing' || items[0].poStatus === 'Item Quality Check'">
+      <mat-icon style="margin-right: 7px; font-size: xx-large;">
+      backpack</mat-icon>Item Dispatched</button></div>
+    <div class="col">
+    <button mat-icon-button matSuffix color="accent"
+    [disabled]="items[0].poStatus === 'Pending' || items[0].poStatus === 'PO Approved' ||
+    items[0].poStatus === 'Order Processng' || items[0].poStatus === 'Item Quality Check' ||
+    items[0].poStatus === 'Item Dispatched'">
+    <mat-icon style="margin-right: 13px; font-size: xx-large;"
+    >local_shipping</mat-icon>Item Delivered</button></div>
+    </div>
+    </div>
+    <!-- <br> -->
 <div class="content">
 	<div class="content1">
 		<h2>Purchase Order Tracking: {{ items[0].billNo }}</h2>
@@ -16,13 +69,13 @@
     <h5 style="color: white;">Estimated Arrival Date: {{ items[0].estimated_arrival | date}}</h5>
       <br>
     <button style="color: white; background-color: black;"
-    *ngIf="items[0].poStatus === 'Item Delivered'"
+    *ngIf="items[0].invoiceStatus === 'Invoice_created'"
     mat-button (click)="getInvoice(items[0].billNo)">Get Invoice</button>
 	</div>
 		<div class="clear"></div>
   </div>
-  <br>
-  <div *ngIf="items.length > 0" class="mat-elevation-z8">
+  <!-- <br> -->
+  <div class="mat-elevation-z8" style="width: 50%; margin: 3% auto 0 auto;">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" id="myTable" #myTable>
 
      <ng-container matColumnDef = "name">
@@ -71,37 +124,8 @@
     <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
-</div>
-  <br>
-  <div>
-<div *ngIf="items[0].poStatus == 'PO Approved';">
-<mat-progress-bar mode="determinate" value=8 ></mat-progress-bar>
-</div>
-
-<div *ngIf="items[0].poStatus == 'Order Processing';">
-<mat-progress-bar mode="determinate" value=28 ></mat-progress-bar>
-</div>
-
-<div *ngIf="items[0].poStatus == 'Item Quality Check';">
-<mat-progress-bar mode="determinate" value=46 ></mat-progress-bar>
-</div>
-
-<div *ngIf="items[0].poStatus == 'Item Dispatched';">
-<mat-progress-bar mode="determinate" value=67 ></mat-progress-bar>
-</div>
-
-<div *ngIf="items[0].poStatus == 'Item Delivered';">
-<mat-progress-bar mode="determinate" value=100 ></mat-progress-bar>
-</div>
-<div class="row" style="position:relative;">
-<div class="col">Confirmed Order</div>
-<div class="col">Processing Order</div>
-<div class="col">Quality Check</div>
-<div class="col">Item Dispatched</div>
-<div class="col">Item Delivered</div>
-</div>
 </div>
 </div>
 <br>
 </div>
+<mat-paginator style="width: 50%; margin: 3% auto 0 auto;" [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons></mat-paginator>
